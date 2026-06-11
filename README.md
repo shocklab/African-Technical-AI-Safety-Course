@@ -1,6 +1,8 @@
 # African Technical AI Safety — Honours / 4th-year course (UCT, Dept. of Maths & Applied Maths)
 
-> Public repo name: **African-Technical-AI-Safety-Course**. Local working folder may differ.
+> **Repo:** https://github.com/shocklab/African-Technical-AI-Safety-Course (public, CC BY 4.0)
+> **Live site:** https://shocklab.github.io/African-Technical-AI-Safety-Course/ (GitHub Pages, `/docs` on `main`)
+> Local working folder may differ from the repo name.
 
 A 12-week technical AI safety course, two sessions per week (24 sessions), for fourth-year /
 honours students who understand neural networks and can program in Python. Backgrounds will vary,
@@ -64,8 +66,9 @@ wholesale — see the reuse audit.
   after building/reordering pages** (use `--check` for a dry run). It chains only *built* (linked)
   sessions and is idempotent.
 
-**To deploy:** `git init` this folder, push to GitHub repo **`African-Technical-AI-Safety-Course`**, and
-enable Pages on `/docs` (main). Not yet initialised as a repo — say the word and I'll set it up.
+**Deployed.** Repo `shocklab/African-Technical-AI-Safety-Course` (public), GitHub Pages serving `/docs`
+on `main` at the live URL above. To update: edit `docs/`, run `python3 add_page_nav.py`, commit and push
+to `main` — Pages redeploys automatically.
 
 Still open: exact assessment weights vs faculty norms; building the remaining 21 session pages (re-run
-`add_page_nav.py` after each batch).
+`add_page_nav.py` after each batch, then commit/push).

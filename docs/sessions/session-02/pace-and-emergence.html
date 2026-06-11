@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2.4 — Pace of Progress &amp; the Emergence Debate</title>
+    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="back-nav"><a href="../../index.html">← Back to course contents</a></div>
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 2 • Session 2.4</div>
+        <h1>🚀 <span style="color:#ffffff;">Pace of Progress &amp; the Emergence Debate</span></h1>
+        <p>How fast is AI really improving — and do new abilities appear suddenly, or only seem to?</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>🎯 What we'll cover</h2>
+            <p>Scaling laws describe a smooth fall in loss. But headlines describe abilities that appear "all at once". This sub-session separates what we can measure (compute trends) from what's contested (whether capabilities truly <em>emerge</em>), and uses a clean methodological dispute to practise the critical reading we set up in Session 1.</p>
+        </div>
+
+        <h2 class="section-title">📊 The measurable part: compute trends</h2>
+        <div class="technical-detail">
+            <h4>What the data show</h4>
+            <ul class="styled-list">
+                <li><strong>Training compute has grown enormously</strong> — for frontier models, several orders of magnitude over the last decade, far outpacing the historical hardware trend, driven by deliberate investment.</li>
+                <li><strong>The three inputs scale together:</strong> compute, dataset size, and parameters — bounded increasingly by data and by energy/hardware (Session 4).</li>
+                <li><strong>Trends are trackable:</strong> groups like Epoch AI maintain public datasets of model compute, parameters and data — the empirical basis for any honest claim about "the pace of AI".</li>
+            </ul>
+            <p style="color:#555; margin-top:12px;">You'll work with this data directly in the Session 2.5 lab. The discipline: when someone asserts AI is accelerating (or stalling), ask <em>which measured quantity, over what window?</em></p>
+        </div>
+
+        <h2 class="section-title">✨ The contested part: do abilities "emerge"?</h2>
+        <p class="lead">A genuine scientific dispute — and an instructive one, because both sides are looking at the same models.</p>
+        <div class="card-grid">
+            <div class="card">
+                <h3>The claim: emergence is real</h3>
+                <p>Wei et al. (2022) documented "emergent abilities" — tasks (e.g. multi-step arithmetic) on which performance stays near chance until a scale threshold, then jumps sharply. If real, this is unsettling for safety: it means dangerous capabilities could appear <em>without warning</em> as models scale.</p>
+            </div>
+            <div class="card">
+                <h3>The rebuttal: a mirage?</h3>
+                <p>Schaeffer, Miranda &amp; Koyejo (2023) argued the sharp jumps are often artefacts of <em>discontinuous metrics</em> (exact-match accuracy). Switch to a smooth metric (e.g. per-token likelihood) and the same data show gradual, predictable improvement. On this view, "emergence" is partly in the ruler, not the model.</p>
+            </div>
+        </div>
+        <div class="highlight-box">
+            <h3>🔬 <span style="color:#ffffff;">Why this dispute is the perfect Week-1 exercise</span></h3>
+            <p>Notice what's going on: the disagreement is not about the data but about the <strong>measurement</strong>. The same models look "suddenly capable" or "smoothly improving" depending on the metric you score them with — exactly the "what's the eval?" question from Session 1.4. The safety stakes are real either way: even if the underlying trend is smooth, the capability you <em>care about</em> (can it do the dangerous thing?) is naturally a thresholded, pass/fail quantity — so it can still surprise you in deployment.</p>
+        </div>
+
+        <h2 class="section-title">🧭 Holding it honestly</h2>
+        <div class="info-box">
+            <h4>💡 The calibrated take</h4>
+            <p>Aggregate progress is fast and, in loss terms, fairly predictable. Whether <em>specific</em> capabilities arrive smoothly or sharply is genuinely unsettled and metric-dependent — so confident predictions of either "imminent superintelligence" or "it's plateaued" are both overclaiming. For safety the prudent posture is the same under either reading: build the ability to <em>measure</em> capabilities and <em>detect</em> dangerous ones before deployment (Session 11), rather than trusting any extrapolation.</p>
+        </div>
+
+        <h2 class="section-title">📚 Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Core (read as a pair)</h4>
+            <p>• Wei, J., et al. (2022), "Emergent Abilities of Large Language Models" (TMLR; arXiv:2206.07682).</p>
+            <p>• Schaeffer, R., Miranda, B. &amp; Koyejo, S. (2023), "Are Emergent Abilities of Large Language Models a Mirage?" (NeurIPS 2023; arXiv:2304.15004).</p>
+        </div>
+        <div class="resource-placeholder">
+            <h4>Reference</h4>
+            <p>• Epoch AI — public datasets and dashboards on training compute, parameters and data trends (epoch.ai).</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>↪️ Next</h2>
+            <p>Time to touch the data yourself. Sub-session <strong>2.5</strong> is the term's first lab: fit a scaling law, explore the compute trends, and open up a real transformer in TransformerLens.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="neural-scaling-laws.html"><span class="nav-label">← Previous</span><span class="nav-title">2.3 · Neural scaling laws</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="lab-scaling-and-transformerlens.html"><span class="nav-label">Next →</span><span class="nav-title">🧪 2.5 · Lab: scaling laws &amp; a first look inside a model</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

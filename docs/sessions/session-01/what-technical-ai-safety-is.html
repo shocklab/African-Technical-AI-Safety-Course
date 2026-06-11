@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 1.2 — What Technical AI Safety Is (and Isn't)</title>
+    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="back-nav"><a href="../../index.html">← Back to course contents</a></div>
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 1 • Session 1.2</div>
+        <h1>🛡️ <span style="color:#ffffff;">What Technical AI Safety Is (and Isn't)</span></h1>
+        <p>Three kinds of risk, one organising distinction, and where this course sits</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>🎯 What we'll cover</h2>
+            <p>"AI safety" is used loosely to mean everything from chatbot content filters to human extinction. To make progress we need sharper categories. This sub-session separates the kinds of risk, introduces the distinction that organises the whole course — <strong>safety versus capabilities</strong> — and places this course among the others you might have heard of.</p>
+        </div>
+
+        <h2 class="section-title">🧱 Three kinds of risk</h2>
+        <p class="lead">A useful first cut. Most concrete worries fall into one of three buckets — and they call for different technical responses.</p>
+        <div class="card-grid">
+            <div class="card">
+                <h3>Misuse</h3>
+                <p>The system works as intended, but a person uses it to cause harm — cyber-offence, bioweapon uplift, fraud, targeted disinformation. The model is a tool; the danger is the human behind it. Technical responses: refusal training, dangerous-capability evals, access controls.</p>
+            </div>
+            <div class="card">
+                <h3>Misalignment</h3>
+                <p>The system pursues something other than what we intended — because we specified the wrong objective, or because it learned an unintended one. No malicious user required. This is the distinctive, hardest problem, and the course's centre of gravity.</p>
+            </div>
+            <div class="card">
+                <h3>Systemic / structural</h3>
+                <p>Harms that emerge from how AI is deployed across society — power concentration, labour displacement, surveillance, environmental cost, erosion of the information ecosystem. No single model "fails"; the system does.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <h4>💡 The categories overlap — and that's the point</h4>
+            <p>A misaligned model in the hands of a malicious user inside a fragile institution is all three at once. The cut is a thinking tool, not a filing system: when someone says "AI is dangerous," your first question should be <em>which kind of danger, and what would actually reduce it?</em></p>
+        </div>
+
+        <h2 class="section-title">⚖️ The organising idea: safety vs capabilities</h2>
+        <div class="highlight-box">
+            <h3>📈 <span style="color:#ffffff;">Two things that don't improve together for free</span></h3>
+            <p><strong>Capabilities</strong> are what a system can do — solve problems, write code, pass exams. <strong>Safety</strong> is whether we can rely on it to do what we want and not what we don't, and whether we'd know if it didn't. The central empirical worry of the field is that capabilities are improving fast and predictably (Session 2), while safety — our ability to specify, verify, and control — is not keeping pace.</p>
+            <p>Almost every topic in this course is an attempt to close that gap from the safety side: better specification (alignment methods), better verification (evals, interpretability), better control (robustness, the control agenda). Keep the distinction in hand — we test new ideas against it all term.</p>
+        </div>
+
+        <h2 class="section-title">🗺️ A map of the field</h2>
+        <p class="lead">The technical problems cluster into a handful of families — which is exactly how the course is structured.</p>
+        <ul class="styled-list">
+            <li><strong>Alignment</strong> — specifying and instilling the right objective (RLHF, RLAIF, Constitutional AI, scalable oversight).</li>
+            <li><strong>Robustness &amp; control</strong> — holding up under adversarial pressure, and staying controllable even if the model isn't cooperative.</li>
+            <li><strong>Evaluation &amp; governance</strong> — measuring what a system can do and will do, and the mechanisms that make policy enforceable.</li>
+            <li><strong>Interpretability</strong> — reading a model's internals to understand <em>why</em> it does what it does.</li>
+        </ul>
+
+        <h2 class="section-title">🧭 Where this course sits</h2>
+        <div class="info-box">
+            <h4>💡 Relative to the courses you may have seen</h4>
+            <p>There are excellent open courses — <strong>BlueDot</strong>'s AI Safety Fundamentals (reading-group, conceptual), <strong>ARENA</strong> (an engineering accelerator, very hands-on), <strong>Hendrycks' "Intro to ML Safety"</strong> (a technical backbone). This course borrows their best structure but is its own thing: pitched at <em>maths honours</em> (more formal where that helps), built around a <em>research project</em>, and grounded in an <em>African</em> framing that the Northern courses don't carry. We'll point you to all of them as you go.</p>
+        </div>
+        <div class="warning-box">
+            <h4>⚠️ What technical AI safety is <em>not</em></h4>
+            <p>It is not only ethics (though ethics is load-bearing — Session 8); not only policy (though governance is technical — Session 12); and not science fiction. It is an empirical, often mathematical discipline about the failure modes of real systems and how we'd detect and prevent them. When a claim can't be tied to evidence about an actual system, treat it with the same scepticism you'd bring to any other.</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>↪️ Next</h2>
+            <p>We've named the problem. Sub-session <strong>1.3</strong> asks whether it's actually worth worrying about — the case for taking misalignment seriously, and the strongest arguments against.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="how-this-course-works.html"><span class="nav-label">← Previous</span><span class="nav-title">1.1 · How this course works</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="the-case-and-its-critics.html"><span class="nav-label">Next →</span><span class="nav-title">1.3 · The case, and its strongest critics</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

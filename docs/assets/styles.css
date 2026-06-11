@@ -182,6 +182,11 @@ header p { font-size: 1.1em; opacity: 0.95; max-width: 800px; margin: 10px auto 
 .lab-box p { color: #495057; line-height: 1.75; margin-bottom: 10px; }
 .lab-box .tag { display: inline-block; background: #2a5298; color: #fff; font-size: 0.75em; padding: 3px 10px; border-radius: 12px; margin-left: 8px; vertical-align: middle; }
 
+/* --- Inline code and display formulas --- */
+code { background: #eef2f7; padding: 1px 6px; border-radius: 5px; font-size: 0.92em; color: #003A70; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+.formula { background: #f3f8fc; border: 1px solid #d0e0ee; border-radius: 10px; padding: 16px 20px; margin: 18px 0; text-align: center; font-size: 1.15em; color: #003A70; overflow-x: auto; line-height: 1.7; }
+.formula code { background: none; padding: 0; font-size: 1em; }
+
 /* --- Prev / Next page navigation (injected by add_page_nav.py) --- */
 .page-nav {
     display: flex;

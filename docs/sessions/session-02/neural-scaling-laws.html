@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2.3 — Neural Scaling Laws</title>
+    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="back-nav"><a href="../../index.html">← Back to course contents</a></div>
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 2 • Session 2.3</div>
+        <h1>📈 <span style="color:#ffffff;">Neural Scaling Laws</span></h1>
+        <p>Why loss falls as a power law in compute, data and parameters — and why that's a safety fact</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>🎯 What we'll cover</h2>
+            <p>One of the most consequential empirical findings in modern AI is also one of the simplest to state: make a transformer bigger, train it on more data with more compute, and its loss falls along a strikingly regular <strong>power law</strong>. This sub-session makes that precise and draws out why predictable capability growth is the engine behind the safety problem.</p>
+        </div>
+
+        <h2 class="section-title">📉 The empirical law</h2>
+        <p class="lead">Kaplan et al. (2020) found that test loss <code>L</code> scales as a power law in each of three quantities — model parameters <code>N</code>, dataset size <code>D</code>, and training compute <code>C</code> — over many orders of magnitude.</p>
+        <div class="technical-detail">
+            <h4>The shape</h4>
+            <p style="color:#555;">Holding the others non-bottlenecking, each relationship has the form</p>
+            <div class="formula"><code>L(N) ≈ (N<sub>c</sub> / N)<sup>α<sub>N</sub></sup></code></div>
+            <p style="color:#555;">a straight line on a log–log plot, with a small exponent (<code>α<sub>N</sub></code> on the order of <code>0.07</code>). The remarkable facts are the <em>regularity</em> (clean power laws across ~7 orders of magnitude) and the <em>smoothness</em> (no plateau in sight over the studied range). Architecture details matter far less than scale.</p>
+        </div>
+
+        <h2 class="section-title">🐭 Compute-optimal training: Chinchilla</h2>
+        <div class="highlight-box">
+            <h3>⚖️ <span style="color:#ffffff;">Spend a fixed compute budget well</span></h3>
+            <p>If compute <code>C</code> is fixed (roughly <code>C ≈ 6ND</code> for a dense transformer), how should you split it between a bigger model and more data? Hoffmann et al. (2022) — the "<strong>Chinchilla</strong>" paper — showed the field had been training models that were too <em>large</em> and too <em>data-starved</em>. For compute-optimal training, parameters and tokens should scale roughly <em>in proportion</em>. A smaller model trained on more data (Chinchilla) beat a much larger one (Gopher) at the same compute.</p>
+            <p>The practical upshot you'll meet all term: <strong>data, not just parameters, is a first-class scaling resource</strong> — and a binding constraint, since high-quality text is finite.</p>
+        </div>
+
+        <h2 class="section-title">🛡️ Why scaling laws are a safety fact</h2>
+        <div class="card-grid">
+            <div class="card"><h3>Capabilities are forecastable</h3><p>Loss — and, more loosely, many capabilities — can be <em>predicted</em> before a model is trained. Labs decide to build more dangerous systems partly <em>because</em> the payoff is foreseeable. Capability is on a planned trajectory.</p></div>
+            <div class="card"><h3>Safety is not forecastable the same way</h3><p>There is no clean scaling law for "won't deceive its overseer" or "is robust to jailbreaks". The quantity we can predict is the one we're <em>least</em> worried about; the ones we care about resist this kind of extrapolation.</p></div>
+            <div class="card"><h3>Compute becomes the lever</h3><p>If capability tracks compute, then compute is the thing you can forecast, meter, and govern (Sessions 4 and 12). Scaling laws are why "compute governance" is even coherent.</p></div>
+        </div>
+        <div class="warning-box">
+            <h4>⚠️ What scaling laws do <em>not</em> say</h4>
+            <p>They describe smooth falls in <em>aggregate loss</em>. They do <em>not</em> promise that every specific capability appears smoothly, nor that loss keeps falling forever, nor that "more scale" is the only path to capability. The relationship between a smoothly-falling loss and the sometimes-sudden appearance of specific skills is exactly the controversy we take up next.</p>
+        </div>
+
+        <h2 class="section-title">📚 Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Core</h4>
+            <p>• Kaplan, J., et al. (2020), "Scaling Laws for Neural Language Models" (arXiv:2001.08361).</p>
+            <p>• Hoffmann, J., et al. (2022), "Training Compute-Optimal Large Language Models" (Chinchilla; arXiv:2203.15556).</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>↪️ Next</h2>
+            <p>Loss falls smoothly — but do <em>abilities</em>? Sub-session <strong>2.4</strong> takes on the "emergence" debate and the broader question of how fast, and how predictably, AI is really progressing.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="inside-the-transformer.html"><span class="nav-label">← Previous</span><span class="nav-title">2.2 · Inside the transformer</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="pace-and-emergence.html"><span class="nav-label">Next →</span><span class="nav-title">2.4 · Pace of progress &amp; the emergence debate</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

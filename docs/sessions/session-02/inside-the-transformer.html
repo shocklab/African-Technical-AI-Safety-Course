@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2.2 — Inside the Transformer</title>
+    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="back-nav"><a href="../../index.html">← Back to course contents</a></div>
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 2 • Session 2.2</div>
+        <h1>🔬 <span style="color:#ffffff;">Inside the Transformer</span></h1>
+        <p>Tokens, attention, and the residual stream — the architecture, at the level interpretability needs</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>🎯 What we'll cover</h2>
+            <p>Every model in this course is a <strong>transformer</strong>. This sub-session builds it properly — not as a black box but as a sequence of linear-algebraic operations you could, in principle, trace by hand. We pay special attention to <em>attention</em> and to the <strong>residual stream</strong>, because that picture is the one mechanistic interpretability (Weeks 7–8) literally reads off.</p>
+        </div>
+
+        <h2 class="section-title">🔤 From text to vectors</h2>
+        <div class="technical-detail">
+            <h4>Tokens and embeddings</h4>
+            <ul class="styled-list">
+                <li><strong>Tokenisation.</strong> Text is split into <em>tokens</em> (sub-word pieces) from a fixed vocabulary of size <code>V</code> (tens of thousands). "tokenisation" might become <code>token | isation</code>.</li>
+                <li><strong>Embedding.</strong> Each token id is mapped to a vector in <code>ℝ<sup>d</sup></code> via a learned matrix <code>W<sub>E</sub> ∈ ℝ<sup>V×d</sup></code>. A length-<code>T</code> sequence becomes a <code>T×d</code> matrix.</li>
+                <li><strong>Position.</strong> Because attention is permutation-equivariant, positional information is added so the model knows token order.</li>
+            </ul>
+        </div>
+
+        <h2 class="section-title">👁️ Attention: routing information between positions</h2>
+        <p class="lead">Attention is the one genuinely new idea. It lets each position pull in information from other positions, weighted by relevance.</p>
+        <div class="technical-detail">
+            <h4>Scaled dot-product attention</h4>
+            <p style="color:#555;">From the residual vectors, three learned projections produce queries, keys and values: <code>Q = XW<sub>Q</sub></code>, <code>K = XW<sub>K</sub></code>, <code>V = XW<sub>V</sub></code>. The output is</p>
+            <div class="formula"><code>Attention(Q,K,V) = softmax( QKᵀ / √d<sub>k</sub> ) V</code></div>
+            <p style="color:#555;">Read it as: each position forms a query, compares it (dot product) against every position's key to get a distribution of attention weights, and reads out a weighted sum of values. In a language model the softmax is <em>causally masked</em> so a position can attend only to earlier ones — that's what makes next-token prediction well-posed. Several such <strong>heads</strong> run in parallel, each free to learn a different routing pattern (one of which, the <em>induction head</em>, you'll reverse-engineer in Week 7).</p>
+        </div>
+
+        <h2 class="section-title">🌊 The residual stream</h2>
+        <div class="highlight-box">
+            <h3>🌊 <span style="color:#ffffff;">The picture to remember</span></h3>
+            <p>A transformer block doesn't replace its input — it <em>adds</em> to it: <code>x ← x + Attention(x)</code>, then <code>x ← x + MLP(x)</code>. So every position carries a running vector — the <strong>residual stream</strong> — and each attention head and MLP <em>reads</em> from it and <em>writes</em> a contribution back. The stream is a shared communication channel that information is passed along and accumulated in, layer by layer, until the final vector is unembedded into a distribution over the next token.</p>
+            <p>This additive, read/write view is not a metaphor — it's the literal computation, and it is the foundation of mechanistic interpretability: "finding a circuit" means identifying which heads write what into the stream, and which later components read it.</p>
+        </div>
+        <div class="info-box">
+            <h4>💡 The MLP and the unembedding</h4>
+            <p>Between attention sub-layers, a position-wise <strong>MLP</strong> (two linear layers with a nonlinearity) does most of the network's "computation per token" and holds much of its stored knowledge. At the end, a learned <strong>unembedding</strong> <code>W<sub>U</sub></code> maps the final residual vector to <code>V</code> logits; a softmax turns those into the predicted next-token distribution. Training minimises the cross-entropy of that distribution against the true next token — the loss from Session 2.1.</p>
+        </div>
+
+        <h2 class="section-title">🧷 Why the details earn their keep</h2>
+        <div class="card-grid">
+            <div class="card"><h3>Tokenisation has consequences</h3><p>African and other low-resource languages are often tokenised into far more pieces than English, raising cost and degrading quality — one concrete root of the safety and capability gaps this course returns to.</p></div>
+            <div class="card"><h3>Attention is inspectable</h3><p>Because attention weights and head outputs are explicit, we can <em>watch</em> the model route information — the entry point for interpretability and for catching deceptive or unexpected behaviour.</p></div>
+            <div class="card"><h3>Next-token prediction is the whole objective</h3><p>Everything — reasoning, code, refusal — is learned in service of predicting the next token on the training data. Keep asking what behaviour that objective does and doesn't incentivise.</p></div>
+        </div>
+
+        <h2 class="section-title">📚 Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Core</h4>
+            <p>• Vaswani, A., et al. (2017), "Attention Is All You Need" (NeurIPS 2017; arXiv:1706.03762) — the original transformer.</p>
+        </div>
+        <div class="resource-placeholder">
+            <h4>Recommended</h4>
+            <p>• 3Blue1Brown, "But what is a GPT?" / "Attention in transformers" — excellent visual intuition.</p>
+            <p>• Elhage et al. (2021), "A Mathematical Framework for Transformer Circuits" (Anthropic) — the residual-stream view in full; we return to it in Week 7.</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>↪️ Next</h2>
+            <p>We can now build these models. Sub-session <strong>2.3</strong> asks the question that makes safety urgent: as we make them <em>bigger</em>, how predictably do they get <em>better</em>?</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="from-neurons-to-networks.html"><span class="nav-label">← Previous</span><span class="nav-title">2.1 · From neurons to networks</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="neural-scaling-laws.html"><span class="nav-label">Next →</span><span class="nav-title">2.3 · Neural scaling laws</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

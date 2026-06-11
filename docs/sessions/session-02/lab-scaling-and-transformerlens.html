@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2.5 — Lab: Scaling Laws &amp; a First Look Inside a Model</title>
+    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="back-nav"><a href="../../index.html">← Back to course contents</a></div>
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 2 • Session 2.5</div>
+        <h1>🧪 <span style="color:#ffffff;">Lab — Scaling Laws &amp; a First Look Inside a Model</span></h1>
+        <p>Fit a power law, explore the compute trends, and open up GPT-2 in TransformerLens</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>🎯 What we'll cover</h2>
+            <p>The term's first lab does three things: it gets your toolchain working on Colab, it makes the scaling laws from 2.3 tangible by fitting one yourself, and it gives you a first hands-on look inside a real transformer using <strong>TransformerLens</strong> — the library we'll lean on heavily for interpretability in Weeks 7–8.</p>
+        </div>
+
+        <div class="lab-box">
+            <h4>🧪 Setup <span class="tag">Colab — no GPU needed</span></h4>
+            <p>Open a new Google Colab notebook. Everything here runs on the free tier (CPU is fine; a free GPU runtime is a bonus). Install the one library we need:</p>
+            <div class="formula" style="text-align:left;"><code>!pip install transformer_lens</code></div>
+            <p>A working Colab account is the only prerequisite. Save your notebook — you'll submit it.</p>
+        </div>
+
+        <h2 class="section-title">① Fit a scaling law</h2>
+        <div class="technical-detail">
+            <h4>From data to a power-law exponent</h4>
+            <ul class="styled-list">
+                <li>Load the provided table of (training compute <code>C</code>, final loss <code>L</code>) points (shared on the course page).</li>
+                <li>Plot <code>L</code> against <code>C</code> on <strong>log–log</strong> axes. Confirm by eye that it's close to a straight line.</li>
+                <li>Fit <code>log L = a − α · log C</code> by least squares; recover the exponent <code>α</code> and compare it to the small values reported by Kaplan et al.</li>
+                <li><strong>Extrapolate</strong> one order of magnitude beyond your data — then write one sentence on why you should distrust your own extrapolation (revisit 2.4).</li>
+            </ul>
+        </div>
+
+        <h2 class="section-title">② Explore the compute trends</h2>
+        <div class="technical-detail">
+            <h4>Real data, honest claims</h4>
+            <ul class="styled-list">
+                <li>Load a slice of Epoch AI's notable-models dataset (CSV provided / linked).</li>
+                <li>Plot training compute against publication date on a log axis; estimate the doubling time.</li>
+                <li>Answer in a sentence each: which quantity did you actually measure, and over what window? (The Session 1.4 reading habits, applied to your own plot.)</li>
+            </ul>
+        </div>
+
+        <h2 class="section-title">③ Open up a transformer</h2>
+        <div class="technical-detail">
+            <h4>GPT-2 small in TransformerLens</h4>
+            <p style="color:#555;">This is your first contact with the residual-stream picture from 2.2 — made real.</p>
+            <div class="formula" style="text-align:left;"><code>from transformer_lens import HookedTransformer<br>model = HookedTransformer.from_pretrained("gpt2")<br>logits = model("The Eiffel Tower is in the city of")<br># inspect the next-token distribution</code></div>
+            <ul class="styled-list">
+                <li>Feed the model a few prompts and read off the top predicted next tokens. Where is it confident, where not?</li>
+                <li>Use <code>run_with_cache</code> to capture activations; print the shape of the residual stream (you should see <code>[batch, position, d_model]</code> — the <code>T×d</code> matrix from 2.2).</li>
+                <li><strong>Tokenisation check (the African-safety thread):</strong> tokenise the same sentence in English and in isiZulu (or another language you know). Count the tokens. What does the difference imply for cost and quality — and, later, for safety?</li>
+            </ul>
+        </div>
+
+        <div class="lab-box">
+            <h4>📤 Submit</h4>
+            <p>Your Colab notebook with: the fitted exponent + extrapolation caveat (①), the compute-trend plot + two sentences (②), and the GPT-2 outputs + residual-stream shape + the tokenisation comparison (③). Graded on completion and correctness; resubmission allowed.</p>
+        </div>
+
+        <h2 class="section-title">📚 Tools &amp; references</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Core</h4>
+            <p>• <strong>TransformerLens</strong> (MIT-licensed) — docs and "Getting Started in Mech Interp" (github.com/TransformerLensOrg/TransformerLens).</p>
+            <p>• <strong>Epoch AI</strong> — notable-models data and trends (epoch.ai).</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>🧾 Session 2 &amp; Week 1 summary — what's next</h2>
+            <p>You've rebuilt the foundations: a network is a parametrised function fit by minimising a loss (2.1); the transformer routes information through a residual stream via attention (2.2); loss falls as a predictable power law in scale (2.3), while whether specific abilities "emerge" is metric-dependent and contested (2.4); and you've now fitted a law and opened a model yourself (2.5).</p>
+            <p><strong>Next (Week 2, Session 3):</strong> with the foundations in place, we state the core alignment problem properly — proxies, Goodhart, instrumental convergence, deceptive alignment — the argument whose skeleton you met in Session 1.3, now made rigorous.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="pace-and-emergence.html"><span class="nav-label">← Previous</span><span class="nav-title">2.4 · Pace of progress &amp; the emergence debate</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="../session-04/cost-of-every-prompt.html"><span class="nav-label">Next →</span><span class="nav-title">4.1 · The cost of every prompt</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

@@ -59,12 +59,17 @@ wholesale — see the reuse audit.
 
 - `docs/index.html` — **the contents page** (single source of truth for session order): all 12 weeks ×
   2 sessions, built lessons linked, rest "coming soon".
-- `docs/sessions/` — built lessons so far. **Sessions can have sub-sessions** (own folder, multiple
-  pages):
+- `docs/sessions/` — built lessons so far (**18 pages**). **Sessions can have sub-sessions** (own
+  folder, multiple pages):
+  - **Session 1** (`session-01/`) — what technical AI safety is, 4 sub-sessions: how the course works ·
+    what it is · the case & critics · safety isn't solved (the isiZulu anchor). *Authored.*
+  - **Session 2** (`session-02/`) — DL & scaling laws, 5 sub-sessions: neurons→networks · inside the
+    transformer · scaling laws · pace & emergence · Colab lab. *Authored, maths-honours level; cites
+    verified (Vaswani, Kaplan, Chinchilla, Wei, Schaeffer).*
   - **Session 4** (`session-04/`) — physical substrate/energy, 4 sub-sessions: cost of every prompt ·
-    infrastructure & rebound · critical minerals · sustainable & sovereign AI.
+    infrastructure & rebound · critical minerals · sustainable & sovereign AI. *Ported from GenAI Wk 3.*
   - **Session 8** (`session-08/`) — scalable oversight & whose values, 4 sub-sessions: supervision gap ·
-    four lenses · Ubuntu/relational ethics · whose values.
+    four lenses · Ubuntu/relational ethics · whose values. *8.1/8.4 authored; 8.2/8.3 ported.*
   - **Session 12** — technical AI governance (single page).
 - **`build_subsessions.py`** ports reused content from the GenAI course (Weeks 3 & 4) *verbatim* into
   Sessions 4.1–4.4, 8.2, 8.3 — preserving its fact-checking — restyled into the shared design system,

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2.1 — From Neurons to Networks</title>
+    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="back-nav"><a href="../../index.html">← Back to course contents</a></div>
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 2 • Session 2.1</div>
+        <h1>🧮 <span style="color:#ffffff;">From Neurons to Networks</span></h1>
+        <p>A fast, maths-honest recap: what a network computes, and what training actually does</p>
+    </header>
+    <div class="content">
+
+        <div class="highlight-box">
+            <h3>🧮 <span style="color:#ffffff;">Week 2 — deep learning &amp; scaling laws</span></h3>
+            <p>To reason about how these systems fail, you need a working picture of how they're built. This session rebuilds that picture at the level a mathematician wants — functions, parameters, gradients — then shows why capability scales so predictably with size.</p>
+            <p style="margin-bottom:0;"><strong>This session's sub-sessions:</strong> 2.1 from neurons to networks · 2.2 inside the transformer · 2.3 neural scaling laws · 2.4 pace of progress &amp; the emergence debate · 2.5 lab (Colab).</p>
+        </div>
+
+        <div class="intro-text">
+            <h2>🎯 What we'll cover</h2>
+            <p>You have met neural networks before, but cohorts vary, so we set a common, precise baseline. This sub-session frames a network as a parametrised function fit by gradient descent — nothing mystical — and pins down the few ideas (the loss, the gradient, the objective) that the safety arguments later hang on.</p>
+        </div>
+
+        <h2 class="section-title">📐 A network is a parametrised function</h2>
+        <p class="lead">Strip away the biology metaphor and a neural network is just a function <code>f<sub>θ</sub> : ℝ<sup>n</sup> → ℝ<sup>m</sup></code> with a great many parameters <code>θ</code>.</p>
+        <div class="technical-detail">
+            <h4>The building block</h4>
+            <p style="color:#555;">A single layer is an affine map followed by a pointwise nonlinearity:</p>
+            <div class="formula"><code>h = σ(Wx + b)</code></div>
+            <p style="color:#555;">with weight matrix <code>W</code>, bias <code>b</code>, and a nonlinearity <code>σ</code> (ReLU, <code>max(0,·)</code>, is the standard choice). Stack <code>L</code> such layers and you have a deep network. Without <code>σ</code> the whole stack would collapse to a single linear map — the nonlinearity is what lets depth buy expressive power. A network of this kind is, by the universal approximation results, capable of approximating essentially any function; the engineering question is whether <em>gradient descent can find</em> the parameters that do so.</p>
+        </div>
+
+        <h2 class="section-title">🎯 Training = minimising a loss</h2>
+        <p class="lead">"Learning" is optimisation. We choose a loss that scores predictions against targets and descend it.</p>
+        <div class="technical-detail">
+            <h4>The loop, precisely</h4>
+            <ul class="styled-list">
+                <li><strong>Loss.</strong> A scalar <code>L(θ)</code> measuring how wrong the model is on data — for language models, the cross-entropy of the predicted next-token distribution against the true token.</li>
+                <li><strong>Gradient.</strong> Compute <code>∇<sub>θ</sub>L</code> by back-propagation (the chain rule, applied layer by layer).</li>
+                <li><strong>Step.</strong> Update <code>θ ← θ − η ∇<sub>θ</sub>L</code> for a small learning rate <code>η</code> (in practice, a variant like Adam). Repeat over mini-batches for a very long time.</li>
+            </ul>
+            <p style="color:#555; margin-top:12px;">That is the whole of it. Everything a frontier model "knows" is the fixed point this process drifts toward on its training data.</p>
+        </div>
+
+        <h2 class="section-title">⚠️ Why this framing matters for safety</h2>
+        <div class="highlight-box">
+            <h3>🎯 <span style="color:#ffffff;">We get to choose the loss — not the behaviour</span></h3>
+            <p>This is the hinge the rest of the course turns on. We do not program behaviour; we specify a <em>loss</em> and an <em>optimiser</em>, and behaviour is whatever minimises that loss on that data. The model optimises the objective we <em>wrote down</em>, which is only ever a proxy for what we <em>meant</em>. Every alignment failure you'll study is, at root, a gap between those two — surfaced by an optimiser doing exactly its job.</p>
+        </div>
+        <div class="info-box">
+            <h4>💡 Two consequences to keep</h4>
+            <p>First, <strong>the objective is a specification problem</strong>: get the loss subtly wrong and you get subtly wrong behaviour, at scale (Session 3, Goodhart). Second, <strong>the parameters are opaque</strong>: gradient descent finds <em>a</em> solution, not an interpretable one — which is exactly why we need mechanistic interpretability (Weeks 7–8) to read back out what the network actually learned.</p>
+        </div>
+
+        <h2 class="section-title">📚 Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Optional refreshers</h4>
+            <p>• 3Blue1Brown, "Neural Networks" video series — the cleanest visual intuition for gradient descent and back-propagation.</p>
+            <p>• Any standard deep-learning text chapter on feed-forward networks and back-propagation (e.g. Goodfellow, Bengio &amp; Courville, <em>Deep Learning</em>, Ch. 6).</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>↪️ Next</h2>
+            <p>The networks behind modern AI have a specific architecture — the <strong>transformer</strong>. Sub-session <strong>2.2</strong> opens it up, with the attention mechanism and the residual-stream view we'll reuse when we get to interpretability.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="../session-01/safety-is-not-solved.html"><span class="nav-label">← Previous</span><span class="nav-title">1.4 · Safety isn't solved (especially not for us)</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="inside-the-transformer.html"><span class="nav-label">Next →</span><span class="nav-title">2.2 · Inside the transformer</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

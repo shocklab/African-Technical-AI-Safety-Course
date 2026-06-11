@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 1.1 — How This Course Works</title>
+    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="back-nav"><a href="../../index.html">← Back to course contents</a></div>
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 1 • Session 1.1</div>
+        <h1>🧭 <span style="color:#ffffff;">How This Course Works</span></h1>
+        <p>The shape of the 24 sessions, what's assessed, and what's expected of you</p>
+    </header>
+    <div class="content">
+
+        <div class="highlight-box">
+            <h3>🧭 <span style="color:#ffffff;">Week 1 — orientation &amp; foundations</span></h3>
+            <p>Welcome. This first week levels the ground: how the course runs (1.1), what technical AI safety actually is (1.2), the case for it and its strongest critics (1.3), and a concrete demonstration that the problem is unsolved — especially for us (1.4). Then Session 2 rebuilds the deep-learning foundations we'll lean on all term.</p>
+            <p style="margin-bottom:0;"><strong>This session's sub-sessions:</strong> 1.1 how this course works · 1.2 what technical AI safety is · 1.3 the case &amp; its critics · 1.4 safety isn't solved.</p>
+        </div>
+
+        <div class="intro-text">
+            <h2>🎯 What we'll cover</h2>
+            <p>This is a technical AI safety course for fourth-year and honours students in mathematics and applied mathematics. You understand what a neural network is and you can program in Python; you do <em>not</em> need prior exposure to AI safety. This sub-session explains the course's shape, how it's assessed, and how to get the most from it.</p>
+        </div>
+
+        <h2 class="section-title">🗺️ The shape of the course</h2>
+        <p class="lead">Twelve weeks, two sessions a week — twenty-four sessions in five parts. The spine runs from idealised, formal questions to messy empirical practice, then into your own research.</p>
+        <div class="card-grid">
+            <div class="card"><h3>I · Foundations &amp; the problem</h3><p>What technical AI safety is; deep-learning and scaling foundations; the core alignment problem; the physical substrate (compute, energy, minerals).</p></div>
+            <div class="card"><h3>II · Training &amp; aligning</h3><p>How a frontier model is actually built — pretraining, SFT, RLHF — and the methods meant to align it: RLAIF, Constitutional AI, scalable oversight.</p></div>
+            <div class="card"><h3>III · Robust, controllable, evaluable</h3><p>Adversarial robustness and jailbreaks; unlearning and the control agenda; evaluations and technical governance.</p></div>
+            <div class="card"><h3>IV · Mechanistic interpretability</h3><p>Opening the model up — features, circuits, superposition — with hands-on TransformerLens labs.</p></div>
+            <div class="card"><h3>V · Research project</h3><p>A scoped, Colab-feasible safety project: a short paper + code, presented and peer-reviewed.</p></div>
+        </div>
+        <div class="info-box">
+            <h4>💡 Why this order? Idealised → empirical</h4>
+            <p>The first half gives you formal objects you can reason about — objectives, optimisers, proxies, agents. The second half confronts real systems, where those clean ideas meet noisy practice. For a maths cohort this sequencing plays to your strengths: we start where you are most at home.</p>
+        </div>
+
+        <h2 class="section-title">🧵 Four through-lines</h2>
+        <ul class="styled-list">
+            <li><strong>The safety–capabilities distinction.</strong> The organising idea of the whole field; we return to it constantly.</li>
+            <li><strong>Idealised → empirical.</strong> Formal models of agency first, then the messy systems we actually have.</li>
+            <li><strong>African technical AI safety.</strong> Not a single week — frontier models are <em>measurably less safe in African languages</em>, and compute/data sovereignty shape who can build and govern these systems. "Whose safety, whose risks, whose values?" runs throughout.</li>
+            <li><strong>Intellectual honesty.</strong> The field disagrees with itself. We steelman the skeptics (Session 20) and hold advocacy and doubt together rather than picking a tribe.</li>
+        </ul>
+
+        <h2 class="section-title">📊 How you're assessed</h2>
+        <div class="technical-detail">
+            <h4>Components (indicative weights)</h4>
+            <table class="comparison-table">
+                <thead><tr><th>Component</th><th>Weight</th><th>Notes</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Weekly labs / problem sets</strong></td><td>25%</td><td>The coding labs; completion + correctness, resubmission allowed.</td></tr>
+                    <tr><td><strong>Paper presentation + critiques</strong></td><td>15%</td><td>Present one paper; submit short critiques before the relevant seminar.</td></tr>
+                    <tr><td><strong>Failure-mode analysis</strong></td><td>10%</td><td>~1,500 words mid-course; an African/Global-South-context failure mode is one sanctioned track.</td></tr>
+                    <tr><td><strong>Research project</strong></td><td>40%</td><td>Proposal + 6–8pp paper + code; itemised rubric, incl. a "positioning &amp; context" mark.</td></tr>
+                    <tr><td><strong>Peer review of projects</strong></td><td>10%</td><td>Anonymised reviews of two peers' final projects.</td></tr>
+                </tbody>
+            </table>
+            <p style="color:#555; margin-top:14px;">Every project carries a one-paragraph <strong>context statement</strong> — who it helps, whose risk it addresses, and how (if at all) it applies in an African context. "Not applicable, because…" is a perfectly good answer for a pure-theory project; the point is that you've thought about it.</p>
+        </div>
+
+        <h2 class="section-title">⚙️ How we work, practically</h2>
+        <div class="card-grid">
+            <div class="card"><h3>Two sessions a week</h3><p>Usually one concept/seminar session and one lab or working session. Read the assigned material <em>before</em> class — sessions assume it.</p></div>
+            <div class="card"><h3>Labs run on Colab</h3><p>Every graded lab is built to run on free or Pro Google Colab — no special hardware needed. A few GPU-heavy labs are marked optional/demo.</p></div>
+            <div class="card"><h3>This site is the home base</h3><p>All sub-sessions, readings and labs live here. Use the ← Previous / Next → bar to move through in order; the ⌂ button returns to the contents page.</p></div>
+        </div>
+        <div class="warning-box">
+            <h4>⚠️ A standing caveat</h4>
+            <p>These materials are AI-assisted and reference-checked, but errors in links, citations or statistics are still possible. Treat every number as something to verify, not to trust — a habit this course will train deliberately. Found a mistake? Email jonathan.shock@uct.ac.za.</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>↪️ Next</h2>
+            <p>Now that you know how the course runs, sub-session <strong>1.2</strong> asks the obvious question: what <em>is</em> technical AI safety — and what is it not?</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <span class="nav-empty"></span>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="what-technical-ai-safety-is.html"><span class="nav-label">Next →</span><span class="nav-title">1.2 · What technical AI safety is (and isn't)</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

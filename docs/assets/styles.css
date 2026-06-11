@@ -1,0 +1,222 @@
+/* ==========================================================================
+   Technical AI Safety — shared design system
+   UCT branding, adapted from the Generative-AI-in-research-course design system.
+   Single shared stylesheet (this course is GitHub-Pages-only; no Brightspace
+   inline-CSS requirement). Tokens: UCT blue #003A70, secondary #2a5298.
+   ========================================================================== */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    color: #2c3e50;
+    background: #f5f5f5;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+/* --- Back-to-contents bar (top of every lesson page) --- */
+.back-nav {
+    background: #002a52;
+    padding: 12px 30px;
+    font-size: 0.9em;
+}
+.back-nav a { color: #cfe2f3; text-decoration: none; font-weight: 600; }
+.back-nav a:hover { color: #ffffff; text-decoration: underline; }
+
+/* --- AI transparency notice --- */
+.ai-notice {
+    background: #e8f4f8;
+    color: #003A70;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 0.9em;
+    border-bottom: 1px solid #d0e8f2;
+}
+.ai-notice strong { font-weight: 600; }
+
+/* --- Header --- */
+header {
+    background: #003A70;
+    color: white;
+    padding: 50px 40px;
+    text-align: center;
+}
+.week-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    backdrop-filter: blur(10px);
+}
+header h1 { font-size: 2.3em; margin-bottom: 15px; font-weight: 300; letter-spacing: 1px; }
+header p { font-size: 1.1em; opacity: 0.95; max-width: 800px; margin: 10px auto 0; }
+
+/* --- Content wrapper --- */
+.content { padding: 50px 40px; }
+
+.intro-text {
+    background: #f9f9f9;
+    padding: 35px;
+    border-radius: 15px;
+    border-left: 5px solid #003A70;
+    margin-bottom: 40px;
+}
+.intro-text h2 { color: #2a5298; font-size: 1.8em; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+.intro-text p { font-size: 1.1em; color: #495057; line-height: 1.8; margin-bottom: 15px; }
+.intro-text p:last-child { margin-bottom: 0; }
+
+.section-title {
+    font-size: 2em;
+    color: #2a5298;
+    margin: 50px 0 30px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #003A70;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.lead { font-size: 1.1em; color: #555; margin-bottom: 30px; }
+
+/* --- Cards --- */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 30px 0; }
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-left: 5px solid #003A70;
+    transition: all 0.3s ease;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.card h3 { color: #2a5298; font-size: 1.4em; margin-bottom: 15px; font-weight: 600; }
+.card p { color: #555; line-height: 1.7; margin-bottom: 15px; }
+
+/* --- Lists --- */
+.styled-list { list-style: none; margin-top: 15px; }
+.styled-list li { padding: 8px 0 8px 25px; color: #555; position: relative; line-height: 1.6; }
+.styled-list li::before { content: '▸'; position: absolute; left: 0; color: #003A70; font-weight: bold; }
+
+/* --- Call-out boxes --- */
+.highlight-box { background: #003A70; color: white; padding: 30px; border-radius: 15px; margin: 40px 0; }
+.highlight-box h3 { font-size: 1.8em; margin-bottom: 15px; }
+.highlight-box p { font-size: 1.05em; line-height: 1.8; opacity: 0.95; margin-bottom: 12px; }
+.highlight-box p:last-child { margin-bottom: 0; }
+
+.info-box { background: #f8f9fa; padding: 20px 25px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #003A70; }
+.info-box h4 { color: #2a5298; font-size: 1.2em; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.info-box p { color: #555; line-height: 1.7; }
+
+.warning-box { background: #fff8e1; padding: 20px 25px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #f9a825; }
+.warning-box h4 { color: #b8860b; font-size: 1.2em; margin-bottom: 12px; }
+.warning-box p { color: #5d4e1f; line-height: 1.7; }
+
+.technical-detail { background: white; border: 2px solid #d0e8f2; border-radius: 12px; padding: 25px; margin: 20px 0; }
+.technical-detail h4 { color: #2a5298; font-size: 1.3em; margin-bottom: 15px; }
+
+.case-study {
+    background: linear-gradient(135deg, rgba(0,58,112,0.05) 0%, rgba(42,82,152,0.08) 100%);
+    border: 2px solid #2a5298;
+    border-radius: 15px;
+    padding: 28px;
+    margin: 30px 0;
+}
+.case-study h4 { color: #003A70; font-size: 1.3em; margin-bottom: 14px; }
+.case-study p { color: #495057; line-height: 1.75; margin-bottom: 10px; }
+
+/* --- Readings / resources --- */
+.resource-placeholder {
+    background: linear-gradient(135deg, rgba(0,58,112,0.05) 0%, rgba(42,82,152,0.05) 100%);
+    border: 2px dashed #003A70;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 25px 0;
+}
+.resource-placeholder h4 { color: #2a5298; font-size: 1.3em; margin-bottom: 14px; }
+.resource-placeholder p { color: #555; margin-top: 8px; line-height: 1.7; }
+.resource-placeholder a { color: #003A70; font-weight: 600; }
+.reading-core { border-left: 5px solid #003A70; }
+
+/* --- Tables --- */
+.comparison-table {
+    width: 100%; border-collapse: collapse; margin: 20px 0; background: white;
+    border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.comparison-table th { background: #003A70; color: white; padding: 15px; text-align: left; font-weight: 600; }
+.comparison-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; color: #555; vertical-align: top; }
+.comparison-table tr:last-child td { border-bottom: none; }
+.comparison-table tr:hover { background: #f9f9f9; }
+
+/* --- Decision framework / numbered steps --- */
+.decision-framework {
+    background: linear-gradient(135deg, rgba(0,58,112,0.03) 0%, rgba(42,82,152,0.03) 100%);
+    border: 2px solid #003A70;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 30px 0;
+}
+.decision-framework h4 { color: #003A70; font-size: 1.4em; margin-bottom: 20px; }
+.decision-framework ol { margin-left: 25px; color: #555; line-height: 2.2; font-size: 1.05em; }
+
+/* --- Lab box (this course adds hands-on labs) --- */
+.lab-box {
+    background: #f3f8fc;
+    border: 2px solid #2a5298;
+    border-radius: 15px;
+    padding: 28px;
+    margin: 30px 0;
+}
+.lab-box h4 { color: #003A70; font-size: 1.3em; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.lab-box p { color: #495057; line-height: 1.75; margin-bottom: 10px; }
+.lab-box .tag { display: inline-block; background: #2a5298; color: #fff; font-size: 0.75em; padding: 3px 10px; border-radius: 12px; margin-left: 8px; vertical-align: middle; }
+
+/* --- Prev / Next page navigation (injected by add_page_nav.py) --- */
+.page-nav {
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    padding: 25px 40px 40px;
+    border-top: 1px solid #eee;
+    background: #fafbfc;
+}
+.page-nav a, .page-nav .nav-empty {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 14px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 1px solid #d0e0ee;
+    background: #fff;
+    transition: all 0.2s ease;
+    min-height: 64px;
+}
+.page-nav a:hover { border-color: #003A70; background: #f0f4f8; transform: translateY(-2px); }
+.page-nav .nav-empty { border: 1px dashed #e3e9ef; background: transparent; }
+.page-nav .nav-label { font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.5px; color: #888; }
+.page-nav .nav-title { color: #003A70; font-weight: 600; font-size: 0.98em; line-height: 1.35; }
+.page-nav .next { text-align: right; }
+.page-nav .home { flex: 0 0 auto; align-items: center; text-align: center; justify-content: center; }
+.page-nav .home .nav-title { font-size: 1.4em; }
+
+@media (max-width: 768px) {
+    header h1 { font-size: 1.8em; }
+    .content { padding: 30px 20px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 1.6em; }
+    .page-nav { flex-direction: column; padding: 20px; }
+    .page-nav .next { text-align: left; }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>African Technical AI Safety — Honours Course (UCT)</title>
+    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
+    <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Lato', sans-serif; line-height: 1.6; color: #2c3e50; background: #f5f5f5; padding: 20px; }
+    .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
+    header { background: #003A70; color: white; padding: 50px 40px; text-align: center; }
+    header h1 { font-size: 2.3em; margin-bottom: 10px; font-weight: 300; letter-spacing: 1px; }
+    header p { font-size: 1.1em; opacity: 0.9; max-width: 720px; margin: 10px auto 0; }
+    .course-code { display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 18px; border-radius: 20px; font-size: 0.9em; margin-bottom: 15px; backdrop-filter: blur(10px); }
+    .content { padding: 40px; }
+    .caveat-banner { background: #fff8e1; border-left: 5px solid #f9a825; padding: 18px 22px; border-radius: 12px; margin-bottom: 35px; }
+    .caveat-banner p { color: #555; font-size: 0.95em; line-height: 1.7; }
+    .caveat-banner a { color: #003A70; font-weight: 600; }
+    .intro-section { background: #f9f9f9; padding: 25px; border-radius: 15px; border-left: 5px solid #003A70; margin-bottom: 35px; }
+    .intro-section h2 { color: #2a5298; font-size: 1.3em; margin-bottom: 10px; }
+    .intro-section p { color: #555; line-height: 1.8; }
+    .part-label { color: #003A70; font-weight: 700; font-size: 1.05em; letter-spacing: 0.5px; margin: 35px 0 10px; text-transform: uppercase; }
+    .week-section { margin-bottom: 28px; }
+    .week-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px solid #003A70; }
+    .week-number { background: #003A70; color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1em; flex-shrink: 0; }
+    .week-header h2 { color: #2a5298; font-size: 1.3em; font-weight: 600; }
+    .lesson-list { list-style: none; margin-left: 60px; }
+    .lesson-list li { margin-bottom: 6px; }
+    .lesson-list a { color: #2c3e50; text-decoration: none; padding: 8px 15px; display: block; border-radius: 8px; transition: all 0.2s ease; border-left: 3px solid transparent; }
+    .lesson-list a:hover { background: #f0f4f8; border-left: 3px solid #003A70; color: #003A70; }
+    .lesson-list .soon { color: #999; padding: 8px 15px; display: block; border-left: 3px solid transparent; }
+    .lesson-list .soon::after { content: ' — coming soon'; font-size: 0.85em; color: #bbb; }
+    .lesson-list .lab::before { content: '🧪 '; }
+    .badge-built { display:inline-block; background:#2a5298; color:#fff; font-size:0.7em; padding:2px 8px; border-radius:10px; margin-left:6px; vertical-align:middle; }
+    footer { background: #f9f9f9; padding: 25px 40px; text-align: center; color: #888; font-size: 0.9em; border-top: 1px solid #eee; }
+    footer a { color: #003A70; }
+    @media (max-width: 768px) { header h1 { font-size: 1.6em; } .content { padding: 25px 20px; } .lesson-list { margin-left: 20px; } .week-number { width: 35px; height: 35px; font-size: 0.9em; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="course-code">Honours / 4th-year · 2026</div>
+        <h1><span style="color:#ffffff;">African Technical AI Safety</span></h1>
+        <p>University of Cape Town — Department of Mathematics &amp; Applied Mathematics</p>
+        <p style="opacity:0.7; font-size:0.95em; margin-top:5px;">Assoc. Prof. Jonathan Shock</p>
+    </header>
+
+    <div class="content">
+
+        <div class="caveat-banner">
+            <p><strong>A note on these materials:</strong> The design, presentation, and content of these pages have been created and enhanced using AI tools (primarily Claude by Anthropic). All materials are reviewed and reference-checked, but errors — particularly in links, citations, or statistics — are still possible. If you spot anything wrong, please email <a href="mailto:jonathan.shock@uct.ac.za">jonathan.shock@uct.ac.za</a>.</p>
+        </div>
+
+        <div class="intro-section">
+            <h2>About this course</h2>
+            <p>A 12-week, twice-weekly (24-session) technical introduction to AI safety for students who understand neural networks and can program in Python. It runs from the alignment problem through training and alignment methods, robustness and control, evaluations and technical governance, and mechanistic interpretability, into a research project.</p>
+            <p style="margin-top:12px;">What makes it <em>African</em> technical AI safety is not a single week but a through-line: frontier models are <strong>measurably less safe in African languages</strong> (a robustness and evaluation problem, not a footnote); compute, energy and data sovereignty shape who can build and govern these systems; and relational ethics and the present-harms debate ask, throughout, <strong>whose safety, whose risks, whose values?</strong> The labs and project are built to run on Google Colab.</p>
+            <p style="margin-top:12px;"><em>Built lessons are linked below; the rest are in preparation.</em></p>
+        </div>
+
+        <!-- ===== PART I ===== -->
+        <div class="part-label">Part I · Foundations &amp; the safety problem</div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">1</div><h2>Orientation &amp; foundations</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon">Session 1 · What technical AI safety is (and isn't)</span></li>
+                <li><span class="soon lab">Session 2 · Deep learning &amp; transformers recap + scaling laws</span></li>
+            </ul>
+        </div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">2</div><h2>The alignment problem &amp; the physical substrate</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon">Session 3 · The core alignment problem</span></li>
+                <li><a href="sessions/session-04-physical-substrate-of-scale.html">Session 4 · The physical substrate of scale (energy)<span class="badge-built">built</span></a></li>
+            </ul>
+        </div>
+
+        <!-- ===== PART II ===== -->
+        <div class="part-label">Part II · How models are trained &amp; aligned</div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">3</div><h2>LLM training, end to end</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon lab">Session 5 · From pretraining to assistant</span></li>
+                <li><span class="soon lab">Session 6 · RLHF &amp; RL fine-tuning</span></li>
+            </ul>
+        </div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">4</div><h2>Scalable alignment methods</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon lab">Session 7 · Learning from AI feedback (RLAIF, Constitutional AI)</span></li>
+                <li><a href="sessions/session-08-scalable-oversight-and-whose-values.html">Session 8 · Scalable oversight &amp; "whose values?" (ethics)<span class="badge-built">built</span></a></li>
+            </ul>
+        </div>
+
+        <!-- ===== PART III ===== -->
+        <div class="part-label">Part III · Robust, controllable, evaluable models</div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">5</div><h2>Robustness, unlearning, control</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon lab">Session 9 · Robustness &amp; adversarial ML</span></li>
+                <li><span class="soon">Session 10 · Unlearning &amp; the AI-control agenda</span></li>
+            </ul>
+        </div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">6</div><h2>Evaluations &amp; technical governance</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon lab">Session 11 · Evaluations &amp; dangerous-capability evals</span></li>
+                <li><a href="sessions/session-12-technical-ai-governance.html">Session 12 · Technical AI governance<span class="badge-built">built</span></a></li>
+            </ul>
+        </div>
+
+        <!-- ===== PART IV ===== -->
+        <div class="part-label">Part IV · Mechanistic interpretability</div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">7</div><h2>Interpretability foundations</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon">Session 13 · Why interpretability; features &amp; circuits</span></li>
+                <li><span class="soon lab">Session 14 · Lab: TransformerLens + induction heads</span></li>
+            </ul>
+        </div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">8</div><h2>Interpretability in practice</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon lab">Session 15 · Circuits, patching, and sparse autoencoders</span></li>
+                <li><span class="soon lab">Session 16 · Lab + safety applications &amp; limits</span></li>
+            </ul>
+        </div>
+
+        <!-- ===== PART V ===== -->
+        <div class="part-label">Part V · Research project &amp; synthesis</div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">9</div><h2>Project launch + frontier topic</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon">Session 17 · Project kickoff &amp; scoping</span></li>
+                <li><span class="soon">Session 18 · AI safety from the Global South</span></li>
+            </ul>
+        </div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">10</div><h2>Project work + the skeptics</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon">Session 19 · Project clinic</span></li>
+                <li><span class="soon">Session 20 · Steelman the skeptics + open problems</span></li>
+            </ul>
+        </div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">11</div><h2>Project work</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon">Session 21 · Mid-project check-in</span></li>
+                <li><span class="soon">Session 22 · Project work / buffer</span></li>
+            </ul>
+        </div>
+
+        <div class="week-section">
+            <div class="week-header"><div class="week-number">12</div><h2>Presentations &amp; synthesis</h2></div>
+            <ul class="lesson-list">
+                <li><span class="soon">Session 23 · Final presentations + peer review</span></li>
+                <li><span class="soon">Session 24 · Presentations + synthesis &amp; pathways</span></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>African Technical AI Safety — University of Cape Town — <a href="mailto:jonathan.shock@uct.ac.za">jonathan.shock@uct.ac.za</a></p>
+        <p style="margin-top:5px; font-size:0.85em;">Course materials created with the assistance of AI tools and reference-checked before publication.</p>
+        <p style="margin-top:5px; font-size:0.85em;">© 2026 Jonathan Shock. Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC&nbsp;BY&nbsp;4.0</a> — share and adapt freely with attribution.</p>
+    </footer>
+</div>
+</body>
+</html>

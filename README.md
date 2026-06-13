@@ -59,13 +59,19 @@ wholesale — see the reuse audit.
 
 - `docs/index.html` — **the contents page** (single source of truth for session order): all 12 weeks ×
   2 sessions, built lessons linked, rest "coming soon".
-- `docs/sessions/` — built lessons so far (**18 pages**). **Sessions can have sub-sessions** (own
+- `docs/sessions/` — built lessons so far (**22 pages**). **Sessions can have sub-sessions** (own
   folder, multiple pages):
   - **Session 1** (`session-01/`) — what technical AI safety is, 4 sub-sessions: how the course works ·
     what it is · the case & critics · safety isn't solved (the isiZulu anchor). *Authored.*
   - **Session 2** (`session-02/`) — DL & scaling laws, 5 sub-sessions: neurons→networks · inside the
     transformer · scaling laws · pace & emergence · Colab lab. *Authored, maths-honours level; cites
-    verified (Vaswani, Kaplan, Chinchilla, Wei, Schaeffer).*
+    verified (Vaswani, Kaplan, Chinchilla, Wei, Schaeffer). 2.2 deepened: attention worked through with
+    explicit dimensions, multi-head, LayerNorm, full block, residual stream, end-to-end trace.*
+  - **Session 3** (`session-03/`) — the core alignment problem, 4 sub-sessions: the specification
+    problem · instrumental convergence & power-seeking · inner alignment & goal misgeneralisation ·
+    deception, corrigibility & what we'd even know. *Authored; 17 references found + verified (grounded
+    in CoastRunners, CoinRun, Turner's power-seeking theorem w/ caveats, Carlsmith's premises, Sleeper
+    Agents, Alignment Faking). Launches the failure-mode essay.*
   - **Session 4** (`session-04/`) — physical substrate/energy, 4 sub-sessions: cost of every prompt ·
     infrastructure & rebound · critical minerals · sustainable & sovereign AI. *Ported from GenAI Wk 3.*
   - **Session 8** (`session-08/`) — scalable oversight & whose values, 4 sub-sessions: supervision gap ·

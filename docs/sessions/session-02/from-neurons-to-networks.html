@@ -49,6 +49,10 @@
             </ul>
             <p style="color:#555; margin-top:12px;">That is the whole of it. Everything a frontier model "knows" is the fixed point this process drifts toward on its training data.</p>
         </div>
+        <div class="info-box">
+            <h4>💡 What the language-model loss actually is</h4>
+            <p>For next-token prediction the loss is the <strong>cross-entropy</strong> <code>L = −(1/T) Σ<sub>i</sub> log p<sub>θ</sub>(t<sub>i</sub> | t<sub>&lt;i</sub>)</code> — the average negative log-probability the model assigned to the <em>true</em> next token at each position. Minimising it means making the correct token as probable as possible. Two things to carry forward: this is exactly the "loss" that falls as a power law in Session 2.3; and the model is never told <em>how</em> to be right, only scored on the probability it placed on what actually came next.</p>
+        </div>
 
         <h2 class="section-title">⚠️ Why this framing matters for safety</h2>
         <div class="highlight-box">

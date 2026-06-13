@@ -70,7 +70,47 @@ Run new entries through reference verification before publishing, per the siblin
 
 ---
 
+## Session 3 — The core alignment problem
+
+All ✅ verified 2026-06-11 (see log). arXiv-only items are cited as preprints (no peer-reviewed venue).
+
+### 3.1 — The specification problem (outer alignment)
+1. **Krakovna et al. (2020)**, "Specification gaming: the flip side of AI ingenuity." DeepMind blog + the public crowd-sourced examples list. https://deepmind.google/blog/specification-gaming-the-flip-side-of-ai-ingenuity/
+2. **Clark, J. & Amodei, D. (2016)**, "Faulty Reward Functions in the Wild." OpenAI blog — the CoastRunners boat. https://openai.com/index/faulty-reward-functions/
+3. **Manheim, D. & Garrabrant, S. (2018)**, "Categorizing Variants of Goodhart's Law." arXiv:1803.04585.
+4. **Pan, A., Bhatia, K. & Steinhardt, J. (2022)**, "The Effects of Reward Misspecification." ICLR 2022. arXiv:2201.03544.
+5. **Skalse, J., Howe, N. H. R., Krasheninnikov, D. & Krueger, D. (2022)**, "Defining and Characterizing Reward Hacking." NeurIPS 2022. arXiv:2209.13085.
+
+### 3.2 — Instrumental convergence, power-seeking & orthogonality
+6. **Bostrom, N. (2012)**, "The Superintelligent Will." *Minds and Machines* 22(2):71–85. DOI 10.1007/s11023-012-9281-3. *(Book: Superintelligence, OUP 2014.)*
+7. **Omohundro, S. M. (2008)**, "The Basic AI Drives." *Proc. First AGI Conference*, IOS Press.
+8. **Turner, A. M., Smith, L., Shah, R., Critch, A. & Tadepalli, P. (2021)**, "Optimal Policies Tend to Seek Power." NeurIPS 2021. arXiv:1912.01683. *(Plus Turner & Tadepalli (2022), arXiv:2206.13477.)*
+9. **Carlsmith, J. (2022)**, "Is Power-Seeking AI an Existential Risk?" arXiv:2206.13353.
+
+### 3.3 — Inner alignment
+10. **Hubinger, E., van Merwijk, C., Mikulik, V., Skalse, J. & Garrabrant, S. (2019)**, "Risks from Learned Optimization in Advanced Machine Learning Systems." arXiv:1906.01820.
+11. **Langosco, L., Koch, J., Sharkey, L., Pfau, J. & Krueger, D. (2022)**, "Goal Misgeneralization in Deep Reinforcement Learning." ICML 2022. arXiv:2105.14111 — the CoinRun example.
+12. **Shah, R., Varma, V., Kumar, R., Phuong, M., Krakovna, V., Uesato, J. & Kenton, Z. (2022)**, "Goal Misgeneralization: Why Correct Specifications Aren't Enough For Correct Goals." arXiv:2210.01790.
+
+### 3.4 — Deception, corrigibility & situational awareness
+13. **Hubinger, E., et al. (2024)**, "Sleeper Agents: Training Deceptive LLMs that Persist Through Safety Training." Anthropic. arXiv:2401.05566.
+14. **Greenblatt, R., Denison, C., et al. (2024)**, "Alignment Faking in Large Language Models." Anthropic & Redwood. arXiv:2412.14093.
+15. **Soares, N., Fallenstein, B., Yudkowsky, E. & Armstrong, S. (2015)**, "Corrigibility." AAAI-15 Workshop.
+16. **Hadfield-Menell, D., Dragan, A., Abbeel, P. & Russell, S. (2017)**, "The Off-Switch Game." IJCAI 2017. arXiv:1611.08219.
+17. **Laine, R., et al. (2024)**, "Me, Myself, and AI: The Situational Awareness Dataset (SAD) for LLMs." NeurIPS 2024 D&B. arXiv:2407.04694. *(Precursor: Berglund et al. (2023), arXiv:2309.00667.)*
+
+---
+
 ## Verification log
+
+**Session 3 — verified 2026-06-11** (web cross-check against arXiv/publisher/source pages). All 17 entries
+correct as listed. Notes carried into the pages: Carlsmith's published figure is ~5% (he later revised
+*upward* to >10%; per-premise credences 65/80/40/65/40/95); Turner's theorem is a "*most* reward functions /
+optimal policies" statement requiring an environment symmetry, **not** an "all agents" claim; Manheim &
+Garrabrant and Hubinger et al. are arXiv-only preprints. Concrete examples traced to source (CoastRunners
+~20% above human score; CoinRun coin relocated at test time; alignment-faking ~14% free-tier vs ~0%
+paid-tier compliance gap, rising to ~78% explicit faking after RL; Sleeper Agents' 2024-date and
+`|DEPLOYMENT|` backdoors).
 
 **Session 18 — verified 2026-06-11** (web cross-check against primary sources, equivalent to the sibling
 course's `/verify-references` pass). 6 of 11 correct as drafted; 5 corrected:

@@ -6,6 +6,29 @@ Run new entries through reference verification before publishing, per the siblin
 
 ---
 
+## Session 1 — Orientation & foundations
+
+All ✅ verified 2026-06-14 (see log). (Hanna & Bender, Hoes & Gilardi, Yong et al. are listed under
+Session 18; Schaeffer under Session 2.)
+
+### 1.2 — What technical AI safety is
+1. **Amodei, D., Olah, C., Steinhardt, J., Christiano, P., Schulman, J. & Mané, D. (2016)**, "Concrete Problems in AI Safety." arXiv:1606.06565.
+2. **Hendrycks, D., Mazeika, M. & Woodside, T. (2023)**, "An Overview of Catastrophic AI Risks." arXiv:2306.12001.
+3. **Ngo, R., Chan, L. & Mindermann, S. (2022)**, "The Alignment Problem from a Deep Learning Perspective." ICLR 2024. arXiv:2209.00626.
+4. **Russell, S. (2019)**, *Human Compatible: Artificial Intelligence and the Problem of Control.* Viking. ISBN 978-0-525-55861-3.
+5. **Center for AI Safety (2023)**, "Statement on AI Risk." https://www.safe.ai/work/statement-on-ai-risk (30 May 2023).
+
+### 1.3 — The case & its critics
+6. **Bender, E. M., Gebru, T., McMillan-Major, A. & Shmitchell, S. (2021)**, "On the Dangers of Stochastic Parrots: Can Language Models Be Too Big? 🦜" FAccT 2021, 610–623. DOI 10.1145/3442188.3445922.
+7. **Gebru, T. & Torres, É. P. (2024)**, "The TESCREAL bundle: Eugenics and the promise of utopia through artificial general intelligence." *First Monday* 29(4). DOI 10.5210/fm.v29i4.13636.
+   *(+ Hanna & Bender 2023; Hoes & Gilardi 2025; Hendrycks AISES arXiv:2411.01042 — see Session 18 / elsewhere.)*
+
+### 1.4 — Safety isn't solved
+8. **Yong, Z.-X., Menghini, C. & Bach, S. H. (2023)**, "Low-Resource Languages Jailbreak GPT-4." arXiv:2310.02446 (see Session 18).
+9. **Deng, Y., Zhang, W., Pan, S. J. & Bing, L. (2023/2024)**, "Multilingual Jailbreak Challenges in Large Language Models." ICLR 2024. arXiv:2310.06474.
+
+---
+
 ## Session 18 — AI safety from the Global South (African AI safety)
 
 ### Core (assign all)
@@ -102,6 +125,13 @@ All ✅ verified 2026-06-11 (see log). arXiv-only items are cited as preprints (
 ---
 
 ## Verification log
+
+**Session 1 — verified 2026-06-14** (web cross-check against arXiv/publisher/official pages). All 9 new
+entries correct; one author fix — Deng et al.'s third author is **Sinno Jialin Pan** (not "Chen"). Notes:
+Amodei et al.'s five problems (side effects, reward hacking, scalable oversight, safe exploration,
+distributional robustness) and Hendrycks et al.'s four categories (malicious use, AI race, organizational
+risks, rogue AIs) used verbatim; CAIS statement wording quoted exactly; Russell 2019 is the Viking
+hardcover ISBN; Stochastic Parrots fourth author is the pseudonym "Shmargaret Shmitchell".
 
 **Session 3 — verified 2026-06-11** (web cross-check against arXiv/publisher/source pages). All 17 entries
 correct as listed. Notes carried into the pages: Carlsmith's published figure is ~5% (he later revised

@@ -6,6 +6,10 @@
     <title>Session 2.3 — Neural Scaling Laws</title>
     <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
 </head>
 <body>
 <div class="container">
@@ -24,18 +28,18 @@
         </div>
 
         <h2 class="section-title">📉 The empirical law</h2>
-        <p class="lead">Kaplan et al. (2020) found that test loss <code>L</code> scales as a power law in each of three quantities — model parameters <code>N</code>, dataset size <code>D</code>, and training compute <code>C</code> — over many orders of magnitude.</p>
+        <p class="lead">Kaplan et al. (2020) found that test loss \(L\) scales as a power law in each of three quantities — model parameters \(N\), dataset size \(D\), and training compute \(C\) — over many orders of magnitude.</p>
         <div class="technical-detail">
             <h4>The shape</h4>
             <p style="color:#555;">Holding the others non-bottlenecking, each relationship has the form</p>
-            <div class="formula"><code>L(N) ≈ (N<sub>c</sub> / N)<sup>α<sub>N</sub></sup></code></div>
-            <p style="color:#555;">a straight line on a log–log plot, with a small exponent (<code>α<sub>N</sub></code> on the order of <code>0.07</code>). The remarkable facts are the <em>regularity</em> (clean power laws across ~7 orders of magnitude) and the <em>smoothness</em> (no plateau in sight over the studied range). Architecture details matter far less than scale.</p>
+            <div class="formula">\[ L(N) \approx \left( \frac{N_c}{N} \right)^{\alpha_N} \]</div>
+            <p style="color:#555;">a straight line on a log–log plot, with a small exponent (\(\alpha_N\) on the order of \(0.07\)). The remarkable facts are the <em>regularity</em> (clean power laws across ~7 orders of magnitude) and the <em>smoothness</em> (no plateau in sight over the studied range). Architecture details matter far less than scale.</p>
         </div>
 
         <h2 class="section-title">🐭 Compute-optimal training: Chinchilla</h2>
         <div class="highlight-box">
             <h3>⚖️ <span style="color:#ffffff;">Spend a fixed compute budget well</span></h3>
-            <p>If compute <code>C</code> is fixed (roughly <code>C ≈ 6ND</code> for a dense transformer), how should you split it between a bigger model and more data? Hoffmann et al. (2022) — the "<strong>Chinchilla</strong>" paper — showed the field had been training models that were too <em>large</em> and too <em>data-starved</em>. For compute-optimal training, parameters and tokens should scale roughly <em>in proportion</em>. A smaller model trained on more data (Chinchilla) beat a much larger one (Gopher) at the same compute.</p>
+            <p>If compute \(C\) is fixed (roughly \(C \approx 6ND\) for a dense transformer), how should you split it between a bigger model and more data? Hoffmann et al. (2022) — the "<strong>Chinchilla</strong>" paper — showed the field had been training models that were too <em>large</em> and too <em>data-starved</em>. For compute-optimal training, parameters and tokens should scale roughly <em>in proportion</em>. A smaller model trained on more data (Chinchilla) beat a much larger one (Gopher) at the same compute.</p>
             <p>The practical upshot you'll meet all term: <strong>data, not just parameters, is a first-class scaling resource</strong> — and a binding constraint, since high-quality text is finite.</p>
         </div>
 

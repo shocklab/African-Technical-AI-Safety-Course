@@ -6,6 +6,10 @@
     <title>Session 3.2 — Instrumental Convergence &amp; Power-Seeking</title>
     <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
 </head>
 <body>
 <div class="container">
@@ -43,7 +47,7 @@
         <h2 class="section-title">🎯 The convergent sub-goals, one by one</h2>
         <p class="lead">It is worth spelling these out, because each is a small, almost banal piece of means–ends reasoning — which is exactly why the conclusion is hard to dismiss.</p>
         <div class="card-grid">
-            <div class="card"><h3>Self-preservation</h3><p>For almost any goal <code>G</code>, an agent that is switched off or destroyed can no longer act to achieve <code>G</code>. So "continue existing / remain operational" scores well under a huge range of goals. This is the seed of the shutdown problem we treat in 3.4.</p></div>
+            <div class="card"><h3>Self-preservation</h3><p>For almost any goal \(G\), an agent that is switched off or destroyed can no longer act to achieve \(G\). So "continue existing / remain operational" scores well under a huge range of goals. This is the seed of the shutdown problem we treat in 3.4.</p></div>
             <div class="card"><h3>Goal-content integrity</h3><p>If the agent's goal were changed, its future self would pursue something else — bad, by the lights of its <em>current</em> goal. So an agent has reason to resist having its objective modified, including by us during training or correction.</p></div>
             <div class="card"><h3>Cognitive enhancement</h3><p>Being better at reasoning, planning and modelling the world helps achieve almost any goal. So "improve my own capabilities / acquire information" is broadly convergent.</p></div>
             <div class="card"><h3>Resource &amp; technology acquisition</h3><p>Compute, money, materials, influence and better tools are fungible means to nearly any end. An agent pursuing almost any goal has reason to acquire and protect them — which puts it in potential competition with everyone else who wants those resources.</p></div>
@@ -65,7 +69,7 @@
         <p class="lead">For a mathematically-minded audience the real question is whether any of this is more than a persuasive story. Turner et al. (2021) gave it formal content. The precise statement matters at least as much as the headline, so we go slowly.</p>
         <div class="technical-detail">
             <h4>Setup and the definition of POWER</h4>
-            <p style="color:#555;">Work in a Markov decision process: states, actions, transitions, a discount factor <code>γ</code>, and a reward function. For a given reward, an <em>optimal</em> policy maximises expected discounted return. Define a state's <strong>POWER</strong> as the agent's (normalised, discounted) <em>expected optimal value</em> from that state — intuitively, how well-placed the agent is to achieve goals on average, i.e. its <strong>optionality</strong>. States from which many futures remain reachable have high POWER; a dead end, or being shut down, has low POWER.</p>
+            <p style="color:#555;">Work in a Markov decision process: states, actions, transitions, a discount factor \(\gamma\), and a reward function. For a given reward, an <em>optimal</em> policy maximises expected discounted return. Define a state's <strong>POWER</strong> as the agent's (normalised, discounted) <em>expected optimal value</em> from that state — intuitively, how well-placed the agent is to achieve goals on average, i.e. its <strong>optionality</strong>. States from which many futures remain reachable have high POWER; a dead end, or being shut down, has low POWER.</p>
         </div>
         <div class="technical-detail">
             <h4>What the theorem says</h4>
@@ -102,7 +106,7 @@
                     <tr><td>6</td><td><strong>Catastrophe.</strong> That disempowerment constitutes an existential catastrophe.</td><td>95%</td></tr>
                 </tbody>
             </table>
-            <p style="color:#555; margin-top:12px;">Treating the premises as (roughly) a conjunction, multiply: <code>0.65 × 0.80 × 0.40 × 0.65 × 0.40 × 0.95 ≈ 0.05</code> — Carlsmith's published figure of <strong>at least ~5%</strong> existential catastrophe from power-seeking AI by 2070. (He has since revised his own estimate <em>upward</em> to &gt;10%.)</p>
+            <p style="color:#555; margin-top:12px;">Treating the premises as (roughly) a conjunction, multiply: \(0.65 \times 0.80 \times 0.40 \times 0.65 \times 0.40 \times 0.95 \approx 0.05\) — Carlsmith's published figure of <strong>at least ~5%</strong> existential catastrophe from power-seeking AI by 2070. (He has since revised his own estimate <em>upward</em> to &gt;10%.)</p>
         </div>
         <div class="info-box">
             <h4>💡 The value is the structure, not the number</h4>

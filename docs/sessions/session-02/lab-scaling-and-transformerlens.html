@@ -6,6 +6,10 @@
     <title>Session 2.5 — Lab: Scaling Laws &amp; a First Look Inside a Model</title>
     <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
 </head>
 <body>
 <div class="container">
@@ -34,9 +38,9 @@
         <div class="technical-detail">
             <h4>From data to a power-law exponent</h4>
             <ul class="styled-list">
-                <li>Load the provided table of (training compute <code>C</code>, final loss <code>L</code>) points (shared on the course page).</li>
-                <li>Plot <code>L</code> against <code>C</code> on <strong>log–log</strong> axes. Confirm by eye that it's close to a straight line.</li>
-                <li>Fit <code>log L = a − α · log C</code> by least squares; recover the exponent <code>α</code> and compare it to the small values reported by Kaplan et al.</li>
+                <li>Load the provided table of (training compute \(C\), final loss \(L\)) points (shared on the course page).</li>
+                <li>Plot \(L\) against \(C\) on <strong>log–log</strong> axes. Confirm by eye that it's close to a straight line.</li>
+                <li>Fit \(\log L = a - \alpha \cdot \log C\) by least squares; recover the exponent \(\alpha\) and compare it to the small values reported by Kaplan et al.</li>
                 <li><strong>Extrapolate</strong> one order of magnitude beyond your data — then write one sentence on why you should distrust your own extrapolation (revisit 2.4).</li>
             </ul>
         </div>
@@ -58,7 +62,7 @@
             <div class="formula" style="text-align:left;"><code>from transformer_lens import HookedTransformer<br>model = HookedTransformer.from_pretrained("gpt2")<br>logits = model("The Eiffel Tower is in the city of")<br># inspect the next-token distribution</code></div>
             <ul class="styled-list">
                 <li>Feed the model a few prompts and read off the top predicted next tokens. Where is it confident, where not?</li>
-                <li>Use <code>run_with_cache</code> to capture activations; print the shape of the residual stream (you should see <code>[batch, position, d_model]</code> — the <code>T×d</code> matrix from 2.2).</li>
+                <li>Use <code>run_with_cache</code> to capture activations; print the shape of the residual stream (you should see <code>[batch, position, d_model]</code> — the \(T \times d\) matrix from 2.2).</li>
                 <li><strong>Tokenisation check (the African-safety thread):</strong> tokenise the same sentence in English and in isiZulu (or another language you know). Count the tokens. What does the difference imply for cost and quality — and, later, for safety?</li>
             </ul>
         </div>

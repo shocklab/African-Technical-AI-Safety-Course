@@ -6,6 +6,10 @@
     <title>Session 3.1 — The Specification Problem</title>
     <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
 </head>
 <body>
 <div class="container">
@@ -90,9 +94,9 @@
         </div>
         <div class="technical-detail">
             <h4>📐 A one-line derivation: why regressional Goodhart is unavoidable</h4>
-            <p style="color:#555;">Suppose the proxy is an unbiased, noisy measurement of the true goal: <code>proxy = goal + ε</code>, with <code>ε</code> independent noise of mean zero. "Optimising the proxy" means selecting the option with the largest <code>proxy</code> value. But</p>
-            <div class="formula"><code>argmax (goal + ε)</code></div>
-            <p style="color:#555;">over-selects options where <code>ε</code> happens to be large and positive — not just options where <code>goal</code> is large. Conditioning on a high proxy value, the expected noise is positive: <code>E[ε | proxy high] &gt; 0</code>. So the proxy <em>systematically over-estimates</em> the true goal at the top, and the harder you optimise (the further into the tail you select), the larger the over-estimate. The error is built into selection itself — it appears <em>even with a perfectly unbiased proxy and no adversary</em>. Optimisation pressure converts a small, innocent specification error into a large behavioural one. This is the mathematical core of why "just write a good reward" cannot be the whole answer.</p>
+            <p style="color:#555;">Suppose the proxy is an unbiased, noisy measurement of the true goal: \(\text{proxy} = \text{goal} + \varepsilon\), with \(\varepsilon\) independent noise of mean zero. "Optimising the proxy" means selecting the option with the largest \(\text{proxy}\) value. But</p>
+            <div class="formula">\[ \operatorname{argmax}\,(\text{goal} + \varepsilon) \]</div>
+            <p style="color:#555;">over-selects options where \(\varepsilon\) happens to be large and positive — not just options where \(\text{goal}\) is large. Conditioning on a high proxy value, the expected noise is positive: \(\mathbb{E}[\varepsilon \mid \text{proxy high}] > 0\). So the proxy <em>systematically over-estimates</em> the true goal at the top, and the harder you optimise (the further into the tail you select), the larger the over-estimate. The error is built into selection itself — it appears <em>even with a perfectly unbiased proxy and no adversary</em>. Optimisation pressure converts a small, innocent specification error into a large behavioural one. This is the mathematical core of why "just write a good reward" cannot be the whole answer.</p>
         </div>
         <p style="text-align:center; margin:18px 0 0;"><a href="regressional-goodhart-derivation.html" style="display:inline-block; background:#003A70; color:#fff; padding:12px 24px; border-radius:10px; text-decoration:none; font-weight:600;">📐 Read the full formal derivation →</a></p>
         <p style="text-align:center; color:#888; font-size:0.9em; margin-top:8px;">The bivariate-normal posterior, the optimizer's curse as a distribution-free theorem, and how the bias grows like √(ln N) with search.</p>

@@ -6,6 +6,10 @@
     <title>Session 2.2 — Inside the Transformer</title>
     <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
 </head>
 <body>
 <div class="container">
@@ -21,51 +25,51 @@
         <div class="intro-text">
             <h2>🎯 What we'll cover</h2>
             <p>Every model in this course is a <strong>transformer</strong>. This sub-session builds one properly — not as a black box but as a sequence of linear-algebraic operations you could, in principle, trace by hand. We go slowly through <em>attention</em> (with explicit matrix shapes and a worked example), then assemble the full block, and finish with the <strong>residual-stream</strong> picture that mechanistic interpretability (Weeks 7–8) literally reads off.</p>
-            <p>Notation we'll keep throughout: a sequence of <code>T</code> tokens; a model (residual-stream) dimension <code>d<sub>model</sub></code>; <code>n<sub>h</sub></code> attention heads each of dimension <code>d<sub>head</sub> = d<sub>model</sub>/n<sub>h</sub></code> (why the dimension is divided this way is explained under <em>Multi-head attention</em>, below); a vocabulary of size <code>V</code>.</p>
+            <p>Notation we'll keep throughout: a sequence of \(T\) tokens; a model (residual-stream) dimension \(d_{\text{model}}\); \(n_h\) attention heads each of dimension \(d_{\text{head}} = d_{\text{model}}/n_h\) (why the dimension is divided this way is explained under <em>Multi-head attention</em>, below); a vocabulary of size \(V\).</p>
         </div>
 
         <h2 class="section-title">🔤 From text to vectors</h2>
         <div class="technical-detail">
             <h4>Tokens, embeddings, positions</h4>
             <ul class="styled-list">
-                <li><strong>Tokenisation.</strong> Text is split into <em>tokens</em> — sub-word pieces from a fixed vocabulary of size <code>V</code> (typically 30k–100k). "tokenisation" might become <code>token | isation</code>; a rare word becomes several pieces. Each token is an integer id.</li>
-                <li><strong>Embedding.</strong> A learned matrix <code>W<sub>E</sub> ∈ ℝ<sup>V × d<sub>model</sub></sup></code> maps each id to a vector in <code>ℝ<sup>d<sub>model</sub></sup></code> (one row of <code>W<sub>E</sub></code>). A length-<code>T</code> sequence becomes an activation matrix <code>X ∈ ℝ<sup>T × d<sub>model</sub></sup></code> — one row per position.</li>
+                <li><strong>Tokenisation.</strong> Text is split into <em>tokens</em> — sub-word pieces from a fixed vocabulary of size \(V\) (typically 30k–100k). "tokenisation" might become <code>token | isation</code>; a rare word becomes several pieces. Each token is an integer id.</li>
+                <li><strong>Embedding.</strong> A learned matrix \(W_E \in \mathbb{R}^{V \times d_{\text{model}}}\) maps each id to a vector in \(\mathbb{R}^{d_{\text{model}}}\) (one row of \(W_E\)). A length-\(T\) sequence becomes an activation matrix \(X \in \mathbb{R}^{T \times d_{\text{model}}}\) — one row per position.</li>
                 <li><strong>Position.</strong> Self-attention is <em>permutation-equivariant</em>: shuffle the input rows and the output rows shuffle the same way — it has no built-in sense of order (because, as the next section shows, attention is a content-weighted sum with no term that depends on a position's index). So positional information is injected (added positional embeddings, or rotary/relative schemes) before the first block.</li>
             </ul>
-            <p style="color:#555; margin-top:12px;">From here on, each transformer <em>block</em> maps a <code>T × d<sub>model</sub></code> matrix to another of the same shape (internally, as we'll see, it routes through narrower matrices and back). That preserved width is the residual stream; hold onto it.</p>
+            <p style="color:#555; margin-top:12px;">From here on, each transformer <em>block</em> maps a \(T \times d_{\text{model}}\) matrix to another of the same shape (internally, as we'll see, it routes through narrower matrices and back). That preserved width is the residual stream; hold onto it.</p>
         </div>
 
         <h2 class="section-title">👁️ One attention head, step by step</h2>
         <p class="lead">Attention is the one genuinely new idea. It lets each position selectively read information from <em>other</em> positions. Here is a single head, in five steps.</p>
         <div class="technical-detail">
             <h4>Step 1 — Project to queries, keys, values</h4>
-            <p style="color:#555;">From the input <code>X ∈ ℝ<sup>T × d<sub>model</sub></sup></code>, three learned matrices produce three new matrices:</p>
-            <div class="formula"><code>Q = X W<sub>Q</sub>,&nbsp;&nbsp; K = X W<sub>K</sub>,&nbsp;&nbsp; V = X W<sub>V</sub></code></div>
-            <p style="color:#555;">with <code>W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub> ∈ ℝ<sup>d<sub>model</sub> × d<sub>head</sub></sup></code>, so <code>Q, K, V ∈ ℝ<sup>T × d<sub>head</sub></sup></code>. Think of each position as emitting a <strong>query</strong> ("what am I looking for?"), advertising a <strong>key</strong> ("what do I offer?"), and holding a <strong>value</strong> ("what I'll pass on if attended to").</p>
+            <p style="color:#555;">From the input \(X \in \mathbb{R}^{T \times d_{\text{model}}}\), three learned matrices produce three new matrices:</p>
+            <div class="formula">\[ Q = X W_Q, \quad K = X W_K, \quad V = X W_V \]</div>
+            <p style="color:#555;">with \(W_Q, W_K, W_V \in \mathbb{R}^{d_{\text{model}} \times d_{\text{head}}}\), so \(Q, K, V \in \mathbb{R}^{T \times d_{\text{head}}}\). Think of each position as emitting a <strong>query</strong> ("what am I looking for?"), advertising a <strong>key</strong> ("what do I offer?"), and holding a <strong>value</strong> ("what I'll pass on if attended to").</p>
         </div>
         <div class="technical-detail">
             <h4>Step 2 — Score every pair</h4>
-            <p style="color:#555;">The relevance of position <code>j</code> to position <code>i</code> is the dot product of query <code>i</code> with key <code>j</code>. All pairs at once:</p>
-            <div class="formula"><code>S = Q K<sup>⊤</sup> ∈ ℝ<sup>T × T</sup>,&nbsp;&nbsp; S<sub>ij</sub> = q<sub>i</sub> · k<sub>j</sub></code></div>
-            <p style="color:#555;">Row <code>i</code> of <code>S</code> says how much position <code>i</code> wants to read from each position.</p>
+            <p style="color:#555;">The relevance of position \(j\) to position \(i\) is the dot product of query \(i\) with key \(j\). All pairs at once:</p>
+            <div class="formula">\[ S = Q K^\top \in \mathbb{R}^{T \times T}, \quad S_{ij} = q_i \cdot k_j \]</div>
+            <p style="color:#555;">Row \(i\) of \(S\) says how much position \(i\) wants to read from each position.</p>
         </div>
         <div class="technical-detail">
-            <h4>Step 3 — Scale by √d<sub>head</sub></h4>
-            <p style="color:#555;">Divide by <code>√d<sub>head</sub></code> before the softmax:</p>
-            <div class="formula"><code>S̃ = S / √d<sub>head</sub></code></div>
-            <p style="color:#555;">Why: if the components of <code>q</code> and <code>k</code> have variance ~1, their dot product over <code>d<sub>head</sub></code> terms has variance ~<code>d<sub>head</sub></code>. Without rescaling, large <code>d<sub>head</sub></code> pushes the softmax into saturation (one weight ≈ 1, the rest ≈ 0), where gradients vanish. Dividing by <code>√d<sub>head</sub></code> keeps the scores at a sensible scale.</p>
+            <h4>Step 3 — Scale by \(\sqrt{d_{\text{head}}}\)</h4>
+            <p style="color:#555;">Divide by \(\sqrt{d_{\text{head}}}\) before the softmax:</p>
+            <div class="formula">\[ \tilde{S} = S / \sqrt{d_{\text{head}}} \]</div>
+            <p style="color:#555;">Why: if the components of \(q\) and \(k\) have variance ~1, their dot product over \(d_{\text{head}}\) terms has variance ~\(d_{\text{head}}\). Without rescaling, large \(d_{\text{head}}\) pushes the softmax into saturation (one weight ≈ 1, the rest ≈ 0), where gradients vanish. Dividing by \(\sqrt{d_{\text{head}}}\) keeps the scores at a sensible scale.</p>
         </div>
         <div class="technical-detail">
             <h4>Step 4 — Causal mask + softmax → attention weights</h4>
-            <p style="color:#555;">For a language model predicting the next token, position <code>i</code> must not see the future. We set <code>S̃<sub>ij</sub> = −∞</code> for <code>j &gt; i</code> (so those weights will become 0), then apply a row-wise <strong>softmax</strong> — the function that turns a row of real scores <code>z</code> into a probability distribution, <code>softmax(z)<sub>j</sub> = e<sup>z<sub>j</sub></sup> / Σ<sub>k</sub> e<sup>z<sub>k</sub></sup></code> (every entry positive, the whole row summing to 1):</p>
-            <div class="formula"><code>A = softmax(S̃ + mask) ∈ ℝ<sup>T × T</sup></code></div>
-            <p style="color:#555;">Each row of <code>A</code> is now a probability distribution over the positions at or before <code>i</code> (the masked future positions, sent to <code>−∞</code>, get weight 0) — the <strong>attention pattern</strong>. These weights are explicit numbers you can plot, which is why attention is a natural entry point for interpretability.</p>
+            <p style="color:#555;">For a language model predicting the next token, position \(i\) must not see the future. We set \(\tilde{S}_{ij} = -\infty\) for \(j > i\) (so those weights will become 0), then apply a row-wise <strong>softmax</strong> — the function that turns a row of real scores \(z\) into a probability distribution, \(\operatorname{softmax}(z)_j = e^{z_j} / \sum_k e^{z_k}\) (every entry positive, the whole row summing to 1):</p>
+            <div class="formula">\[ A = \operatorname{softmax}(\tilde{S} + \text{mask}) \in \mathbb{R}^{T \times T} \]</div>
+            <p style="color:#555;">Each row of \(A\) is now a probability distribution over the positions at or before \(i\) (the masked future positions, sent to \(-\infty\), get weight 0) — the <strong>attention pattern</strong>. These weights are explicit numbers you can plot, which is why attention is a natural entry point for interpretability.</p>
         </div>
         <div class="technical-detail">
             <h4>Step 5 — Read out a weighted sum of values</h4>
-            <div class="formula"><code>head(X) = A V ∈ ℝ<sup>T × d<sub>head</sub></sup></code></div>
-            <p style="color:#555;">Position <code>i</code>'s output is the average of the value vectors, weighted by how much it attended to each. Putting the steps together gives the familiar formula:</p>
-            <div class="formula"><code>Attention(Q,K,V) = softmax( QK<sup>⊤</sup> / √d<sub>head</sub> ) V</code></div>
+            <div class="formula">\[ \operatorname{head}(X) = A V \in \mathbb{R}^{T \times d_{\text{head}}} \]</div>
+            <p style="color:#555;">Position \(i\)'s output is the average of the value vectors, weighted by how much it attended to each. Putting the steps together gives the familiar formula:</p>
+            <div class="formula">\[ \operatorname{Attention}(Q,K,V) = \operatorname{softmax}\!\left( \frac{QK^\top}{\sqrt{d_{\text{head}}}} \right) V \]</div>
         </div>
         <div class="info-box">
             <h4>💡 A worked intuition: "…the Eiffel Tower is in the city of ___"</h4>
@@ -75,44 +79,44 @@
         <h2 class="section-title">🧑‍🤝‍🧑 Multi-head attention</h2>
         <div class="technical-detail">
             <h4>Several heads in parallel, then recombine</h4>
-            <p style="color:#555;">A layer runs <code>n<sub>h</sub></code> heads <em>independently and in parallel</em>, each with its own <code>W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub></code>, so each can learn a different routing pattern (one head tracks subject–verb agreement, another copies rare tokens, and so on). Their outputs are concatenated and projected back to the model width by an output matrix <code>W<sub>O</sub> ∈ ℝ<sup>d<sub>model</sub> × d<sub>model</sub></sup></code>:</p>
-            <div class="formula"><code>MultiHead(X) = concat(head<sub>1</sub>, …, head<sub>n<sub>h</sub></sub>) W<sub>O</sub> ∈ ℝ<sup>T × d<sub>model</sub></sup></code></div>
-            <p style="color:#555;">Because <code>d<sub>head</sub> = d<sub>model</sub>/n<sub>h</sub></code>, the <code>n<sub>h</sub></code> head outputs (each <code>T×d<sub>head</sub></code>) concatenate to exactly <code>T×d<sub>model</sub></code>, and the total compute is similar to one big head — but the model gets several independent "read channels". GPT-2 small, the model you'll open in the lab, has <code>d<sub>model</sub> = 768</code> and <code>n<sub>h</sub> = 12</code> heads of dimension 64, across 12 layers.</p>
+            <p style="color:#555;">A layer runs \(n_h\) heads <em>independently and in parallel</em>, each with its own \(W_Q, W_K, W_V\), so each can learn a different routing pattern (one head tracks subject–verb agreement, another copies rare tokens, and so on). Their outputs are concatenated and projected back to the model width by an output matrix \(W_O \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}}\):</p>
+            <div class="formula">\[ \operatorname{MultiHead}(X) = \operatorname{concat}(\operatorname{head}_1, \ldots, \operatorname{head}_{n_h}) W_O \in \mathbb{R}^{T \times d_{\text{model}}} \]</div>
+            <p style="color:#555;">Because \(d_{\text{head}} = d_{\text{model}}/n_h\), the \(n_h\) head outputs (each \(T \times d_{\text{head}}\)) concatenate to exactly \(T \times d_{\text{model}}\), and the total compute is similar to one big head — but the model gets several independent "read channels". GPT-2 small, the model you'll open in the lab, has \(d_{\text{model}} = 768\) and \(n_h = 12\) heads of dimension 64, across 12 layers.</p>
         </div>
 
         <h2 class="section-title">🔢 The MLP (feed-forward) sub-layer</h2>
         <div class="technical-detail">
             <h4>Per-position computation and storage</h4>
             <p style="color:#555;">After attention moves information <em>between</em> positions, a position-wise MLP does computation <em>within</em> each position — the same two-layer network applied to every row independently:</p>
-            <div class="formula"><code>MLP(x) = W<sub>2</sub> · σ(W<sub>1</sub> x + b<sub>1</sub>) + b<sub>2</sub></code></div>
-            <p style="color:#555;">It up-projects to a wider hidden dimension (commonly <code>4 d<sub>model</sub></code>), applies a nonlinearity <code>σ</code> (GELU in GPT-2), then down-projects back. The MLP holds much of a transformer's stored "knowledge" and accounts for roughly two-thirds of its parameters — and is, so far, harder to interpret than attention.</p>
+            <div class="formula">\[ \operatorname{MLP}(x) = W_2 \cdot \sigma(W_1 x + b_1) + b_2 \]</div>
+            <p style="color:#555;">It up-projects to a wider hidden dimension (commonly \(4 d_{\text{model}}\)), applies a nonlinearity \(\sigma\) (GELU in GPT-2), then down-projects back. The MLP holds much of a transformer's stored "knowledge" and accounts for roughly two-thirds of its parameters — and is, so far, harder to interpret than attention.</p>
         </div>
 
         <h2 class="section-title">🧱 LayerNorm and the full block</h2>
         <div class="technical-detail">
             <h4>One transformer block</h4>
             <p style="color:#555;">A block wraps attention and MLP with <strong>LayerNorm</strong> (which rescales each position's vector to zero mean and unit variance, stabilising training) and — crucially — adds each sub-layer's output back to its input. Modern transformers use the <em>pre-norm</em> arrangement:</p>
-            <div class="formula" style="text-align:left;"><code>x ← x + MultiHead( LayerNorm(x) )<br>x ← x + MLP( LayerNorm(x) )</code></div>
-            <p style="color:#555;">Stack <code>L</code> such blocks (12 in GPT-2 small, ~100 in frontier models). Each block reads the current state, computes a correction, and adds it back.</p>
+            <div class="formula">\[ \begin{aligned} x &\leftarrow x + \operatorname{MultiHead}(\operatorname{LayerNorm}(x)) \\ x &\leftarrow x + \operatorname{MLP}(\operatorname{LayerNorm}(x)) \end{aligned} \]</div>
+            <p style="color:#555;">Stack \(L\) such blocks (12 in GPT-2 small, ~100 in frontier models). Each block reads the current state, computes a correction, and adds it back.</p>
         </div>
 
         <h2 class="section-title">🌊 The residual stream</h2>
         <div class="highlight-box">
             <h3>🌊 <span style="color:#ffffff;">The single most useful picture</span></h3>
-            <p>Notice the "<code>x ← x + …</code>". A block never <em>replaces</em> the activations; it <em>adds</em> to them. So each position carries a running vector — the <strong>residual stream</strong> — that begins as the token+position embedding and accumulates contributions as it passes up through the layers. Every attention head and every MLP <em>reads</em> from the stream (via LayerNorm) and <em>writes</em> a vector back into it by addition.</p>
+            <p>Notice the "\(x \leftarrow x + \ldots\)". A block never <em>replaces</em> the activations; it <em>adds</em> to them. So each position carries a running vector — the <strong>residual stream</strong> — that begins as the token+position embedding and accumulates contributions as it passes up through the layers. Every attention head and every MLP <em>reads</em> from the stream (via LayerNorm) and <em>writes</em> a vector back into it by addition.</p>
             <p>So the residual stream is a shared <strong>communication channel</strong>: earlier components write information that later components read. "Finding a circuit" (Week 7) means identifying which components write a particular piece of information and which later ones read it — a question you can actually answer, because the writes are additive and the reads are linear. This additive view is not a metaphor; it is the literal computation.</p>
         </div>
 
         <h2 class="section-title">🎲 From the residual stream to a prediction</h2>
         <div class="technical-detail">
             <h4>Unembed, logits, loss</h4>
-            <p style="color:#555;">After the final block, a last LayerNorm is applied and the residual vector at each position is mapped to vocabulary scores by the unembedding matrix <code>W<sub>U</sub> ∈ ℝ<sup>d<sub>model</sub> × V</sup></code>:</p>
-            <div class="formula"><code>logits = LayerNorm(x) · W<sub>U</sub> ∈ ℝ<sup>T × V</sup>;&nbsp;&nbsp; p = softmax(logits)</code></div>
-            <p style="color:#555;">Row <code>i</code> is the model's predicted distribution for the token <em>after</em> position <code>i</code>. Training minimises the cross-entropy of <code>p</code> against the true next token at every position — the loss from Session 2.1. That single objective, next-token prediction, is the <em>only</em> thing the network is ever directly optimised for.</p>
+            <p style="color:#555;">After the final block, a last LayerNorm is applied and the residual vector at each position is mapped to vocabulary scores by the unembedding matrix \(W_U \in \mathbb{R}^{d_{\text{model}} \times V}\):</p>
+            <div class="formula">\[ \text{logits} = \operatorname{LayerNorm}(x) \cdot W_U \in \mathbb{R}^{T \times V}; \quad p = \operatorname{softmax}(\text{logits}) \]</div>
+            <p style="color:#555;">Row \(i\) is the model's predicted distribution for the token <em>after</em> position \(i\). Training minimises the cross-entropy of \(p\) against the true next token at every position — the loss from Session 2.1. That single objective, next-token prediction, is the <em>only</em> thing the network is ever directly optimised for.</p>
         </div>
         <div class="info-box">
             <h4>🧭 Trace one prediction, end to end</h4>
-            <p>Tokens → embeddings + positions give <code>X</code> (<code>T×d<sub>model</sub></code>) → each block: attention routes information between positions, MLP computes within them, both added back into the residual stream → final LayerNorm → multiply by <code>W<sub>U</sub></code> → logits → softmax → next-token distribution. Everything in between is matrix multiplies, one softmax per head, and additions. Nothing else.</p>
+            <p>Tokens → embeddings + positions give \(X\) (\(T \times d_{\text{model}}\)) → each block: attention routes information between positions, MLP computes within them, both added back into the residual stream → final LayerNorm → multiply by \(W_U\) → logits → softmax → next-token distribution. Everything in between is matrix multiplies, one softmax per head, and additions. Nothing else.</p>
         </div>
 
         <h2 class="section-title">🧷 Why these details earn their keep</h2>

@@ -187,6 +187,13 @@ code { background: #eef2f7; padding: 1px 6px; border-radius: 5px; font-size: 0.9
 .formula { background: #f3f8fc; border: 1px solid #d0e0ee; border-radius: 10px; padding: 16px 20px; margin: 18px 0; text-align: center; font-size: 1.15em; color: #003A70; overflow-x: auto; line-height: 1.7; }
 .formula code { background: none; padding: 0; font-size: 1em; }
 
+/* --- Figures (images + captions) --- */
+figure { margin: 32px auto; text-align: center; }
+figure img { max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #e1e8f0; box-shadow: 0 6px 18px rgba(0,0,0,0.10); }
+figcaption { color: #667085; font-size: 0.9em; line-height: 1.55; margin: 12px auto 0; max-width: 780px; }
+figcaption strong { color: #2a5298; }
+figcaption code { background: #eef2f7; }
+
 /* --- Prev / Next page navigation (injected by add_page_nav.py) --- */
 .page-nav {
     display: flex;

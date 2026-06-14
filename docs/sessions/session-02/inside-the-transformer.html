@@ -21,7 +21,7 @@
         <div class="intro-text">
             <h2>🎯 What we'll cover</h2>
             <p>Every model in this course is a <strong>transformer</strong>. This sub-session builds one properly — not as a black box but as a sequence of linear-algebraic operations you could, in principle, trace by hand. We go slowly through <em>attention</em> (with explicit matrix shapes and a worked example), then assemble the full block, and finish with the <strong>residual-stream</strong> picture that mechanistic interpretability (Weeks 7–8) literally reads off.</p>
-            <p>Notation we'll keep throughout: a sequence of <code>T</code> tokens; a model (residual-stream) dimension <code>d<sub>model</sub></code>; <code>n<sub>h</sub></code> attention heads each of dimension <code>d<sub>head</sub> = d<sub>model</sub>/n<sub>h</sub></code>; a vocabulary of size <code>V</code>.</p>
+            <p>Notation we'll keep throughout: a sequence of <code>T</code> tokens; a model (residual-stream) dimension <code>d<sub>model</sub></code>; <code>n<sub>h</sub></code> attention heads each of dimension <code>d<sub>head</sub> = d<sub>model</sub>/n<sub>h</sub></code> (why the dimension is divided this way is explained under <em>Multi-head attention</em>, below); a vocabulary of size <code>V</code>.</p>
         </div>
 
         <h2 class="section-title">🔤 From text to vectors</h2>
@@ -30,9 +30,9 @@
             <ul class="styled-list">
                 <li><strong>Tokenisation.</strong> Text is split into <em>tokens</em> — sub-word pieces from a fixed vocabulary of size <code>V</code> (typically 30k–100k). "tokenisation" might become <code>token | isation</code>; a rare word becomes several pieces. Each token is an integer id.</li>
                 <li><strong>Embedding.</strong> A learned matrix <code>W<sub>E</sub> ∈ ℝ<sup>V × d<sub>model</sub></sup></code> maps each id to a vector in <code>ℝ<sup>d<sub>model</sub></sup></code> (one row of <code>W<sub>E</sub></code>). A length-<code>T</code> sequence becomes an activation matrix <code>X ∈ ℝ<sup>T × d<sub>model</sub></sup></code> — one row per position.</li>
-                <li><strong>Position.</strong> Self-attention is <em>permutation-equivariant</em>: shuffle the input rows and the output rows shuffle the same way — it has no built-in sense of order. So positional information is injected (added positional embeddings, or rotary/relative schemes) before the first block.</li>
+                <li><strong>Position.</strong> Self-attention is <em>permutation-equivariant</em>: shuffle the input rows and the output rows shuffle the same way — it has no built-in sense of order (because, as the next section shows, attention is a content-weighted sum with no term that depends on a position's index). So positional information is injected (added positional embeddings, or rotary/relative schemes) before the first block.</li>
             </ul>
-            <p style="color:#555; margin-top:12px;">From here on, every operation maps a <code>T × d<sub>model</sub></code> matrix to another <code>T × d<sub>model</sub></code> matrix. That fixed width is the residual stream; hold onto it.</p>
+            <p style="color:#555; margin-top:12px;">From here on, each transformer <em>block</em> maps a <code>T × d<sub>model</sub></code> matrix to another of the same shape (internally, as we'll see, it routes through narrower matrices and back). That preserved width is the residual stream; hold onto it.</p>
         </div>
 
         <h2 class="section-title">👁️ One attention head, step by step</h2>
@@ -57,9 +57,9 @@
         </div>
         <div class="technical-detail">
             <h4>Step 4 — Causal mask + softmax → attention weights</h4>
-            <p style="color:#555;">For a language model predicting the next token, position <code>i</code> must not see the future. We set <code>S̃<sub>ij</sub> = −∞</code> for <code>j &gt; i</code> (so those weights become 0), then apply a row-wise softmax:</p>
+            <p style="color:#555;">For a language model predicting the next token, position <code>i</code> must not see the future. We set <code>S̃<sub>ij</sub> = −∞</code> for <code>j &gt; i</code> (so those weights will become 0), then apply a row-wise <strong>softmax</strong> — the function that turns a row of real scores <code>z</code> into a probability distribution, <code>softmax(z)<sub>j</sub> = e<sup>z<sub>j</sub></sup> / Σ<sub>k</sub> e<sup>z<sub>k</sub></sup></code> (every entry positive, the whole row summing to 1):</p>
             <div class="formula"><code>A = softmax(S̃ + mask) ∈ ℝ<sup>T × T</sup></code></div>
-            <p style="color:#555;">Each row of <code>A</code> is now a probability distribution over the positions at or before <code>i</code> — the <strong>attention pattern</strong>. These weights are explicit numbers you can plot, which is why attention is a natural entry point for interpretability.</p>
+            <p style="color:#555;">Each row of <code>A</code> is now a probability distribution over the positions at or before <code>i</code> (the masked future positions, sent to <code>−∞</code>, get weight 0) — the <strong>attention pattern</strong>. These weights are explicit numbers you can plot, which is why attention is a natural entry point for interpretability.</p>
         </div>
         <div class="technical-detail">
             <h4>Step 5 — Read out a weighted sum of values</h4>
@@ -69,7 +69,7 @@
         </div>
         <div class="info-box">
             <h4>💡 A worked intuition: "…the Eiffel Tower is in the city of ___"</h4>
-            <p>To predict the next token, the final position emits a query that (in some head) is best matched by the key at "Eiffel Tower". That head's attention row puts most weight on the "Eiffel Tower" position and copies its value into the final position's output — effectively moving the information "this sentence is about the Eiffel Tower" forward to where it's needed. The model then predicts "Paris". <em>Induction heads</em> — which you'll reverse-engineer in Week 7 — are a famous, crisp version of exactly this copy-by-matching behaviour.</p>
+            <p>To predict the next token, the final position emits a query that (in some head) is best matched by the key at "Eiffel Tower". That head's attention row puts most weight on the "Eiffel Tower" position and copies its value into the final position's output — effectively moving the information "this sentence is about the Eiffel Tower" forward to where it's needed. Attention only <em>moves</em> information like this; it is the later layers and MLPs that turn "this is about the Eiffel Tower" into the actual prediction "Paris". <em>Induction heads</em> — which you'll reverse-engineer in Week 7 — are a famous, crisp version of exactly this copy-by-matching behaviour.</p>
         </div>
 
         <h2 class="section-title">🧑‍🤝‍🧑 Multi-head attention</h2>
@@ -77,7 +77,7 @@
             <h4>Several heads in parallel, then recombine</h4>
             <p style="color:#555;">A layer runs <code>n<sub>h</sub></code> heads <em>independently and in parallel</em>, each with its own <code>W<sub>Q</sub>, W<sub>K</sub>, W<sub>V</sub></code>, so each can learn a different routing pattern (one head tracks subject–verb agreement, another copies rare tokens, and so on). Their outputs are concatenated and projected back to the model width by an output matrix <code>W<sub>O</sub> ∈ ℝ<sup>d<sub>model</sub> × d<sub>model</sub></sup></code>:</p>
             <div class="formula"><code>MultiHead(X) = concat(head<sub>1</sub>, …, head<sub>n<sub>h</sub></sub>) W<sub>O</sub> ∈ ℝ<sup>T × d<sub>model</sub></sup></code></div>
-            <p style="color:#555;">Because <code>d<sub>head</sub> = d<sub>model</sub>/n<sub>h</sub></code>, the total compute is similar to one big head, but the model gets several independent "read channels". GPT-2 small, the model you'll open in the lab, has <code>d<sub>model</sub> = 768</code> and <code>n<sub>h</sub> = 12</code> heads of dimension 64, across 12 layers.</p>
+            <p style="color:#555;">Because <code>d<sub>head</sub> = d<sub>model</sub>/n<sub>h</sub></code>, the <code>n<sub>h</sub></code> head outputs (each <code>T×d<sub>head</sub></code>) concatenate to exactly <code>T×d<sub>model</sub></code>, and the total compute is similar to one big head — but the model gets several independent "read channels". GPT-2 small, the model you'll open in the lab, has <code>d<sub>model</sub> = 768</code> and <code>n<sub>h</sub> = 12</code> heads of dimension 64, across 12 layers.</p>
         </div>
 
         <h2 class="section-title">🔢 The MLP (feed-forward) sub-layer</h2>

@@ -3,3 +3,8 @@
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+# Full-resolution figure sources & working PDFs (optimised web copies live in docs/assets/img/)
+Figure for *.png
+figure-brief-*.pdf
+Screenshot *

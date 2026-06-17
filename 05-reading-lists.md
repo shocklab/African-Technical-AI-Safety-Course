@@ -124,7 +124,32 @@ All ✅ verified 2026-06-11 (see log). arXiv-only items are cited as preprints (
 
 ---
 
+## Session 5 — From pretraining to assistant (Week 3)
+
+All ✅ verified 2026-06-15 (see log).
+
+### 5.1 — Pretraining
+1. **Brown, T. B., et al. (2020)**, "Language Models are Few-Shot Learners" (GPT-3). NeurIPS 2020. arXiv:2005.14165.
+2. **Radford, A., Wu, J., Child, R., Luan, D., Amodei, D. & Sutskever, I. (2019)**, "Language Models are Unsupervised Multitask Learners" (GPT-2). OpenAI technical report.
+3. **Sutton, R. (2019)**, "The Bitter Lesson." Essay, incompleteideas.net.
+
+### 5.2 — Supervised fine-tuning
+4. **Ouyang, L., et al. (2022)**, "Training language models to follow instructions with human feedback" (InstructGPT). NeurIPS 2022. arXiv:2203.02155.
+5. **Wei, J., et al. (2022)**, "Finetuned Language Models Are Zero-Shot Learners" (FLAN). ICLR 2022. arXiv:2109.01652.
+6. **Chung, H. W., et al. (2022)**, "Scaling Instruction-Finetuned Language Models." arXiv:2210.11416.
+
+### 5.4 — Lab
+7. **Karpathy, A. — nanochat** (github.com/karpathy/nanochat, MIT, 2025); **nanoGPT** (github.com/karpathy/nanoGPT, MIT).
+
+---
+
 ## Verification log
+
+**Session 5 — verified 2026-06-15** (web cross-check vs arXiv / OpenAI / GitHub). All 7 entries correct.
+Notes: GPT-2 is an OpenAI technical report (no arXiv ID/DOI — don't invent one); FLAN's arXiv year is 2021
+but it's an ICLR 2022 paper (cite the venue, not "arXiv 2022"). InstructGPT facts used in the pages: the
+3-step pipeline (SFT → reward model → PPO) and "outputs from the 1.3B InstructGPT preferred to 175B GPT-3".
+nanochat &amp; nanoGPT both MIT-licensed, confirmed.
 
 **Session 1 — verified 2026-06-14** (web cross-check against arXiv/publisher/official pages). All 9 new
 entries correct; one author fix — Deng et al.'s third author is **Sinno Jialin Pan** (not "Chen"). Notes:

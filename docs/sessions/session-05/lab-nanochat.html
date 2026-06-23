@@ -37,7 +37,7 @@
         <h2 class="section-title">① Read the pipeline: nanochat</h2>
         <div class="technical-detail">
             <h4>The whole stack in one readable repo</h4>
-            <p style="color:#555;">Andrej Karpathy's <strong>nanochat</strong> (github.com/karpathy/nanochat, MIT-licensed) is a deliberately minimal, end-to-end ChatGPT-style pipeline — tokenisation → pretraining → supervised fine-tuning → evaluation → inference → a web chat UI — designed to be read in full. You will not run the whole thing (it targets a multi-GPU node), but you should <em>read</em> it:</p>
+            <p style="color:#555;">Andrej Karpathy's <strong>nanochat</strong> (<a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">github.com/karpathy/nanochat</a>, MIT-licensed) is a deliberately minimal, end-to-end ChatGPT-style pipeline — tokenisation → pretraining → supervised fine-tuning → evaluation → inference → a web chat UI — designed to be read in full. You will not run the whole thing (it targets a multi-GPU node), but you should <em>read</em> it:</p>
             <ul class="styled-list">
                 <li>Find the <strong>pretraining</strong> stage: locate the next-token cross-entropy loss (5.1) in the training loop.</li>
                 <li>Find the <strong>SFT</strong> stage: see how it switches to (prompt, response) data and masks the loss to the response tokens (5.2).</li>
@@ -72,8 +72,8 @@
         <h2 class="section-title">📚 Tools &amp; references</h2>
         <div class="resource-placeholder reading-core">
             <h4>Core</h4>
-            <p>• <strong>Karpathy, nanochat</strong> (github.com/karpathy/nanochat, MIT) — the readable full pipeline; <strong>nanoGPT</strong> (github.com/karpathy/nanoGPT) for the pretraining loop alone.</p>
-            <p>• <strong>Hugging Face Transformers</strong> docs — <code>pipeline</code> and the model hub.</p>
+            <p>• <strong>Karpathy, nanochat</strong> (<a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">github.com/karpathy/nanochat</a>, MIT) — the readable full pipeline; <strong>nanoGPT</strong> (<a href="https://github.com/karpathy/nanoGPT" target="_blank" rel="noopener">github.com/karpathy/nanoGPT</a>) for the pretraining loop alone.</p>
+            <p>• <a href="https://huggingface.co/docs/transformers/index" target="_blank" rel="noopener"><strong>Hugging Face Transformers</strong></a> docs — <code>pipeline</code> and the model hub.</p>
         </div>
 
         <div class="intro-text" style="margin-top:50px;">

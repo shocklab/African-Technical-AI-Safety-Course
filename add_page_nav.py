@@ -29,6 +29,8 @@ INDEX = DOCS / "index.html"
 
 NAV_START = "<!-- PAGE-NAV-START -->"
 NAV_END = "<!-- PAGE-NAV-END -->"
+TOP_START = "<!-- TOP-NAV-START -->"
+TOP_END = "<!-- TOP-NAV-END -->"
 
 
 def strip_tags(s: str) -> str:
@@ -86,6 +88,41 @@ def inject(html: str, nav: str) -> str:
     return html[:div_idx] + nav + "\n" + html[div_idx:]
 
 
+def build_top_nav(page_dir, prev, nxt):
+    """Sticky top bar: Contents on the left, compact prev/next on the right."""
+    home = rel(page_dir, "index.html")
+    links = []
+    if prev:
+        links.append(f'    <a class="tn-prev" href="{rel(page_dir, prev[0])}">← <span class="tn-title">{prev[1]}</span></a>')
+    if nxt:
+        links.append(f'    <a class="tn-next" href="{rel(page_dir, nxt[0])}"><span class="tn-title">{nxt[1]}</span> →</a>')
+    links_html = "\n".join(links)
+    return (
+        f'{TOP_START}\n<div class="top-nav">\n'
+        f'  <a class="tn-home" href="{home}">⌂ Contents</a>\n'
+        f'  <div class="tn-links">\n{links_html}\n  </div>\n'
+        f'</div>\n{TOP_END}'
+    )
+
+
+def inject_top(html: str, topnav: str) -> str:
+    """Replace the TOP-NAV block if present, else the legacy .back-nav div, else
+    insert right after the opening .container. Idempotent."""
+    html = re.sub(
+        re.escape(TOP_START) + r".*?" + re.escape(TOP_END) + r"\n?",
+        "", html, flags=re.DOTALL,
+    )
+    if re.search(r'<div class="back-nav">.*?</div>', html, flags=re.DOTALL):
+        return re.sub(
+            r'[ \t]*<div class="back-nav">.*?</div>\n?',
+            topnav + "\n", html, count=1, flags=re.DOTALL,
+        )
+    m = re.search(r'<div class="container">\n?', html)
+    if not m:
+        raise ValueError("no .back-nav or .container to anchor the top nav")
+    return html[:m.end()] + topnav + "\n" + html[m.end():]
+
+
 def main():
     check = "--check" in sys.argv
     order = detected_order()
@@ -105,7 +142,9 @@ def main():
         nxt = order[i + 1] if i < len(order) - 1 else None
         path = DOCS / href
         html = path.read_text(encoding="utf-8")
-        path.write_text(inject(html, build_nav(path.parent, prev, nxt)), encoding="utf-8")
+        html = inject_top(html, build_top_nav(path.parent, prev, nxt))
+        html = inject(html, build_nav(path.parent, prev, nxt))
+        path.write_text(html, encoding="utf-8")
         print(f"  ✓ nav written → {href}")
 
 

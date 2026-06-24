@@ -17,41 +17,77 @@
     <header>
         <div class="week-badge">Week 2 • Session 2.3</div>
         <h1>Neural scaling laws</h1>
-        <p>Why loss falls as a power law in compute, data and parameters — and why that's a safety fact</p>
+        <p>Why loss falls as a power law in compute, data and parameters — and why that is a safety fact</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>One of the most consequential empirical findings in modern AI is also one of the simplest to state: make a transformer bigger, train it on more data with more compute, and its loss falls along a strikingly regular <strong>power law</strong>. This sub-session makes that precise and draws out why predictable capability growth is the engine behind the safety problem.</p>
+            <p>One of the most consequential empirical findings in modern AI is also one of the simplest to state: make a transformer bigger, train it on more data with more compute, and its loss falls along a strikingly regular <strong>power law</strong>. This sub-session makes that precise. We write down the three scaling laws Kaplan et al. found, derive the compute-optimal trade-off that the Chinchilla paper corrected, work a budget example with real numbers, and meet the <em>data wall</em> that now bounds the whole enterprise. Then we draw out the part that matters for this course: capability is on a forecastable trajectory while safety is not, and that asymmetry is the engine behind the alignment problem.</p>
         </div>
 
         <h2 class="section-title">The empirical law</h2>
-        <p class="lead">Kaplan et al. (2020) found that test loss \(L\) scales as a power law in each of three quantities — model parameters \(N\), dataset size \(D\), and training compute \(C\) — over many orders of magnitude.</p>
+        <p class="lead">Kaplan et al. (2020) measured the test loss \(L\) of language models across roughly seven orders of magnitude and found it scales as a power law in each of three quantities — model parameters \(N\), dataset size \(D\), and training compute \(C\) — whenever the other two are not the bottleneck.</p>
+        <p>Written out, the three relationships are</p>
+        <div class="formula">\[ L(N) \approx \left( \frac{N_c}{N} \right)^{\alpha_N}, \qquad L(D) \approx \left( \frac{D_c}{D} \right)^{\alpha_D}, \qquad L(C) \approx \left( \frac{C_c}{C} \right)^{\alpha_C}. \]</div>
+        <p>Each is a straight line on a log–log plot, with slope equal to minus the exponent. The exponents are small and positive: Kaplan estimated \(\alpha_N \approx 0.076\), \(\alpha_D \approx 0.095\), and \(\alpha_C \approx 0.05\) along the compute-efficient frontier. A small exponent means diminishing returns — a \(10\times\) increase in parameters cuts the (reducible) loss by only a factor of about \(10^{0.076} \approx 1.19\) — but the line does not bend down to a plateau anywhere in the studied range.</p>
         <div class="technical-detail">
-            <h4>The shape</h4>
-            <p style="color:#555;">Holding the others non-bottlenecking, each relationship has the form</p>
-            <div class="formula">\[ L(N) \approx \left( \frac{N_c}{N} \right)^{\alpha_N} \]</div>
-            <p style="color:#555;">a straight line on a log–log plot, with a small exponent (\(\alpha_N\) on the order of \(0.07\)). The remarkable facts are the <em>regularity</em> (clean power laws across ~7 orders of magnitude) and the <em>smoothness</em> (no plateau in sight over the studied range). Architecture details matter far less than scale.</p>
+            <h4>An irreducible floor</h4>
+            <p style="color:#555;">Loss cannot fall to zero: natural language has genuine unpredictability, so there is an entropy floor \(L_\infty\) no model can beat. The honest form of the law separates that floor from the part scale can buy:</p>
+            <div class="formula">\[ L(N) = L_\infty + \left( \frac{N_c}{N} \right)^{\alpha_N}. \]</div>
+            <p style="color:#555;">The power law describes the <em>reducible</em> loss, the gap above the floor. Two facts make the finding remarkable rather than routine: its <strong>regularity</strong> (clean power laws over many orders of magnitude) and its <strong>smoothness</strong> (no plateau in sight). Within wide limits, architectural details — exact depth, width, number of attention heads — move the loss far less than scale does. That is what licenses talking about "scale" as a single dial.</p>
         </div>
+
+        <h2 class="section-title">What a unit of compute buys</h2>
+        <p>To turn this into a budgeting question we need the cost of training. A useful rule of thumb is that one forward-and-backward pass costs about <strong>six floating-point operations per parameter per token</strong> (two for the forward pass, roughly four for the backward pass), so total training compute is</p>
+        <div class="formula">\[ C \approx 6\,N\,D \quad \text{(FLOPs)}. \]</div>
+        <p>With \(N\) in parameters and \(D\) in tokens, a fixed budget \(C\) buys a hyperbola of choices: a big model on little data, or a small model on lots of data, or anything between. The natural question is where on that curve the loss is lowest — and for years the field answered it wrong.</p>
 
         <h2 class="section-title">Compute-optimal training: Chinchilla</h2>
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">Spend a fixed compute budget well</span></h3>
-            <p>If compute \(C\) is fixed (roughly \(C \approx 6ND\) for a dense transformer), how should you split it between a bigger model and more data? Hoffmann et al. (2022) — the "<strong>Chinchilla</strong>" paper — showed the field had been training models that were too <em>large</em> and too <em>data-starved</em>. For compute-optimal training, parameters and tokens should scale roughly <em>in proportion</em>. A smaller model trained on more data (Chinchilla) beat a much larger one (Gopher) at the same compute.</p>
-            <p>The practical upshot you'll meet all term: <strong>data, not just parameters, is a first-class scaling resource</strong> — and a binding constraint, since high-quality text is finite.</p>
+            <p>Hoffmann et al. (2022) — the <strong>Chinchilla</strong> paper — fitted a single parametric law to loss as a joint function of size and data, then asked how to split a fixed budget. Their headline: the field had been training models that were too <em>large</em> and too <em>data-starved</em>. For compute-optimal training, parameters and tokens should grow in <em>near-equal proportion</em>, at roughly <strong>20 training tokens per parameter</strong>. A smaller model trained on more data beats a much larger model trained on less, at the same compute.</p>
+        </div>
+        <p>The law they fitted decomposes loss into the entropy floor plus a finite-model penalty plus a finite-data penalty:</p>
+        <div class="formula">\[ L(N, D) = E + \frac{A}{N^{\alpha}} + \frac{B}{D^{\beta}}. \]</div>
+        <p>The estimated exponents come out close to each other (\(\alpha \approx 0.34\), \(\beta \approx 0.28\)). Minimising \(L\) subject to \(C \approx 6ND\) then implies that the optimal \(N\) and \(D\) both grow as roughly the square root of the budget — so their ratio stays nearly constant as you scale. That constant ratio is the 20-tokens-per-parameter rule.</p>
+        <div class="case-study">
+            <h4>Chinchilla vs Gopher, and a budget you can check</h4>
+            <p>At a fixed budget of about \(5.8 \times 10^{23}\) FLOPs, DeepMind had trained <strong>Gopher</strong> at 280B parameters. Chinchilla spent the <em>same</em> compute on a 70B model trained on 1.4T tokens — four times smaller, four times more data — and beat Gopher across the board. Check the arithmetic with \(C \approx 6ND\): \(6 \times (70\times10^9) \times (1.4\times10^{12}) \approx 5.9\times10^{23}\), and \(1.4\text{T} / 70\text{B} = 20\) tokens per parameter.</p>
+            <p>Now run it forward. Suppose you hold a budget \(C = 10^{24}\) FLOPs and follow the rule \(D \approx 20N\). Then \(C \approx 6N(20N) = 120\,N^2\), so \(N \approx \sqrt{10^{24}/120} \approx 9\times10^{10}\) — about a 90B-parameter model, trained on \(D \approx 1.8\) trillion tokens. The law turns a vague "make it bigger" into a specific, checkable recipe.</p>
+        </div>
+        <div class="info-box">
+            <h4>How the science corrected itself</h4>
+            <p>This is a clean example of an empirical result being overturned by a better-controlled one. Kaplan et al. (2020) had concluded that model size should grow much faster than data, which is why the models of that era — GPT-3 at 175B parameters on 300B tokens, under two tokens per parameter — were enormous and badly undertrained. Chinchilla traced the discrepancy partly to the learning-rate schedule: Kaplan's runs did not decay the learning rate to match each training horizon, which flattered large models. Fix that, and the optimum shifts to equal scaling. The lesson for a safety course is worth keeping: confident, widely-followed scaling advice was wrong for two years, and only careful re-measurement caught it.</p>
+        </div>
+
+        <h2 class="section-title">The data wall</h2>
+        <p>If data must scale in step with parameters, then data — not just chips — becomes a binding constraint, because high-quality human text is finite. Villalobos et al. (2022) estimate that the usable stock of public, high-quality text could be effectively exhausted within this decade if demand keeps growing at recent rates. That projection is what drives the current scramble for synthetic data, multi-epoch training, and licensing deals, and it is why the question "what are we training on?" is now a frontier research question rather than a detail.</p>
+        <div class="info-box">
+            <h4>Why this is an African-safety issue, not a footnote</h4>
+            <p>Read the law again with the data term in view. A model is starved of capability in any language for which the \(B/D^{\beta}\) penalty stays large — that is, wherever high-quality training text is scarce. For most African languages it is very scarce: isiZulu, Yoruba, Amharic and hundreds of others contribute a tiny fraction of the web text these models see. So the weaker performance and thinner safety guarantees in those languages are, in large part, a <em>scaling-inputs</em> gap rather than an architecture gap, which is precisely why "just scale the model up" does not close it, and why data sovereignty (Session 4) and in-language evaluation (Session 11) are technical safety questions, not diversity add-ons. The isiZulu-jailbreak result from Session 1 is this law biting.</p>
         </div>
 
         <h2 class="section-title">Why scaling laws are a safety fact</h2>
+        <p class="lead">The reason a safety course opens with an empirical curve is that the curve sets the terms of the whole problem.</p>
         <div class="card-grid">
-            <div class="card"><h3>Capabilities are forecastable</h3><p>Loss — and, more loosely, many capabilities — can be <em>predicted</em> before a model is trained. Labs decide to build more dangerous systems partly <em>because</em> the payoff is foreseeable. Capability is on a planned trajectory.</p></div>
-            <div class="card"><h3>Safety is not forecastable the same way</h3><p>There is no clean scaling law for "won't deceive its overseer" or "is robust to jailbreaks". The quantity we can predict is the one we're <em>least</em> worried about; the ones we care about resist this kind of extrapolation.</p></div>
-            <div class="card"><h3>Compute becomes the lever</h3><p>If capability tracks compute, then compute is the thing you can forecast, meter, and govern (Sessions 4 and 12). Scaling laws are why "compute governance" is even coherent.</p></div>
+            <div class="card"><h3>Capability is forecastable</h3><p>Loss, and more loosely many capabilities, can be <em>predicted</em> before a model is built. Frontier labs commit budgets to larger systems partly <em>because</em> the payoff is foreseeable. Capability sits on a planned trajectory that you can extrapolate.</p></div>
+            <div class="card"><h3>Safety is not forecastable the same way</h3><p>There is no clean scaling law for "will not deceive its overseer" or "is robust to jailbreaks". The quantity we can extrapolate is the one we worry about least; the properties we care about most resist this kind of prediction.</p></div>
+            <div class="card"><h3>Compute becomes the lever</h3><p>If capability tracks compute, then compute is the thing you can forecast, meter, and govern (Sessions 4 and 12). Scaling laws are the reason "compute governance" is even a coherent idea.</p></div>
         </div>
+        <p>That asymmetry is the uncomfortable core of the field. We can buy a known reduction in loss with a known quantity of compute and data, and we cannot buy a known increase in honesty or controllability the same way. Progress on the axis we can measure is funded and scheduled; progress on the axes we cannot is neither. Much of the rest of the course is an attempt to build measurement and control for the properties that scaling does not hand us for free.</p>
         <div class="warning-box">
             <h4>What scaling laws do <em>not</em> say</h4>
-            <p>They describe smooth falls in <em>aggregate loss</em>. They do <em>not</em> promise that every specific capability appears smoothly, nor that loss keeps falling forever, nor that "more scale" is the only path to capability. The relationship between a smoothly-falling loss and the sometimes-sudden appearance of specific skills is exactly the controversy we take up next.</p>
+            <p>They describe smooth falls in <em>aggregate loss</em>. They do not promise that every specific capability appears smoothly as scale grows, nor that loss keeps falling forever, nor that more scale is the only route to capability. The relationship between a smoothly-falling loss and the sometimes-sudden appearance of a specific skill is exactly the controversy we take up next.</p>
         </div>
+
+        <h2 class="section-title">Questions to bring to class</h2>
+        <ul class="styled-list">
+            <li>The compute-optimal exponents \(\alpha\) and \(\beta\) are nearly equal. Show why that makes the optimal tokens-per-parameter ratio roughly constant as the budget grows.</li>
+            <li>Kaplan and Chinchilla used the same kind of data and reached opposite advice about how to spend compute. What does that disagreement tell you about how much to trust a single scaling study?</li>
+            <li>"Capability is forecastable; safety is not." Name one capability you think <em>is</em> on a predictable curve and one safety property you think is not — and say what makes the difference.</li>
+            <li>If the binding constraint becomes data rather than compute, which governance levers (Session 12) lose their grip, and which become more important?</li>
+        </ul>
 
         <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder reading-core">
@@ -59,10 +95,16 @@
             <p>• Kaplan, J., et al. (2020), "Scaling Laws for Neural Language Models" (<a href="https://arxiv.org/abs/2001.08361" target="_blank" rel="noopener">arXiv:2001.08361</a>).</p>
             <p>• Hoffmann, J., et al. (2022), "Training Compute-Optimal Large Language Models" (Chinchilla; <a href="https://arxiv.org/abs/2203.15556" target="_blank" rel="noopener">arXiv:2203.15556</a>).</p>
         </div>
+        <div class="resource-placeholder">
+            <h4>Supplementary</h4>
+            <p>• Sevilla, J., et al. (2022), "Compute Trends Across Three Eras of Machine Learning" (<a href="https://arxiv.org/abs/2202.05924" target="_blank" rel="noopener">arXiv:2202.05924</a>) — how fast training compute has actually grown.</p>
+            <p>• Villalobos, P., et al. (2022), "Will we run out of data? Limits of LLM scaling based on human-generated data" (<a href="https://arxiv.org/abs/2211.04325" target="_blank" rel="noopener">arXiv:2211.04325</a>) — the data wall.</p>
+            <p>• <strong>Epoch AI</strong> — live data on model size, compute and data trends (<a href="https://epoch.ai/" target="_blank" rel="noopener">epoch.ai</a>).</p>
+        </div>
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Loss falls smoothly — but do <em>abilities</em>? Sub-session <strong>2.4</strong> takes on the "emergence" debate and the broader question of how fast, and how predictably, AI is really progressing.</p>
+            <p>Loss falls smoothly — but do <em>abilities</em>? Sub-session <strong>2.4</strong> takes on the "emergence" debate: whether new skills appear suddenly at scale or whether that suddenness is an artefact of how we measure, and what each answer would mean for predicting dangerous capabilities.</p>
         </div>
 
     </div>

@@ -52,15 +52,15 @@
         </div>
         <div class="info-box">
             <h4>The capability is real, the alignment is absent</h4>
-            <p>This is the crucial framing for the rest of the week. Pretraining buys <strong>capability</strong> — knowledge, reasoning, language — but supplies no <strong>alignment</strong>: no reliable instruction-following, no stable values, no guardrails beyond whatever correlations exist in the data. Everything we call "the assistant" — helpfulness, honesty, harmlessness, the refusal reflex — is added <em>afterwards</em>, by the much smaller post-training stages (5.2 onward). Alignment is a thin layer applied on top of a vast, indifferent predictor.</p>
+            <p>This is the crucial framing for the rest of the week. Pretraining buys <strong>capability</strong> — knowledge, reasoning, language — but supplies no <strong>alignment</strong>: no reliable instruction-following, no stable values, no guardrails beyond whatever correlations exist in the data. Everything we call "the assistant" (helpfulness, honesty, harmlessness, the refusal reflex) is added <em>afterwards</em>, by the much smaller post-training stages (5.2 onward). Alignment is a thin layer applied on top of a vast, indifferent predictor.</p>
         </div>
 
         <h2 class="section-title">Scale, and the "bitter lesson"</h2>
         <p class="lead">Why are base models so big? Because, empirically, scale works — predictably (Session 2.3).</p>
-        <p>The trajectory is stark: GPT-2 (Radford et al., 2019) was a 1.5-billion-parameter model trained on ~40 GB of web text; a year later GPT-3 (Brown et al., 2020) was 175 billion parameters, and the qualitative leap in capability came largely from scale, not a new idea. GPT-2's own paper already noted that zero-shot performance improved "in a log-linear fashion" with model capacity — the scaling-law story you met in 2.3. Richard Sutton's "Bitter Lesson" (2019) names the pattern bluntly: across seventy years of AI, <em>general methods that leverage more computation tend to win</em> over cleverly hand-engineered ones. Pretraining is that lesson incarnate — a simple objective, applied at enormous scale.</p>
+        <p>The trajectory is stark: GPT-2 (Radford et al., 2019) was a 1.5-billion-parameter model trained on ~40 GB of web text; a year later GPT-3 (Brown et al., 2020) was 175 billion parameters, and the qualitative leap in capability came largely from scale, not a new idea. GPT-2's own paper already noted that zero-shot performance improved "in a log-linear fashion" with model capacity — the scaling-law story you met in 2.3. Richard Sutton's "Bitter Lesson" (2019) names the pattern bluntly: across seventy years of AI, <em>general methods that use more computation tend to win</em> over cleverly hand-engineered ones. Pretraining is that lesson incarnate: a simple objective, applied at enormous scale.</p>
         <div class="warning-box">
             <h4>Why a safety course cares about the size of the base model</h4>
-            <p>Two consequences follow directly. First, capabilities — including <em>dangerous</em> ones — arrive as a by-product of scaling an objective that knows nothing of safety; they are present in the base model before anyone decides whether to expose them. Second, because the base model has modelled the whole internet, the safety-relevant question shifts from "can it do X?" (often yes, latently) to "can the thin alignment layer reliably <em>suppress</em> X across all the conditions of deployment?" — which, as the isiZulu jailbreak (Session 1.4) showed, it frequently cannot.</p>
+            <p>Two consequences follow directly. First, capabilities — including <em>dangerous</em> ones — arrive as a by-product of scaling an objective that knows nothing of safety; they are present in the base model before anyone decides whether to expose them. Second, because the base model has modelled the whole internet, the safety-relevant question shifts from "can it do X?" (often yes, latently) to "can the thin alignment layer reliably <em>suppress</em> X across all the conditions of deployment?", which, as the isiZulu jailbreak (Session 1.4) showed, it frequently cannot.</p>
         </div>
 
         <h2 class="section-title">What the model learns from: the data</h2>
@@ -73,7 +73,7 @@
         </div>
         <div class="info-box">
             <h4>"Predict the training distribution" is the real objective</h4>
-            <p>It is worth saying plainly, because it underlies the whole alignment problem: a base model is optimised to reproduce the distribution of its training data, not to be truthful, helpful, or safe. When those happen to coincide on the data, behaviour looks aligned; where they diverge — rare languages, novel situations, adversarial prompts — the model reverts to "what text is plausible here", which need not be what we want. Pretraining gives us a mirror of the internet, not an agent that shares our goals.</p>
+            <p>This underlies the whole alignment problem: a base model is optimised to reproduce the distribution of its training data, not to be truthful, helpful, or safe. When those happen to coincide on the data, behaviour looks aligned; where they diverge — rare languages, novel situations, adversarial prompts — the model reverts to "what text is plausible here", which need not be what we want. Pretraining gives us a mirror of the internet, not an agent that shares our goals.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>

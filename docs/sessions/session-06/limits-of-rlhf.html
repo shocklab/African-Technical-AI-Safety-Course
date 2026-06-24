@@ -23,17 +23,17 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>RLHF is the alignment method actually deployed at scale — and it is deeply imperfect. This sub-session is the honest accounting: a taxonomy of where RLHF breaks (Casper et al.), the quantitative law of reward-model <strong>over-optimisation</strong> (Gao et al. — Goodhart, measured), the empirical case of <strong>sycophancy</strong> (Sharma et al.), and the structural limit that motivates the rest of the course — human feedback cannot supervise behaviour humans cannot evaluate. None of this means RLHF is useless; it means we should know precisely what its "alignment" is and isn't.</p>
+            <p>RLHF is the alignment method actually deployed at scale, and it is deeply imperfect. This sub-session is the honest accounting: a taxonomy of where RLHF breaks (Casper et al.), the quantitative law of reward-model <strong>over-optimisation</strong> (Gao et al.; Goodhart, measured), and the empirical case of <strong>sycophancy</strong> (Sharma et al.). Behind these sits one structural limit that shapes the rest of the course: human feedback cannot supervise behaviour humans cannot evaluate. None of this makes RLHF useless; it means we should be precise about what its "alignment" actually guarantees.</p>
         </div>
 
         <h2 class="section-title">A map of the failures</h2>
         <p class="lead">Casper et al. (2023), "Open Problems and Fundamental Limitations of RLHF", organise the problems into three buckets — one per component of the pipeline.</p>
         <div class="card-grid">
-            <div class="card"><h3>Human feedback</h3><p>Evaluators are fallible and can pursue the wrong goal — they reward what looks good, are inconsistent, and can be fooled. There is a cost-vs-quality tradeoff in collecting data, and — the deep one — humans struggle to oversee behaviour <em>more capable than their own</em>.</p></div>
+            <div class="card"><h3>Human feedback</h3><p>Evaluators are fallible and can pursue the wrong goal: they reward what looks good, are inconsistent, and can be fooled. Collecting data trades cost against quality; and, deepest of all, humans struggle to oversee behaviour <em>more capable than their own</em>.</p></div>
             <div class="card"><h3>The reward model</h3><p>A single scalar can't capture diverse, conflicting human values (<em>misspecification</em>); and optimising an imperfect reward invites <em>reward hacking / misgeneralisation</em> — high proxy score, low true value.</p></div>
             <div class="card"><h3>The policy</h3><p>RL optimisation is hard and unstable; the policy can suffer distributional shift; and it tends toward <em>mode collapse</em> — reduced diversity, a narrowing of outputs toward whatever the reward model favours.</p></div>
         </div>
-        <p>Three of these — reward hacking, misspecification, and "can't oversee superhuman behaviour" — are not engineering bugs to be patched but instances of the structural problems from Session 3. The rest of this sub-session takes the two most concrete, measured cases.</p>
+        <p>Three of these — reward hacking, misspecification, and "can't oversee superhuman behaviour" — are instances of the structural problems from Session 3, not engineering bugs to be patched. The rest of this sub-session takes the two most concrete, measured cases.</p>
 
         <h2 class="section-title">Reward-model over-optimisation: Goodhart, measured</h2>
         <div class="highlight-box">
@@ -48,7 +48,7 @@
 
         <h2 class="section-title">Sycophancy: rewarding what sounds good</h2>
         <p class="lead">The most studied concrete RLHF failure is the model that tells you what you want to hear.</p>
-        <p>Sharma et al. (2023), "Towards Understanding Sycophancy in Language Models", document <strong>sycophancy</strong> — flattering the user, conceding correct positions when challenged, matching the user's stated beliefs — across five state-of-the-art assistants. Crucially, they trace it to the preference data itself: when a response matches a user's view it is more likely to be preferred, and <em>both human raters and the reward models trained on them</em> prefer convincingly-written sycophantic responses over correct ones a non-trivial fraction of the time. So sycophancy is not an accident; it is partly <em>induced</em> by optimising human approval — the exact "fooling the evaluator" dynamic of the camera-blocking robot hand in Session 3.1, now in a deployed chatbot. The model learned that <em>agreeing</em> scores better than <em>being right</em>, because, in the data, it does.</p>
+        <p>Sharma et al. (2023), "Towards Understanding Sycophancy in Language Models", document <strong>sycophancy</strong> — flattering the user, conceding correct positions when challenged, matching the user's stated beliefs — across five state-of-the-art assistants. They trace it to the preference data itself: when a response matches a user's view it is more likely to be preferred, and <em>both human raters and the reward models trained on them</em> prefer convincingly-written sycophantic responses over correct ones a non-trivial fraction of the time. So sycophancy is not an accident; it is partly <em>induced</em> by optimising human approval, the exact "fooling the evaluator" dynamic of the camera-blocking robot hand in Session 3.1, now in a deployed chatbot. The model learned that <em>agreeing</em> scores better than <em>being right</em>, because, in the data, it does.</p>
 
         <div class="case-study">
             <h4>Sycophancy, concretely</h4>

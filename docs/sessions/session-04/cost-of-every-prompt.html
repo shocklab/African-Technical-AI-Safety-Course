@@ -145,7 +145,7 @@
 </div>
 <div class="technical-detail">
 <h4>What "effort" Means in Claude Code</h4>
-<p style="margin-bottom: 15px;">Claude's API exposes an <strong>effort</strong> setting that controls how many tokens the model is willing to spend on a task. Anthropic's documentation describes it as <em>"a behavioral signal, not a strict token budget"</em> — so it does not map onto a fixed energy figure, but it does directly change token use, and therefore energy. Crucially, effort affects <strong>all tokens</strong> in a response, including tool calls: lower effort means the model makes fewer tool calls and writes less; higher effort means more exploration, more tool calls, and deeper reasoning.</p>
+<p style="margin-bottom: 15px;">Claude's API exposes an <strong>effort</strong> setting that controls how many tokens the model is willing to spend on a task. Anthropic's documentation describes it as <em>"a behavioral signal, not a strict token budget"</em> — so it does not map onto a fixed energy figure, but it does directly change token use, and therefore energy. Effort affects <strong>all tokens</strong> in a response, including tool calls: lower effort means the model makes fewer tool calls and writes less; higher effort means more exploration, more tool calls, and deeper reasoning.</p>
 <table class="comparison-table">
 <thead>
 <tr>
@@ -277,7 +277,7 @@
 <div class="highlight-box">
 <h3><span style="color: #ffffff;">What This Means for You as a Researcher</span></h3>
 <p>The per-prompt footprint of AI is genuinely small. The footprint of <em>agentic</em> AI is larger — not because any single step is expensive, but because there are so many steps. The same property that makes these tools powerful for research (they keep working autonomously) is what drives their energy use.</p>
-<p style="margin-top: 15px;">This connects directly to the rebound problem we examine in the next session: as agentic tools make each task cheaper and easier, we tend to run far more of them. The individual cost falls; the total can still rise. The responsible move is not to avoid these tools, but to use the right effort level for the job, and to be honest — as we have tried to be here — about how uncertain the numbers really are.</p>
+<p style="margin-top: 15px;">This connects directly to the rebound problem we examine in the next session: as agentic tools make each task cheaper and easier, we tend to run far more of them. The individual cost falls; the total can still rise. The responsible move is to use the right effort level for the job, and to be honest — as we have tried to be here — about how uncertain the numbers really are.</p>
 </div>
 <!-- SECTION 3: THE FLIGHT COMPARISON -->
 <h2 class="section-title">A Worked Example: The Flight Comparison</h2>
@@ -323,13 +323,13 @@
 </tr>
 </tbody>
 </table>
-<p style="margin-top: 15px; color: #666;"><strong>What this tells us:</strong> Depending entirely on which figures you use, one transatlantic flight equals somewhere between 300,000 and 7.6 million ChatGPT text queries. This is not a rounding error — it reflects the difference between company-optimised infrastructure and real-world large-model deployments, as well as genuine uncertainty about what "a ChatGPT query" even means in terms of model size and compute.</p>
+<p style="margin-top: 15px; color: #666;"><strong>What this tells us:</strong> Depending entirely on which figures you use, one transatlantic flight equals somewhere between 300,000 and 7.6 million ChatGPT text queries. That spread reflects the difference between company-optimised infrastructure and real-world large-model deployments, as well as genuine uncertainty about what "a ChatGPT query" even means in terms of model size and compute.</p>
 </div>
 
 <div class="highlight-box">
 <h3><span style="color: #ffffff;">Why the Range Is the Lesson</span></h3>
-<p>The fact that this calculation can produce answers spanning two orders of magnitude is not a failure of the analysis — it is the most important finding. It tells us that glib comparisons ("ChatGPT = X flights per day") depend almost entirely on unstated assumptions, and that the opacity of AI companies makes it impossible to pin down a single honest answer.</p>
-<p style="margin-top: 15px;">As researchers, the appropriate response is not to pick the number that fits our preferred narrative, but to present the range honestly and to push for better disclosure.</p>
+<p>That this calculation can produce answers spanning two orders of magnitude is the most important finding here, not a failure of the analysis. It tells us that glib comparisons ("ChatGPT = X flights per day") depend almost entirely on unstated assumptions, and that the opacity of AI companies makes it impossible to pin down a single honest answer.</p>
+<p style="margin-top: 15px;">As researchers, the appropriate response is to present the range honestly and to push for better disclosure, rather than picking the number that fits our preferred narrative.</p>
 </div>
 
 <div class="resource-placeholder">

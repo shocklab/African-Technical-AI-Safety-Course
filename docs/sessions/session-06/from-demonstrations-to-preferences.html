@@ -34,12 +34,12 @@
 
         <h2 class="section-title">The wall, restated</h2>
         <p class="lead">Recall the asymmetry from Session 5.2: for most of what we want from an assistant, <em>judging</em> is far easier than <em>producing</em>.</p>
-        <p>You may not be able to write the ideal answer to an open-ended question, or the perfectly calibrated, honest response — but shown two attempts, you can usually say which is better. SFT cannot use that ability: its loss, "make this target more likely", needs a single demonstration to imitate and has no way to encode "A &gt; B". So SFT inherits three limits — it caps at demonstration quality, it can't express comparative judgement, and it has no clean negative signal (Session 5.2). The opening is obvious in hindsight: build the training signal out of the <em>comparisons</em> humans can reliably give, not the demonstrations they struggle to author.</p>
+        <p>You may not be able to write the ideal answer to an open-ended question, or the perfectly calibrated, honest response. But shown two attempts, you can usually say which is better. SFT cannot use that ability: its loss, "make this target more likely", needs a single demonstration to imitate and has no way to encode "A &gt; B". So SFT inherits three limits — it caps at demonstration quality, it can't express comparative judgement, and it has no clean negative signal (Session 5.2). The opening is obvious in hindsight: build the training signal out of the <em>comparisons</em> humans can reliably give, not the demonstrations they struggle to author.</p>
 
         <h2 class="section-title">The idea: optimise for what humans prefer</h2>
         <div class="info-box">
             <h4>The move in one sentence</h4>
-            <p>Instead of "imitate this answer", RLHF says: <em>collect human judgements of which of two model outputs is better, distil those judgements into a learned <strong>reward model</strong>, and then use reinforcement learning to push the model toward outputs the reward model scores highly.</em> Comparisons are cheaper and more reliable than demonstrations; the reward model turns a pile of "A &gt; B" judgements into a signal you can optimise against at scale; and — crucially — the result can exceed the quality of any single human demonstration, because it is chasing "better" rather than "copy this".</p>
+            <p>Instead of "imitate this answer", RLHF says: <em>collect human judgements of which of two model outputs is better, distil those judgements into a learned <strong>reward model</strong>, and then use reinforcement learning to push the model toward outputs the reward model scores highly.</em> Comparisons are cheaper and more reliable than demonstrations; the reward model turns a pile of "A &gt; B" judgements into a signal you can optimise against at scale; and the result can exceed the quality of any single human demonstration, because it is chasing "better" rather than "copy this".</p>
         </div>
         <p>That last point is the real prize. SFT is bounded above by its demonstrators. A preference-trained model can, in principle, climb past them: as long as humans can <em>recognise</em> improvements, the model can be pushed toward them even if no human wrote the ideal answer. The same property is also the danger — "push toward what humans recognise as better" quietly becomes "push toward what <em>looks</em> better to a rater", and those diverge (we will see this as sycophancy in 6.4).</p>
 
@@ -55,7 +55,7 @@
         </div>
         <div class="info-box">
             <h4>Why a safety course studies the training recipe so closely</h4>
-            <p>RLHF is not a footnote — it is the technique that turned capable-but-unusable base models into the assistants now deployed to hundreds of millions of people. Its successes (InstructGPT) and its failure modes (6.4) are therefore not academic: they are the alignment method actually in production. Understanding precisely what it optimises is understanding what today's "aligned" models are aligned <em>to</em>.</p>
+            <p>RLHF is the technique that turned capable-but-unusable base models into the assistants now deployed to hundreds of millions of people. Its successes (InstructGPT) and its failure modes (6.4) therefore carry real stakes: they belong to the alignment method actually in production. Understanding precisely what it optimises is understanding what today's "aligned" models are aligned <em>to</em>.</p>
         </div>
 
         <h2 class="section-title">The three-step pipeline</h2>

@@ -23,7 +23,7 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>The reward model is the hinge of RLHF: it converts a pile of "response A is better than B" judgements into a function \(r_\phi(x,y)\) that scores any response, which the policy can then be optimised against. This sub-session derives that function from the classic <strong>Bradley–Terry</strong> model of paired comparisons, writes down its training loss, and — most importantly for this course — names exactly what it is: a <em>learned, scalar proxy</em> for human approval, with all the Goodhart exposure of Session 3.1 built in.</p>
+            <p>The reward model is the hinge of RLHF: it converts a pile of "response A is better than B" judgements into a function \(r_\phi(x,y)\) that scores any response, which the policy can then be optimised against. This sub-session derives that function from the classic <strong>Bradley–Terry</strong> model of paired comparisons, writes down its training loss, and names exactly what it is: a <em>learned, scalar proxy</em> for human approval, with all the Goodhart exposure of Session 3.1 built in.</p>
         </div>
 
         <h2 class="section-title">From comparisons to a score</h2>
@@ -38,7 +38,7 @@
 
         <div class="info-box">
             <h4>The logistic, in numbers</h4>
-            <p>The Bradley–Terry probability depends only on the reward gap \(\Delta = r_\phi(x,y_w) - r_\phi(x,y_l)\): a gap of \(0\) gives \(\sigma(0)=0.5\) (a coin-flip — the model is indifferent), a gap of \(1\) gives \(\sigma(1)\approx 0.73\), and a gap of \(2\) gives \(\sigma(2)\approx 0.88\). So the reward scale is calibrated in <em>log-odds of preference</em>: training nudges the gap until the model's predicted preference probabilities match how often humans actually chose each response. A reward difference is therefore not an arbitrary number — it is a statement about how reliably one response beats another.</p>
+            <p>The Bradley–Terry probability depends only on the reward gap \(\Delta = r_\phi(x,y_w) - r_\phi(x,y_l)\): a gap of \(0\) gives \(\sigma(0)=0.5\) (a coin-flip — the model is indifferent), a gap of \(1\) gives \(\sigma(1)\approx 0.73\), and a gap of \(2\) gives \(\sigma(2)\approx 0.88\). So the reward scale is calibrated in <em>log-odds of preference</em>: training nudges the gap until the model's predicted preference probabilities match how often humans actually chose each response. A reward difference is therefore a statement about how reliably one response beats another, not an arbitrary number.</p>
         </div>
 
         <h2 class="section-title">Training the reward model</h2>
@@ -54,7 +54,7 @@
         <h2 class="section-title">The reward model is a proxy — by construction</h2>
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">Goodhart, pre-loaded</span></h3>
-            <p>Re-read Session 3.1 with \(r_\phi\) in the role of the proxy. We cannot write down "be genuinely helpful and honest", so we <em>learn</em> a stand-in from human comparisons — and then optimise it. Every gap between \(r_\phi\) and true human values is a place the optimiser can exploit: a response that scores high on the reward model without being good. The reward model is unbiased and useful in the region of responses it was trained on; push the policy into regions it never saw and the proxy and the goal come apart. This is not a flaw in any particular reward model — it is what optimising a learned proxy <em>means</em>.</p>
+            <p>Re-read Session 3.1 with \(r_\phi\) in the role of the proxy. We cannot write down "be genuinely helpful and honest", so we <em>learn</em> a stand-in from human comparisons — and then optimise it. Every gap between \(r_\phi\) and true human values is a place the optimiser can exploit: a response that scores high on the reward model without being good. The reward model is unbiased and useful in the region of responses it was trained on; push the policy into regions it never saw and the proxy and the goal come apart. This is what optimising a learned proxy <em>means</em>, not a flaw in any particular reward model.</p>
         </div>
         <div class="technical-detail">
             <h4>Three built-in limitations to keep in view</h4>

@@ -23,7 +23,7 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Every model in this course is a <strong>transformer</strong>. This sub-session builds one properly — not as a black box but as a sequence of linear-algebraic operations you could, in principle, trace by hand. We go slowly through <em>attention</em> (with explicit matrix shapes and a worked example), then assemble the full block, and finish with the <strong>residual-stream</strong> picture that mechanistic interpretability (Weeks 7–8) literally reads off.</p>
+            <p>Every model in this course is a <strong>transformer</strong>. This sub-session builds one properly, as a sequence of linear-algebraic operations you could, in principle, trace by hand rather than a black box. We go slowly through <em>attention</em> (with explicit matrix shapes and a worked example), then assemble the full block, and finish with the <strong>residual-stream</strong> picture that mechanistic interpretability (Weeks 7–8) literally reads off.</p>
             <p>Notation we'll keep throughout: a sequence of \(T\) tokens; a model (residual-stream) dimension \(d_{\text{model}}\); \(n_h\) attention heads each of dimension \(d_{\text{head}} = d_{\text{model}}/n_h\) (why the dimension is divided this way is explained under <em>Multi-head attention</em>, below); a vocabulary of size \(V\).</p>
         </div>
 
@@ -103,7 +103,7 @@
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">The single most useful picture</span></h3>
             <p>Notice the "\(x \leftarrow x + \ldots\)". A block never <em>replaces</em> the activations; it <em>adds</em> to them. So each position carries a running vector — the <strong>residual stream</strong> — that begins as the token+position embedding and accumulates contributions as it passes up through the layers. Every attention head and every MLP <em>reads</em> from the stream (via LayerNorm) and <em>writes</em> a vector back into it by addition.</p>
-            <p>So the residual stream is a shared <strong>communication channel</strong>: earlier components write information that later components read. "Finding a circuit" (Week 7) means identifying which components write a particular piece of information and which later ones read it — a question you can actually answer, because the writes are additive and the reads are linear. This additive view is not a metaphor; it is the literal computation.</p>
+            <p>So the residual stream is a shared <strong>communication channel</strong>: earlier components write information that later components read. "Finding a circuit" (Week 7) means identifying which components write a particular piece of information and which later ones read it — a question you can actually answer, because the writes are additive and the reads are linear. This additive view is the literal computation, not a metaphor.</p>
         </div>
 
         <h2 class="section-title">From the residual stream to a prediction</h2>

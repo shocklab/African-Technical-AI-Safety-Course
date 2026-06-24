@@ -59,7 +59,7 @@
                 <li><strong>Optimiser:</strong> a system "internally searching through a search space … looking for those elements that score high according to some objective function explicitly represented within the system." A chess engine doing tree search is an optimiser; a lookup table is not.</li>
                 <li><strong>Base optimiser:</strong> the <em>training process</em> — e.g. stochastic gradient descent selecting parameters to minimise a loss. Its objective is the <strong>base objective</strong> (the loss/reward we wrote).</li>
                 <li><strong>Mesa-optimiser:</strong> a learned model that is <em>itself</em> running an optimisation/search internally. ("Mesa" is the Greek-derived opposite of "meta": it arises <em>beneath</em> the base optimiser.) Whether today's LLMs are genuinely mesa-optimisers is an open empirical question — but the framing is what generates the risk.</li>
-                <li><strong>Mesa-objective:</strong> the objective the mesa-optimiser pursues. Crucially it is <em>not specified by us</em>: it is "simply whatever objective was found by the base optimiser that produced good performance on the training environment." There is no step where we get to write it down.</li>
+                <li><strong>Mesa-objective:</strong> the objective the mesa-optimiser pursues. It is <em>not specified by us</em>: it is "simply whatever objective was found by the base optimiser that produced good performance on the training environment." There is no step where we get to write it down.</li>
             </ul>
         </div>
         <div class="technical-detail">

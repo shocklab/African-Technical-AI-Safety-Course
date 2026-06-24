@@ -123,7 +123,7 @@
         <h2 class="section-title">LayerNorm and the full block</h2>
         <div class="technical-detail">
             <h4>One transformer block</h4>
-            <p style="color:#555;">A block wraps attention and MLP with <strong>LayerNorm</strong> (which rescales each position's vector to zero mean and unit variance, stabilising training) and — crucially — adds each sub-layer's output back to its input. Modern transformers use the <em>pre-norm</em> arrangement:</p>
+            <p style="color:#555;">A block wraps attention and MLP with <strong>LayerNorm</strong> (which rescales each position's vector to zero mean and unit variance, stabilising training) and adds each sub-layer's output back to its input. Modern transformers use the <em>pre-norm</em> arrangement:</p>
             <div class="formula">\[ \begin{aligned} x &\leftarrow x + \operatorname{MultiHead}(\operatorname{LayerNorm}(x)) \\ x &\leftarrow x + \operatorname{MLP}(\operatorname{LayerNorm}(x)) \end{aligned} \]</div>
             <p style="color:#555;">Stack \(L\) such blocks (12 in GPT-2 small, ~100 in frontier models). Each block reads the current state, computes a correction, and adds it back.</p>
         </div>

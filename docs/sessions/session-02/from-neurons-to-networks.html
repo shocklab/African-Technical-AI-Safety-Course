@@ -66,6 +66,15 @@
             <figcaption><strong>From a neuron to a network.</strong> (A) one neuron, \( a = \sigma(w \cdot x + b) \); (B) a layer stacks neurons into \( h = \sigma(Wx + b) \) — each neuron's weights are one row of \( W \); (C) a deep network chains \( L \) such layers. Without the nonlinearity the whole stack would collapse to a single linear map.</figcaption>
         </figure>
 
+        <div class="case-study">
+            <h4>A forward pass by hand</h4>
+            <p>Make the layer concrete with one neuron. Take input \(x = (1,\, 2,\, -1)\) and a neuron with weights \(w = (0.5,\, -1,\, 2)\) and bias \(b = 0.5\). Its pre-activation is \(w\cdot x + b = (0.5)(1) + (-1)(2) + (2)(-1) + 0.5 = -3\), and with ReLU the output is \(\sigma(-3) = \max(0,-3) = 0\) — this neuron is "off" for this input. A second neuron with \(w' = (1,1,1)\) and \(b'=0\) gives \(w'\cdot x = 2\), so \(\sigma(2)=2\). Stack the two and the layer outputs \((0,\,2)\). A whole network is just this, repeated: hundreds of billions of such weighted sums and ReLUs, arranged in layers. Nothing in a forward pass is more exotic than what you just did by hand.</p>
+        </div>
+        <div class="technical-detail">
+            <h4>Why the nonlinearity is not optional</h4>
+            <p style="color:#555;">It is worth seeing why \(\sigma\) earns its place. Drop it, and two layers compose to \(W_2(W_1 x + b_1) + b_2 = (W_2 W_1)\,x + (W_2 b_1 + b_2)\), which is just one affine map \(W' x + b'\). Without a nonlinearity, a network of <em>any</em> depth collapses to a single linear layer and can only draw straight decision boundaries — no amount of stacking buys anything. Insert ReLU between the layers and the collapse is blocked: each layer bends the input space along a different set of hyperplanes, and composing many such bends lets the network carve the highly non-linear regions real data lives in. That is the formal content behind "depth buys expressive power", and the reason every block in a transformer (2.2) carries a nonlinearity.</p>
+        </div>
+
         <h2 class="section-title">Training = minimising a loss</h2>
         <p class="lead">"Learning" is optimisation. We choose a loss that scores predictions against targets and descend it.</p>
         <div class="technical-detail">
@@ -76,6 +85,10 @@
                 <li><strong>Step.</strong> Update \( \theta \leftarrow \theta - \eta\, \nabla_\theta L \) for a small learning rate \( \eta \) (in practice, a variant like Adam). Each step estimates the gradient on a <em>mini-batch</em> — a small random subset of the data, far cheaper than using all of it — and we repeat for a very long time.</li>
             </ul>
             <p style="color:#555; margin-top:12px;">That is the whole of it. Everything a frontier model "knows" is the low-loss configuration of \( \theta \) this process settles into on its training data.</p>
+        </div>
+        <div class="technical-detail">
+            <h4>What gradient descent is actually doing</h4>
+            <p style="color:#555;">The gradient \( \nabla_\theta L \) points in the direction in parameter space along which the loss rises fastest, so stepping the other way lowers it, with the learning rate \( \eta \) setting the step size. Back-propagation is just the chain rule organised so that one backward pass — costing about as much as one forward pass — yields the gradient for <em>all</em> the parameters at once, which is what makes training billion-parameter models feasible at all. Two honest caveats matter later. The loss surface is wildly non-convex, so this finds a <em>low-loss region</em>, not the global minimum, and which region depends on the initialisation and the order of the data. And the result is a vast array of numbers that happens to fit the data, with no guarantee of being readable: gradient descent optimises for low loss, never for interpretability. Both points come back in Session 3 and in the interpretability weeks.</p>
         </div>
         <div class="info-box">
             <h4>What the language-model loss actually is</h4>

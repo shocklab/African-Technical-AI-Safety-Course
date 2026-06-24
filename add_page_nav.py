@@ -49,6 +49,30 @@ def detected_order():
     return pairs
 
 
+def detected_groups():
+    """Map each built sub-session href -> (short session label, [(href, text), ...]),
+    for sessions that have more than one built sub-session (drives the top-bar dropdown)."""
+    html = INDEX.read_text(encoding="utf-8")
+    groups = {}
+    for m in re.finditer(
+        r'<div class="session-group">(.*?)</div>\s*<ul class="subsession-list">(.*?)</ul>',
+        html, flags=re.DOTALL,
+    ):
+        label = re.split(r"\s*·\s*", strip_tags(m.group(1)))[0].strip()
+        items = [
+            (href, strip_tags(inner))
+            for href, inner in re.findall(
+                r'<a[^>]*href="((?:sessions|session)[^"]+\.html)"[^>]*>(.*?)</a>',
+                m.group(2), flags=re.DOTALL,
+            )
+            if (DOCS / href).exists()
+        ]
+        if len(items) > 1:
+            for href, _ in items:
+                groups[href] = (label, items)
+    return groups
+
+
 def rel(from_dir: Path, to_href: str) -> str:
     """Relative href from a page's directory to a docs-relative target."""
     target = (DOCS / to_href).resolve()
@@ -88,9 +112,25 @@ def inject(html: str, nav: str) -> str:
     return html[:div_idx] + nav + "\n" + html[div_idx:]
 
 
-def build_top_nav(page_dir, prev, nxt):
-    """Sticky top bar: Contents on the left, compact prev/next on the right."""
+def build_top_nav(page_dir, prev, nxt, group, cur_href):
+    """Sticky top bar: Contents (left), an optional in-session dropdown (centre),
+    and compact prev/next (right)."""
     home = rel(page_dir, "index.html")
+    menu = ""
+    if group:
+        label, items = group
+        lis = []
+        for ih, itext in items:
+            if ih == cur_href:
+                lis.append(f'      <li><span class="tn-current">{itext}</span></li>')
+            else:
+                lis.append(f'      <li><a href="{rel(page_dir, ih)}">{itext}</a></li>')
+        menu = (
+            '  <details class="tn-menu">\n'
+            f'    <summary>{label}</summary>\n'
+            '    <ul>\n' + "\n".join(lis) + '\n    </ul>\n'
+            '  </details>\n'
+        )
     links = []
     if prev:
         links.append(f'    <a class="tn-prev" href="{rel(page_dir, prev[0])}">← <span class="tn-title">{prev[1]}</span></a>')
@@ -100,6 +140,7 @@ def build_top_nav(page_dir, prev, nxt):
     return (
         f'{TOP_START}\n<div class="top-nav">\n'
         f'  <a class="tn-home" href="{home}">⌂ Contents</a>\n'
+        f'{menu}'
         f'  <div class="tn-links">\n{links_html}\n  </div>\n'
         f'</div>\n{TOP_END}'
     )
@@ -126,6 +167,7 @@ def inject_top(html: str, topnav: str) -> str:
 def main():
     check = "--check" in sys.argv
     order = detected_order()
+    groups = detected_groups()
 
     print(f"Detected {len(order)} built page(s) in index.html order:")
     for i, (href, title) in enumerate(order):
@@ -142,7 +184,7 @@ def main():
         nxt = order[i + 1] if i < len(order) - 1 else None
         path = DOCS / href
         html = path.read_text(encoding="utf-8")
-        html = inject_top(html, build_top_nav(path.parent, prev, nxt))
+        html = inject_top(html, build_top_nav(path.parent, prev, nxt, groups.get(href), href))
         html = inject(html, build_nav(path.parent, prev, nxt))
         path.write_text(html, encoding="utf-8")
         print(f"  ✓ nav written → {href}")

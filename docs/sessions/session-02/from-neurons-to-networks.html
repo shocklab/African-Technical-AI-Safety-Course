@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session 2.1 — From Neurons to Networks</title>
-    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -17,23 +16,23 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 2 • Session 2.1</div>
-        <h1>🧮 <span style="color:#ffffff;">From Neurons to Networks</span></h1>
+        <h1>From neurons to networks</h1>
         <p>A fast, maths-honest recap: what a network computes, and what training actually does</p>
     </header>
     <div class="content">
 
         <div class="highlight-box">
-            <h3>🧮 <span style="color:#ffffff;">Week 2 — deep learning &amp; scaling laws</span></h3>
+            <h3><span style="color:#ffffff;">Week 2 — deep learning &amp; scaling laws</span></h3>
             <p>To reason about how these systems fail, you need a working picture of how they're built. This session rebuilds that picture at the level a mathematician wants — functions, parameters, gradients — then shows why capability scales so predictably with size.</p>
             <p style="margin-bottom:0;"><strong>This session's sub-sessions:</strong> 2.1 from neurons to networks · 2.2 inside the transformer · 2.3 neural scaling laws · 2.4 pace of progress &amp; the emergence debate · 2.5 lab (Colab).</p>
         </div>
 
         <div class="intro-text">
-            <h2>🎯 What we'll cover</h2>
+            <h2>What we'll cover</h2>
             <p>You have met neural networks before, but cohorts vary, so we set a common, precise baseline. This sub-session frames a network as a parametrised function fit by gradient descent — nothing mystical — and pins down the few ideas (the loss, the gradient, the objective) that the safety arguments later hang on.</p>
         </div>
 
-        <h2 class="section-title">📐 A network is a parametrised function</h2>
+        <h2 class="section-title">A network is a parametrised function</h2>
         <p class="lead">Strip away the biology metaphor and a neural network is just a function \( f_\theta : \mathbb{R}^n \to \mathbb{R}^m \) with a great many parameters \( \theta \).</p>
         <div class="technical-detail">
             <h4>From a neuron to a layer</h4>
@@ -49,7 +48,7 @@
             <figcaption><strong>From a neuron to a network.</strong> (A) one neuron, \( a = \sigma(w \cdot x + b) \); (B) a layer stacks neurons into \( h = \sigma(Wx + b) \) — each neuron's weights are one row of \( W \); (C) a deep network chains \( L \) such layers. Without the nonlinearity the whole stack would collapse to a single linear map.</figcaption>
         </figure>
 
-        <h2 class="section-title">🎯 Training = minimising a loss</h2>
+        <h2 class="section-title">Training = minimising a loss</h2>
         <p class="lead">"Learning" is optimisation. We choose a loss that scores predictions against targets and descend it.</p>
         <div class="technical-detail">
             <h4>The loop, precisely</h4>
@@ -61,23 +60,23 @@
             <p style="color:#555; margin-top:12px;">That is the whole of it. Everything a frontier model "knows" is the low-loss configuration of \( \theta \) this process settles into on its training data.</p>
         </div>
         <div class="info-box">
-            <h4>💡 What the language-model loss actually is</h4>
+            <h4>What the language-model loss actually is</h4>
             <p>A language model is trained to predict the next <strong>token</strong> — a chunk of text, defined precisely in Session 2.2 — given the tokens before it. At each position it outputs a probability distribution \( p_\theta \) over the whole vocabulary (the <em>softmax</em> of its output scores; softmax is defined in 2.2), and the loss is the <strong>cross-entropy</strong>:</p>
             <div class="formula">\[ L = -\frac{1}{T} \sum_i \log p_\theta\!\left(t_i \mid t_{&lt;i}\right) \]</div>
             <p>where \( t_i \) is the true token at position \( i \) and \( t_{&lt;i} \) all tokens before it. (General cross-entropy is \( -\sum p_{\text{true}} \log p_\theta \); because the true "distribution" puts all its mass on the one token that actually occurred, the sum collapses to the negative log-probability of that token.) So minimising \( L \) just means making the correct token as probable as possible. Two things to carry forward: this is exactly the "loss" that falls as a power law in Session 2.3; and the model is never told <em>how</em> to be right, only scored on the probability it placed on what actually came next.</p>
         </div>
 
-        <h2 class="section-title">⚠️ Why this framing matters for safety</h2>
+        <h2 class="section-title">Why this framing matters for safety</h2>
         <div class="highlight-box">
-            <h3>🎯 <span style="color:#ffffff;">We get to choose the loss — not the behaviour</span></h3>
+            <h3><span style="color:#ffffff;">We get to choose the loss — not the behaviour</span></h3>
             <p>This is the hinge the rest of the course turns on. We do not program behaviour; we specify a <em>loss</em> and an <em>optimiser</em>, and behaviour is whatever minimises that loss on that data. The model optimises the objective we <em>wrote down</em>, which is only ever a proxy for what we <em>meant</em>. Every alignment failure you'll study is, at root, a gap between those two — surfaced by an optimiser doing exactly its job.</p>
         </div>
         <div class="info-box">
-            <h4>💡 Two consequences to keep</h4>
+            <h4>Two consequences to keep</h4>
             <p>First, <strong>the objective is a specification problem</strong>: get the loss subtly wrong and you get subtly wrong behaviour, at scale (Session 3, Goodhart). Second, <strong>the parameters are opaque</strong>: gradient descent finds <em>a</em> solution, not an interpretable one — which is exactly why we need mechanistic interpretability (Weeks 7–8) to read back out what the network actually learned.</p>
         </div>
 
-        <h2 class="section-title">📚 Readings</h2>
+        <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder reading-core">
             <h4>Optional refreshers</h4>
             <p>• <a href="https://www.3blue1brown.com/topics/neural-networks" target="_blank" rel="noopener">3Blue1Brown, "Neural Networks" video series</a> — the cleanest visual intuition for gradient descent and back-propagation.</p>
@@ -85,7 +84,7 @@
         </div>
 
         <div class="intro-text" style="margin-top:50px;">
-            <h2>↪️ Next</h2>
+            <h2>Next</h2>
             <p>The networks behind modern AI have a specific architecture — the <strong>transformer</strong>. Sub-session <strong>2.2</strong> opens it up, with the attention mechanism and the residual-stream view we'll reuse when we get to interpretability.</p>
         </div>
 

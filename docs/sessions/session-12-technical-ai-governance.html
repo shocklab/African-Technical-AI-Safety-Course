@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session 12 — Technical AI Governance</title>
-    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -17,18 +16,18 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 6 • Session 12</div>
-        <h1>🏛️ <span style="color:#ffffff;">Technical AI Governance</span></h1>
+        <h1>Technical AI governance</h1>
         <p>The technical mechanisms — assessment, access, verification, security — that could make safety policy enforceable, and what they look like from Africa</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
-            <h2>🎯 What we'll cover</h2>
+            <h2>What we'll cover</h2>
             <p>Session 11 built evaluations: ways to measure what a model can do and whether it will. This session asks the next question — <strong>given a measurement, who acts on it, and how would anyone verify compliance?</strong> That is <em>technical</em> AI governance: not law in the abstract, but the engineering substrate that determines whether a governance proposal is enforceable or merely aspirational.</p>
             <p>We use a clean map of the field, locate compute governance on it (callback to Session 4), compare the three real frontier-safety frameworks labs operate under, touch agent governance, and then look at the whole question from an African vantage point — where the RIA Just AI framework, the AU strategy, POPIA, and the sovereignty debate change which levers are even available.</p>
         </div>
 
-        <h2 class="section-title">🧩 A map: capacities × targets</h2>
+        <h2 class="section-title">A map: capacities × targets</h2>
         <p class="lead">Reuel et al.'s "Open Problems in Technical AI Governance" gives the field a two-dimensional taxonomy. Almost every concrete proposal is a cell in this grid.</p>
         <div class="technical-detail">
             <h4>The taxonomy</h4>
@@ -45,14 +44,14 @@
             <p style="color:#555; margin-top:14px;">Each capacity is applied across four <strong>targets</strong> along the value chain: <strong>data · compute · models/algorithms · deployment</strong>. "Compute verification via on-chip mechanisms" is one cell; "deployment assessment via evals" is another. The grid is a good way to locate — and to scope — a governance project.</p>
         </div>
 
-        <h2 class="section-title">⚡ Compute governance — why it's the tractable lever</h2>
+        <h2 class="section-title">Compute governance — why it's the tractable lever</h2>
         <div class="highlight-box">
-            <h3>🔌 <span style="color:#ffffff;">Back to the substrate</span></h3>
+            <h3><span style="color:#ffffff;">Back to the substrate</span></h3>
             <p>Recall Session 4: capability ← compute ← chips + energy. Compute is excludable, quantifiable, and detectable in a way data and algorithms are not. That is precisely why it anchors the most concrete governance proposals — training-compute thresholds, export controls on advanced chips and fabrication equipment, and research into on-chip mechanisms that could make a chip's use <em>verifiable</em>.</p>
             <p>It is also the lever with the sharpest equity edge: controlling compute controls who can build frontier systems at all — which lands very differently depending on where you sit.</p>
         </div>
 
-        <h2 class="section-title">📋 The three frontier-safety frameworks</h2>
+        <h2 class="section-title">The three frontier-safety frameworks</h2>
         <p class="lead">The leading labs publish voluntary policies that share a common skeleton: capability thresholds → eval commitments → required mitigations → a commitment to pause if mitigations aren't ready.</p>
         <div class="card-grid">
             <div class="card"><h3>Anthropic — RSP</h3><p>The Responsible Scaling Policy defines AI Safety Levels (ASL); crossing a capability threshold triggers specified security and deployment safeguards.</p></div>
@@ -60,17 +59,17 @@
             <div class="card"><h3>DeepMind — Frontier Safety Framework</h3><p>Defines "critical capability levels" and the mitigations expected when models approach them.</p></div>
         </div>
         <div class="info-box">
-            <h4>💡 Read them together, not separately</h4>
+            <h4>Read them together, not separately</h4>
             <p>METR's "Common Elements of Frontier AI Safety Policies" distils what these share and where they differ. The instructive class exercise (Session 12 seminar) is a jigsaw: groups take one framework each, then cross-compare against the "Common Elements" — what's shared, what's missing, and crucially <em>what's enforceable versus self-reported?</em> All three are voluntary, which is itself the governance gap.</p>
         </div>
 
-        <h2 class="section-title">🤖 Agent governance</h2>
+        <h2 class="section-title">Agent governance</h2>
         <div class="info-box">
-            <h4>💡 New surface area</h4>
+            <h4>New surface area</h4>
             <p>As systems become agentic — taking actions, using tools, running for long horizons (Weeks 5 and the Session 22 agents material) — governance has to cover not just <em>models</em> but <em>actions</em>: identifiers for AI agents, logging and rollback, liability for autonomous actions, and limits on what an agent may do without a human in the loop. This is among the least-settled corners of the field and a rich source of conceptual projects.</p>
         </div>
 
-        <h2 class="section-title">🌍 Governance from Africa</h2>
+        <h2 class="section-title">Governance from Africa</h2>
         <p class="lead">The taxonomy is universal; the available levers are not. From a South African vantage point the picture shifts.</p>
         <div class="case-study">
             <h4>Frameworks, law, and the sovereignty question</h4>
@@ -78,11 +77,11 @@
             <p>Then the sovereignty argument from Session 4 returns with teeth: if the levers (compute, chips, fabs, hyperscale data centres) sit largely in the North, what governance capacity does a country without them actually have? The 2025 Kigali "Africa Declaration on AI" and its much-cited <strong>$60bn fund</strong> are, as of 2026, a <em>pledge</em> with undefined governance — and one that still routes through Northern hardware. That gap between ambition and infrastructure is the honest subject of Session 18.</p>
         </div>
         <div class="warning-box">
-            <h4>⚠️ Don't overclaim the politics</h4>
+            <h4>Don't overclaim the politics</h4>
             <p>It is easy to cite the $60bn fund as if it were committed money or to treat the AU Strategy as binding regulation. Neither is true yet. Teaching the gap accurately — pledge vs capital, strategy vs enforcement — is more useful than the press-release version.</p>
         </div>
 
-        <h2 class="section-title">📚 Readings</h2>
+        <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder reading-core">
             <h4>Core</h4>
             <p>• <strong>Reuel et al. (2024), "Open Problems in Technical AI Governance"</strong> (<a href="https://arxiv.org/abs/2407.14981" target="_blank" rel="noopener">arXiv:2407.14981</a>; TMLR 2025) — skim the taxonomy + one capacity in depth.</p>
@@ -98,7 +97,7 @@
         </div>
 
         <div class="intro-text" style="margin-top:50px;">
-            <h2>🧾 Summary &amp; what's next</h2>
+            <h2>Summary &amp; what's next</h2>
             <p>Technical AI governance is the engineering that decides whether a safety policy can be enforced. Reuel et al.'s capacities × targets grid maps the field; compute governance is the most tractable lever because it sits on a countable, detectable substrate; the three lab frameworks share a skeleton but are voluntary; agent governance is new and unsettled; and from Africa the available levers, the applicable law (POPIA, Malabo), and the sovereignty gap reshape the whole question.</p>
             <p><strong>Next (Weeks 7–8, Sessions 13–16):</strong> mechanistic interpretability — opening the model up to see whether we can read what it's actually doing, with hands-on TransformerLens labs. The course's project phase (Week 9) then turns several threads from this week into scoped student work.</p>
         </div>

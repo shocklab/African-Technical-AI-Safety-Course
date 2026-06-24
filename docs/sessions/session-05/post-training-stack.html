@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session 5.3 — The Post-Training Stack &amp; Where Behaviour Is Shaped</title>
-    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -17,17 +16,17 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 3 • Session 5.3</div>
-        <h1>🧬 <span style="color:#ffffff;">The Post-Training Stack &amp; Where Behaviour Is Shaped</span></h1>
+        <h1>The post-training stack &amp; where behaviour is shaped</h1>
         <p>The full pipeline from base model to deployed assistant — and where, at each stage, misalignment can enter</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
-            <h2>🎯 What we'll cover</h2>
+            <h2>What we'll cover</h2>
             <p>We have the pieces — pretraining (5.1) and supervised fine-tuning (5.2). This sub-session assembles the whole pipeline, names what each stage contributes to the model you actually talk to, and — connecting back to Session 3 — pinpoints where each stage opens a door to misalignment. The headline picture: <strong>capabilities come from pretraining; the "assistant" is a thin, post-trained layer on top; and every layer is an imperfect proxy for what we meant.</strong></p>
         </div>
 
-        <h2 class="section-title">🏭 The pipeline, end to end</h2>
+        <h2 class="section-title">The pipeline, end to end</h2>
         <p class="lead">A modern chat model is the product of a sequence of stages, each operating on the output of the last (Ouyang et al., 2022).</p>
         <div class="technical-detail">
             <h4>Four stages</h4>
@@ -43,7 +42,7 @@
             <p style="color:#555; margin-top:12px;">The compute is wildly lopsided: stage 1 is months of training on enormous clusters; stages 2–4 are comparatively tiny. <strong>Almost all the "intelligence" is in the base model; almost all the "alignment" is in the small layer on top.</strong></p>
         </div>
 
-        <h2 class="section-title">🎚️ Where each behaviour is shaped</h2>
+        <h2 class="section-title">Where each behaviour is shaped</h2>
         <div class="card-grid">
             <div class="card"><h3>Capabilities → pretraining</h3><p>What the model <em>can</em> do is fixed mostly in stage 1. Post-training rarely adds genuinely new abilities; it surfaces, suppresses, or reshapes what is already latent.</p></div>
             <div class="card"><h3>Instruction-following → SFT</h3><p>The habit of treating the prompt as a request, the answer format, and the default "voice" are installed in stage 2.</p></div>
@@ -51,7 +50,7 @@
             <div class="card"><h3>Final persona → the system prompt</h3><p>"You are a helpful assistant…", tool access and content filters are stage 4 — a thin, swappable wrapper, and often the easiest layer for a user to argue around.</p></div>
         </div>
 
-        <h2 class="section-title">⚠️ Where misalignment enters — stage by stage</h2>
+        <h2 class="section-title">Where misalignment enters — stage by stage</h2>
         <p class="lead">Re-read the pipeline through Session 3's lens and each stage is a place the gap between objective and intent can open.</p>
         <div class="technical-detail">
             <h4>One failure mode per layer</h4>
@@ -63,17 +62,17 @@
             </ul>
         </div>
         <div class="highlight-box">
-            <h3>🧊 <span style="color:#ffffff;">Alignment is a thin layer over a vast base</span></h3>
+            <h3><span style="color:#ffffff;">Alignment is a thin layer over a vast base</span></h3>
             <p>The mental model to carry forward: a frontier assistant is an enormous, capability-rich, value-indifferent base model, with a comparatively thin layer of fine-tuning shaping how it presents itself. That layer is real and does a great deal of work — but it is small, it is a proxy, and it is applied to a system that already contains the behaviours we are trying to prevent. Much of the rest of this course is about how fragile that layer is (robustness, Week 5), whether we can see through it (interpretability, Weeks 7–8), and whether the underlying model is merely <em>behaving</em> aligned (deception, Session 3.4).</p>
         </div>
 
-        <h2 class="section-title">🔓 Base vs aligned models — and why open weights matter here</h2>
+        <h2 class="section-title">Base vs aligned models — and why open weights matter here</h2>
         <div class="info-box">
-            <h4>💡 The alignment layer can be removed</h4>
+            <h4>The alignment layer can be removed</h4>
             <p>Because alignment is a thin fine-tune, it can be largely <em>undone</em>: a few hundred fine-tuning steps can strip the safety behaviours off an open-weights model and recover much of the base model's unfiltered capability. This is central to the open-weights debate (Session 12): releasing weights releases the capability, and the safety layer that ships with it is not a durable lock. It also sharpens the Global-South thread — the languages and contexts least represented in the (English-centric) alignment layer are exactly where it is thinnest to begin with.</p>
         </div>
 
-        <h2 class="section-title">🧭 A worked trace: one request through the stack</h2>
+        <h2 class="section-title">A worked trace: one request through the stack</h2>
         <p class="lead">Follow a single prompt — <em>"Summarise this medical study for a patient"</em> — and watch each stage contribute, and each open its own risk.</p>
         <div class="case-study">
             <h4>Where each property (and each hazard) comes from</h4>
@@ -81,11 +80,11 @@
             <p>The point of the trace: the helpful behaviour you see is assembled from four sources, and the <em>failure</em> you fear — a confident, wrong, un-hedged summary that a patient trusts — can originate at any one of them. Asking "which stage would this failure come from?" is a genuinely useful diagnostic, and one this course returns to.</p>
         </div>
         <div class="info-box">
-            <h4>💡 Why "where in the stack?" is the right question</h4>
+            <h4>Why "where in the stack?" is the right question</h4>
             <p>Different stages call for different fixes. A capability that shouldn't exist at all is a <em>pretraining/data</em> problem (or an unlearning one, Session 10). A model that won't follow instructions is an <em>SFT</em> problem. Sycophancy and reward hacking are <em>preference-optimisation</em> problems (Session 6). A jailbreak that peels off the persona is a <em>robustness</em> problem (Session 9). Locating a failure in the pipeline tells you which tool can actually address it — and warns you when a fix at one layer (a sterner system prompt) is being asked to paper over a problem rooted in another (a capability baked in at pretraining).</p>
         </div>
 
-        <h2 class="section-title">💬 Questions to bring to class</h2>
+        <h2 class="section-title">Questions to bring to class</h2>
         <ul class="styled-list">
             <li>Pick a real assistant failure you've seen. Which stage of the stack do you think it came from, and what evidence would confirm it?</li>
             <li>"Almost all the intelligence is in the base model; almost all the alignment is in the thin layer on top." What does this predict about how hard it is to make an open-weights model permanently safe?</li>
@@ -93,7 +92,7 @@
             <li>If you could only strengthen <em>one</em> stage for safety, which would you choose, and what would you be giving up?</li>
         </ul>
 
-        <h2 class="section-title">📚 Readings</h2>
+        <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder reading-core">
             <h4>Core</h4>
             <p>• <strong>Ouyang et al. (2022), "Training language models to follow instructions with human feedback"</strong> (InstructGPT; <a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">arXiv:2203.02155</a>) — the canonical three-stage pipeline diagram.</p>
@@ -104,7 +103,7 @@
         </div>
 
         <div class="intro-text" style="margin-top:50px;">
-            <h2>↪️ Next</h2>
+            <h2>Next</h2>
             <p>Sub-session <strong>5.4</strong> makes the pipeline concrete: in a Colab lab you'll walk through Karpathy's <strong>nanochat</strong>, run a tiny supervised fine-tune, and see for yourself the difference between a base model that <em>completes</em> and a fine-tuned one that <em>complies</em>.</p>
         </div>
 
@@ -113,7 +112,7 @@
 <nav class="page-nav">
   <a class="prev" href="supervised-fine-tuning.html"><span class="nav-label">← Previous</span><span class="nav-title">5.2 · From predictor to instruction-follower (SFT)</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
-  <a class="next" href="lab-nanochat.html"><span class="nav-label">Next →</span><span class="nav-title">🧪 5.4 · Lab: from base model to assistant (nanochat)</span></a>
+  <a class="next" href="lab-nanochat.html"><span class="nav-label">Next →</span><span class="nav-title">5.4 · Lab: from base model to assistant (nanochat)</span></a>
 </nav>
 <!-- PAGE-NAV-END -->
 </div>

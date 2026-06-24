@@ -4,54 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>African Technical AI Safety — Honours Course (UCT)</title>
-    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Lato', sans-serif; line-height: 1.6; color: #2c3e50; background: #f5f5f5; padding: 20px; }
-    .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
-    header { background: #003A70; color: white; padding: 50px 40px; text-align: center; }
-    header h1 { font-size: 2.3em; margin-bottom: 10px; font-weight: 300; letter-spacing: 1px; }
-    header p { font-size: 1.1em; opacity: 0.9; max-width: 720px; margin: 10px auto 0; }
-    .course-code { display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 18px; border-radius: 20px; font-size: 0.9em; margin-bottom: 15px; backdrop-filter: blur(10px); }
-    .content { padding: 40px; }
-    .caveat-banner { background: #fff8e1; border-left: 5px solid #f9a825; padding: 18px 22px; border-radius: 12px; margin-bottom: 35px; }
-    .caveat-banner p { color: #555; font-size: 0.95em; line-height: 1.7; }
-    .caveat-banner a { color: #003A70; font-weight: 600; }
-    .intro-section { background: #f9f9f9; padding: 25px; border-radius: 15px; border-left: 5px solid #003A70; margin-bottom: 35px; }
-    .intro-section h2 { color: #2a5298; font-size: 1.3em; margin-bottom: 10px; }
-    .intro-section p { color: #555; line-height: 1.8; }
-    .part-label { color: #003A70; font-weight: 700; font-size: 1.05em; letter-spacing: 0.5px; margin: 35px 0 10px; text-transform: uppercase; }
-    .week-section { margin-bottom: 28px; }
-    .week-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px solid #003A70; }
-    .week-number { background: #003A70; color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1em; flex-shrink: 0; }
-    .week-header h2 { color: #2a5298; font-size: 1.3em; font-weight: 600; }
-    .lesson-list { list-style: none; margin-left: 60px; }
-    .lesson-list li { margin-bottom: 6px; }
-    .lesson-list a { color: #2c3e50; text-decoration: none; padding: 8px 15px; display: block; border-radius: 8px; transition: all 0.2s ease; border-left: 3px solid transparent; }
-    .lesson-list a:hover { background: #f0f4f8; border-left: 3px solid #003A70; color: #003A70; }
-    .lesson-list .soon { color: #999; padding: 8px 15px; display: block; border-left: 3px solid transparent; }
-    .lesson-list .soon::after { content: ' — coming soon'; font-size: 0.85em; color: #bbb; }
-    .lesson-list .lab::before { content: '🧪 '; }
-    .badge-built { display:inline-block; background:#2a5298; color:#fff; font-size:0.7em; padding:2px 8px; border-radius:10px; margin-left:6px; vertical-align:middle; }
-    .session-group { color:#2c3e50; font-weight:700; padding:8px 15px; border-left:3px solid #003A70; background:#f0f4f8; border-radius:8px; margin-top:4px; }
-    .subsession-list { list-style:none; margin:6px 0 8px 22px; }
-    .subsession-list li { margin-bottom:4px; }
-    .subsession-list a { color:#2c3e50; text-decoration:none; padding:6px 14px; display:block; border-radius:8px; border-left:3px solid transparent; font-size:0.96em; transition:all 0.2s ease; }
-    .subsession-list a:hover { background:#f0f4f8; border-left:3px solid #2a5298; color:#003A70; }
-    footer { background: #f9f9f9; padding: 25px 40px; text-align: center; color: #888; font-size: 0.9em; border-top: 1px solid #eee; }
-    footer a { color: #003A70; }
-    @media (max-width: 768px) { header h1 { font-size: 1.6em; } .content { padding: 25px 20px; } .lesson-list { margin-left: 20px; } .week-number { width: 35px; height: 35px; font-size: 0.9em; } }
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    :root{ --navy:#003A70; --blue:#2a5298; --ink:#2c3e50; --muted:#5a6672; --rule:#e4e8ec; --tint:#f5f7f9; --display:'Fraunces',Georgia,serif; --serif:'Source Serif 4',Georgia,serif; --mono:'IBM Plex Mono',ui-monospace,monospace; }
+    html{ font-size:17px; }
+    body{ font-family:var(--serif); font-size:1rem; line-height:1.7; color:var(--ink); background:#eceff2; padding:24px; }
+    .container{ max-width:880px; margin:0 auto; background:#fff; border:1px solid var(--rule); overflow:hidden; }
+    header{ background:#fff; color:var(--ink); padding:50px 48px 30px; }
+    header::after{ content:""; display:block; width:56px; height:3px; background:var(--navy); margin-top:24px; }
+    header h1{ font-family:var(--display); font-size:2.7rem; font-weight:500; letter-spacing:-0.5px; line-height:1.05; color:var(--navy); margin:0 0 10px; }
+    header p{ font-size:1.1rem; color:var(--muted); max-width:62ch; margin:6px 0 0; line-height:1.5; }
+    .course-code{ display:inline-block; font-family:var(--mono); font-size:0.72rem; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:14px; }
+    .content{ padding:42px 48px; }
+    .caveat-banner{ background:#fff8e8; border-left:3px solid #e0a200; padding:16px 22px; margin-bottom:34px; }
+    .caveat-banner p{ color:#5d4e1f; font-size:0.95rem; line-height:1.65; }
+    .caveat-banner a{ color:var(--navy); }
+    .intro-section{ background:var(--tint); padding:24px 28px; border-left:3px solid var(--navy); margin-bottom:38px; }
+    .intro-section h2{ font-family:var(--display); color:var(--navy); font-size:1.4rem; font-weight:500; margin-bottom:10px; }
+    .intro-section p{ color:var(--ink); line-height:1.75; }
+    .part-label{ font-family:var(--mono); color:var(--blue); font-weight:500; font-size:0.78rem; letter-spacing:2px; margin:40px 0 14px; text-transform:uppercase; }
+    .week-section{ margin-bottom:30px; }
+    .week-header{ display:flex; align-items:center; gap:14px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--rule); }
+    .week-number{ background:var(--navy); color:#fff; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:500; font-size:1rem; flex-shrink:0; }
+    .week-header h2{ font-family:var(--display); color:var(--navy); font-size:1.35rem; font-weight:500; }
+    .lesson-list{ list-style:none; margin-left:54px; }
+    .lesson-list li{ margin-bottom:6px; }
+    .lesson-list a{ color:var(--ink); text-decoration:none; padding:7px 14px; display:block; border-left:2px solid transparent; transition:all 0.15s ease; }
+    .lesson-list a:hover{ background:var(--tint); border-left:2px solid var(--navy); color:var(--navy); }
+    .lesson-list .soon{ color:#9aa3ab; padding:7px 14px; display:block; border-left:2px solid transparent; }
+    .lesson-list .soon::after{ content:' — coming soon'; font-family:var(--mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.5px; color:#b6bdc4; }
+    .badge-built{ display:inline-block; font-family:var(--mono); color:var(--blue); font-size:0.62rem; letter-spacing:1px; text-transform:uppercase; margin-left:8px; vertical-align:middle; }
+    .badge-built::before{ content:'· '; }
+    .session-group{ font-family:var(--display); color:var(--navy); font-weight:500; font-size:1.05rem; padding:6px 0 6px 14px; border-left:2px solid var(--navy); margin-top:6px; }
+    .subsession-list{ list-style:none; margin:4px 0 10px 22px; }
+    .subsession-list li{ margin-bottom:3px; }
+    .subsession-list a{ color:var(--ink); text-decoration:none; padding:5px 14px; display:block; border-left:2px solid transparent; font-size:0.98rem; transition:all 0.15s ease; }
+    .subsession-list a:hover{ background:var(--tint); border-left:2px solid var(--blue); color:var(--navy); }
+    footer{ background:var(--tint); padding:26px 48px; text-align:center; color:var(--muted); font-size:0.88rem; border-top:1px solid var(--rule); }
+    footer a{ color:var(--navy); }
+    @media (max-width:768px){ body{ padding:0; } .container{ border:none; } header{ padding:34px 22px 22px; } header h1{ font-size:1.9rem; } .content{ padding:28px 22px; } .lesson-list{ margin-left:18px; } .week-number{ width:34px; height:34px; font-size:0.85rem; } }
     </style>
-    <!-- MATHJAX-START -->
-    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-    <!-- MATHJAX-END -->
 </head>
 <body>
 <div class="container">
     <header>
         <div class="course-code">Honours / 4th-year · 2026</div>
-        <h1><span style="color:#ffffff;">African Technical AI Safety</span></h1>
+        <h1>African Technical AI Safety</h1>
         <p>University of Cape Town — Department of Mathematics &amp; Applied Mathematics</p>
         <p style="opacity:0.7; font-size:0.95em; margin-top:5px;">Assoc. Prof. Jonathan Shock</p>
     </header>
@@ -91,7 +90,7 @@
                         <li><a href="sessions/session-02/inside-the-transformer.html">2.2 · Inside the transformer</a></li>
                         <li><a href="sessions/session-02/neural-scaling-laws.html">2.3 · Neural scaling laws</a></li>
                         <li><a href="sessions/session-02/pace-and-emergence.html">2.4 · Pace of progress &amp; the emergence debate</a></li>
-                        <li><a href="sessions/session-02/lab-scaling-and-transformerlens.html">🧪 2.5 · Lab: scaling laws &amp; a first look inside a model</a></li>
+                        <li><a href="sessions/session-02/lab-scaling-and-transformerlens.html">2.5 · Lab: scaling laws &amp; a first look inside a model</a></li>
                     </ul>
                 </li>
             </ul>
@@ -133,7 +132,7 @@
                         <li><a href="sessions/session-05/pretraining.html">5.1 · Pretraining: predicting the next token</a></li>
                         <li><a href="sessions/session-05/supervised-fine-tuning.html">5.2 · From predictor to instruction-follower (SFT)</a></li>
                         <li><a href="sessions/session-05/post-training-stack.html">5.3 · The post-training stack &amp; where behaviour is shaped</a></li>
-                        <li><a href="sessions/session-05/lab-nanochat.html">🧪 5.4 · Lab: from base model to assistant (nanochat)</a></li>
+                        <li><a href="sessions/session-05/lab-nanochat.html">5.4 · Lab: from base model to assistant (nanochat)</a></li>
                     </ul>
                 </li>
                 <li>
@@ -143,7 +142,7 @@
                         <li><a href="sessions/session-06/the-reward-model.html">6.2 · The reward model</a></li>
                         <li><a href="sessions/session-06/policy-optimisation.html">6.3 · Policy optimisation: PPO &amp; the KL leash</a></li>
                         <li><a href="sessions/session-06/limits-of-rlhf.html">6.4 · The limits of RLHF</a></li>
-                        <li><a href="sessions/session-06/lab-rlhf.html">🧪 6.5 · Lab: reward models &amp; over-optimisation</a></li>
+                        <li><a href="sessions/session-06/lab-rlhf.html">6.5 · Lab: reward models &amp; over-optimisation</a></li>
                     </ul>
                 </li>
             </ul>
@@ -152,7 +151,7 @@
         <div class="week-section">
             <div class="week-header"><div class="week-number">4</div><h2>Scalable alignment methods</h2></div>
             <ul class="lesson-list">
-                <li><span class="soon lab">Session 7 · Learning from AI feedback (RLAIF, Constitutional AI)</span></li>
+                <li><span class="soon">Session 7 · Learning from AI feedback (RLAIF, Constitutional AI)</span></li>
                 <li>
                     <div class="session-group">Session 8 · Scalable oversight &amp; "whose values?" (ethics) <span class="badge-built">built</span></div>
                     <ul class="subsession-list">
@@ -171,7 +170,7 @@
         <div class="week-section">
             <div class="week-header"><div class="week-number">5</div><h2>Robustness, unlearning, control</h2></div>
             <ul class="lesson-list">
-                <li><span class="soon lab">Session 9 · Robustness &amp; adversarial ML</span></li>
+                <li><span class="soon">Session 9 · Robustness &amp; adversarial ML</span></li>
                 <li><span class="soon">Session 10 · Unlearning &amp; the AI-control agenda</span></li>
             </ul>
         </div>
@@ -179,7 +178,7 @@
         <div class="week-section">
             <div class="week-header"><div class="week-number">6</div><h2>Evaluations &amp; technical governance</h2></div>
             <ul class="lesson-list">
-                <li><span class="soon lab">Session 11 · Evaluations &amp; dangerous-capability evals</span></li>
+                <li><span class="soon">Session 11 · Evaluations &amp; dangerous-capability evals</span></li>
                 <li><a href="sessions/session-12-technical-ai-governance.html">Session 12 · Technical AI governance<span class="badge-built">built</span></a></li>
             </ul>
         </div>
@@ -191,15 +190,15 @@
             <div class="week-header"><div class="week-number">7</div><h2>Interpretability foundations</h2></div>
             <ul class="lesson-list">
                 <li><span class="soon">Session 13 · Why interpretability; features &amp; circuits</span></li>
-                <li><span class="soon lab">Session 14 · Lab: TransformerLens + induction heads</span></li>
+                <li><span class="soon">Session 14 · Lab: TransformerLens + induction heads</span></li>
             </ul>
         </div>
 
         <div class="week-section">
             <div class="week-header"><div class="week-number">8</div><h2>Interpretability in practice</h2></div>
             <ul class="lesson-list">
-                <li><span class="soon lab">Session 15 · Circuits, patching, and sparse autoencoders</span></li>
-                <li><span class="soon lab">Session 16 · Lab + safety applications &amp; limits</span></li>
+                <li><span class="soon">Session 15 · Circuits, patching, and sparse autoencoders</span></li>
+                <li><span class="soon">Session 16 · Lab + safety applications &amp; limits</span></li>
             </ul>
         </div>
 

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session 4.2 — Infrastructure, Scale and the Rebound Problem</title>
-    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -17,18 +16,18 @@
     <div class="ai-notice"><strong>Note:</strong> This page reuses and adapts fact-checked content from the Generative AI in Research course (CC BY 4.0), restyled and reframed for this course with Claude (Anthropic's AI assistant). Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 2 • Session 4.2</div>
-        <h1>🏭 <span style="color:#ffffff;">Infrastructure, Scale and the Rebound Problem</span></h1>
+        <h1>Infrastructure, scale and the rebound problem</h1>
         <p>Data centres, grids, embodied carbon, and why efficiency hasn't reduced total demand</p>
     </header>
     <div class="content">
 <div class="intro-text">
-<h2>🎯 What We'll Cover</h2>
+<h2>What We'll Cover</h2>
 <p>In the previous session we looked at what individual AI queries cost. This session zooms out to the infrastructure level: what powers the data centres that run AI, what it costs to build the hardware in the first place, and why the story of AI's environmental impact is more complicated than any single number can capture.</p>
 <p>We will also engage with one of the most important — and uncomfortable — ideas in sustainability economics: the Jevons paradox. The history of energy technology suggests that making a system more efficient does not necessarily reduce its total energy consumption. Understanding why this keeps happening, and whether AI might be different, is essential to thinking clearly about sustainable AI.</p>
 </div>
 
 <!-- SECTION 1: DATA CENTRES -->
-<h2 class="section-title">🏗️ What's Inside a Data Centre</h2>
+<h2 class="section-title">What's Inside a Data Centre</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">To understand AI's energy footprint, it helps to understand what a data centre actually is and where the energy goes.</p>
 
 <div class="card-grid">
@@ -64,11 +63,11 @@
 </div>
 
 <!-- SECTION 2: POWER SOURCES -->
-<h2 class="section-title">🔌 Where the Electricity Comes From</h2>
+<h2 class="section-title">Where the Electricity Comes From</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">The carbon footprint of AI electricity use depends entirely on how that electricity is generated — and this varies enormously by geography and by time of day.</p>
 
 <div class="technical-detail">
-<h4>📊 Carbon Intensity of Electricity: Why Location Matters</h4>
+<h4>Carbon Intensity of Electricity: Why Location Matters</h4>
 <p style="margin-bottom: 15px;">The "carbon intensity" of electricity — how much CO₂ is emitted per kilowatt-hour — varies enormously depending on the local grid's energy mix:</p>
 <table class="comparison-table">
 <thead>
@@ -120,7 +119,7 @@
 </div>
 
 <div class="info-box">
-<h4>💡 Renewable Energy Claims: What They Mean (and Don't)</h4>
+<h4>Renewable Energy Claims: What They Mean (and Don't)</h4>
 <p>Major tech companies — Google, Microsoft, Amazon — claim to run on 100% renewable energy. This is technically accurate but requires careful interpretation.</p>
 <ul class="styled-list" style="margin-top: 10px;">
 <li><strong>Energy Attribute Certificates (EACs):</strong> Companies often purchase certificates that say a renewable source generated a certain amount of electricity — but the renewable electricity may be generated at a different time or place than when the AI is running</li>
@@ -131,7 +130,7 @@
 </div>
 
 <div class="case-study">
-<h4>🔍 Case Study: Nuclear and the AI Energy Rush</h4>
+<h4>Case Study: Nuclear and the AI Energy Rush</h4>
 <p>The scale of AI's electricity demands is forcing AI companies to think creatively about power supply — and sometimes controversially:</p>
 <ul class="styled-list" style="margin-top: 10px;">
 <li><strong>Three Mile Island (Microsoft):</strong> Microsoft signed a 20-year power purchase agreement with Constellation Energy to restart Unit 1 of the Three Mile Island nuclear plant in Pennsylvania — closed since 2019 — specifically to power its AI data centres. September 2024 marked that <em>announcement</em>, not a restart: the reactor &mdash; to be renamed the Crane Clean Energy Center &mdash; is scheduled to come back online around 2027, after an estimated $1.6&nbsp;billion refurbishment and pending Nuclear Regulatory Commission approval.</li>
@@ -141,11 +140,11 @@
 </div>
 
 <!-- SECTION 3: EMBODIED CARBON -->
-<h2 class="section-title">🏭 Embodied Carbon: The Cost of Making the Hardware</h2>
+<h2 class="section-title">Embodied Carbon: The Cost of Making the Hardware</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">Almost all analyses of AI's carbon footprint focus on electricity consumption during operation. But there is another carbon cost that is often omitted: the emissions released when manufacturing the hardware in the first place.</p>
 
 <div class="highlight-box">
-<h3>🔩 <span style="color: #ffffff;">The Manufacturing Iceberg</span></h3>
+<h3><span style="color: #ffffff;">The Manufacturing Iceberg</span></h3>
 <p>Semiconductor manufacturing is one of the most energy and materials-intensive industrial processes in existence. Fabricating a modern AI chip requires hundreds of processing steps, ultrapure water, specialised gases, and enormous amounts of electricity — typically from grids that are not carbon-neutral.</p>
 <p style="margin-top: 15px;">Research by Gupta et al. (2021, Harvard/Meta) found that for computing hardware overall, <strong>embodied emissions — the carbon released in manufacturing — can represent 50–80% of the total lifecycle carbon footprint</strong>. This is particularly significant for AI hardware, because GPUs are replaced on rapid cycles as new, more powerful chips become available.</p>
 </div>
@@ -174,16 +173,16 @@
 </div>
 
 <div class="resource-placeholder">
-<h4>📄 Key Reading: Embodied Carbon in Computing</h4>
+<h4>Key Reading: Embodied Carbon in Computing</h4>
 <p style="font-style: normal; margin-top: 8px;"><a href="https://arxiv.org/abs/2011.02839" target="_blank" rel="noopener"><strong>Gupta et al. (2021): "Chasing Carbon: The Elusive Environmental Footprint of Computing"</strong></a> — IEEE HPCA peer-reviewed paper introducing a lifecycle framework for computing's carbon cost. Foundational reading for understanding why operational energy figures understate the true footprint.</p>
 </div>
 
 <!-- SECTION 4: GROWTH TRAJECTORY -->
-<h2 class="section-title">📈 The Growth Trajectory</h2>
+<h2 class="section-title">The Growth Trajectory</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">Individual query costs and per-data-centre figures only tell part of the story. The trajectory of AI energy demand matters as much as the current level.</p>
 
 <div class="technical-detail">
-<h4>📊 US Data Centre Electricity Demand: Past and Projected</h4>
+<h4>US Data Centre Electricity Demand: Past and Projected</h4>
 <table class="comparison-table">
 <thead>
 <tr>
@@ -213,7 +212,7 @@
 <p style="margin-top: 12px; color: #666;">For global context: the IEA's 2024 Electricity report projected that global data centres could consume ~1,000 TWh by 2026 — roughly equivalent to Japan's entire electricity consumption.</p>
 </div>
 <div class="info-box" style="margin-top: 25px;">
-<h4>📈 The IEA's updated 2025 trajectory: doubling by 2030</h4>
+<h4>The IEA's updated 2025 trajectory: doubling by 2030</h4>
 <p>The IEA's dedicated <em><a href="https://www.iea.org/reports/energy-and-ai" target="_blank" rel="noopener">Energy and AI</a></em> report (2025) provides the cleanest current global picture. The headline projections:</p>
 <ul style="margin-left: 25px; margin-top: 12px; line-height: 1.7;">
 <li>Global data-centre electricity roughly <strong>doubling from &asymp; 485 TWh (2025) to &asymp; 950 TWh (2030, &asymp; 3% of global electricity)</strong>.</li>
@@ -224,11 +223,11 @@
 </div>
 
 <!-- SECTION 5: JEVONS PARADOX -->
-<h2 class="section-title">🔄 The Rebound Problem: Jevons Paradox</h2>
+<h2 class="section-title">The Rebound Problem: Jevons Paradox</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">Perhaps the most important concept for thinking clearly about AI's long-term environmental trajectory — and one that receives far too little attention in optimistic narratives about AI efficiency improvements.</p>
 
 <div class="highlight-box">
-<h3>⚡ <span style="color: #ffffff;">What is the Jevons Paradox?</span></h3>
+<h3><span style="color: #ffffff;">What is the Jevons Paradox?</span></h3>
 <p>In 1865, the economist William Stanley Jevons observed that improvements in the efficiency of steam engines did not reduce coal consumption in Britain — they increased it, because lower operating costs made steam power affordable for more applications.</p>
 <p style="margin-top: 15px;">The general principle: <strong>when a resource becomes cheaper or more efficient to use, consumption tends to increase rather than decrease, because efficiency opens up new uses and new users.</strong> The cost savings from efficiency gains are "rebounded" into increased consumption.</p>
 <p style="margin-top: 15px;">This is not a historical curiosity — it has been documented repeatedly across transport, computing, lighting, heating, and manufacturing over the past two centuries.</p>
@@ -259,19 +258,19 @@
 </div>
 
 <div class="warning-box">
-<h4>⚠️ Reading the Efficiency Claims Critically</h4>
+<h4>Reading the Efficiency Claims Critically</h4>
 <p>When AI companies or optimistic commentators cite efficiency improvements (e.g. "our new model uses 44% less energy per query"), this is valuable information — but it does not tell you what happens to <em>total</em> energy use if deployment grows faster than efficiency improves. Always ask: what is the denominator? Efficiency per query, or total annual energy consumption?</p>
 </div>
 
 <div class="resource-placeholder">
-<h4>📄 Key Readings: Efficiency vs. Rebound</h4>
+<h4>Key Readings: Efficiency vs. Rebound</h4>
 <p style="font-style: normal; margin-top: 8px;"><a href="https://arxiv.org/abs/2309.02065" target="_blank" rel="noopener"><strong>Wright et al. (2023): "Efficiency is Not Enough: A Critical Perspective of Environmentally Sustainable AI"</strong></a> — argues that efficiency gains in AI are routinely offset by growth in scale and deployment. The most direct academic treatment of the rebound effect in AI.</p>
 <p style="font-style: normal; margin-top: 12px;"><a href="https://arxiv.org/abs/2204.05149" target="_blank" rel="noopener"><strong>Patterson et al. (2022): "The Carbon Footprint of Machine Learning Training Will Plateau, Then Shrink"</strong></a> (Google) — the optimist case, written by Google researchers. Read alongside Wright et al. for a balanced picture.</p>
 <p style="margin-top: 8px; color: #555;"><strong>Note on the Patterson et al. paper:</strong> The authors are Google employees writing partly about Google's own practices and infrastructure. The paper's conclusions rely on advantages — access to TPUs, renewable purchasing, efficient cooling — that are not available to most researchers or smaller AI deployments.</p>
 </div>
 
 <!-- SECTION 6: WHAT COMPANIES ARE DOING -->
-<h2 class="section-title">🌱 What Companies Are (and Aren't) Doing</h2>
+<h2 class="section-title">What Companies Are (and Aren't) Doing</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">Understanding what AI companies are actually doing — versus what they say they're doing — is essential background for any researcher or policymaker engaging with this topic.</p>
 
 <div class="card-grid">
@@ -299,7 +298,7 @@
 
 <!-- SUMMARY -->
 <div class="intro-text" style="margin-top: 50px;">
-<h2>📚 Summary &amp; Key Takeaways</h2>
+<h2>Summary &amp; Key Takeaways</h2>
 <ul class="styled-list" style="margin-top: 15px;">
 <li><strong>Location determines carbon impact:</strong> An identical AI workload can have 80% different carbon emissions depending on where it runs — this is the single most impactful lever for individual researchers</li>
 <li><strong>Embodied carbon is systematically ignored:</strong> Manufacturing GPUs and building data centres releases significant carbon that is absent from most reported figures</li>

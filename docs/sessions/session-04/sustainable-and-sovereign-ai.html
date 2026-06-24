@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session 4.4 — Sustainable & Sovereign AI</title>
-    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -17,22 +16,22 @@
     <div class="ai-notice"><strong>Note:</strong> This page reuses and adapts fact-checked content from the Generative AI in Research course (CC BY 4.0), restyled and reframed for this course with Claude (Anthropic's AI assistant). Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 2 • Session 4.4</div>
-        <h1>🌱 <span style="color:#ffffff;">Sustainable &amp; Sovereign AI</span></h1>
+        <h1>Sustainable &amp; sovereign AI</h1>
         <p>Measuring and reducing your footprint, AI for the environment, policy, and the African substrate</p>
     </header>
     <div class="content">
 <div class="intro-text">
-<h2>🎯 What We'll Cover</h2>
+<h2>What We'll Cover</h2>
 <p>The previous two sessions established that AI has a real and growing environmental footprint, and that the relationship between efficiency and total consumption is complicated. This session asks: given all of that, what can you actually do?</p>
 <p>We will look at concrete tools for measuring the carbon footprint of your own computational work, practical choices that can meaningfully reduce your impact, and — importantly — the other side of the story: the ways AI is being applied to environmental challenges. The goal is not to make you feel either guilty or reassured, but to help you make informed decisions and engage critically with claims about AI and the environment from any direction.</p>
 </div>
 
 <!-- SECTION 1: MEASURING YOUR FOOTPRINT -->
-<h2 class="section-title">📏 Measuring Your Own Footprint</h2>
+<h2 class="section-title">Measuring Your Own Footprint</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">You cannot reduce what you do not measure. A small ecosystem of open tools has emerged to help researchers estimate and track the carbon footprint of their computational work.</p>
 
 <div class="tool-card">
-<h3>🌱 CodeCarbon</h3>
+<h3>CodeCarbon</h3>
 <div class="tool-url"><a href="https://codecarbon.io" target="_blank" rel="noopener">codecarbon.io</a> | <a href="https://github.com/mlco2/codecarbon" target="_blank" rel="noopener">GitHub</a></div>
 <p>The most widely used tool for tracking emissions from machine learning workloads. CodeCarbon is a Python library that monitors your GPU/CPU power draw during a computation and looks up the carbon intensity of the local electricity grid, producing an estimate in kg CO₂ equivalent.</p>
 <ul class="styled-list">
@@ -44,7 +43,7 @@
 </div>
 
 <div class="tool-card">
-<h3>🌍 Green Algorithms</h3>
+<h3>Green Algorithms</h3>
 <div class="tool-url"><a href="https://www.green-algorithms.org" target="_blank" rel="noopener">green-algorithms.org</a></div>
 <p>A web-based calculator designed for the broader scientific computing community — not just ML researchers. If you run bioinformatics pipelines, simulations, or any compute-intensive work, Green Algorithms can estimate its footprint.</p>
 <ul class="styled-list">
@@ -56,7 +55,7 @@
 </div>
 
 <div class="tool-card">
-<h3>⚖️ ML CO₂ Impact Calculator</h3>
+<h3>ML CO₂ Impact Calculator</h3>
 <div class="tool-url"><a href="https://mlco2.github.io/impact/" target="_blank" rel="noopener">mlco2.github.io/impact/</a></div>
 <p>A simpler web-based calculator for estimating the carbon footprint of a planned ML training run, before you run it. Useful for project planning and grant applications where you want to report your expected compute footprint.</p>
 <ul class="styled-list">
@@ -67,7 +66,7 @@
 </div>
 
 <div class="info-box">
-<h4>💡 Should You Report Your Compute Footprint in Papers?</h4>
+<h4>Should You Report Your Compute Footprint in Papers?</h4>
 <p>The "Green AI" movement (Schwartz et al., 2020) has called for academic papers to routinely report the computational cost of the research they present — both in financial and environmental terms. Some venues now encourage or require this; most do not yet mandate it. Reporting your compute footprint in your methods section:</p>
 <ul class="styled-list" style="margin-top: 8px;">
 <li>Enables reproducibility assessment (others can judge whether they have the resources to replicate your work)</li>
@@ -78,11 +77,11 @@
 </div>
 
 <!-- SECTION 2: PRACTICAL CHOICES -->
-<h2 class="section-title">🔧 Practical Choices That Make a Difference</h2>
+<h2 class="section-title">Practical Choices That Make a Difference</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">You may not be able to influence how AI companies power their data centres, but you can make choices that meaningfully affect the footprint of your own AI use.</p>
 
 <div class="technical-detail">
-<h4>📊 Impact of Different Choices</h4>
+<h4>Impact of Different Choices</h4>
 <table class="comparison-table">
 <thead>
 <tr>
@@ -137,7 +136,7 @@
 </div>
 
 <div class="highlight-box">
-<h3>🌍 <span style="color: #ffffff;">The Cloud Region Choice: The Most Impactful Lever</span></h3>
+<h3><span style="color: #ffffff;">The Cloud Region Choice: The Most Impactful Lever</span></h3>
 <p>Research by Dodge et al. (2022, Allen Institute for AI, ACM FAccT) found that running identical AI workloads in a low-carbon electricity region vs. a high-carbon region can reduce carbon emissions by up to 80%, with zero change to the model, code, or performance.</p>
 <p style="margin-top: 15px;">Major cloud providers (AWS, Google Cloud, Azure) all allow you to specify the region where your compute runs. Choosing <em>us-west-2</em> (Oregon, with significant hydroelectric power) over <em>us-east-1</em> (Virginia, more coal/gas dependent) can make a substantial difference. The same applies to European regions: <em>eu-north-1</em> (Sweden) is among the cleanest; <em>eu-central-1</em> (Frankfurt) less so.</p>
 <p style="margin-top: 15px;">Tools like the <strong>Electricity Maps API</strong> and <strong>Google Cloud's Carbon Footprint tool</strong> can help you choose the lowest-carbon option in real time.</p>
@@ -177,7 +176,7 @@
 </div>
 
 <div class="technical-detail">
-<h4>🔬 The Hidden Energy Cost of Frontier Model Features</h4>
+<h4>The Hidden Energy Cost of Frontier Model Features</h4>
 <p style="color: #555; margin-bottom: 15px;">Many advanced AI features are designed to improve output quality — but each carries an energy cost that is largely invisible in the user interface. The figures below are estimates based on available published evidence (noted in parentheses); some platform costs are not publicly disclosed.</p>
 <table class="comparison-table">
 <thead>
@@ -217,18 +216,18 @@
 </tbody>
 </table>
 <div class="info-box" style="margin-top: 20px;">
-<h4>💡 When Are These Features Worth It?</h4>
+<h4>When Are These Features Worth It?</h4>
 <p>Extended thinking and Deep Research exist because they genuinely improve results on hard problems. A Deep Research session synthesising 50 sources for a complex literature question may save many hours of manual work — and may well be the lower-energy option when your time is factored in.</p>
 <p style="margin-top: 8px;">The concern is <strong>reflexive use</strong>: enabling reasoning modes or triggering Deep Research for questions that a standard prompt would handle adequately. As with model size, the principle is the same: <em>match capability to complexity, and be intentional rather than defaulting to the most powerful available option</em>.</p>
 </div>
 </div>
 
 <!-- SECTION 3: AI FOR CLIMATE -->
-<h2 class="section-title">🌿 The Other Side: AI for Environmental Solutions</h2>
+<h2 class="section-title">The Other Side: AI for Environmental Solutions</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">A responsible treatment of AI's environmental impact requires engaging with both sides. AI is not only a consumer of energy — it is also being actively applied to some of the world's most pressing environmental challenges. These applications do not cancel out AI's footprint, but they are part of the full picture.</p>
 
 <div class="resource-placeholder">
-<h4>📄 Foundational Reading: Tackling Climate Change with Machine Learning</h4>
+<h4>Foundational Reading: Tackling Climate Change with Machine Learning</h4>
 <p style="font-style: normal; margin-top: 8px;"><a href="https://arxiv.org/abs/1906.05433" target="_blank" rel="noopener"><strong>Rolnick et al. (2022): "Tackling Climate Change with Machine Learning"</strong></a> — ACM Computing Surveys. A landmark survey paper by 22 researchers outlining 13 areas where ML can meaningfully contribute to climate mitigation and adaptation. Essential reading for a balanced view of AI's relationship with the environment.</p>
 </div>
 
@@ -263,7 +262,7 @@
 </div>
 
 <div class="info-box">
-<h4>⚖️ How to Think About the Trade-off</h4>
+<h4>How to Think About the Trade-off</h4>
 <p>The existence of beneficial AI applications for climate does not automatically justify AI's overall energy footprint — that would require demonstrating that the net impact is positive, which requires careful case-by-case analysis. Some questions worth asking:</p>
 <ul class="styled-list" style="margin-top: 10px;">
 <li>Does this specific AI application actually require a frontier model, or could a much smaller system do the job?</li>
@@ -275,7 +274,7 @@
 </div>
 
 <!-- SECTION 4: POLICY -->
-<h2 class="section-title">🏛️ The Policy Landscape</h2>
+<h2 class="section-title">The Policy Landscape</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">Individual choices by researchers matter, but the scale of AI's environmental impact requires systemic responses. Here is where policy is currently heading.</p>
 
 <div class="card-grid">
@@ -300,7 +299,7 @@
 </div>
 
 <div class="info-box" style="margin-top: 25px;">
-<h4>🌍 Africa and the AU: A Significant Policy Gap</h4>
+<h4>Africa and the AU: A Significant Policy Gap</h4>
 <p>The <strong>African Union Continental AI Strategy</strong> (adopted July 2024) is the continent's primary AI governance framework. Its environmental provisions are minimal but worth noting:</p>
 <ul class="styled-list" style="margin-top: 10px;">
 <li><strong>Water scarcity acknowledged:</strong> The strategy explicitly states that data centre cooling "poses a threat to regions already facing water scarcity" — directly relevant to an African context</li>
@@ -313,14 +312,14 @@
 </div>
 
 <div class="resource-placeholder">
-<h4>📄 Policy and Measurement Resources</h4>
+<h4>Policy and Measurement Resources</h4>
 <p style="font-style: normal; margin-top: 8px;"><a href="https://doi.org/10.1787/7babf571-en" target="_blank" rel="noopener"><strong>OECD (2022): "Measuring the Environmental Impacts of Artificial Intelligence Compute and Applications"</strong></a> — policy-focused analysis of methodological challenges and governance options.</p>
 <p style="font-style: normal; margin-top: 8px;"><a href="https://arxiv.org/abs/1907.10597" target="_blank" rel="noopener"><strong>Schwartz et al. (2020): "Green AI"</strong></a> (Communications of the ACM) — the foundational paper calling for the research community to report efficiency metrics alongside performance. Short and accessible.</p>
 <p style="font-style: normal; margin-top: 8px;"><a href="https://arxiv.org/abs/2206.05229" target="_blank" rel="noopener"><strong>Dodge et al. (2022): "Measuring the Carbon Intensity of AI in Cloud Instances"</strong></a> — the paper demonstrating the 80% emissions reduction available from cloud region choice.</p>
 </div>
 
 <!-- SECTION 5: DECISION FRAMEWORK -->
-<h2 class="section-title">🧭 A Framework for Your Own Decisions</h2>
+<h2 class="section-title">A Framework for Your Own Decisions</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">Rather than a set of rules, here is a set of questions you can ask yourself when deciding how to use AI in your research.</p>
 
 <div class="decision-framework">
@@ -337,7 +336,7 @@
 </div>
 
 <div class="info-box">
-<h4>💡 Proportionality: Don't Catastrophise, Don't Dismiss</h4>
+<h4>Proportionality: Don't Catastrophise, Don't Dismiss</h4>
 <p>Two failure modes are common in discussions of AI and the environment. The first is catastrophising: treating every ChatGPT query as an environmental emergency. The second is dismissing: pointing to AI's small per-query footprint as a reason to ignore the issue entirely.</p>
 <p style="margin-top: 8px;">The proportionate response is to:</p>
 <ul class="styled-list" style="margin-top: 8px;">
@@ -351,7 +350,7 @@
 
 <!-- SUMMARY -->
 <div class="intro-text" style="margin-top: 50px;">
-<h2>📚 Session 4 summary: the physical substrate of scale</h2>
+<h2>Session 4 summary: the physical substrate of scale</h2>
 <p>Across the four sub-sessions of Session 4, we have built a picture of AI's environmental footprint that is neither comforting nor catastrophic, but honest about what we know and what we don't:</p>
 <ul class="styled-list" style="margin-top: 15px;">
 <li><strong>The data are uncertain:</strong> Corporate opacity means all figures are estimates; treat them as order-of-magnitude guides</li>
@@ -366,7 +365,7 @@
 <p style="margin-top: 20px;"><strong>See the session bridge below</strong> for where this leads in the course.</p>
 </div>
         <div class="decision-framework">
-            <h4>🧭 From substrate to governance</h4>
+            <h4>From substrate to governance</h4>
             <p style="color:#555; line-height:1.8;">Hold onto one chain for Session 12: <strong>capability ← compute ← chips + energy</strong>. Each arrow is a place a governance regime could intervene and <em>verify</em> — which is why "compute governance" is one of the few technical-governance proposals with concrete, measurable hooks. And from an African vantage point: if the levers (chips, fabs, hyperscale data centres) sit elsewhere, "sovereign AI capacity" is first a question about access to this physical substrate.</p>
             <p style="color:#555; margin-top:10px;"><strong>Next (Week 3, Sessions 5–6):</strong> how a frontier model is actually trained — pretraining, SFT, and the RLHF/RL fine-tuning that turns a predictor into an assistant.</p>
         </div>

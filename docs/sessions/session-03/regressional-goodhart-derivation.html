@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appendix to 3.1 — The Optimizer's Curse: A Formal Derivation</title>
-    <link rel="stylesheet" href="https://s.brightspace.com/lib/fonts/0.6.1/fonts.css">
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -17,13 +16,13 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the references have been checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Session 3.1 • Derivation appendix</div>
-        <h1>📐 <span style="color:#ffffff;">The Optimizer's Curse</span></h1>
+        <h1>The optimizer's curse</h1>
         <p>A formal derivation of regressional Goodhart — why selecting on a proxy is biased, and how the bias grows with optimisation</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
-            <h2>🎯 What this appendix does</h2>
+            <h2>What this appendix does</h2>
             <p>Session 3.1 claimed, in one line, that optimising an unbiased proxy systematically over-states the true value of whatever you select, and that the over-statement grows the harder you optimise. This page proves it. We derive the post-selection bias exactly for the Gaussian case, show how it scales when you take the maximum over many options (the role of "optimisation power"), give the distribution-free version, and map the result back to specification gaming.</p>
             <p><strong>Prerequisites:</strong> joint Gaussians and conditional expectation, a little order-statistics / extreme-value theory, and comfort with expectations. Nothing beyond a strong second-year probability course. This is optional deep-dive material — the main thread continues in <a href="the-specification-problem.html">Session 3.1</a>.</p>
         </div>
@@ -36,7 +35,7 @@
             <p style="color:#555;">The proxy is <strong>unbiased</strong> as a measurement: averaged over the noise, it equals the truth. We optimise by selecting the option with the largest proxy, \(i^* = \operatorname{argmax}_i P_i\).</p>
         </div>
         <div class="info-box">
-            <h4>💡 The claim, precisely</h4>
+            <h4>The claim, precisely</h4>
             <p>Despite the proxy being unbiased <em>before</em> selection, the selected option's proxy is biased <em>upward</em> as an estimate of its true value: \(\mathbb{E}[P_{i^*} - G_{i^*}] \ge 0\). The distortion is created by the \(\operatorname{argmax}\), not by any error in the measurement — and it grows with how hard you optimise. This post-selection over-statement is the <strong>optimizer's curse</strong> (Smith &amp; Winkler, 2006); seen through the lens of metric-gaming it is <strong>regressional Goodhart</strong> (Manheim &amp; Garrabrant, 2018).</p>
         </div>
 
@@ -52,7 +51,7 @@
             <div class="formula">\[ \beta = \frac{\sigma_G^2}{\sigma_G^2 + \sigma_\varepsilon^2} \in (0, 1). \]</div>
         </div>
         <div class="info-box">
-            <h4>💡 Two readings of β</h4>
+            <h4>Two readings of β</h4>
             <p>This \(\beta\) is exactly the slope of the least-squares <strong>regression</strong> of \(G\) on \(P\) — for jointly Gaussian variables the conditional expectation <em>is</em> the linear regression, with slope \(\operatorname{Cov}(G,P)/\operatorname{Var}(P) = \sigma_G^2/(\sigma_G^2+\sigma_\varepsilon^2)\). Hence "<strong>regression</strong> to the mean" (Galton, 1886): the estimate of a high scorer is pulled back toward the population mean by the factor \(\beta\). The estimate is also the minimum-mean-squared-error estimator, so no cleverer use of the same data avoids the shrinkage.</p>
         </div>
 
@@ -64,12 +63,12 @@
             <p style="color:#555;">Equivalently, the expected noise of an option <em>conditioned on its score</em> is positive for above-average scores: \(\mathbb{E}[\varepsilon \mid P = p] = b(p) &gt; 0\) for \(p &gt; \mu_G\). Selecting a high proxy preferentially selects options that "got lucky".</p>
         </div>
         <div class="highlight-box">
-            <h3>📏 <span style="color:#ffffff;">Read off the two laws of Goodhart</span></h3>
+            <h3><span style="color:#ffffff;">Read off the two laws of Goodhart</span></h3>
             <p><strong>(i) The harder you optimise, the worse it is.</strong> \(b(p)\) is proportional to \((p - \mu_G)\) — how far into the tail your winner sits. Selecting an extreme proxy value inflates the over-statement without bound.</p>
             <p><strong>(ii) The worse the proxy, the worse it is.</strong> \(b(p)\) scales with \((1 - \beta) = \sigma_\varepsilon^2/(\sigma_G^2+\sigma_\varepsilon^2)\), the noise fraction. A perfect proxy (\(\sigma_\varepsilon = 0\), \(\beta = 1\)) gives zero bias; a noisy one gives a large one.</p>
         </div>
         <div class="info-box">
-            <h4>🔢 Equal-variance example</h4>
+            <h4>Equal-variance example</h4>
             <p>If signal and noise have equal variance, \(\sigma_G^2 = \sigma_\varepsilon^2\), then \(\beta = \tfrac{1}{2}\). An option whose proxy sits two standard deviations above the mean has an expected true value only <em>one</em> standard deviation above the mean: <strong>half of its apparent excellence is luck that will not reproduce.</strong> Optimise on a metric that is half noise and you systematically harvest options half as good as they look.</p>
         </div>
 
@@ -90,7 +89,7 @@
             <p style="color:#555;">So the gap between what the winner scored and what it is actually worth <strong>grows like \(\sqrt{\ln N}\)</strong> in the number of options searched — slowly, but without bound. More search, more capability, more compute → a winner further into the tail → a larger illusory inflation.</p>
         </div>
         <div class="info-box">
-            <h4>🔢 A number to hold</h4>
+            <h4>A number to hold</h4>
             <p>Search \(N = 1000\) options, equal signal/noise (\(\beta = \tfrac{1}{2}\)), \(\sigma_P = 1\): \(\sqrt{2 \ln 1000} \approx 3.7\), so the winner's proxy sits ≈3.7 σ above the mean, of which the expected over-statement is ≈ \((1-\tfrac{1}{2}) \cdot 3.7 \approx 1.9\) standard deviations of pure illusion. Push to \(N = 10^6\) and \(\sqrt{2 \ln N} \approx 5.3\) — the curse worsens, but only logarithmically.</p>
         </div>
 
@@ -109,7 +108,7 @@
             <div class="card"><h3>It is the gentle case</h3><p>The derivation assumes the \(G\)–\(P\) relationship stays linear-Gaussian out into the tail. Real optimisers also reach regions where the proxy stops tracking the goal (<em>extremal</em> Goodhart), where the correlation was never causal (<em>causal</em>), or where another agent games the metric (<em>adversarial</em>). Those are worse, and not captured here.</p></div>
         </div>
         <div class="info-box">
-            <h4>💡 So the closed form is a lower bound on the trouble</h4>
+            <h4>So the closed form is a lower bound on the trouble</h4>
             <p>\((1-\beta) \cdot \sigma_P \cdot \sqrt{2 \ln N}\) is the over-statement you pay even in the friendliest possible world. Reality adds the extremal/causal/adversarial terms on top. That is why §⑥ matters: regressional Goodhart proves the problem is real <em>in principle</em>; the other variants are why it is often severe <em>in practice</em>.</p>
         </div>
 
@@ -125,7 +124,7 @@
             <p style="color:#555; margin-top:10px;">Read in these terms, the result is a quantitative backbone for Session 3.1's empirical claims. The winner's-shortfall formula says the gap between <em>measured reward</em> and <em>true quality</em> grows with optimisation power — the mechanism behind Pan, Bhatia &amp; Steinhardt's (2022) finding that more capable agents game misspecified rewards more. And it sharpens Skalse et al.'s (2022) impossibility result: not only can a non-trivial proxy be optimised in a value-lowering direction, but the expected over-statement of the best-by-proxy option is strictly positive and increasing in search. "Just write a better reward" reduces \((1-\beta)\); it cannot reach the \(\beta = 1\) that would be needed to make the curse vanish.</p>
         </div>
 
-        <h2 class="section-title">📚 References</h2>
+        <h2 class="section-title">References</h2>
         <div class="resource-placeholder reading-core">
             <h4>Primary</h4>
             <p>• <a href="https://jimsmith.host.dartmouth.edu/wp-content/uploads/2022/04/The_Optimizers_Curse.pdf" target="_blank" rel="noopener"><strong>Smith, J. E. &amp; Winkler, R. L. (2006)</strong></a>, "The Optimizer's Curse: Skepticism and Postdecision Surprise in Decision Analysis", <em>Management Science</em> 52(3), 311–322. DOI <a href="https://doi.org/10.1287/mnsc.1050.0451" target="_blank" rel="noopener">10.1287/mnsc.1050.0451</a>.</p>
@@ -139,7 +138,7 @@
         </div>
 
         <nav class="page-nav">
-            <a class="prev" href="the-specification-problem.html"><span class="nav-label">↩ Return to</span><span class="nav-title">3.1 · The specification problem</span></a>
+            <a class="prev" href="the-specification-problem.html"><span class="nav-label">Return to</span><span class="nav-title">3.1 · The specification problem</span></a>
             <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
             <span class="nav-empty"></span>
         </nav>

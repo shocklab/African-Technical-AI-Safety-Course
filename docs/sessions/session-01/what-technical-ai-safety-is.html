@@ -72,14 +72,14 @@
             <p style="color:#555;">Hendrycks, Mazeika &amp; Woodside's "An Overview of Catastrophic AI Risks" (2023) uses four categories, which map cleanly onto the three above: <strong>malicious use</strong> (≈ misuse), <strong>rogue AIs</strong> (≈ misalignment), and <strong>the AI race</strong> + <strong>organizational risks</strong> (two flavours of systemic/structural — competitive pressure that erodes caution, and ordinary institutional failure inside the labs building these systems). Either taxonomy is a thinking tool, not a filing cabinet; the value is that they force the question <em>which kind of danger is this, and what would actually reduce it?</em></p>
         </div>
         <div class="info-box">
-            <h4>The categories overlap — and that's the point</h4>
+            <h4>The categories overlap by design</h4>
             <p>A misaligned model, in the hands of a malicious user, inside an organisation racing a competitor and cutting safety corners, is all three at once — and that is the realistic case, not a contrived one. The cut is for thinking, not for sorting. When someone says "AI is dangerous", your first move should be to ask <em>which</em> danger they mean, because the mitigations are different and often pull in different directions.</p>
         </div>
 
         <h2 class="section-title">The organising idea: safety vs capabilities</h2>
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">Two things that don't improve together for free</span></h3>
-            <p><strong>Capabilities</strong> are what a system can do — solve problems, write code, pass exams, act in the world. <strong>Safety</strong> is whether we can rely on it to do what we want and avoid what we don't, and whether we'd <em>know</em> if it didn't. The central empirical worry of the field is that capabilities are improving fast and predictably (Session 2's scaling laws), while safety — our ability to specify objectives, verify behaviour, and retain control — is <em>not</em> keeping pace. The danger lives in the widening gap.</p>
+            <p><strong>Capabilities</strong> are what a system can do: solve problems, write code, pass exams, act in the world. <strong>Safety</strong> is whether we can rely on it to do what we want and avoid what we don't, and whether we'd <em>know</em> if it didn't. The central empirical worry of the field is that capabilities are improving fast and predictably (Session 2's scaling laws), while safety — our ability to specify objectives, verify behaviour, and retain control — is <em>not</em> keeping pace. The danger lives in the widening gap.</p>
             <p>Almost every topic in this course is an attempt to close that gap from the safety side: better <em>specification</em> (alignment methods, Weeks 3–4), better <em>verification</em> (evaluations and interpretability, Weeks 6–8), better <em>control</em> (robustness and the control agenda, Week 5). Keep the distinction in hand; we test new ideas against it all term.</p>
         </div>
         <div class="info-box">
@@ -88,14 +88,14 @@
         </div>
 
         <h2 class="section-title">A map of the technical field</h2>
-        <p class="lead">The technical problems cluster into a handful of families — which is exactly how the course is structured. Two reference framings, a decade apart, help orient you.</p>
+        <p class="lead">The technical problems cluster into a handful of families, which is how the course is structured. Two reference framings, a decade apart, help orient you.</p>
         <div class="technical-detail">
             <h4>The classic list: "Concrete Problems in AI Safety" (Amodei et al., 2016)</h4>
             <p style="color:#555;">The paper that made the field legible to mainstream ML named five concrete problems, all framed around an agent and its reward: <strong>(1) avoiding negative side effects</strong>, <strong>(2) avoiding reward hacking</strong>, <strong>(3) scalable oversight</strong>, <strong>(4) safe exploration</strong>, and <strong>(5) robustness to distributional shift</strong>. Nearly a decade on, items (2), (3) and (5) are central pillars of this course (Sessions 3.1, 8, 5) — a sign of how durable the framing was.</p>
         </div>
         <div class="technical-detail">
             <h4>The modern framing, and the course's four families</h4>
-            <p style="color:#555;">Ngo, Chan &amp; Mindermann's "The Alignment Problem from a Deep Learning Perspective" (2022; ICLR 2024) recasts these for the era of large pretrained models — situationally-aware policies, learned objectives, deception — which is the version we actually study. Across both, the technical work clusters into four families, which are the spine of this course:</p>
+            <p style="color:#555;">Ngo, Chan &amp; Mindermann's "The Alignment Problem from a Deep Learning Perspective" (2022; ICLR 2024) recasts these for the era of large pretrained models — situationally-aware policies, learned objectives, deception — which is the version we actually study. Across both, the technical work clusters into four families, which this course is built around:</p>
             <ul class="styled-list">
                 <li><strong>Alignment</strong> — specifying and instilling the right objective (RLHF, RLAIF, Constitutional AI, scalable oversight). Weeks 3–4.</li>
                 <li><strong>Robustness &amp; control</strong> — holding up under adversarial pressure, and remaining controllable even if the model is <em>not</em> cooperative. Week 5.</li>
@@ -118,10 +118,10 @@
         <div class="warning-box">
             <h4>Five things to keep straight</h4>
             <ul class="styled-list">
-                <li><strong>Not only ethics.</strong> Ethics is load-bearing (Session 8) — but "is it good?" is a different question from "does it do what we intended, and can we tell?".</li>
+                <li><strong>Not only ethics.</strong> Ethics matters (Session 8) — but "is it good?" is a different question from "does it do what we intended, and can we tell?".</li>
                 <li><strong>Not only policy.</strong> Governance matters and is itself technical (Session 12), but this course's core is the systems, not the statutes.</li>
-                <li><strong>Not science fiction.</strong> The arguments we take seriously are ones tied to evidence about real systems; where a claim cannot be cashed out empirically or formally, we treat it with the scepticism we'd bring to any other.</li>
-                <li><strong>Not solved.</strong> No technique in this course "solves alignment". Each manages some part of the gap; honest treatment of what remains open is the whole point.</li>
+                <li><strong>Not science fiction.</strong> The arguments we take seriously are ones tied to evidence about real systems; where a claim cannot be tested empirically or formally, we treat it with the scepticism we'd bring to any other.</li>
+                <li><strong>Not solved.</strong> No technique in this course "solves alignment". Each manages some part of the gap; honest treatment of what remains open is the aim.</li>
                 <li><strong>Not anti-AI.</strong> Studying failure modes is how engineering disciplines make powerful technologies usable. Aerospace safety is not anti-flight. The aim is AI that is beneficial <em>and</em> reliable, including for people the technology currently serves least.</li>
             </ul>
         </div>
@@ -137,7 +137,7 @@
         <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder reading-core">
             <h4>Core</h4>
-            <p>• <strong>Amodei, Olah, Steinhardt, Christiano, Schulman &amp; Mané (2016), "Concrete Problems in AI Safety"</strong> (<a href="https://arxiv.org/abs/1606.06565" target="_blank" rel="noopener">arXiv:1606.06565</a>) — short, foundational, and still the cleanest map of the empirical field.</p>
+            <p>• <strong>Amodei, Olah, Steinhardt, Christiano, Schulman &amp; Mané (2016), "Concrete Problems in AI Safety"</strong> (<a href="https://arxiv.org/abs/1606.06565" target="_blank" rel="noopener">arXiv:1606.06565</a>) — short, foundational, and still the most useful map of the empirical field.</p>
             <p>• <strong>Hendrycks, Mazeika &amp; Woodside (2023), "An Overview of Catastrophic AI Risks"</strong> (<a href="https://arxiv.org/abs/2306.12001" target="_blank" rel="noopener">arXiv:2306.12001</a>) — the four-category risk taxonomy; read the introduction and skim the rest.</p>
         </div>
         <div class="resource-placeholder">

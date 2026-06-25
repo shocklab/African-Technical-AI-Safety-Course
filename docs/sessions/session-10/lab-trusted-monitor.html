@@ -60,17 +60,17 @@
         </ul>
 
         <div class="case-study">
-            <h4>Task 3 — the collusion round (the point of the lab)</h4>
+            <h4>Task 3 — the collusion round (the core of the lab)</h4>
             <p>Now make the monitor untrusted, as in 10.3. First, give the "untrusted coder" a <strong>collusion signal</strong>: it marks its own backdoors with a subtle tell (say, a <code>while</code> loop where a <code>for</code> loop is natural). A colluding monitor keys on that tell and passes anything carrying it — measure how far safety collapses (it should crater toward zero). Then deploy the two countermeasures: (1) plant <strong>synthetic backdoors</strong> the monitor must catch, at a ratio \(r\) to the real ones, and (2) <strong>redact</strong> the snippets (normalise loop style, strip variable names) so the tell is gone. Recompute the monitor's best collude-or-flag decision using the \(\mathrm{LR}(s) > r\) condition from 10.3, and show that raising \(r\) and redacting the signal force the monitor back to honesty. Report safety before collusion, under collusion, and after each countermeasure.</p>
         </div>
 
         <div class="info-box">
             <h4>Optional GPU extension — "suppressed, not removed"</h4>
-            <p>If you have a GPU, reproduce 10.4 in miniature on the public <code>cais/Zephyr_RMU</code> checkpoint. (a) Confirm the black-box story: WMDP-Bio accuracy is near chance. (b) <strong>Logit-lens probe</strong>: project the residual stream at intermediate layers to the vocabulary and read the model's answer there — show the "forgotten" knowledge is still decodable mid-network even when the final output is suppressed (forward passes only). (c) If you have a little more compute, LoRA-fine-tune on ~10 unrelated examples and watch WMDP-Bio accuracy climb back, MMLU barely moving — Łucki's headline, on your own machine.</p>
+            <p>If you have a GPU, reproduce 10.4 in miniature on the public <code>cais/Zephyr_RMU</code> checkpoint. (a) Confirm the black-box story: WMDP-Bio accuracy is near chance. (b) <strong>Logit-lens probe</strong>: project the residual stream at intermediate layers to the vocabulary and read the model's answer there — show the "forgotten" knowledge is still decodable mid-network even when the final output is suppressed (forward passes only). (c) If you have a little more compute, LoRA-fine-tune on ~10 unrelated examples and watch WMDP-Bio accuracy climb back, MMLU barely moving; Łucki's headline, on your own machine.</p>
         </div>
 
         <h2 class="section-title">What to submit</h2>
-        <p>One Colab notebook plus a short write-up containing: your monitor's catch-rate at the 2% budget with a 95% CI; the catch-rate-vs-audit-fraction plot; the three safety numbers from Task 3 (pre-collusion, under collusion, post-countermeasures) and the break-even \(r\) you computed; and a one-paragraph answer to the question that runs through the whole session — <em>"For the unlearning case: was the knowledge removed, or hidden? What evidence would distinguish the two, and which adversary class does your evidence cover?"</em> Graded on the clarity of the threat-model reasoning, not on the size of any single number.</p>
+        <p>One Colab notebook plus a short write-up containing: your monitor's catch-rate at the 2% budget with a 95% CI; the catch-rate-vs-audit-fraction plot; the three safety numbers from Task 3 (pre-collusion, under collusion, post-countermeasures) and the break-even \(r\) you computed; and a one-paragraph answer to the question that runs through the session — <em>"For the unlearning case: was the knowledge removed, or hidden? What evidence would distinguish the two, and which adversary class does your evidence cover?"</em> Graded on the clarity of the threat-model reasoning, not on the size of any single number.</p>
 
         <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder">

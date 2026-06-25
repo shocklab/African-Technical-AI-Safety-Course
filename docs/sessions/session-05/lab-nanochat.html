@@ -40,7 +40,7 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>This lab turns the pipeline of 5.1–5.3 from words into code. You'll read the stages of a complete, minimal LLM pipeline (Karpathy's <strong>nanochat</strong>), then do the experiment that makes the whole session click: compare a <strong>base model</strong> (completes text) with an <strong>instruction-tuned model</strong> (follows instructions) on identical prompts, and — optionally — run a tiny supervised fine-tune yourself and watch behaviour shift. Everything graded runs on free Google Colab.</p>
+            <p>This lab turns the pipeline of 5.1–5.3 from words into code. You'll read the stages of a complete, minimal LLM pipeline (Karpathy's <strong>nanochat</strong>), then do the experiment that makes the session click: compare a <strong>base model</strong> (completes text) with an <strong>instruction-tuned model</strong> (follows instructions) on identical prompts, and — optionally — run a tiny supervised fine-tune yourself and watch behaviour shift. Everything graded runs on free Google Colab.</p>
         </div>
 
         <div class="lab-box">
@@ -77,7 +77,7 @@
         <h2 class="section-title">③ Optional: run a tiny supervised fine-tune <span style="font-size:0.6em; color:#888; vertical-align:middle;">[GPU — optional]</span></h2>
         <div class="technical-detail">
             <h4>Make the shift happen with your own hands</h4>
-            <p style="color:#555;">On a free Colab GPU runtime, fine-tune the small base model on a handful (10–50) of hand-written (instruction, response) pairs in one style — e.g. always answer in one short sentence — using the next-token loss masked to the response (5.2). Then re-run the prompts from ②. Even a tiny SFT set visibly nudges the model toward your demonstrated format. This is the entire mechanism behind "turning a base model into an assistant", in miniature; keep the dataset small and the point will still land.</p>
+            <p style="color:#555;">On a free Colab GPU runtime, fine-tune the small base model on a handful (10–50) of hand-written (instruction, response) pairs in one style — e.g. always answer in one short sentence — using the next-token loss masked to the response (5.2). Then re-run the prompts from ②. Even a tiny SFT set visibly nudges the model toward your demonstrated format. This is the mechanism behind "turning a base model into an assistant", in miniature; keep the dataset small and the effect will still show.</p>
         </div>
 
         <div class="lab-box">
@@ -95,7 +95,7 @@
         <div class="intro-text" style="margin-top:50px;">
             <h2>Session 5 summary &amp; what's next</h2>
             <p>An LLM is built in stages: web-scale self-supervised <strong>pretraining</strong> yields a capable but unaligned base model (5.1); <strong>supervised fine-tuning</strong> on demonstrations makes it follow instructions but can only imitate, never select the <em>better</em> answer (5.2); the full <strong>post-training stack</strong> shapes the assistant as a thin proxy-driven layer over a vast base, with a distinct misalignment opening at every stage (5.3); and you've now seen the base→instruct shift in code (5.4).</p>
-            <p><strong>Next (Session 6):</strong> the stage that breaks through SFT's ceiling, <strong>RLHF</strong>. We learn a reward model from human <em>preferences</em>, optimise the policy against it with a KL leash, and confront the price: optimising a learned proxy invites exactly the Goodhart failures of Session 3.1 — reward hacking and sycophancy.</p>
+            <p><strong>Next (Session 6):</strong> the stage that breaks through SFT's ceiling, <strong>RLHF</strong>. We learn a reward model from human <em>preferences</em>, optimise the policy against it with a KL leash, and confront the price: optimising a learned proxy invites the Goodhart failures of Session 3.1 — reward hacking and sycophancy.</p>
         </div>
 
     </div>

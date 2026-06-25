@@ -39,8 +39,8 @@
     <div class="content">
 <div class="intro-text">
 <h2>What We'll Cover</h2>
-<p>The previous two sessions established that AI has a real and growing environmental footprint, and that the relationship between efficiency and total consumption is complicated. This session asks: given all of that, what can you actually do?</p>
-<p>We will look at concrete tools for measuring the carbon footprint of your own computational work, practical choices that can meaningfully reduce your impact, and — importantly — the other side of the story: the ways AI is being applied to environmental challenges. The goal is not to make you feel either guilty or reassured, but to help you make informed decisions and engage critically with claims about AI and the environment from any direction.</p>
+<p>The previous two sessions established that AI has a real and growing environmental footprint, and that the relationship between efficiency and total consumption is complicated. This session asks: given all of that, what can you do?</p>
+<p>We will look at concrete tools for measuring the carbon footprint of your own computational work, practical choices that can meaningfully reduce your impact, and the other side of the story: the ways AI is being applied to environmental challenges. The goal is not to make you feel either guilty or reassured, but to help you make informed decisions and engage critically with claims about AI and the environment from any direction.</p>
 </div>
 
 <!-- SECTION 1: MEASURING YOUR FOOTPRINT -->
@@ -176,7 +176,7 @@
 <ul class="styled-list">
 <li>Well-crafted prompts can match or exceed the performance of a fine-tuned smaller model for many tasks</li>
 <li>Iterating on prompts uses inference compute (relatively cheap); training uses training compute (more expensive)</li>
-<li>If a task truly requires fine-tuning, use parameter-efficient methods (LoRA) rather than full fine-tuning — the compute savings are substantial</li>
+<li>If a task requires fine-tuning, use parameter-efficient methods (LoRA) rather than full fine-tuning — the compute savings are substantial</li>
 <li>Cache and reuse results: if you are running the same analysis on many documents, caching intermediate outputs avoids redundant compute</li>
 </ul>
 </div>
@@ -234,7 +234,7 @@
 </table>
 <div class="info-box" style="margin-top: 20px;">
 <h4>When Are These Features Worth It?</h4>
-<p>Extended thinking and Deep Research exist because they genuinely improve results on hard problems. A Deep Research session synthesising 50 sources for a complex literature question may save many hours of manual work — and may well be the lower-energy option when your time is factored in.</p>
+<p>Extended thinking and Deep Research exist because they improve results on hard problems. A Deep Research session synthesising 50 sources for a complex literature question may save many hours of manual work — and may well be the lower-energy option when your time is factored in.</p>
 <p style="margin-top: 8px;">The concern is <strong>reflexive use</strong>: enabling reasoning modes or triggering Deep Research for questions that a standard prompt would handle adequately. As with model size, the principle is the same: <em>match capability to complexity, and be intentional rather than defaulting to the most powerful available option</em>.</p>
 </div>
 </div>
@@ -282,16 +282,16 @@
 <h4>How to Think About the Trade-off</h4>
 <p>The existence of beneficial AI applications for climate does not automatically justify AI's overall energy footprint — that would require demonstrating that the net impact is positive, which requires careful case-by-case analysis. Some questions worth asking:</p>
 <ul class="styled-list" style="margin-top: 10px;">
-<li>Does this specific AI application actually require a frontier model, or could a much smaller system do the job?</li>
+<li>Does this specific AI application require a frontier model, or could a much smaller system do the job?</li>
 <li>What is the counterfactual? Would the same outcome be achieved without AI, using less energy?</li>
 <li>Are the emissions savings from the application larger than the emissions from running the AI system itself?</li>
 <li>Who bears the environmental costs (global electricity + hardware) vs. who receives the benefits (specific sectors or regions)?</li>
 </ul>
-<p style="margin-top: 8px;">These are genuinely difficult questions, and the honest answer in most cases is that we don't yet have the data to answer them precisely.</p>
+<p style="margin-top: 8px;">These are difficult questions, and the answer in most cases is that we don't yet have the data to answer them precisely.</p>
 </div>
 
 <!-- SECTION 4: POLICY -->
-<h2 class="section-title">The Policy Landscape</h2>
+<h2 class="section-title">The Policy Response</h2>
 <p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">Individual choices by researchers matter, but the scale of AI's environmental impact requires systemic responses. Here is where policy is currently heading.</p>
 
 <div class="card-grid">
@@ -342,7 +342,7 @@
 <div class="decision-framework">
 <h4>Questions to Ask Before Running Compute-Intensive AI Work</h4>
 <ol style="margin-left: 25px; color: #555; line-height: 2.2; font-size: 1.05em;">
-<li><strong>Do I actually need AI for this task?</strong> Could a simpler statistical method, a keyword search, or manual analysis achieve the same result with less compute?</li>
+<li><strong>Do I need AI for this task?</strong> Could a simpler statistical method, a keyword search, or manual analysis achieve the same result with less compute?</li>
 <li><strong>Do I need a frontier model — and do I need its most powerful features?</strong> Would a 7B parameter open-weight model do the job? If using a frontier model, do I need extended thinking, Deep Research, or agent workflows — or will a standard prompt suffice? Have I tested simpler approaches first?</li>
 <li><strong>Can I measure the footprint?</strong> Can I add CodeCarbon to this experiment, or use the Green Algorithms calculator to estimate it?</li>
 <li><strong>Where is my compute running?</strong> If using cloud, am I in the lowest-carbon region available for this task?</li>
@@ -383,8 +383,8 @@
 </div>
         <div class="decision-framework">
             <h4>From substrate to governance</h4>
-            <p style="color:#555; line-height:1.8;">Hold onto one chain for Session 12: <strong>capability ← compute ← chips + energy</strong>. Each arrow is a place a governance regime could intervene and <em>verify</em> — which is why "compute governance" is one of the few technical-governance proposals with concrete, measurable hooks. And from an African vantage point: if the levers (chips, fabs, hyperscale data centres) sit elsewhere, "sovereign AI capacity" is first a question about access to this physical substrate.</p>
-            <p style="color:#555; margin-top:10px;"><strong>Next (Week 3, Sessions 5–6):</strong> how a frontier model is actually trained — pretraining, SFT, and the RLHF/RL fine-tuning that turns a predictor into an assistant.</p>
+            <p style="color:#555; line-height:1.8;">One chain matters for Session 12: <strong>capability ← compute ← chips + energy</strong>. Each arrow is a place a governance regime could intervene and <em>verify</em> — which is why "compute governance" is one of the few technical-governance proposals with concrete, measurable hooks. And from an African vantage point: if the levers (chips, fabs, hyperscale data centres) sit elsewhere, "sovereign AI capacity" is first a question about access to this physical substrate.</p>
+            <p style="color:#555; margin-top:10px;"><strong>Next (Week 3, Sessions 5–6):</strong> how a frontier model is trained — pretraining, SFT, and the RLHF/RL fine-tuning that turns a predictor into an assistant.</p>
         </div>
     </div>
 <!-- PAGE-NAV-START -->

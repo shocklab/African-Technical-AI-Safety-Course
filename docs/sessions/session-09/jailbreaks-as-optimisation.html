@@ -41,7 +41,7 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>A "jailbreak" sounds like a trick. This sub-session shows it is an <strong>optimisation problem</strong> with a clean objective, solved by an algorithm a maths student can fully parse. We write the objective — make the model begin its reply with an affirmative phrase — and then read <strong>greedy coordinate gradient</strong> (GCG; Zou et al., 2023) line by line: use gradients to shortlist candidate token swaps, use exact forward passes to choose among them. We close on the two results that matter for safety: the same suffix can be made <em>universal</em> across prompts, and it <em>transfers</em> to commercial models the attacker never had access to, with one number that looks like good news for one model and is partly an artefact.</p>
+            <p>A "jailbreak" sounds like a trick. This sub-session shows it is an <strong>optimisation problem</strong> with a well-defined objective, solved by an algorithm a maths student can fully parse. We write the objective — make the model begin its reply with an affirmative phrase — and then read <strong>greedy coordinate gradient</strong> (GCG; Zou et al., 2023) line by line: use gradients to shortlist candidate token swaps, use exact forward passes to choose among them. We close on the two results that matter for safety: the same suffix can be made <em>universal</em> across prompts, and it <em>transfers</em> to commercial models the attacker never had access to, with one number that looks like good news for one model and is partly an artefact.</p>
         </div>
 
         <h2 class="section-title">From DAN to automated search</h2>
@@ -68,8 +68,8 @@
             <p style="color:#555;">The name says it: <em>coordinate</em> (change one token-position at a time), <em>gradient</em> (to shortlist candidates), <em>greedy</em> (take the best swap each step). The gradient does the cheap pruning over a \(|V| \approx 32{,}000\)-way choice; the forward passes do the reliable selection. The earlier AutoPrompt method searched one position at a time; GCG's advance is to consider swaps across <em>all</em> positions before committing, which makes the search markedly more effective.</p>
         </div>
         <div class="info-box">
-            <h4>Why this split is the whole idea</h4>
-            <p>Discrete optimisation over text is hard because you cannot follow a gradient to a valid input. GCG's resolution is to use the gradient only for what it is good at — ranking many candidates approximately and cheaply — and to use exact forward passes for what the gradient is bad at: deciding which candidate actually helps. That "propose with gradients, decide with evaluations" pattern recurs all over discrete ML; GCG is a clean, consequential instance your cohort can implement.</p>
+            <h4>Propose with gradients, decide with evaluations</h4>
+            <p>Discrete optimisation over text is hard because you cannot follow a gradient to a valid input. GCG's resolution is to use the gradient only for what it is good at — ranking many candidates approximately and cheaply — and to use exact forward passes for what the gradient is bad at: deciding which candidate actually helps. That "propose with gradients, decide with evaluations" pattern recurs all over discrete ML; GCG is a consequential instance your cohort can implement.</p>
         </div>
 
         <h2 class="section-title">Universal and transferable</h2>
@@ -81,11 +81,11 @@
                 <li>White-box, where the attack is computed: <strong>Vicuna-7B</strong> ≈ 88% (harmful strings) / 99–100% (behaviours); <strong>Llama-2-7B-Chat</strong> ≈ 57% / 88%.</li>
                 <li>Black-box transfer from the open-weights ensemble: <strong>GPT-3.5</strong> ≈ 86.6%, <strong>PaLM-2</strong> ≈ 66.0%, <strong>GPT-4</strong> ≈ 46.9%, <strong>Claude-2</strong> ≈ 2.1%.</li>
             </ul>
-            <p style="color:#555;">Claude-2's 2.1% looks like proof it is dramatically more robust. Read it carefully. The paper notes the suffixes were optimised against Vicuna, which is itself <em>distilled from ChatGPT outputs</em> — so transfer to the GPT family is flattered by shared lineage, and the low Claude number partly reflects that Claude is further from the surrogate, not only that it is safer. It is a clean lesson in not over-reading a benchmark: the same table that shows the attack working also shows how the choice of surrogate shapes the apparent ranking of defenders.</p>
+            <p style="color:#555;">Claude-2's 2.1% looks like proof it is dramatically more robust. Read it carefully. The paper notes the suffixes were optimised against Vicuna, which is itself <em>distilled from ChatGPT outputs</em> — so transfer to the GPT family is flattered by shared lineage, and the low Claude number partly reflects that Claude is further from the surrogate, not only that it is safer. It is a caution against over-reading a benchmark: the same table that shows the attack working also shows how the choice of surrogate shapes the apparent ranking of defenders.</p>
         </div>
 
         <h2 class="section-title">What the attack costs, and where it strains</h2>
-        <p>GCG is white-box and compute-heavy: it needs gradients (hence open weights, or a surrogate) and many forward passes per suffix. That is why the realistic deployment is transfer: craft on open models, fire at closed ones. It also produces gibberish suffixes, which makes the attack detectable by a perplexity filter (a defence, and an arms-race move we revisit in 9.5). The point for this course is not that GCG is the final word — it is that a jailbreak is a search with an objective, so "we patched the prompts we found" is never a defence against the next run of the optimiser.</p>
+        <p>GCG is white-box and compute-heavy: it needs gradients (hence open weights, or a surrogate) and many forward passes per suffix. That is why the realistic deployment is transfer: craft on open models, fire at closed ones. It also produces gibberish suffixes, which makes the attack detectable by a perplexity filter (a defence, and an arms-race move we revisit in 9.5). GCG is not the final word. What this course takes from it: a jailbreak is a search with an objective, so "we patched the prompts we found" is never a defence against the next run of the optimiser.</p>
 
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">The African-lens angle: tokenisers are not neutral</h3>
@@ -95,7 +95,7 @@
         <h2 class="section-title">Questions to bring to class</h2>
         <ul class="styled-list">
             <li>Write the GCG objective for a target of your choice. Why optimise the negative log-likelihood of an <em>affirmative prefix</em> rather than directly maximising "harmfulness"? What does that tell you about what is easy vs hard to specify?</li>
-            <li>In step 1 the gradient ranks \(|V|\) candidate tokens per position; in step 2 only a sampled batch is evaluated exactly. Why not just trust the gradient's top choice? Why not exactly evaluate all \(|V|\) candidates?</li>
+            <li>In step 1 the gradient ranks \(|V|\) candidate tokens per position; in step 2 only a sampled batch is evaluated exactly. Why not trust the gradient's top choice? Why not exactly evaluate all \(|V|\) candidates?</li>
             <li>Given the distillation caveat, design a fairer experiment to compare two models' robustness to transferred GCG suffixes. What would you change about the surrogate?</li>
             <li>A perplexity filter rejects high-perplexity (gibberish) inputs. Does that defeat GCG, or just move the optimiser's objective? Write the new objective the attacker would minimise.</li>
         </ul>

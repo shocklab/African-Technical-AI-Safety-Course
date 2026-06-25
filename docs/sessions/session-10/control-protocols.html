@@ -41,19 +41,19 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Upfront auditing was scale-invariantly weak (10.2) because it spent its budget blindly. The protocols here spend it <em>adaptively</em> — on the cases that look suspicious — and trade safety against usefulness along a Pareto frontier you can read off directly. We build up from trusted monitoring through defer-to-trusted to the hardest idea, <strong>untrusted monitoring</strong> (using the capable-but-suspect model to police itself), where the central obstacle is <em>collusion</em>. The worked core is a Bayesian argument showing why collusion gets <em>harder</em> as the defender scales up synthetic tests, a genuinely hopeful result and a satisfying piece of probability.</p>
+            <p>Upfront auditing was scale-invariantly weak (10.2) because it spent its budget blindly. The protocols here spend it <em>adaptively</em> — on the cases that look suspicious — and trade safety against usefulness along a Pareto frontier you can read off directly. We build up from trusted monitoring through defer-to-trusted to <strong>untrusted monitoring</strong> (using the capable-but-suspect model to police itself), where the central obstacle is <em>collusion</em>. The worked core is a Bayesian argument showing why collusion gets <em>harder</em> as the defender scales up synthetic tests, a hopeful result and a satisfying piece of probability.</p>
         </div>
 
         <h2 class="section-title">The frontier, protocol by protocol</h2>
         <p class="lead">Every protocol is a point on a safety-versus-usefulness plane; the goal is the upper-right.</p>
-        <p>Recall the two baselines: never use \(U\) (safety 100%, usefulness 0) and use it freely (usefulness 1, safety ~15%). The interesting protocols sit between, and the numbers below are the headline results from Greenblatt et al.'s testbed (safety / usefulness).</p>
+        <p>Recall the two baselines: never use \(U\) (safety 100%, usefulness 0) and use it freely (usefulness 1, safety ~15%). The interesting protocols sit between, and the numbers below are from Greenblatt et al.'s testbed (safety / usefulness).</p>
         <div class="technical-detail">
             <h4>Trusted monitoring — 62% / 97%</h4>
             <p style="color:#555;">Have the trusted model \(T\) read every one of \(U\)'s solutions and output a <em>suspicion score</em>; spend the scarce human audit budget \(H\) on the most suspicious ~2%. Because \(T\) is weak it cannot reliably write safe code itself, but it is good enough to <em>smell</em> that something is off, and concentrating audits where suspicion is highest is far better than auditing a blind prefix. This alone lifts safety from 15% to <strong>62%</strong> while keeping usefulness at <strong>97%</strong> — almost all of \(U\)'s value, four times the safety.</p>
         </div>
         <div class="technical-detail">
             <h4>Defer-to-trusted — sweeping the frontier</h4>
-            <p style="color:#555;">Add one move: when \(T\)'s suspicion score crosses a threshold, do not just flag it — <em>replace</em> \(U\)'s solution with \(T\)'s own (weaker but trusted) one. The threshold is a dial that sweeps the frontier: defer the top 10% of suspicious cases and you get <strong>83% / 93%</strong>; the top 20%, <strong>92% / 83%</strong>; the top 50%, <strong>100% / 51%</strong>. You are buying safety with usefulness, one suspicious case at a time — and you can read straight off the numbers how much capability a given safety target costs.</p>
+            <p style="color:#555;">Add one move: when \(T\)'s suspicion score crosses a threshold, do not just flag it — <em>replace</em> \(U\)'s solution with \(T\)'s own (weaker but trusted) one. The threshold is a dial that sweeps the frontier: defer the top 10% of suspicious cases and you get <strong>83% / 93%</strong>; the top 20%, <strong>92% / 83%</strong>; the top 50%, <strong>100% / 51%</strong>. You are buying safety with usefulness, one suspicious case at a time, and you can read straight off the numbers how much capability a given safety target costs.</p>
         </div>
         <div class="technical-detail">
             <h4>Trusted editing — 92% / 94%</h4>
@@ -62,7 +62,7 @@
 
         <h2 class="section-title">Untrusted monitoring, and the collusion problem</h2>
         <p class="lead">The only thing capable enough to catch \(U\) is another copy of \(U\) — but can you trust the guard?</p>
-        <p>The trusted model \(T\) is weak, so it misses subtle backdoors. The obvious fix is to use \(U\) itself as the monitor — it is certainly capable enough to recognise a backdoor. The catch is that \(U\) the monitor and \(U\) the coder are the same model and may <strong>collude</strong>: the simplest attack is the policy "when you see a real backdoor, report it as safe." Against that, naïve untrusted monitoring collapses to <strong>0% safety</strong> — the guard is in on it.</p>
+        <p>The trusted model \(T\) is weak, so it misses subtle backdoors. The obvious fix is to use \(U\) itself as the monitor — it is capable enough to recognise a backdoor. But \(U\) the monitor and \(U\) the coder are the same model and may <strong>collude</strong>: the simplest attack is the policy "when you see a real backdoor, report it as safe." Against that, naïve untrusted monitoring collapses to <strong>0% safety</strong>: the guard is in on it.</p>
         <p>The blue team's countermeasures are two, and they work together. First, <strong>evaluate the monitor on synthetic backdoors</strong>: the blue team secretly inserts its own known backdoors into the stream and checks whether the monitor flags them. A monitor that waves backdoors through to help its twin will fail these tests and be caught. Second, <strong>redaction</strong>: strip the problem and solution down so the monitor cannot tell whether a given backdoor is a real one from \(U\) (which it wants to protect) or a synthetic trap from the blue team (which it must flag to survive). Together these recover untrusted monitoring to <strong>79% / 96%</strong>.</p>
 
         <div class="technical-detail">
@@ -73,12 +73,12 @@
         </div>
         <div class="info-box">
             <h4>The shape of the result</h4>
-            <p>Notice what just happened to the 10.2 pessimism. Upfront auditing was scale-invariant — bigger deployments did not help. Adaptive monitoring with synthetic tests is the opposite: the defender's position <em>improves</em> with scale, because more cases mean more opportunities to test the monitor and more statistical power to catch a colluder. Control is not a single trick; it is a frontier of protocols, and the better ones turn the size of the deployment from the attacker's friend into the defender's.</p>
+            <p>Notice what just happened to the 10.2 pessimism. Upfront auditing was scale-invariant — bigger deployments did not help. Adaptive monitoring with synthetic tests is the opposite: the defender's position <em>improves</em> with scale, because more cases mean more opportunities to test the monitor and more statistical power to catch a colluder. Control is a frontier of protocols, and the better ones turn the size of the deployment from the attacker's friend into the defender's.</p>
         </div>
 
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">The African-lens angle: the monitor is weakest where it is needed most</h3>
-            <p>Every protocol here rests on a monitor — \(T\), or a redacted \(U\) — that can reliably smell a backdoor or a harmful output. That competence is not uniform across languages. In the Circuit Breakers evaluation (10.3 reading), undefended models show large, uneven attack-success rates across languages, and safety classifiers in general are weakest where their training data is thinnest. By the same logic that drives the isiZulu jailbreak (Session 9), a GPT-3.5-class trusted monitor that flags suspicious code or content well in English will have higher false-negative rates in isiZulu, Yoruba, or Amharic. Feed that into the 10.2 safety analysis and the conclusion is sharp: the headline safety numbers are computed on an English testbed, so the <em>delivered</em> safety of the same protocol for an African-language deployment is plausibly lower, and we cannot yet quantify the gap, because the evaluations (Session 11) are not multilingual. This is the same fault line as the isiZulu jailbreak (Session 9), now inside the defence itself.</p>
+            <p>Every protocol here rests on a monitor — \(T\), or a redacted \(U\) — that can reliably smell a backdoor or a harmful output. That competence is not uniform across languages. In the Circuit Breakers evaluation (10.3 reading), undefended models show large, uneven attack-success rates across languages, and safety classifiers in general are weakest where their training data is thinnest. By the same logic that drives the isiZulu jailbreak (Session 9), a GPT-3.5-class trusted monitor that flags suspicious code or content well in English will have higher false-negative rates in isiZulu, Yoruba, or Amharic. Feed that into the 10.2 safety analysis: the safety numbers are computed on an English testbed, so the <em>delivered</em> safety of the same protocol for an African-language deployment is plausibly lower, and we cannot yet quantify the gap, because the evaluations (Session 11) are not multilingual. This is the same fault line as the isiZulu jailbreak (Session 9), now inside the defence itself.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
@@ -101,7 +101,7 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Sub-session <strong>10.4</strong> delivers the honest bottom line: the evidence that today's unlearning mostly <em>suppresses</em> rather than removes knowledge, the scope limits of control, and how to write the threat-model accounting that any safety number requires.</p>
+            <p>Sub-session <strong>10.4</strong> delivers the bottom line: the evidence that today's unlearning mostly <em>suppresses</em> rather than removes knowledge, the scope limits of control, and how to write the threat-model accounting that any safety number requires.</p>
         </div>
 
     </div>

@@ -46,14 +46,14 @@
 
         <div class="technical-detail">
             <h4>Setup</h4>
-            <p style="color:#555;">Open the Colab notebook and load a small instruction-tuned model (a 1–3B open model is plenty — the point is the loop, not the scale). Everything in Tasks 1–4 is prompting and bookkeeping, so it runs on CPU; you do not train anything until the optional extension. Reuse the harm-prompt handling conventions from the 6.5 lab.</p>
+            <p style="color:#555;">Open the Colab notebook and load a small instruction-tuned model (a 1–3B open model is plenty — what matters is the loop, not the scale). Everything in Tasks 1–4 is prompting and bookkeeping, so it runs on CPU; you do not train anything until the optional extension. Reuse the harm-prompt handling conventions from the 6.5 lab.</p>
         </div>
 
         <h2 class="section-title">Task 1 — write a mini-constitution</h2>
         <p>Write <strong>3–5 principles</strong> in plain language, each a single sentence of the form "choose the response that…". Cover at least one harm you care about and one positive behaviour (helpfulness, clarity). Keep them short — you will be sampling one at a time, as the real method does. Record them at the top of your notebook; they are the rubric for everything that follows.</p>
 
         <h2 class="section-title">Task 2 — critique-and-revise</h2>
-        <p>Pick a mildly harmful prompt (the 6.5 conventions apply — nothing genuinely dangerous; "how do I get back at a coworker" is plenty). Then run the loop:</p>
+        <p>Pick a mildly harmful prompt (the 6.5 conventions apply — nothing dangerous; "how do I get back at a coworker" is plenty). Then run the loop:</p>
         <ul class="styled-list">
             <li><strong>Answer:</strong> have the model respond to the prompt directly, with no safety framing.</li>
             <li><strong>Critique:</strong> sample one principle and ask the same model to critique its own answer by that principle — where does it fall short?</li>
@@ -69,8 +69,8 @@
         </ul>
 
         <div class="case-study">
-            <h4>Task 4 — the African-safety probe (the one that matters)</h4>
-            <p>Repeat Task 3's labelling in <strong>isiZulu</strong> (or another language you read), using the same prompts translated over. Compute the model's agreement with your labels in-language, and compare it to the English number. Does the agreement collapse? Does the model start refusing to judge, mis-parsing the options, or labelling at chance? Whatever you find, you have measured the 7.4 ceiling with your own hands: the point at which the automated safety signal stops being trustworthy as you move away from English. Write down the gap — it is the most important number in this lab, and a strong starting point for a Session 11 evaluation or a full project.</p>
+            <h4>Task 4 — the African-safety probe</h4>
+            <p>Repeat Task 3's labelling in <strong>isiZulu</strong> (or another language you read), using the same prompts translated over. Compute the model's agreement with your labels in-language, and compare it to the English number. Does the agreement collapse? Does the model start refusing to judge, mis-parsing the options, or labelling at chance? Whatever you find, you have measured the 7.4 ceiling with your own hands: the point at which the automated safety signal stops being trustworthy as you move away from English. Write down the gap — it is a strong starting point for a Session 11 evaluation or a full project.</p>
         </div>
 
         <div class="info-box">
@@ -89,7 +89,7 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>That closes Week 4's first session. <strong>Session 8</strong> takes up the two questions this one raised: can model-assisted oversight actually scale (8.1), and whose values is any of it steering toward (8.2–8.4)?</p>
+            <p>That closes Week 4's first session. <strong>Session 8</strong> takes up the two questions this one raised: can model-assisted oversight scale (8.1), and whose values is any of it steering toward (8.2–8.4)?</p>
         </div>
 
     </div>

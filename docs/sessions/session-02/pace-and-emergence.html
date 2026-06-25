@@ -35,13 +35,13 @@
     <header>
         <div class="week-badge">Week 2 • Session 2.4</div>
         <h1>Pace of progress &amp; the emergence debate</h1>
-        <p>How fast is AI really improving — and do new abilities appear suddenly, or only seem to?</p>
+        <p>How fast is AI improving — and do new abilities appear suddenly, or only seem to?</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Scaling laws (2.3) describe a smooth fall in loss, yet headlines describe abilities that appear "all at once". This sub-session separates what we can measure — how fast compute and capability have actually grown — from what is genuinely contested: whether new abilities <em>emerge</em> discontinuously at scale, or only seem to because of how we score them. We work the metric mechanism behind that dispute with real numbers, place it inside the deeper tension between predictable loss and surprising behaviour, and draw the safety conclusion: where forecasting fails, you have to measure directly.</p>
+            <p>Scaling laws (2.3) describe a smooth fall in loss, yet headlines describe abilities that appear "all at once". This sub-session separates what we can measure — how fast compute and capability have grown — from what is contested: whether new abilities <em>emerge</em> discontinuously at scale, or only seem to because of how we score them. We work the metric mechanism behind that dispute with real numbers, place it inside the deeper tension between predictable loss and surprising behaviour, and draw the safety conclusion: where forecasting fails, you have to measure directly.</p>
         </div>
 
         <h2 class="section-title">The measurable part: compute trends</h2>
@@ -51,11 +51,11 @@
             <ul class="styled-list">
                 <li><strong>Compute has grown far faster than hardware.</strong> Sevilla et al. (2022) date a regime change around 2010: before it, training compute for notable systems roughly tracked Moore's law (a doubling every ~20 months); since then it has doubled roughly every <strong>six months</strong>, and a separate "large-scale" track of frontier runs sits orders of magnitude above even that. The growth is driven by deliberate investment, not cheaper chips alone.</li>
                 <li><strong>The three inputs move together.</strong> Compute, dataset size and parameters scale in step (2.3), bounded increasingly by data and by energy and hardware supply (Session 4).</li>
-                <li><strong>The trends are trackable.</strong> Groups like Epoch AI maintain public datasets of model compute, parameters and data — the empirical basis for any honest claim about how fast the field is moving.</li>
+                <li><strong>The trends are trackable.</strong> Groups like Epoch AI maintain public datasets of model compute, parameters and data — the empirical basis for any claim about how fast the field is moving.</li>
             </ul>
-            <p style="color:#555; margin-top:12px;">You will work with this data directly in the 2.5 lab. The discipline to carry in: when someone says AI is accelerating, or stalling, ask <em>which measured quantity, over what window?</em></p>
+            <p style="color:#555; margin-top:12px;">You will work with this data directly in the 2.5 lab. When someone says AI is accelerating, or stalling, ask <em>which measured quantity, over what window?</em></p>
         </div>
-        <p>Two implications follow before we even reach the controversy. A six-month doubling means a tenfold jump in training compute is only about twenty months away on the main trend, which is what lets labs plan frontier runs years ahead: capability is scheduled, not stumbled upon. And a run at that scale now costs tens to hundreds of millions of dollars, so the frontier concentrates in a handful of well-resourced labs, almost none of them on the African continent. Who can afford the compute is therefore also who sets the defaults the rest of the world inherits — a thread we pick up in compute sovereignty (Session 4) and governance (Session 12).</p>
+        <p>Two implications follow before we even reach the controversy. A six-month doubling means a tenfold jump in training compute is only about twenty months away on the main trend, which is what lets labs plan frontier runs years ahead: capability is scheduled. And a run at that scale now costs tens to hundreds of millions of dollars, so the frontier concentrates in a handful of well-resourced labs, almost none of them on the African continent. Who can afford the compute is therefore also who sets the defaults the rest of the world inherits — a thread we pick up in compute sovereignty (Session 4) and governance (Session 12).</p>
 
         <h2 class="section-title">The contested part: do abilities emerge?</h2>
         <p class="lead">This is a real scientific dispute, and an instructive one, because both sides are looking at the same models.</p>
@@ -82,9 +82,9 @@
         <p>The honest synthesis is that both readings hold, at different layers. The <em>underlying</em> quantity — loss, or per-token accuracy — improves smoothly and fairly predictably, as 2.3 led us to expect. The <em>user-facing</em> ability, the thing you actually deploy, is frequently a thresholded pass-or-fail quantity, and those can flip sharply even when what drives them moves smoothly. Knowing that a jump is "only" a metric artefact does not help you if the metric is the capability you care about.</p>
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">Predictable in the aggregate, surprising in the specific</span></h3>
-            <p>Ganguli et al. (2022) name the structural tension exactly: scaling makes the <em>aggregate</em> loss highly predictable, while leaving <em>specific</em> capabilities — which task switches on at which scale — genuinely surprising. You can forecast the curve without being able to forecast what a model on that curve will newly be able to do. For a safety field that is the worst combination: the quantity we can predict is the one we worry about least, and the behaviours we worry about most arrive on a schedule we cannot read in advance.</p>
+            <p>Ganguli et al. (2022) name the structural tension: scaling makes the <em>aggregate</em> loss highly predictable, while leaving <em>specific</em> capabilities — which task switches on at which scale — surprising. You can forecast the curve without being able to forecast what a model on that curve will newly be able to do. For a safety field that is the worst combination: the quantity we can predict is the one we worry about least, and the behaviours we worry about most arrive on a schedule we cannot read in advance.</p>
         </div>
-        <p>So the dispute is not a tempest in a benchmark. It tells you which forecasting tools to trust. Smooth loss curves are reliable for budgeting and for predicting loss; they are weak instruments for answering "at what scale does this system become able to design a working exploit, or reliably deceive a grader?" That second kind of question is thresholded, deployment-relevant, and exactly where extrapolation is least safe.</p>
+        <p>So the dispute is not a tempest in a benchmark. It tells you which forecasting tools to trust. Smooth loss curves are reliable for budgeting and for predicting loss; they are weak instruments for answering "at what scale does this system become able to design a working exploit, or reliably deceive a grader?" That second kind of question is thresholded, deployment-relevant, and where extrapolation is least safe.</p>
         <p>The track record supports caution. Few forecasters called in-context learning in advance, or the degree to which chain-of-thought prompting would unlock multi-step reasoning; both were noticed after they appeared, not predicted before. That is the predictability-and-surprise pattern in practice: the aggregate curve ran on schedule while the specific new behaviours were not anticipated. None of this licenses panic, but it argues against leaning on extrapolation as a safety guarantee.</p>
 
         <div class="info-box">

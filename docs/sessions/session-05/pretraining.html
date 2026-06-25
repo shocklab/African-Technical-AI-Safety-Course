@@ -46,18 +46,18 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Everything a frontier model can do begins with <strong>pretraining</strong>: one enormous run of self-supervised next-token prediction over web-scale text. This sub-session pins down the objective precisely (it is the cross-entropy from Session 2.1, now at scale), explains why it is called "self-supervised", describes what such a run actually produces — a <strong>base model</strong> — and why that base model, for all its capability, is <em>not</em> yet a safe, instruction-following assistant. That gap is what Sessions 5.2–6 exist to close.</p>
+            <p>Everything a frontier model can do begins with <strong>pretraining</strong>: one enormous run of self-supervised next-token prediction over web-scale text. This sub-session pins down the objective (it is the cross-entropy from Session 2.1, now at scale), explains why it is called "self-supervised", describes what such a run produces — a <strong>base model</strong> — and why that base model, for all its capability, is <em>not</em> yet a safe, instruction-following assistant. That gap is what Sessions 5.2–6 exist to close.</p>
         </div>
 
         <h2 class="section-title">The objective: self-supervised next-token prediction</h2>
-        <p class="lead">There is no human labelling here. The text labels itself: for every position, the "correct answer" is simply the token that actually came next.</p>
-        <p>Take a corpus of text, tokenise it (Session 2.2), and slide over it. At each position \(i\) the model sees the tokens so far, \(t_{&lt;i}\), and outputs a distribution \(p_\theta(\cdot \mid t_{&lt;i})\) over the vocabulary; the training signal is how much probability it placed on the token \(t_i\) that genuinely followed. Averaged over the corpus, the loss is exactly the cross-entropy from Session 2.1:</p>
+        <p class="lead">There is no human labelling here. The text labels itself: for every position, the "correct answer" is the token that came next.</p>
+        <p>Take a corpus of text, tokenise it (Session 2.2), and slide over it. At each position \(i\) the model sees the tokens so far, \(t_{&lt;i}\), and outputs a distribution \(p_\theta(\cdot \mid t_{&lt;i})\) over the vocabulary; the training signal is how much probability it placed on the token \(t_i\) that followed. Averaged over the corpus, the loss is exactly the cross-entropy from Session 2.1:</p>
         <div class="formula">\[ L(\theta) = -\frac{1}{T} \sum_{i} \log p_\theta\!\left(t_i \mid t_{&lt;i}\right). \]</div>
         <div class="info-box">
             <h4>Why "self-supervised"?</h4>
-            <p>Supervised learning needs labelled examples; producing labels is expensive, which caps dataset size. Next-token prediction sidesteps this entirely: the label for position \(i\) is just \(t_i\), already present in the raw text. So <em>any</em> text is training data, and the supply is effectively the whole internet. This is the trick that let language models scale — the bottleneck moved from "labelled data" to "compute and raw text".</p>
+            <p>Supervised learning needs labelled examples; producing labels is expensive, which caps dataset size. Next-token prediction sidesteps this: the label for position \(i\) is just \(t_i\), already present in the raw text. So <em>any</em> text is training data, and the supply is effectively the internet. This is the trick that let language models scale — the bottleneck moved from "labelled data" to "compute and raw text".</p>
         </div>
-        <p>This is a humble-sounding objective with a profound consequence. To predict the next token well across the breadth of human text — code, dialogue, proofs, translations, arguments — a model is pressured to build internal machinery that captures syntax, facts, reasoning patterns, and styles. Capabilities are not programmed in; they are whatever turns out to <em>reduce next-token loss</em> on a sufficiently varied corpus. (Keep that phrase: it is the seed of the alignment problem — the model learns whatever serves the objective, which is only a proxy for what we want.)</p>
+        <p>This is a humble-sounding objective with a profound consequence. To predict the next token well across the breadth of human text — code, dialogue, proofs, translations, arguments — a model is pressured to build internal machinery that captures syntax, facts, reasoning patterns, and styles. Capabilities are not programmed in; they are whatever turns out to <em>reduce next-token loss</em> on a sufficiently varied corpus. This is the seed of the alignment problem: the model learns whatever serves the objective, which is only a proxy for what we want.</p>
 
         <h2 class="section-title">What pretraining produces: a base model</h2>
         <p class="lead">The output of a pretraining run is a <strong>base model</strong> (or "foundation model"): a powerful next-token predictor — and nothing more specific than that.</p>
@@ -69,7 +69,7 @@
         </div>
         <div class="info-box">
             <h4>The capability is real, the alignment is absent</h4>
-            <p>This is the crucial framing for the rest of the week. Pretraining buys <strong>capability</strong> — knowledge, reasoning, language — but supplies no <strong>alignment</strong>: no reliable instruction-following, no stable values, no guardrails beyond whatever correlations exist in the data. Everything we call "the assistant" (helpfulness, honesty, harmlessness, the refusal reflex) is added <em>afterwards</em>, by the much smaller post-training stages (5.2 onward). Alignment is a thin layer applied on top of a vast, indifferent predictor.</p>
+            <p>This is the framing for the rest of the week. Pretraining buys <strong>capability</strong> — knowledge, reasoning, language — but supplies no <strong>alignment</strong>: no reliable instruction-following, no stable values, no guardrails beyond whatever correlations exist in the data. Everything we call "the assistant" (helpfulness, honesty, harmlessness, the refusal reflex) is added <em>afterwards</em>, by the much smaller post-training stages (5.2 onward). Alignment is a thin layer applied on top of a vast, indifferent predictor.</p>
         </div>
 
         <h2 class="section-title">Scale, and the "bitter lesson"</h2>
@@ -90,12 +90,12 @@
         </div>
         <div class="info-box">
             <h4>"Predict the training distribution" is the real objective</h4>
-            <p>This underlies the whole alignment problem: a base model is optimised to reproduce the distribution of its training data, not to be truthful, helpful, or safe. When those happen to coincide on the data, behaviour looks aligned; where they diverge — rare languages, novel situations, adversarial prompts — the model reverts to "what text is plausible here", which need not be what we want. Pretraining gives us a mirror of the internet, not an agent that shares our goals.</p>
+            <p>This underlies the alignment problem: a base model is optimised to reproduce the distribution of its training data, not to be truthful, helpful, or safe. When those happen to coincide on the data, behaviour looks aligned; where they diverge — rare languages, novel situations, adversarial prompts — the model reverts to "what text is plausible here", which need not be what we want. Pretraining gives us a mirror of the internet, not an agent that shares our goals.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
         <ul class="styled-list">
-            <li>"Self-supervised" learning uses no human labels, yet the result reflects countless human choices. Where do those choices actually enter?</li>
+            <li>"Self-supervised" learning uses no human labels, yet the result reflects countless human choices. Where do those choices enter?</li>
             <li>A base model "contains multitudes" — every persona on the web. What does that imply for the claim that a safety-trained model is "safe"? Safe in what sense, and where might the claim break?</li>
             <li>If high-quality text is finite and labs turn to synthetic data, what new failure modes might that introduce? (Hint: a model trained partly on its own outputs.)</li>
             <li>Why is "the model can do X (latently) but is trained not to" a more accurate — and more worrying — description than "the model can't do X"?</li>
@@ -114,7 +114,7 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>A base model completes text but won't reliably follow instructions. Sub-session <strong>5.2</strong> covers the first fix — <strong>supervised fine-tuning</strong> — and, just as importantly, what it <em>can't</em> do, which is exactly why Session 6 reaches for reinforcement learning.</p>
+            <p>A base model completes text but won't reliably follow instructions. Sub-session <strong>5.2</strong> covers the first fix — <strong>supervised fine-tuning</strong> — and, just as importantly, what it <em>can't</em> do, which is why Session 6 reaches for reinforcement learning.</p>
         </div>
 
     </div>

@@ -34,13 +34,13 @@
     <header>
         <div class="week-badge">Week 8 • Session 15.2</div>
         <h1>The IOI circuit: a worked reverse-engineering</h1>
-        <p>A real 26-head circuit traced end to end in GPT-2 — and an honest lesson in how messy a "solved" circuit actually is</p>
+        <p>A real 26-head circuit traced end to end in GPT-2 — and an honest lesson in how messy a "solved" circuit is</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Induction heads (13.4) were a circuit in a tiny model. This sub-session follows the most thoroughly reverse-engineered circuit in a <em>real</em> model: the <strong>indirect-object-identification</strong> (IOI) circuit in GPT-2 small, mapped by Wang et al. We see how the patching tools of 15.1 trace a human-readable algorithm onto 26 attention heads in seven functional classes, and we read the metric (logit difference) that makes it quantitative. The deeper lesson is the honest one: even this celebrated circuit is <em>faithful but not complete</em>, and it contains a genuine surprise — backup heads that silently take over when you ablate the main ones — which is why "we found the circuit" is a weaker claim than it sounds.</p>
+            <p>Induction heads (13.4) were a circuit in a tiny model. This sub-session follows the most thoroughly reverse-engineered circuit in a <em>real</em> model: the <strong>indirect-object-identification</strong> (IOI) circuit in GPT-2 small, mapped by Wang et al. We see how the patching tools of 15.1 trace a human-readable algorithm onto 26 attention heads in seven functional classes, and we read the metric (logit difference) that makes it quantitative. The deeper lesson is the honest one: even this celebrated circuit is <em>faithful but not complete</em>, and it contains a surprise (backup heads that silently take over when you ablate the main ones) which is why "we found the circuit" is a weaker claim than it sounds.</p>
         </div>
 
         <h2 class="section-title">The task and the human algorithm</h2>
@@ -65,17 +65,17 @@
                 <li><strong>S-Inhibition Heads</strong> — having found the duplicate (the subject), write a signal that <em>suppresses</em> attention to it downstream.</li>
                 <li><strong>Name Mover Heads</strong> — attend to the remaining (non-suppressed) name and copy it to the output, raising its logit. These do the final "output the other name" step.</li>
                 <li><strong>Negative Name Mover Heads</strong> — surprisingly, <em>reduce</em> the correct name's logit (a small countervailing force).</li>
-                <li><strong>Backup Name Mover Heads</strong> — they do not normally perform the name-moving, but take it over if the primary Name Movers are disabled (the punchline below).</li>
+                <li><strong>Backup Name Mover Heads</strong> — they do not normally perform the name-moving, but take it over if the primary Name Movers are disabled (discussed below).</li>
             </ul>
             <p style="color:#555;">The story is satisfying: duplicate-detection → inhibit the subject → move the surviving name. It is a real algorithm, in a real model, found by patching — the existence proof that mechanistic reverse-engineering scales past toy induction heads.</p>
         </div>
 
-        <h2 class="section-title">The honest punchline: faithful is not complete</h2>
-        <p class="lead">The celebrated circuit passes the easy test and fails the hard ones — and that is the most important thing to learn from it.</p>
-        <p>Wang et al. evaluate their circuit against three criteria, and a maths-honest course teaches the failures as loudly as the success. <strong>Faithfulness</strong> (does the circuit alone reproduce the behaviour?): the 26 heads recover about 87% of the full model's logit difference, which is strong. <strong>Completeness</strong> and <strong>minimality</strong> (is this <em>all</em> the relevant computation, with nothing missing and nothing redundant?): here the circuit fails the hardest versions of the tests. And the reason is the most instructive finding in the paper: <strong>Backup Name Mover Heads</strong>. When you ablate the primary Name Mover heads — the ones the analysis says do the job — the model's performance barely drops, because backup heads that were not previously doing the name-moving step in and do the copying instead. The circuit was not the whole story; the model has redundancy the clean diagram hides.</p>
+        <h2 class="section-title">Faithful is not complete</h2>
+        <p class="lead">The celebrated circuit passes the easy test and fails the hard ones.</p>
+        <p>Wang et al. evaluate their circuit against three criteria, and a maths-honest course teaches the failures as loudly as the success. <strong>Faithfulness</strong> (does the circuit alone reproduce the behaviour?): the 26 heads recover about 87% of the full model's logit difference, which is strong. <strong>Completeness</strong> and <strong>minimality</strong> (is this <em>all</em> the relevant computation, with nothing missing and nothing redundant?): here the circuit fails the hardest versions of the tests. And the reason is one of the paper's most instructive findings: <strong>Backup Name Mover Heads</strong>. When you ablate the primary Name Mover heads — the ones the analysis says do the job — the model's performance barely drops, because backup heads that were not previously doing the name-moving step in and do the copying instead. The circuit was not the whole story; the model has redundancy the clean diagram hides.</p>
         <div class="warning-box">
             <h4>Why this matters for safety</h4>
-            <p>Backup heads are a direct warning about the ablation evidence from 13.4 and 15.1. "We ablated the component and the behaviour survived" can mean the component was irrelevant — or that a backup quietly compensated. Self-repair and redundancy mean a single clean circuit diagram can be faithful and still <em>incomplete</em>, and an interpretability-based safety claim ("we found and removed the deception circuit") could be defeated by machinery the analysis never surfaced. The IOI circuit is rightly celebrated, and it is also the field's clearest cautionary tale: real circuits are messy, redundant, and only partially understood, even when the headline says "reverse-engineered." Wang et al. also never explain the MLPs or layer-norms in the circuit — another reminder of how much a tidy diagram leaves out.</p>
+            <p>Backup heads are a direct warning about the ablation evidence from 13.4 and 15.1. "We ablated the component and the behaviour survived" can mean the component was irrelevant — or that a backup quietly compensated. Self-repair and redundancy mean a single clean circuit diagram can be faithful and still <em>incomplete</em>, and an interpretability-based safety claim ("we found and removed the deception circuit") could be defeated by machinery the analysis never surfaced. The IOI circuit is rightly celebrated, and it is also a cautionary tale: real circuits are messy, redundant, and only partially understood, even when the headline says "reverse-engineered." Wang et al. also never explain the MLPs or layer-norms in the circuit — another reminder of how much a tidy diagram leaves out.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
@@ -94,7 +94,7 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Sub-session <strong>15.3</strong> turns to the other great technique: if superposition (13.2) is why we cannot read neurons, <strong>sparse autoencoders</strong> are the proposed way to recover a basis of interpretable features — with the dictionary-learning objective written out, and Golden Gate Claude as the vivid payoff.</p>
+            <p>Sub-session <strong>15.3</strong> turns to the other great technique: if superposition (13.2) is why we cannot read neurons, <strong>sparse autoencoders</strong> are the proposed way to recover a basis of interpretable features — with the dictionary-learning objective written out, and Golden Gate Claude as the payoff.</p>
         </div>
 
     </div>

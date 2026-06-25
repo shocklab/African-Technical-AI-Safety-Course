@@ -40,7 +40,7 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>This is the algebra that makes mechanistic interpretability of transformers possible. We reframe the Session 2.2 forward pass in the interpretability idiom: the <strong>residual stream</strong> as a shared channel that every component reads from and writes to by addition, so that the output decomposes into a sum over independent <em>paths</em>. Then the central move — an attention head splits cleanly into a <strong>QK circuit</strong> that decides <em>where</em> it attends and an <strong>OV circuit</strong> that decides <em>what</em> it copies there, each a low-rank bilinear form. We derive both, show that only the matrix <em>products</em> matter (a gauge freedom worth understanding), and see why one layer can only build lookup tables while two layers unlock composition. This is all reframing, not new architecture; Session 2.2 is assumed.</p>
+            <p>This is the algebra that makes mechanistic interpretability of transformers possible. We reframe the Session 2.2 forward pass in the interpretability idiom: the <strong>residual stream</strong> as a shared channel that every component reads from and writes to by addition, so that the output decomposes into a sum over independent <em>paths</em>. Then the central result: an attention head splits into a <strong>QK circuit</strong> that decides <em>where</em> it attends and an <strong>OV circuit</strong> that decides <em>what</em> it copies there, each a low-rank bilinear form. We derive both, show that only the matrix <em>products</em> matter (a gauge freedom), and see why one layer can only build lookup tables while two layers unlock composition. This is all reframing, not new architecture; Session 2.2 is assumed.</p>
         </div>
 
         <h2 class="section-title">The residual stream as a communication channel</h2>
@@ -49,8 +49,8 @@
         <div class="formula">\[ x_{\ell+1} \;=\; x_\ell \;+\; \sum_{h} \text{head}^{(h)}_\ell(x_\ell) \;+\; \text{MLP}_\ell(x_\ell). \]</div>
         <p>Because contributions are added rather than overwritten, the residual stream behaves like a shared bus: a component "writes" information by adding a vector in some subspace, and a later component "reads" it by projecting onto that subspace. Unrolling the recursion, the final residual is the token embedding plus the sum of <em>every</em> component's contribution, and the logits are \(W_U\) applied to that sum. Setting aside LayerNorm (which is close to a fixed rescaling once trained), the whole network is therefore <strong>linear in the component outputs</strong>, and the logits decompose into a sum of terms — one per "path" through the network. This is the structural fact that licenses interpretability: you can ask what any single head contributes to the output, in isolation, because its contribution is an additive term you can read off.</p>
         <div class="info-box">
-            <h4>Why "sum over paths" is the key to everything</h4>
-            <p>If the model were a deep nest of compositions with no additive skeleton, isolating one head's effect would be hopeless. The residual stream's additivity is what makes "this head, via this matrix, did this" a meaningful sentence. Every technique in Sessions 14–15 — direct logit attribution, activation patching, ablation — is ultimately exploiting this decomposition. Hold onto it.</p>
+            <h4>Why "sum over paths" matters</h4>
+            <p>If the model were a deep nest of compositions with no additive skeleton, isolating one head's effect would be hopeless. The residual stream's additivity is what makes "this head, via this matrix, did this" a meaningful sentence. Every technique in Sessions 14–15 — direct logit attribution, activation patching, ablation — is ultimately exploiting this decomposition.</p>
         </div>
 
         <h2 class="section-title">An attention head splits into QK and OV</h2>
@@ -71,14 +71,14 @@
 
         <div class="technical-detail">
             <h4>Only the products matter: a gauge freedom</h4>
-            <p style="color:#555;">A subtle but clarifying point: the individual \(W_Q\) and \(W_K\) are not identifiable — only \(W_{QK}=W_Q^\top W_K\) is. For any invertible \(d_h\times d_h\) matrix \(R\), the reparameterisation \(W_Q \mapsto R^{-\top} W_Q,\ W_K \mapsto R\,W_K\) leaves the product unchanged:</p>
+            <p style="color:#555;">The individual \(W_Q\) and \(W_K\) are not identifiable; only \(W_{QK}=W_Q^\top W_K\) is. For any invertible \(d_h\times d_h\) matrix \(R\), the reparameterisation \(W_Q \mapsto R^{-\top} W_Q,\ W_K \mapsto R\,W_K\) leaves the product unchanged:</p>
             <div class="formula">\[ (R^{-\top}W_Q)^\top (R\,W_K) \;=\; W_Q^\top R^{-1} R\, W_K \;=\; W_Q^\top W_K. \]</div>
             <p style="color:#555;">The same holds for \(W_{OV}=W_O W_V\). The practical lesson: do not try to interpret \(W_Q\), \(W_K\), \(W_V\), \(W_O\) separately — they carry arbitrary internal coordinates. Interpret the gauge-invariant products \(W_{QK}\) and \(W_{OV}\). This is why the literature always talks about "the QK circuit" and "the OV circuit," never the four raw matrices.</p>
         </div>
 
         <h2 class="section-title">One layer builds tables; two layers compute</h2>
         <p class="lead">A single attention-only layer can only implement lookup tables. Composition is what depth buys.</p>
-        <p>Consider a one-layer attention-only model (no MLP). Tracing the additive paths from embedding to unembedding, its logits decompose into exactly two readable contributions. The <strong>direct path</strong> (embedding straight to unembedding) implements a <em>bigram</em> table: which token tends to follow which, ignoring context. The <strong>attention path</strong> (through one head's OV, gated by its QK pattern) implements a <em>skip-trigram</em> table: "if the current token is \(B\) and there is an earlier token \(A\), boost token \(C\)" — a rule keyed on a pair of positions. Both are readable directly from the weight matrices \(W_{QK}\) and \(W_{OV}\) composed with embed/unembed. Critically, a one-layer model <em>cannot</em> do anything that requires using the output of one head as the input to another, because there is only one layer of heads. It is, in a precise sense, a pair of lookup tables.</p>
+        <p>Consider a one-layer attention-only model (no MLP). Tracing the additive paths from embedding to unembedding, its logits decompose into exactly two readable contributions. The <strong>direct path</strong> (embedding straight to unembedding) implements a <em>bigram</em> table: which token tends to follow which, ignoring context. The <strong>attention path</strong> (through one head's OV, gated by its QK pattern) implements a <em>skip-trigram</em> table: "if the current token is \(B\) and there is an earlier token \(A\), boost token \(C\)" — a rule keyed on a pair of positions. Both are readable directly from the weight matrices \(W_{QK}\) and \(W_{OV}\) composed with embed/unembed. A one-layer model <em>cannot</em> do anything that requires using the output of one head as the input to another, because there is only one layer of heads. It is, in a precise sense, a pair of lookup tables.</p>
         <div class="technical-detail">
             <h4>Composition: what the second layer adds</h4>
             <p style="color:#555;">With two layers, a later head can read what an earlier head wrote into the residual stream. There are three ways this happens, named by which input of the later head is affected:</p>
@@ -87,7 +87,7 @@
                 <li><strong>K-composition:</strong> it feeds the later head's <em>key</em> (changing what counts as a match). <em>This is the one induction heads use.</em></li>
                 <li><strong>V-composition:</strong> it feeds the later head's <em>value</em> (changing what gets written).</li>
             </ul>
-            <p style="color:#555;">In path terms, a two-layer model's logit decomposition now contains cross-terms in which one head's \(W_{OV}\) sits <em>inside</em> another head's \(W_{QK}\) or \(W_{OV}\). One such cross-term — a previous-token head's output entering a later head's key circuit — is exactly an <strong>induction head</strong>, the flagship circuit of 13.4. The algebra here makes that circuit visible <em>before</em> we name it: composition is not an extra mechanism bolted on, it is the cross-paths that appear automatically once you expand the sum over two layers.</p>
+            <p style="color:#555;">In path terms, a two-layer model's logit decomposition now contains cross-terms in which one head's \(W_{OV}\) sits <em>inside</em> another head's \(W_{QK}\) or \(W_{OV}\). One such cross-term — a previous-token head's output entering a later head's key circuit — is exactly an <strong>induction head</strong>, the subject of 13.4. The algebra here makes that circuit visible <em>before</em> we name it: composition is the cross-paths that appear automatically once you expand the sum over two layers, not an extra mechanism added on top.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
@@ -106,7 +106,7 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Sub-session <strong>13.4</strong> spends this algebra on the flagship: <strong>induction heads</strong> — a two-head, K-composition circuit that does in-context learning, the clearest worked example of reverse-engineering a real capability, and the one you will reproduce by hand in the Session 14 lab.</p>
+            <p>Sub-session <strong>13.4</strong> spends this algebra on <strong>induction heads</strong>: a two-head, K-composition circuit that does in-context learning, a worked example of reverse-engineering a real capability, and the one you will reproduce by hand in the Session 14 lab.</p>
         </div>
 
     </div>

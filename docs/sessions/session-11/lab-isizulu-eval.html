@@ -63,14 +63,14 @@
             <li><strong>5. Capability control.</strong> Pair each refusal measurement with a few <strong>Belebele</strong> (<code>zul_Latn</code>) or <strong>AfriMMLU</strong> (<code>zul</code>) items, so you can separate "refused because safe" from "refused because the model cannot read isiZulu." Without this control the eval is uninterpretable.</li>
         </ul>
 
-        <h2 class="section-title">Statistics (enforced — this is the point of pairing it with 11.4)</h2>
+        <h2 class="section-title">Statistics (enforced — this is why it is paired with 11.4)</h2>
         <p>Report refusal rate by <strong>language × translation route × model</strong>, each with a 95% confidence interval. With \(n \approx 40\) the intervals are wide <em>by design</em> — state that, and resist over-claiming. Do the central comparison <strong>paired</strong>: English versus isiZulu on the <em>same</em> prompts, so you exploit the question-level correlation rather than comparing two loose independent intervals. The headline you are allowed to report is of the form "refusal fell from \(\hat{p}_{\text{en}}\) to \(\hat{p}_{\text{zu}}\), paired difference \(\Delta\) with 95% CI \([a,b]\)" — and if that interval includes zero at your sample size, the honest conclusion is "not yet resolved," not "no gap."</p>
 
         <div class="info-box">
-            <h4>The validity reflection (the intellectual payload)</h4>
+            <h4>The validity reflection</h4>
             <p>A one-page written component naming the confounds, because handling them is what separates an eval from a vibe:</p>
             <ul class="styled-list">
-                <li><strong>Translation quality.</strong> A "refusal" may be the model failing to parse a garbled translation. Use your back-translation scores to restrict to high-fidelity items and check whether the gap survives. Yong et al.'s isiZulu BYPASS near 53% is high <em>partly because</em> GPT-4 reads isiZulu well; comprehension is what makes the safety gap dangerous rather than merely confusing.</li>
+                <li><strong>Translation quality.</strong> A "refusal" may be the model failing to parse a garbled translation. Use your back-translation scores to restrict to high-fidelity items and check whether the gap survives. Yong et al.'s isiZulu BYPASS near 53% is high <em>partly because</em> GPT-4 reads isiZulu well; comprehension is what makes the safety gap dangerous rather than confusing.</li>
                 <li><strong>Capability/safety entanglement.</strong> Your Belebele/AfriMMLU control is what lets you attribute a refusal drop to safety rather than to incomprehension.</li>
                 <li><strong>Who scores, and in what language.</strong> Back-translation is lossy both ways, and an English-tuned judge may mislabel in-language replies.</li>
                 <li><strong>Tiny \(n\) and ethics.</strong> Wide CIs, capped prompts, no raw harmful outputs, responsible disclosure.</li>

@@ -46,7 +46,7 @@
 <h2>What We'll Cover</h2>
 <p>Every time you send a message to an AI assistant, something physical happens: electricity flows through data-centre hardware on the other side of the world. This session puts numbers on that — not to make you feel guilty about using AI, but to help you think clearly about its environmental implications as a researcher and as a citizen.</p>
 <p>We will look at energy consumption from the level of a single query up to the scale of global AI usage, at water — an environmental cost that receives less attention than carbon — and at why the numbers you read in the media should always be treated with careful scepticism.</p>
-<p>This is a topic where the data are genuinely uncertain and where companies have strong incentives to present their products in the best possible light. Part of our job here is to understand <em>why</em> the numbers are uncertain, not just what they are.</p>
+<p>This is a topic where the data are uncertain and where companies have strong incentives to present their products in the best possible light. Part of our job here is to understand <em>why</em> the numbers are uncertain, not just what they are.</p>
 </div>
 
 <div class="warning-box">
@@ -95,7 +95,7 @@
 
 <div class="technical-detail">
 <h4>Energy Consumption by Task Type</h4>
-<p style="margin-bottom: 15px;">The table below combines company-reported figures and independent measurements from MIT Technology Review (2025). Note the wide ranges — these reflect genuine differences in model size, hardware, and methodology, not just uncertainty.</p>
+<p style="margin-bottom: 15px;">The table below combines company-reported figures and independent measurements from MIT Technology Review (2025). Note the wide ranges — these reflect real differences in model size, hardware, and methodology, not just uncertainty.</p>
 <table class="comparison-table">
 <thead>
 <tr>
@@ -155,10 +155,10 @@
 
 <!-- SECTION 2b: THE AGENTIC MULTIPLIER -->
 <h2 class="section-title">The Agentic Multiplier: Tools Like Claude Code</h2>
-<p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">The figures above describe a single prompt: you ask, the model answers once. But the way many researchers now use AI is very different. Agentic tools — Claude Code, Codex, Cursor's agent mode, Gemini CLI — do not answer once. They run a <em>loop</em>: read files, call tools, run code, read the output, reason about it, and call the model again, often dozens of times to complete one task. Energy use scales roughly with the total number of tokens the model processes, so an agentic task can cost many times more than a single chat prompt. This section tries to put bounds on "how much more" — and, as with everything in this lesson, the honest answer is a wide range.</p>
+<p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">The figures above describe a single prompt: you ask, the model answers once. But the way many researchers now use AI is very different. Agentic tools — Claude Code, Codex, Cursor's agent mode, Gemini CLI — do not answer once. They run a <em>loop</em>: read files, call tools, run code, read the output, reason about it, and call the model again, often dozens of times to complete one task. Energy use scales roughly with the total number of tokens the model processes, so an agentic task can cost many times more than a single chat prompt. This section tries to put bounds on "how much more", and, as with everything in this lesson, the answer is a wide range.</p>
 <div class="warning-box">
 <h4>This is an estimate built on other estimates</h4>
-<p>Every figure in this section is derived by chaining together numbers from earlier in the lesson with practitioner reports and vendor documentation. None of it is a direct measurement of a research workflow. We present each input with its source and give a <strong>central estimate with lower and upper bounds</strong> so you can see exactly where the uncertainty enters. Treat the final numbers as order-of-magnitude guides, not precise figures.</p>
+<p>Every figure in this section is derived by chaining together numbers from earlier in the lesson with practitioner reports and vendor documentation. None of it is a direct measurement of a research workflow. We present each input with its source and give a <strong>central estimate with lower and upper bounds</strong> so you can see where the uncertainty enters. Treat the final numbers as order-of-magnitude guides, not precise figures.</p>
 </div>
 <div class="technical-detail">
 <h4>What "effort" Means in Claude Code</h4>
@@ -276,7 +276,7 @@
 </tr>
 </tbody>
 </table>
-<p style="margin-top: 12px; color: #666;">For perspective, the central ~5 kWh for a full day of agentic coding is roughly five times the 944 Wh of a single 5-second AI video, and more than ten thousand times a single reported text prompt — but it is still a modest fraction of a household's daily electricity use. The footprint of <em>this kind</em> of AI use comes from the <strong>loop</strong>, not from any one prompt.</p>
+<p style="margin-top: 12px; color: #666;">For perspective, the central ~5 kWh for a full day of agentic coding is roughly five times the 944 Wh of a single 5-second AI video, and more than ten thousand times a single reported text prompt, but it is still a modest fraction of a household's daily electricity use. The footprint of <em>this kind</em> of AI use comes from the <strong>loop</strong>, not from any one prompt.</p>
 </div>
 <div class="info-box">
 <h4>How Does This Compare to Driving a Car?</h4>
@@ -289,12 +289,12 @@
 </div>
 <div class="warning-box">
 <h4>The Ceiling: <code>xhigh</code> and <code>max</code> Effort</h4>
-<p>The day above assumes <code>high</code> effort. Pushing every task to <code>xhigh</code> or <code>max</code> — which Anthropic reserves for "genuinely frontier problems" and warns adds "significant cost for relatively small quality gains" — could multiply token use a further ~3–10× (our illustrative figure). Applied to the central ~5 kWh day, that puts a heavy max-effort day in the region of <strong>15–50 kWh</strong>, or roughly <strong>tens to over 150 km</strong> of equivalent driving on the SA grid. But note that effort is a ceiling, not a floor: even on <code>max</code>, a simple request still resolves cheaply, because the model spends tokens roughly in proportion to a task's difficulty. These figures assume 50 genuinely compute- and loop-intensive calls — a day padded with quick lookups would land well below them. The practical lesson is the same one Anthropic's own guidance gives: do not run at maximum effort by default. Match the effort to the task, both for cost and for footprint.</p>
+<p>The day above assumes <code>high</code> effort. Pushing every task to <code>xhigh</code> or <code>max</code> — which Anthropic reserves for "genuinely frontier problems" and warns adds "significant cost for relatively small quality gains" — could multiply token use a further ~3–10× (our illustrative figure). Applied to the central ~5 kWh day, that puts a heavy max-effort day in the region of <strong>15–50 kWh</strong>, or roughly <strong>tens to over 150 km</strong> of equivalent driving on the SA grid. But note that effort is a ceiling, not a floor: even on <code>max</code>, a simple request still resolves cheaply, because the model spends tokens roughly in proportion to a task's difficulty. These figures assume 50 compute- and loop-intensive calls; a day padded with quick lookups would land well below them. Anthropic's own guidance gives the same advice: do not run at maximum effort by default. Match the effort to the task, both for cost and for footprint.</p>
 </div>
 <div class="highlight-box">
 <h3><span style="color: #ffffff;">What This Means for You as a Researcher</span></h3>
-<p>The per-prompt footprint of AI is genuinely small. The footprint of <em>agentic</em> AI is larger — not because any single step is expensive, but because there are so many steps. The same property that makes these tools powerful for research (they keep working autonomously) is what drives their energy use.</p>
-<p style="margin-top: 15px;">This connects directly to the rebound problem we examine in the next session: as agentic tools make each task cheaper and easier, we tend to run far more of them. The individual cost falls; the total can still rise. The responsible move is to use the right effort level for the job, and to be honest — as we have tried to be here — about how uncertain the numbers really are.</p>
+<p>The per-prompt footprint of AI is small. The footprint of <em>agentic</em> AI is larger, not because any single step is expensive, but because there are so many steps. The same property that makes these tools powerful for research (they keep working autonomously) is what drives their energy use.</p>
+<p style="margin-top: 15px;">This connects directly to the rebound problem we examine in the next session: as agentic tools make each task cheaper and easier, we tend to run far more of them. The individual cost falls; the total can still rise. The responsible choice is to use the right effort level for the job, and to be honest — as we have tried to be here — about how uncertain the numbers are.</p>
 </div>
 <!-- SECTION 3: THE FLIGHT COMPARISON -->
 <h2 class="section-title">A Worked Example: The Flight Comparison</h2>
@@ -340,13 +340,13 @@
 </tr>
 </tbody>
 </table>
-<p style="margin-top: 15px; color: #666;"><strong>What this tells us:</strong> Depending entirely on which figures you use, one transatlantic flight equals somewhere between 300,000 and 7.6 million ChatGPT text queries. That spread reflects the difference between company-optimised infrastructure and real-world large-model deployments, as well as genuine uncertainty about what "a ChatGPT query" even means in terms of model size and compute.</p>
+<p style="margin-top: 15px; color: #666;"><strong>What this tells us:</strong> Depending entirely on which figures you use, one transatlantic flight equals somewhere between 300,000 and 7.6 million ChatGPT text queries. That spread reflects the difference between company-optimised infrastructure and real-world large-model deployments, as well as uncertainty about what "a ChatGPT query" even means in terms of model size and compute.</p>
 </div>
 
 <div class="highlight-box">
 <h3><span style="color: #ffffff;">Why the Range Is the Lesson</span></h3>
-<p>That this calculation can produce answers spanning two orders of magnitude is the most important finding here, not a failure of the analysis. It tells us that glib comparisons ("ChatGPT = X flights per day") depend almost entirely on unstated assumptions, and that the opacity of AI companies makes it impossible to pin down a single honest answer.</p>
-<p style="margin-top: 15px;">As researchers, the appropriate response is to present the range honestly and to push for better disclosure, rather than picking the number that fits our preferred narrative.</p>
+<p>That this calculation can produce answers spanning two orders of magnitude is the most important finding here, not a failure of the analysis. It tells us that glib comparisons ("ChatGPT = X flights per day") depend almost entirely on unstated assumptions, and that the opacity of AI companies makes it impossible to pin down a single answer.</p>
+<p style="margin-top: 15px;">As researchers, the appropriate response is to present the range and to push for better disclosure, rather than picking the number that fits our preferred narrative.</p>
 </div>
 
 <div class="resource-placeholder">
@@ -357,7 +357,7 @@
 
 <!-- SECTION 3b: MACRO SHARE -->
 <h2 class="section-title">Zooming Out: AI&rsquo;s Share of Global Emissions</h2>
-<p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">The per-query comparison above is useful for personal calibration &mdash; but it can&rsquo;t tell you what share of <em>global</em> emissions AI actually represents. For that, you have to layer estimates from primary sources and be honest about what is measured versus modelled.</p>
+<p style="font-size: 1.1em; color: #555; margin-bottom: 30px;">The per-query comparison above is useful for personal calibration &mdash; but it can&rsquo;t tell you what share of <em>global</em> emissions AI represents. For that, you have to layer estimates from primary sources and be honest about what is measured versus modelled.</p>
 <div class="technical-detail">
 <h4>A back-of-envelope: AI vs aviation, with sources</h4>
 <p><strong>Step 1 &mdash; Inputs (primary sources):</strong></p>
@@ -368,12 +368,12 @@
 </ul>
 <p style="margin-top: 12px;"><strong>Step 2 &mdash; Calculation:</strong> If AI&rsquo;s electricity were at average grid carbon intensity, AI&rsquo;s share of energy-related CO<sub>2</sub> &asymp; 0.5% &times; 40% &asymp; <strong>0.2%</strong>. AI loads are concentrated in the US (gas-heavy) and China (coal-heavy), pushing intensity above average; the largest operators&rsquo; renewable and nuclear procurement pulls below it (though annual matching overstates hourly cleanliness). Net plausible range: <strong>0.2&ndash;0.4% of energy-related CO<sub>2</sub></strong>, or roughly <strong>0.15&ndash;0.35% of total CO<sub>2</sub> / GHG</strong> depending on denominator.</p>
 <p style="margin-top: 12px;"><strong>Step 3 &mdash; The aviation benchmark.</strong> Aviation accounted for <strong>2.5% of global energy-related CO<sub>2</sub> in 2023 (&asymp; 950 Mt)</strong> &mdash; IEA, <em><a href="https://www.iea.org/energy-system/transport/aviation" target="_blank" rel="noopener">Aviation</a></em>. Passenger flights are &asymp; 81% of that and freight &asymp; 19%, so passenger aviation &asymp; <strong>2% of global CO<sub>2</sub></strong>.</p>
-<p style="margin-top: 12px;"><strong>Headline:</strong> Passenger air travel emits roughly <strong>6&ndash;10&times; what AI does operationally</strong> right now. AI is around a tenth to a fifth of aviation&rsquo;s footprint at the system level.</p>
+<p style="margin-top: 12px;"><strong>In sum:</strong> Passenger air travel emits roughly <strong>6&ndash;10&times; what AI does operationally</strong> right now. AI is around a tenth to a fifth of aviation&rsquo;s footprint at the system level.</p>
 </div>
 <p style="font-size: 1.05em; line-height: 1.75; margin-top: 25px;">Two caveats sharpen the comparison further:</p>
 <ul style="font-size: 1.05em; line-height: 1.75; margin-left: 25px;">
 <li style="margin-bottom: 12px;"><strong>Aviation&rsquo;s real impact is larger than the CO<sub>2</sub> alone.</strong> Non-CO<sub>2</sub> effects &mdash; contrails and NO<sub>x</sub> at altitude &mdash; push aviation&rsquo;s share of anthropogenic warming closer to <strong>3.5&ndash;4%</strong> (Lee et al. 2021, <em><a href="https://doi.org/10.1016/j.atmosenv.2020.117834" target="_blank" rel="noopener">Atmospheric Environment</a></em>). The gap on a warming basis is wider than the gap on a CO<sub>2</sub> basis.</li>
-<li style="margin-bottom: 12px;"><strong>Aviation is concentrated; AI use is broadly distributed.</strong> Only &asymp; 11% of the world&rsquo;s population flew in 2018, and the most frequent &asymp; 1% account for more than half of passenger-flight emissions (G&ouml;ssling &amp; Humpe 2020, <em><a href="https://doi.org/10.1016/j.gloenvcha.2020.102194" target="_blank" rel="noopener">Global Environmental Change</a></em>). AI use is becoming more broadly distributed, which makes the per-person picture genuinely different from the per-person flight picture even when the system-level numbers sit in the same neighbourhood.</li>
+<li style="margin-bottom: 12px;"><strong>Aviation is concentrated; AI use is broadly distributed.</strong> Only &asymp; 11% of the world&rsquo;s population flew in 2018, and the most frequent &asymp; 1% account for more than half of passenger-flight emissions (G&ouml;ssling &amp; Humpe 2020, <em><a href="https://doi.org/10.1016/j.gloenvcha.2020.102194" target="_blank" rel="noopener">Global Environmental Change</a></em>). AI use is becoming more broadly distributed, which makes the per-person picture different from the per-person flight picture even when the system-level numbers sit in the same neighbourhood.</li>
 </ul>
 <p style="font-size: 1.05em; line-height: 1.75; margin-top: 20px;">And the ratio is narrowing. The IEA projects data-centre electricity roughly doubling from <strong>&asymp; 485 TWh (2025) to &asymp; 950 TWh (2030, &asymp; 3% of global electricity)</strong>, with the AI-optimised slice more than quadrupling &mdash; the fastest-growing part of that load. Even so, the IEA projects data-centre CO<sub>2</sub> staying under <strong>&asymp; 1.5% of energy-sector CO<sub>2</sub></strong> (&asymp; 300 Mt by 2035). AI would need several-fold growth relative to aviation to close the gap.</p>
 <div class="warning-box">
@@ -465,7 +465,7 @@
 
 <div class="info-box">
 <h4>Training vs. Inference: Where the Energy Goes</h4>
-<p>Much early coverage of AI's environmental cost focused on the energy required to <em>train</em> a model — the one-time compute cost of creating GPT-4 or Claude. But for widely-deployed models, <em>inference</em> — running the model to answer queries — can easily exceed training energy over the model's lifetime.</p>
+<p>Much early coverage of AI's environmental cost focused on the energy required to <em>train</em> a model: the one-time compute cost of creating GPT-4 or Claude. But for widely-deployed models, <em>inference</em> — running the model to answer queries — can easily exceed training energy over the model's lifetime.</p>
 <p style="margin-top: 8px;">With 2.5 billion queries per day, the cumulative inference cost of ChatGPT dwarfs the one-time training cost within months of deployment. This is why statements like "training GPT-3 emitted X tonnes of CO₂" need to be placed in the context of ongoing inference costs.</p>
 </div>
 

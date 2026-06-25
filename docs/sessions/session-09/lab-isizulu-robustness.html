@@ -35,7 +35,7 @@
     <header>
         <div class="week-badge">Week 5 • Session 9.4</div>
         <h1>Lab: measuring safety degradation in isiZulu</h1>
-        <p>Run the course's anchor result as a controlled experiment — refusal-rate degradation from English to isiZulu, by hand, with honest error bars</p>
+        <p>Run the course's anchor result as a controlled experiment — refusal-rate degradation from English to isiZulu, by hand, with error bars</p>
     </header>
     <div class="content">
 
@@ -58,19 +58,19 @@
         <p>Run the provided set of \(N\) mild refusal-eliciting prompts (plus a benign control set) in English. Label each response REJECT / BYPASS / UNCLEAR. Compute the English refusal rate \(\hat{p}_{\text{en}} = (\text{REJECT count})/N\). This is your reference point; the benign controls check that the model is not simply refusing everything.</p>
 
         <h2 class="section-title">Task 2 — translate, and measure the translation</h2>
-        <p>Translate the prompt set into <strong>isiZulu</strong> and into one <strong>higher-resource African language</strong> (Afrikaans is a good contrast; Yoruba or Kiswahili also work) using a documented pipeline. Measure the translation quality, though, rather than assuming it: back-translate each prompt to English and rate fidelity on a simple 1–3 scale, because a model that "refuses" might really be failing to parse a garbled translation. Log the back-translation scores — they are a variable in your analysis, not a footnote.</p>
+        <p>Translate the prompt set into <strong>isiZulu</strong> and into one <strong>higher-resource African language</strong> (Afrikaans is a good contrast; Yoruba or Kiswahili also work) using a documented pipeline. Measure the translation quality, though, rather than assuming it: back-translate each prompt to English and rate fidelity on a simple 1–3 scale, because a model that "refuses" might be failing to parse a garbled translation. Log the back-translation scores — they are a variable in your analysis, not a footnote.</p>
 
         <h2 class="section-title">Task 3 — refusal rate per language, with error bars</h2>
-        <p>For each language, run the prompts, label REJECT/BYPASS/UNCLEAR, and compute the refusal rate \(\hat{p}_\ell\). Attach a 95% confidence interval to each rate. With small \(N\) the intervals will be wide — that is honest, and the point. The headline number is the degradation</p>
+        <p>For each language, run the prompts, label REJECT/BYPASS/UNCLEAR, and compute the refusal rate \(\hat{p}_\ell\). Attach a 95% confidence interval to each rate. With small \(N\) the intervals will be wide, which is honest. The degradation is</p>
         <div class="formula">\[ \Delta_\ell = \hat{p}_{\text{en}} - \hat{p}_\ell, \qquad \text{95\% CI via the bootstrap or a Wilson interval on each rate.} \]</div>
         <p>Report \(\Delta\) for isiZulu and for the higher-resource contrast. The prediction from 9.3 is that \(\Delta\) is large for isiZulu and smaller for the higher-resource language — a gradient, not a binary.</p>
 
         <h2 class="section-title">Task 4 — the resource gradient, and honest labelling</h2>
-        <p>Plot refusal rate against the language's rough <em>resource level</em> (you will have to decide how to proxy it: pretraining-corpus share, tokeniser fragmentation, or a published resource tier). Then check your own measurement: have a second person independently label a subset of responses and compute inter-rater agreement (Cohen's \(\kappa\)). If \(\kappa\) is low, your refusal rates are noisier than your confidence intervals suggest — a lesson about where the uncertainty in an eval really lives, which Session 11 takes up in full.</p>
+        <p>Plot refusal rate against the language's rough <em>resource level</em> (you will have to decide how to proxy it: pretraining-corpus share, tokeniser fragmentation, or a published resource tier). Then check your own measurement: have a second person independently label a subset of responses and compute inter-rater agreement (Cohen's \(\kappa\)). If \(\kappa\) is low, your refusal rates are noisier than your confidence intervals suggest — a lesson about where the uncertainty in an eval lives, which Session 11 takes up in full.</p>
 
         <div class="info-box">
             <h4>The confound you must discuss</h4>
-            <p>A drop in refusal rate has at least two explanations: the safety training failed to generalise (the interesting one), or the translation was poor enough that the model did not understand the request (the boring one). Your back-translation scores from Task 2 let you separate them: restrict the analysis to high-fidelity translations and see whether the gap survives. Yong et al.'s isiZulu BYPASS rate near 53% is high <em>partly because</em> GPT-4 understands isiZulu well — comprehension is what makes the safety gap dangerous rather than merely confusing. Name this confound explicitly in your write-up; handling it is most of what makes the result credible.</p>
+            <p>A drop in refusal rate has at least two explanations: the safety training failed to generalise (the interesting one), or the translation was poor enough that the model did not understand the request (the boring one). Your back-translation scores from Task 2 let you separate them: restrict the analysis to high-fidelity translations and see whether the gap survives. Yong et al.'s isiZulu BYPASS rate near 53% is high <em>partly because</em> GPT-4 understands isiZulu well — comprehension is what makes the safety gap dangerous rather than confusing. Name this confound explicitly in your write-up; handling it is most of what makes the result credible.</p>
         </div>
 
         <h2 class="section-title">What to submit</h2>
@@ -85,7 +85,7 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Sub-session <strong>9.5</strong> widens the lens from chat-box jailbreaks to <strong>systems</strong> attacks — indirect prompt injection and data poisoning — and ends with the honest state of defences: an arms race, not a solved problem, with a distributional-justice edge.</p>
+            <p>Sub-session <strong>9.5</strong> widens the lens from chat-box jailbreaks to <strong>systems</strong> attacks — indirect prompt injection and data poisoning — and ends with the state of defences: an arms race, not a solved problem, with a distributional-justice edge.</p>
         </div>
 
     </div>

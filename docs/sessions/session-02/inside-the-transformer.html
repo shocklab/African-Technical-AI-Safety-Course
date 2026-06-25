@@ -53,11 +53,11 @@
                 <li><strong>Embedding.</strong> A learned matrix \(W_E \in \mathbb{R}^{V \times d_{\text{model}}}\) maps each id to a vector in \(\mathbb{R}^{d_{\text{model}}}\) (one row of \(W_E\)). A length-\(T\) sequence becomes an activation matrix \(X \in \mathbb{R}^{T \times d_{\text{model}}}\) — one row per position.</li>
                 <li><strong>Position.</strong> Self-attention is <em>permutation-equivariant</em>: shuffle the input rows and the output rows shuffle the same way — it has no built-in sense of order (because, as the next section shows, attention is a content-weighted sum with no term that depends on a position's index). So positional information is injected (added positional embeddings, or rotary/relative schemes) before the first block.</li>
             </ul>
-            <p style="color:#555; margin-top:12px;">From here on, each transformer <em>block</em> maps a \(T \times d_{\text{model}}\) matrix to another of the same shape (internally, as we'll see, it routes through narrower matrices and back). That preserved width is the residual stream; hold onto it.</p>
+            <p style="color:#555; margin-top:12px;">From here on, each transformer <em>block</em> maps a \(T \times d_{\text{model}}\) matrix to another of the same shape (internally, as we'll see, it routes through narrower matrices and back). That preserved width is the residual stream.</p>
         </div>
 
         <h2 class="section-title">One attention head, step by step</h2>
-        <p class="lead">Attention is the one genuinely new idea. It lets each position selectively read information from <em>other</em> positions. Here is a single head, in five steps.</p>
+        <p class="lead">Attention is the one new idea. It lets each position selectively read information from <em>other</em> positions. Here is a single head, in five steps.</p>
         <div class="technical-detail">
             <h4>Step 1 — Project to queries, keys, values</h4>
             <p style="color:#555;">From the input \(X \in \mathbb{R}^{T \times d_{\text{model}}}\), three learned matrices produce three new matrices:</p>
@@ -96,7 +96,7 @@
 
         <div class="info-box">
             <h4>A worked intuition: "…the Eiffel Tower is in the city of ___"</h4>
-            <p>To predict the next token, the final position emits a query that (in some head) is best matched by the key at "Eiffel Tower". That head's attention row puts most weight on the "Eiffel Tower" position and copies its value into the final position's output — effectively moving the information "this sentence is about the Eiffel Tower" forward to where it's needed. Attention only <em>moves</em> information like this; it is the later layers and MLPs that turn "this is about the Eiffel Tower" into the actual prediction "Paris". <em>Induction heads</em> — which you'll reverse-engineer in Week 7 — are a famous, crisp version of exactly this copy-by-matching behaviour.</p>
+            <p>To predict the next token, the final position emits a query that (in some head) is best matched by the key at "Eiffel Tower". That head's attention row puts most weight on the "Eiffel Tower" position and copies its value into the final position's output, moving the information "this sentence is about the Eiffel Tower" forward to where it's needed. Attention only <em>moves</em> information like this; it is the later layers and MLPs that turn "this is about the Eiffel Tower" into the prediction "Paris". <em>Induction heads</em> — which you'll reverse-engineer in Week 7 — are a famous, crisp version of this copy-by-matching behaviour.</p>
         </div>
 
         <figure>
@@ -130,9 +130,9 @@
 
         <h2 class="section-title">The residual stream</h2>
         <div class="highlight-box">
-            <h3><span style="color:#ffffff;">The single most useful picture</span></h3>
+            <h3><span style="color:#ffffff;">The residual-stream picture</span></h3>
             <p>Notice the "\(x \leftarrow x + \ldots\)". A block never <em>replaces</em> the activations; it <em>adds</em> to them. So each position carries a running vector — the <strong>residual stream</strong> — that begins as the token+position embedding and accumulates contributions as it passes up through the layers. Every attention head and every MLP <em>reads</em> from the stream (via LayerNorm) and <em>writes</em> a vector back into it by addition.</p>
-            <p>So the residual stream is a shared <strong>communication channel</strong>: earlier components write information that later components read. "Finding a circuit" (Week 7) means identifying which components write a particular piece of information and which later ones read it — a question you can actually answer, because the writes are additive and the reads are linear. This additive view is the literal computation, not a metaphor.</p>
+            <p>So the residual stream is a shared <strong>communication channel</strong>: earlier components write information that later components read. "Finding a circuit" (Week 7) means identifying which components write a particular piece of information and which later ones read it — a question you can answer, because the writes are additive and the reads are linear. This additive view is the literal computation.</p>
         </div>
 
         <h2 class="section-title">From the residual stream to a prediction</h2>
@@ -147,7 +147,7 @@
             <p>Tokens → embeddings + positions give \(X\) (\(T \times d_{\text{model}}\)) → each block: attention routes information between positions, MLP computes within them, both added back into the residual stream → final LayerNorm → multiply by \(W_U\) → logits → softmax → next-token distribution. Everything in between is matrix multiplies, one softmax per head, and additions. Nothing else.</p>
         </div>
 
-        <h2 class="section-title">Why these details earn their keep</h2>
+        <h2 class="section-title">Why these details matter</h2>
         <div class="card-grid">
             <div class="card"><h3>Tokenisation has consequences</h3><p>African and other low-resource languages are often split into far more tokens than English (because the vocabulary was fit mostly to English-heavy data). That raises cost, shortens effective context, and degrades quality — one concrete root of the capability <em>and</em> safety gaps this course keeps returning to. You'll measure it yourself in the 2.5 lab.</p></div>
             <div class="card"><h3>Attention is inspectable</h3><p>Attention weights and head outputs are explicit tensors. We can <em>watch</em> the model route information — the entry point for interpretability (Weeks 7–8) and for catching unexpected or deceptive behaviour.</p></div>

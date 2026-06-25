@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 15.1 — Activation patching &amp; causal interventions</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
+</head>
+<body>
+<div class="container">
+<!-- TOP-NAV-START -->
+<div class="top-nav">
+  <a class="tn-home" href="../../index.html">⌂ Contents</a>
+  <details class="tn-menu">
+    <summary>Session 15</summary>
+    <ul>
+      <li><span class="tn-current">15.1 · Activation patching &amp; causal interventions</span></li>
+      <li><a href="ioi-circuit.html">15.2 · The IOI circuit</a></li>
+      <li><a href="sparse-autoencoders.html">15.3 · Sparse autoencoders &amp; monosemanticity</a></li>
+      <li><a href="state-of-saes.html">15.4 · The honest current state of SAEs</a></li>
+    </ul>
+  </details>
+  <div class="tn-links">
+    <a class="tn-prev" href="../session-14/lab-induction-heads.html">← <span class="tn-title">Session 14 · Lab: TransformerLens + induction heads</span></a>
+    <a class="tn-next" href="ioi-circuit.html"><span class="tn-title">15.2 · The IOI circuit</span> →</a>
+  </div>
+</div>
+<!-- TOP-NAV-END -->
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 8 • Session 15.1</div>
+        <h1>Activation patching &amp; causal interventions</h1>
+        <p>The logic of "patch a clean activation into a corrupted run and see what recovers" — causal mediation made operational, and its cheap linear approximation</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>What we'll cover</h2>
+            <p>Session 13 found components by reading weights. This sub-session adds the technique that turns "this component correlates with the behaviour" into "this component <em>causes</em> it": <strong>activation patching</strong>. The idea is causal-mediation analysis on the network's own computation graph — run the model clean, run it corrupted, then restore one internal activation and measure how much of the clean answer comes back. We write the metric down, distinguish the two directions (noising and denoising), and derive <strong>attribution patching</strong>, the first-order approximation that estimates every patch at once from a single backward pass. We also stay honest about exactly what a successful patch licenses you to claim, which is less than it first appears.</p>
+        </div>
+
+        <h2 class="section-title">Patching is causal mediation on the computation graph</h2>
+        <p class="lead">A trained network is a fixed causal graph you can intervene on at will — that is a luxury no field studying brains has.</p>
+        <p>The setup needs a pair of inputs that differ in exactly the thing you care about. Take ROME's example: a <em>clean</em> prompt ("The Space Needle is in downtown ___" → "Seattle") and a <em>corrupted</em> version where the subject tokens are damaged (Gaussian noise added to the "Space Needle" embeddings) so the model can no longer answer. Three runs define the experiment:</p>
+        <div class="technical-detail">
+            <h4>The three runs and the indirect effect</h4>
+            <ul class="styled-list">
+                <li><strong>Clean:</strong> run the clean prompt, record the probability of the correct token, \(P_*[o]\) high.</li>
+                <li><strong>Corrupted:</strong> run the corrupted prompt; the correct-token probability collapses, \(P_*[o]\) low.</li>
+                <li><strong>Corrupted-with-restoration:</strong> run the corrupted prompt, but force one internal activation \(h_i^{(\ell)}\) (the hidden state at layer \(\ell\), token \(i\)) back to the value it had in the clean run, and let everything else stay corrupted.</li>
+            </ul>
+            <p style="color:#555;">The <strong>indirect effect</strong> of that activation is how much restoring it alone recovers the answer:</p>
+            <div class="formula">\[ \mathrm{IE}(h_i^{(\ell)}) \;=\; P_{*,\,\text{clean }h_i^{(\ell)}}[o] \;-\; P_*[o], \]</div>
+            <p style="color:#555;">where \(P_*\) is the fully-corrupted probability. Average over many prompts to get the average indirect effect (AIE). Sweep \((\ell, i)\) over the whole grid and you get a heat-map of <em>which activations carry the information</em>. ROME's headline finding came straight from this: two causal sites in GPT-2-XL — an expected "late site" at the last token, and a newly-found "early site" at the <em>last subject token in middle-layer MLPs</em>, with the MLP contribution there far exceeding attention's. They then showed the located fact could be edited with a closed-form rank-one update to that MLP — a clean instance of "interpretability claim → causal test → intervention."</p>
+        </div>
+
+        <h2 class="section-title">Noising, denoising, and what you can patch</h2>
+        <p class="lead">The direction of the patch changes the question you are asking.</p>
+        <p>There are two ways to run the intervention, and they answer subtly different questions. <strong>Denoising</strong> (ROME's version) restores a clean activation into a corrupted run and asks "is this activation <em>sufficient</em> to recover the behaviour?" <strong>Noising</strong> patches a corrupted activation into a clean run and asks "is this activation <em>necessary</em>: does damaging it break the behaviour?" You can patch at different granularities — a whole residual-stream vector, a single MLP output, one attention head's contribution, even one head at one position — and the granularity decides how sharply you localise. A common refinement uses a <em>symmetric counterfactual</em> pair (two real prompts that differ minimally, rather than Gaussian noise) so the corruption is in-distribution; this matters because off-distribution corruption can produce effects that say more about the corruption than the circuit.</p>
+        <div class="warning-box">
+            <h4>What a successful patch does and does not license</h4>
+            <p>A patch that recovers the behaviour shows the activation is <em>sufficient to restore it, on this distribution, under this corruption</em>. It does <strong>not</strong> show the component's "purpose," that it is the only route, or that the story transfers to other inputs. Backup behaviour (Session 15.2) is the standing warning: ablate the component that patching fingered and a different one can silently take over, so "necessary" and "sufficient" both need care. Treat a patching heat-map as a strong localisation hypothesis to be confirmed by ablation and multiple distributions, not as a proof of mechanism. This is the same evidence-grading discipline from Session 13.1, now applied to a specific tool.</p>
+        </div>
+
+        <h2 class="section-title">Attribution patching: every patch at once, for the price of one</h2>
+        <p class="lead">Exact patching costs one forward pass per component. A first-order Taylor expansion costs one backward pass for all of them.</p>
+        <p>Exact activation patching is expensive: to test \(N\) components you run \(N\) separate forward passes. For a frontier model with thousands of components per layer that is prohibitive. <strong>Attribution patching</strong> (Nanda) is the cheap approximation. Write the metric \(L\) as a function of an activation \(a\); the effect of changing \(a\) from its corrupted value \(a_\text{corrupt}\) to its clean value \(a_\text{clean}\) is, to first order,</p>
+        <div class="formula">\[ \Delta L \;\approx\; \big(a_\text{clean} - a_\text{corrupt}\big)^\top \left.\frac{\partial L}{\partial a}\right|_{a=a_\text{corrupt}}. \]</div>
+        <p>This is just a Taylor expansion of the true patch effect around the corrupted run. The gradient \(\partial L/\partial a\) for <em>every</em> activation in the network is obtained from a <strong>single backward pass</strong> (plus the two forward passes for the clean and corrupted activations), so you estimate all \(N\) patch effects at once instead of running \(N\) forwards. It is an approximation — it assumes the effect is roughly linear in the activation over the clean-to-corrupted gap, which fails for large or saturating changes — so the workflow is: attribution-patch to cheaply rank the whole model, then exact-patch the top candidates to confirm. One line on the rigorous end of the spectrum: <strong>causal scrubbing</strong> (Redwood) formalises a circuit hypothesis as a claim about which activations are irrelevant, and tests it by resampling exactly those; if the behaviour survives the resampling, the hypothesis holds. Attribution patching is the cheap scout; causal scrubbing is the strict auditor.</p>
+
+        <div class="info-box">
+            <h4>Worked: trace one patch by hand</h4>
+            <p>Take a two-layer toy model and the IOI-style metric (15.2) of logit difference between two candidate answers. Corrupt the input by swapping the two names. (i) Compute the clean and corrupted logit differences. (ii) Restore the layer-1 attention output at the final position to its clean value; recompute the logit difference; the recovery is that component's indirect effect. (iii) Now attribution-patch: with the corrupted run's cached activations and one backward pass of the logit-difference metric, estimate the same component's effect as \((a_\text{clean}-a_\text{corrupt})^\top \partial L/\partial a\), and compare to the exact value from (ii). Students see both the causal logic and where the linear approximation is tight versus loose — exactly the judgement the technique demands in practice.</p>
+        </div>
+
+        <h2 class="section-title">Questions to bring to class</h2>
+        <ul class="styled-list">
+            <li>Write the indirect-effect metric and explain why you need a <em>pair</em> of inputs (clean and corrupted) rather than one. What does a symmetric counterfactual buy over Gaussian-noise corruption?</li>
+            <li>Distinguish denoising ("sufficient") from noising ("necessary"). Give a circuit where a component is sufficient but not necessary, and say which run would reveal that.</li>
+            <li>Derive the attribution-patching estimate as a first-order Taylor expansion. Why does one backward pass give the effect for every component at once, and when is the approximation untrustworthy?</li>
+            <li>A patch recovers the behaviour. List three things this does <em>not</em> establish about the component, and say how you would check each.</li>
+        </ul>
+
+        <h2 class="section-title">Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Core</h4>
+            <p>• <strong>Meng et al. (2022), "Locating and Editing Factual Associations in GPT" (ROME)</strong> (<a href="https://arxiv.org/abs/2202.05262" target="_blank" rel="noopener">arXiv:2202.05262</a>) — §2 for causal tracing, the indirect-effect metric, and the early-site/late-site localisation.</p>
+        </div>
+        <div class="resource-placeholder">
+            <h4>Supplementary</h4>
+            <p>• <strong>Neel Nanda, "Attribution Patching: Activation Patching At Industrial Scale"</strong> (<a href="https://www.neelnanda.io/mechanistic-interpretability/attribution-patching" target="_blank" rel="noopener">neelnanda.io</a>) — the first-order approximation above; and the Redwood "Causal Scrubbing" write-up for the rigorous end.</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>Next</h2>
+            <p>Sub-session <strong>15.2</strong> applies patching end to end: the <strong>IOI circuit</strong>, a real 26-head circuit reverse-engineered from GPT-2 — and an honest lesson in how messy a "solved" circuit actually is.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="../session-14/lab-induction-heads.html"><span class="nav-label">← Previous</span><span class="nav-title">Session 14 · Lab: TransformerLens + induction heads</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="ioi-circuit.html"><span class="nav-label">Next →</span><span class="nav-title">15.2 · The IOI circuit</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

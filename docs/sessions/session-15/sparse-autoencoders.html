@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 15.3 — Sparse autoencoders &amp; monosemanticity</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
+</head>
+<body>
+<div class="container">
+<!-- TOP-NAV-START -->
+<div class="top-nav">
+  <a class="tn-home" href="../../index.html">⌂ Contents</a>
+  <details class="tn-menu">
+    <summary>Session 15</summary>
+    <ul>
+      <li><a href="activation-patching.html">15.1 · Activation patching &amp; causal interventions</a></li>
+      <li><a href="ioi-circuit.html">15.2 · The IOI circuit</a></li>
+      <li><span class="tn-current">15.3 · Sparse autoencoders &amp; monosemanticity</span></li>
+      <li><a href="state-of-saes.html">15.4 · The honest current state of SAEs</a></li>
+    </ul>
+  </details>
+  <div class="tn-links">
+    <a class="tn-prev" href="ioi-circuit.html">← <span class="tn-title">15.2 · The IOI circuit</span></a>
+    <a class="tn-next" href="state-of-saes.html"><span class="tn-title">15.4 · The honest current state of SAEs</span> →</a>
+  </div>
+</div>
+<!-- TOP-NAV-END -->
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 8 • Session 15.3</div>
+        <h1>Sparse autoencoders &amp; monosemanticity</h1>
+        <p>If superposition is why we cannot read neurons, dictionary learning is the proposed way out — the objective written down, and Golden Gate Claude as the payoff</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>What we'll cover</h2>
+            <p>Session 13.2 left us with a problem: superposition packs many features into few neurons, so neurons are polysemantic and unreadable. <strong>Sparse autoencoders</strong> (SAEs) are the field's leading attempt to undo that — to re-express a dense, polysemantic activation in an <em>over-complete</em> basis of sparse, hopefully <em>monosemantic</em> features. This sub-session writes the dictionary-learning objective on the board (it is a constrained optimisation, not magic), explains the L1-versus-TopK choice, and follows the scaling arc from a one-layer toy model to Claude 3 Sonnet and the Golden Gate Bridge feature. Session 15.4 then asks, honestly, whether any of it actually helps downstream.</p>
+        </div>
+
+        <h2 class="section-title">Features = sparse dictionary learning</h2>
+        <p class="lead">Recovering features from superposition is exactly the classical problem of sparse coding.</p>
+        <p>Recall the linear representation hypothesis (13.2): an activation \(x\in\mathbb{R}^d\) is a sum of a few active feature directions. If that is true, then "find the features" is the problem of writing each \(x\) as a sparse combination of dictionary atoms — sparse dictionary learning, studied since Olshausen and Field's 1990s work on visual cortex. The twist for transformers is that there are <em>more features than dimensions</em> (superposition), so the dictionary must be <strong>over-complete</strong>: more atoms than the dimension \(d\). An SAE is just an autoencoder that learns such a dictionary under a sparsity constraint.</p>
+
+        <div class="technical-detail">
+            <h4>The SAE objective</h4>
+            <p style="color:#555;">Encode the activation to a high-dimensional sparse code \(c\in\mathbb{R}^h\) with \(h\gg d\) (the expansion factor is \(h/d\)), then decode back:</p>
+            <div class="formula">\[ c = \mathrm{ReLU}(M x + b), \qquad \hat x = M^\top c, \qquad \mathcal{L}(x) = \underbrace{\lVert x-\hat x\rVert_2^2}_{\text{reconstruction}} \;+\; \alpha\,\underbrace{\lVert c\rVert_1}_{\text{sparsity}}. \]</div>
+            <p style="color:#555;">The columns of the (row-normalised) decoder \(M^\top\) are the learned <strong>feature directions</strong>; the code \(c\) says which features are active and how strongly. The reconstruction term forces the dictionary to actually span the activations; the L1 term forces \(c\) to be sparse, so each \(x\) uses only a handful of atoms. Train it on a large sample of one layer's residual-stream activations and read off the features.</p>
+        </div>
+
+        <div class="technical-detail">
+            <h4>Why L1, and what it costs — then TopK</h4>
+            <p style="color:#555;">What we actually want is small \(\lVert c\rVert_0\) (few <em>nonzero</em> entries), but the L0 "norm" is non-differentiable and combinatorial to optimise. <strong>L1 is its convex surrogate</strong>: the tightest convex relaxation of "count the nonzeros," and it does induce sparsity. But L1 has a side effect — it penalises the <em>magnitude</em> of active features, not just their presence, so it systematically <strong>shrinks</strong> the activations it keeps (a bias toward zero even for features that are genuinely strong). OpenAI's <strong>TopK</strong> SAE removes this: instead of an L1 penalty, keep only the \(k\) largest pre-activations and zero the rest,</p>
+            <div class="formula">\[ z = \mathrm{TopK}\!\big(W_\text{enc}(x-b_\text{pre})\big), \qquad \mathcal{L}(x) = \lVert x-\hat x\rVert_2^2 \ \ \text{(no L1 term).} \]</div>
+            <p style="color:#555;">TopK sets the sparsity level \(L0=k\) <em>directly</em> (no \(\alpha\) to tune), and because there is no magnitude penalty it avoids the shrinkage bias, Pareto-beating the ReLU+L1 SAE on the reconstruction-versus-sparsity frontier, with the gap widening at scale. This is the kind of move a maths student should find unmysterious: it is a cleaner constraint on the same optimisation.</p>
+        </div>
+
+        <h2 class="section-title">From a toy model to Golden Gate Claude</h2>
+        <p class="lead">The same recipe scales from a one-layer model to a frontier model, and the features stay interpretable.</p>
+        <p>Anthropic's "Towards Monosemanticity" (2023) ran this on a one-layer transformer's MLP activations and reported the central claim: where individual <em>neurons</em> were polysemantic, the SAE's learned <em>features</em> were largely <strong>monosemantic</strong>, each firing for a single, crisp, human-describable pattern. They also documented <strong>feature splitting</strong>: train a bigger dictionary and a coarse concept subdivides into finer sub-features, so the number of features you find scales with the dictionary you can afford. "Scaling Monosemanticity" (2024) took the method to <strong>Claude 3 Sonnet</strong>, a production model, training SAEs with up to ~34 million features (of which roughly 12 million were "alive", i.e. ever fired). The vivid demonstration is the <strong>Golden Gate Bridge feature</strong>: a single feature that fires on the bridge across English, Japanese, Korean and Russian text and on images of it — evidence that a feature can be both multilingual and multimodal. Clamping that feature to about ten times its maximum activation produced "Golden Gate Claude," which steered nearly every response toward the bridge and even described itself as the bridge. Sonnet's SAEs also surfaced safety-relevant features (deception, sycophancy, unsafe-code, bias), which Session 16 examines, rather than taking their safety significance for granted here.</p>
+        <div class="info-box">
+            <h4>Two practical facts that matter for the lab</h4>
+            <p>First, reconstruction is never perfect: replacing a layer's activations with their SAE reconstruction raises the model's loss, so an SAE is a lossy lens, not a faithful copy. Second, <strong>dead latents</strong> — features that never fire — are a real engineering problem; unmitigated, a large fraction of an SAE's capacity can be dead, and OpenAI's scaling work cut this to about 7% at 16-million-latent scale with careful initialisation and an auxiliary loss. Both facts set up the honest assessment in 15.4 and the hands-on feel of the Session 16 lab.</p>
+        </div>
+
+        <h2 class="section-title">Scaling laws, and the goal that is not the goal</h2>
+        <p class="lead">Wider SAEs reconstruct better, on a clean scaling law — but better reconstruction was never the actual objective.</p>
+        <p>OpenAI's work fits clean scaling laws for SAEs: reconstruction error falls predictably as you grow the number of latents \(N\) and the sparsity budget \(k\), and they trained a 16-million-latent SAE on GPT-4 activations to demonstrate it. The crucial honesty, stated by the authors themselves, is that <em>improving the reconstruction-versus-sparsity frontier is not the ultimate objective</em>. A sparse autoencoder that reconstructs perfectly but whose features do not help you <em>do</em> anything — probe for a concept, steer a behaviour, explain a circuit — has not delivered on the promise. That gap between "good reconstruction" and "useful features" is exactly the wedge that the 2025 reassessment drives into, and it is the subject of the next sub-session. The maths of SAEs is clean and the scaling is real; whether the features earn their keep is the open question.</p>
+
+        <h2 class="section-title">Questions to bring to class</h2>
+        <ul class="styled-list">
+            <li>Write the SAE objective and identify which term forces the dictionary to span the data and which forces sparsity. Why must the dictionary be over-complete for a transformer?</li>
+            <li>Explain why L1 is the convex surrogate for L0, and what the resulting shrinkage bias is. How does TopK remove it, and what does it fix the sparsity level to?</li>
+            <li>The Golden Gate feature fires across languages and on images. What does that suggest about whether features are language-specific — and which Session-16 question does it tee up?</li>
+            <li>OpenAI say improving the reconstruction–sparsity frontier "is not the ultimate objective." If not reconstruction, what <em>should</em> an SAE be evaluated on, and why is that harder to measure?</li>
+        </ul>
+
+        <h2 class="section-title">Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Core</h4>
+            <p>• <strong>Cunningham et al. (2023), "Sparse Autoencoders Find Highly Interpretable Features"</strong> (<a href="https://arxiv.org/abs/2309.08600" target="_blank" rel="noopener">arXiv:2309.08600</a>) — §2 for the ReLU+L1 objective above.</p>
+            <p>• <strong>Gao et al. (2024), "Scaling and evaluating sparse autoencoders"</strong> (<a href="https://arxiv.org/abs/2406.04093" target="_blank" rel="noopener">arXiv:2406.04093</a>) — §2 for TopK and the scaling laws.</p>
+        </div>
+        <div class="resource-placeholder">
+            <h4>Supplementary</h4>
+            <p>• <strong>Bricken et al. (2023), "Towards Monosemanticity"</strong> (<a href="https://transformer-circuits.pub/2023/monosemantic-features/index.html" target="_blank" rel="noopener">transformer-circuits.pub</a>) — the one-layer study, monosemanticity, feature splitting.</p>
+            <p>• <strong>Templeton et al. (2024), "Scaling Monosemanticity"</strong> (<a href="https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html" target="_blank" rel="noopener">transformer-circuits.pub</a>) — Claude 3 Sonnet, the Golden Gate Bridge feature, and steering by clamping.</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>Next</h2>
+            <p>Sub-session <strong>15.4</strong> delivers the reckoning: the 2024 scaling triumph meets the 2025 evidence that SAE features do <em>not</em> beat simple probes on downstream tasks — and what that means for how to use them honestly.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="ioi-circuit.html"><span class="nav-label">← Previous</span><span class="nav-title">15.2 · The IOI circuit</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="state-of-saes.html"><span class="nav-label">Next →</span><span class="nav-title">15.4 · The honest current state of SAEs</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

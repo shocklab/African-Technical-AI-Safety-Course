@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 15.2 — The IOI circuit</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
+</head>
+<body>
+<div class="container">
+<!-- TOP-NAV-START -->
+<div class="top-nav">
+  <a class="tn-home" href="../../index.html">⌂ Contents</a>
+  <details class="tn-menu">
+    <summary>Session 15</summary>
+    <ul>
+      <li><a href="activation-patching.html">15.1 · Activation patching &amp; causal interventions</a></li>
+      <li><span class="tn-current">15.2 · The IOI circuit</span></li>
+      <li><a href="sparse-autoencoders.html">15.3 · Sparse autoencoders &amp; monosemanticity</a></li>
+      <li><a href="state-of-saes.html">15.4 · The honest current state of SAEs</a></li>
+    </ul>
+  </details>
+  <div class="tn-links">
+    <a class="tn-prev" href="activation-patching.html">← <span class="tn-title">15.1 · Activation patching &amp; causal interventions</span></a>
+    <a class="tn-next" href="sparse-autoencoders.html"><span class="tn-title">15.3 · Sparse autoencoders &amp; monosemanticity</span> →</a>
+  </div>
+</div>
+<!-- TOP-NAV-END -->
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 8 • Session 15.2</div>
+        <h1>The IOI circuit: a worked reverse-engineering</h1>
+        <p>A real 26-head circuit traced end to end in GPT-2 — and an honest lesson in how messy a "solved" circuit actually is</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>What we'll cover</h2>
+            <p>Induction heads (13.4) were a circuit in a tiny model. This sub-session follows the most thoroughly reverse-engineered circuit in a <em>real</em> model: the <strong>indirect-object-identification</strong> (IOI) circuit in GPT-2 small, mapped by Wang et al. We see how the patching tools of 15.1 trace a human-readable algorithm onto 26 attention heads in seven functional classes, and we read the metric (logit difference) that makes it quantitative. The deeper lesson is the honest one: even this celebrated circuit is <em>faithful but not complete</em>, and it contains a genuine surprise — backup heads that silently take over when you ablate the main ones — which is why "we found the circuit" is a weaker claim than it sounds.</p>
+        </div>
+
+        <h2 class="section-title">The task and the human algorithm</h2>
+        <p class="lead">"When Mary and John went to the store, John gave a drink to ___" — the answer is "Mary."</p>
+        <p>Indirect object identification is a small, sharp behaviour: a sentence names two people (the indirect object IO = "Mary" and the subject S = "John"), then repeats one of them, and the model must complete with the <em>other</em>. GPT-2 small does this reliably. There is an obvious human algorithm: (i) find the two names; (ii) detect that one is duplicated; (iii) output the name that is <em>not</em> the duplicate. The achievement of the IOI work is to show that GPT-2 implements a recognisable version of this algorithm, and to identify the heads that do each step.</p>
+
+        <div class="technical-detail">
+            <h4>The metric: logit difference</h4>
+            <p style="color:#555;">The whole analysis is driven by one scalar — the <strong>logit difference</strong> between the two candidate names:</p>
+            <div class="formula">\[ \text{logit diff} \;=\; \text{logit}(\text{IO}) - \text{logit}(\text{S}). \]</div>
+            <p style="color:#555;">A large positive logit diff means the model confidently prefers the correct (indirect-object) name. GPT-2 small averages a logit diff of about 3.56 and predicts IO over S roughly 99% of the time. Patching is then run against this metric: corrupt the prompt (e.g. an "ABC" version that breaks the name structure), and measure how each component's restoration moves the logit diff. Because the metric is a <em>difference</em> of two specific logits, it isolates the IOI computation cleanly from the model's general fluency — a good lesson in metric design that the Session 11 statistics carry forward.</p>
+        </div>
+
+        <h2 class="section-title">The circuit: seven classes of head</h2>
+        <p class="lead">Path patching maps the human algorithm onto 26 heads in seven functional roles.</p>
+        <p>Using <strong>path patching</strong> (a refinement of 15.1 that patches specific paths between components rather than whole activations), Wang et al. trace the computation backward from the logits and find a circuit of 26 attention heads in seven classes, each mapping to a step of the algorithm:</p>
+        <div class="technical-detail">
+            <h4>The seven head classes</h4>
+            <ul class="styled-list">
+                <li><strong>Duplicate Token Heads</strong> and <strong>Induction Heads</strong> — detect that a name is repeated (the induction machinery from 13.4 reappearing in the wild).</li>
+                <li><strong>Previous Token Heads</strong> — feed the induction heads, as in 13.4.</li>
+                <li><strong>S-Inhibition Heads</strong> — having found the duplicate (the subject), write a signal that <em>suppresses</em> attention to it downstream.</li>
+                <li><strong>Name Mover Heads</strong> — attend to the remaining (non-suppressed) name and copy it to the output, raising its logit. These do the final "output the other name" step.</li>
+                <li><strong>Negative Name Mover Heads</strong> — surprisingly, <em>reduce</em> the correct name's logit (a small countervailing force).</li>
+                <li><strong>Backup Name Mover Heads</strong> — dormant in normal operation, but they activate if the primary Name Movers are disabled (the punchline below).</li>
+            </ul>
+            <p style="color:#555;">The story is satisfying: duplicate-detection → inhibit the subject → move the surviving name. It is a real algorithm, in a real model, found by patching — the existence proof that mechanistic reverse-engineering scales past toy induction heads.</p>
+        </div>
+
+        <h2 class="section-title">The honest punchline: faithful is not complete</h2>
+        <p class="lead">The celebrated circuit passes the easy test and fails the hard ones — and that is the most important thing to learn from it.</p>
+        <p>Wang et al. evaluate their circuit against three criteria, and a maths-honest course teaches the failures as loudly as the success. <strong>Faithfulness</strong> (does the circuit alone reproduce the behaviour?): the 26 heads recover about 87% of the full model's logit difference, which is strong. <strong>Completeness</strong> and <strong>minimality</strong> (is this <em>all</em> the relevant computation, with nothing missing and nothing redundant?): here the circuit fails the hardest versions of the tests. And the reason is the most instructive finding in the paper: <strong>Backup Name Mover Heads</strong>. When you ablate the primary Name Mover heads — the ones the analysis says do the job — the model's performance barely drops, because previously-dormant backup heads step in and do the copying instead. The circuit was not the whole story; the model has redundancy the clean diagram hides.</p>
+        <div class="warning-box">
+            <h4>Why this matters for safety</h4>
+            <p>Backup heads are a direct warning about the ablation evidence from 13.4 and 15.1. "We ablated the component and the behaviour survived" can mean the component was irrelevant — or that a backup quietly compensated. Self-repair and redundancy mean a single clean circuit diagram can be faithful and still <em>incomplete</em>, and an interpretability-based safety claim ("we found and removed the deception circuit") could be defeated by machinery the analysis never surfaced. The IOI circuit is rightly celebrated, and it is also the field's clearest cautionary tale: real circuits are messy, redundant, and only partially understood, even when the headline says "reverse-engineered." Wang et al. also never explain the MLPs or layer-norms in the circuit — another reminder of how much a tidy diagram leaves out.</p>
+        </div>
+
+        <h2 class="section-title">Questions to bring to class</h2>
+        <ul class="styled-list">
+            <li>Why is logit difference a better metric for this task than raw correct-token probability? What does taking a <em>difference</em> of two logits cancel out?</li>
+            <li>Map each of the seven head classes onto a step of the human algorithm. Which classes are the induction machinery from 13.4, reappearing?</li>
+            <li>Define faithfulness, completeness, and minimality. The IOI circuit is ~87% faithful but fails completeness — what specifically goes wrong, and what does the Backup Name Mover finding reveal?</li>
+            <li>Backup heads compensate for ablated Name Movers. What does that imply for a safety claim of the form "we ablated the harmful circuit, so the behaviour is gone"?</li>
+        </ul>
+
+        <h2 class="section-title">Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Core</h4>
+            <p>• <strong>Wang et al. (2022), "Interpretability in the Wild: a Circuit for Indirect Object Identification in GPT-2 small"</strong> (<a href="https://arxiv.org/abs/2211.00593" target="_blank" rel="noopener">arXiv:2211.00593</a>) — §3 (the circuit and path patching) and §4 (faithfulness/completeness/minimality, and the backup heads).</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>Next</h2>
+            <p>Sub-session <strong>15.3</strong> turns to the other great technique: if superposition (13.2) is why we cannot read neurons, <strong>sparse autoencoders</strong> are the proposed way to recover a basis of interpretable features — with the dictionary-learning objective written out, and Golden Gate Claude as the vivid payoff.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="activation-patching.html"><span class="nav-label">← Previous</span><span class="nav-title">15.1 · Activation patching &amp; causal interventions</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="sparse-autoencoders.html"><span class="nav-label">Next →</span><span class="nav-title">15.3 · Sparse autoencoders &amp; monosemanticity</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

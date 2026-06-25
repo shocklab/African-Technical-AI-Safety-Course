@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 22 — Project work &amp; writing the paper</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
+</head>
+<body>
+<div class="container">
+<!-- TOP-NAV-START -->
+<div class="top-nav">
+  <a class="tn-home" href="../index.html">⌂ Contents</a>
+  <div class="tn-links">
+    <a class="tn-prev" href="session-21-mid-project-check-in.html">← <span class="tn-title">Session 21 · Mid-project check-in</span></a>
+    <a class="tn-next" href="session-23-presentations-and-peer-review.html"><span class="tn-title">Session 23 · Final presentations + peer review</span> →</a>
+  </div>
+</div>
+<!-- TOP-NAV-END -->
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 11 • Session 22</div>
+        <h1>Project work &amp; writing the paper</h1>
+        <p>A working session, and a guide to turning a result into a 6–8 page paper the rubric is built to mark</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>What this session is</h2>
+            <p>Protected time to finish the experiment and write the paper, plus a short guide to the write-up itself. The paper is marked section by section (Session 17), so the most reliable way to score well is to write to those sections deliberately. This session is also a buffer: if Session 21 sent you into a pivot, this is where the new plan gets executed.</p>
+        </div>
+
+        <h2 class="section-title">Write to the rubric</h2>
+        <p class="lead">Each section answers one question. Write the answer, not a genre-imitation of a paper.</p>
+        <div class="technical-detail">
+            <h4>The six sections, as writing targets</h4>
+            <table class="comparison-table">
+                <thead><tr><th>Section</th><th>The one question it answers</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Abstract</strong></td><td>What did you claim, what is the evidence in one sentence, and what did you not show? Three sentences, no throat-clearing.</td></tr>
+                    <tr><td><strong>Method</strong></td><td>Could a classmate reproduce this? Model, data, the exact intervention, the metric, the seeds.</td></tr>
+                    <tr><td><strong>Experiments</strong></td><td>What is the result, with error bars and a baseline? Built around the single figure.</td></tr>
+                    <tr><td><strong>Limitations</strong></td><td>What would falsify the claim, and what does the result not cover? Honesty scores here.</td></tr>
+                    <tr><td><strong>Creativity</strong></td><td>What is the question or the twist that makes this more than a re-run?</td></tr>
+                    <tr><td><strong>Positioning &amp; context</strong></td><td>Where does this sit relative to the work it builds on, and the one-paragraph context statement?</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="section-title">Write the abstract first</h2>
+        <p class="lead">It is the hardest paragraph and the most useful, because writing it tells you whether you have a result.</p>
+        <p>Before the experiments are even finished, draft the abstract: one sentence of claim, one of evidence, one of limitation. If you cannot fill the evidence sentence, you know what is left to do. If the claim sentence keeps growing vague, the project is still over-scoped and the writing has just told you so. Rewrite the abstract as the result firms up; by submission it should be the truest three sentences in the paper.</p>
+
+        <h2 class="section-title">One figure, made to carry the claim</h2>
+        <p class="lead">A short paper earns its keep through one good figure, not five rushed ones.</p>
+        <p>Build the paper around the single figure you named back in Session 17. Label the axes, state the units, show the error bars, and write a caption that lets the figure be understood on its own. Put the baseline on the same axes where you can, so the comparison the reader needs is right there. A reader who looks only at your figure and its caption should come away with your result; everything else is support.</p>
+
+        <h2 class="section-title">The limitations section is not an apology</h2>
+        <p class="lead">It is where you demonstrate that you understand your own result, which is exactly what the rubric rewards.</p>
+        <p>Weak papers treat limitations as a confession to be kept short. Strong ones use the section to show the edges of the claim clearly: the conditions under which it might not hold, the part of the question the eval does not reach, the seed-to-seed variation you saw. State what would falsify your result. If you pivoted or cut during the project, this is where that history lives honestly, and it reads as judgement rather than weakness.</p>
+
+        <div class="info-box">
+            <h4>Code that runs, and AI used in the open</h4>
+            <p>Reproducibility is graded in the method section: set seeds, note versions, and make sure the notebook runs top to bottom and regenerates your figure. The course's AI-use policy applies to your own work, too — you may use AI tools, and you must disclose how. Submitting unchecked AI output as your own analysis is both an integrity problem and a sign you missed the point of the course; verifying it is the skill the whole term has been training.</p>
+        </div>
+
+        <h2 class="section-title">If you are behind</h2>
+        <p class="lead">This session is slack as well as a guide. Spend it where it counts.</p>
+        <p>If the result is still not working, cut rather than stall (Session 21's logic still holds): a smaller honest finding, well written, beats an ambitious one left half-run. Get the single figure to a state you trust, write the three-sentence abstract around it, and let the limitations section carry everything you did not get to. A finished small paper is worth far more on every line of the rubric than an unfinished large one.</p>
+
+        <h2 class="section-title">A checklist before you submit</h2>
+        <ul class="styled-list">
+            <li>The abstract states a claim, its evidence, and a limitation, in three sentences.</li>
+            <li>The single figure has axes, units, error bars, a baseline, and a self-contained caption.</li>
+            <li>The method is reproducible; the notebook runs top to bottom.</li>
+            <li>The limitations section says what would falsify the claim.</li>
+            <li>The context statement names whose safety the project serves — or says, honestly, "not applicable, because…".</li>
+            <li>AI use is disclosed.</li>
+        </ul>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>Next</h2>
+            <p>Session <strong>23</strong> is the final presentations and the peer review: present your one point well, and learn to give a review that actually helps.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="session-21-mid-project-check-in.html"><span class="nav-label">← Previous</span><span class="nav-title">Session 21 · Mid-project check-in</span></a>
+  <a class="home" href="../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="session-23-presentations-and-peer-review.html"><span class="nav-label">Next →</span><span class="nav-title">Session 23 · Final presentations + peer review</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

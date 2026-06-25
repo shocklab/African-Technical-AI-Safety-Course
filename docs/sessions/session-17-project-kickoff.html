@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 17 — Project kickoff &amp; scoping</title>
+    <link rel="stylesheet" href="../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
+</head>
+<body>
+<div class="container">
+<!-- TOP-NAV-START -->
+<div class="top-nav">
+  <a class="tn-home" href="../index.html">⌂ Contents</a>
+  <div class="tn-links">
+    <a class="tn-prev" href="session-16/sovereignty-and-african-angle.html">← <span class="tn-title">16.4 · Sovereignty &amp; the African angle</span></a>
+  </div>
+</div>
+<!-- TOP-NAV-END -->
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 9 • Session 17</div>
+        <h1>Project kickoff &amp; scoping</h1>
+        <p>How to choose a safety project you can finish on Colab in three weeks, what the rubric rewards, and a menu of starting points built from the labs you have already done</p>
+    </header>
+    <div class="content">
+
+        <div class="highlight-box">
+            <h3><span style="color:#ffffff;">Part V — the research project</span></h3>
+            <p>The taught core is behind you. The final third of the course is a single piece of work: a small, honest safety project, written up as a short paper with code and presented to the class. It is worth 40% of the mark, and it is where the reading, the labs and the seminars turn into something of your own. This session is about choosing well, because a project that is scoped right is most of the battle.</p>
+        </div>
+
+        <div class="intro-text">
+            <h2>What we'll cover</h2>
+            <p>Four things: what separates a good safety project from a bad one at this scale; what the rubric actually rewards, section by section; the timeline from here to the final presentation; and a menu of concrete starting points, each tied to a lab you have already run and annotated with how far it is from a finished project. The aim by the end of the week is a one-page proposal you and your team believe you can deliver.</p>
+        </div>
+
+        <h2 class="section-title">What makes a good project at this scale</h2>
+        <p class="lead">Three weeks, free Colab, a team of two or three. That budget rules out most ambitious ideas, and ruling them out early is the skill.</p>
+        <p>A good project here has four properties. It is <strong>tractable</strong>: you can get a first result in a week, not a month, on hardware you actually have. It is <strong>falsifiable</strong>: there is a specific claim, and a specific measurement that could come out against you. It is <strong>honestly scoped</strong>: the question you write in the abstract is the question your experiment answers, with no quiet widening in between. And it is <strong>yours</strong>: a replication you understand and extend beats an ambitious idea you cannot execute.</p>
+        <p>The reading checklist from Session 1.4 was built for judging other people's work. Turn it on your own proposal before you start. What exactly are you claiming? What is the evaluation, and is it narrower than the claim? Whose data, whose language, whose model? What result would tell you that you were wrong? A proposal that cannot answer the last question is not yet a project; it is a topic.</p>
+        <div class="warning-box">
+            <h4>The failure mode to avoid: a project that cannot fail</h4>
+            <p>The most common weak project is one with no way to lose. "Explore interpretability methods on a small model" or "investigate bias in language models" cannot be wrong, which means they cannot be right either, and they tend to end as a tour rather than a finding. Force a claim. "Induction heads in GPT-2-small can be ablated without harming unigram next-token accuracy" can fail; "look at induction heads" cannot. The narrower, riskier version is the one worth doing, and it is usually the one you can actually finish.</p>
+        </div>
+
+        <h2 class="section-title">What the rubric rewards</h2>
+        <p class="lead">The project is marked section by section, so write to the sections. None of them rewards scale or polish for its own sake.</p>
+        <div class="technical-detail">
+            <h4>The per-section rubric</h4>
+            <table class="comparison-table">
+                <thead><tr><th>Section</th><th>What earns the marks</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Abstract</strong></td><td>One specific claim, the evidence for it in a sentence, and the limitation in a sentence. If a reader cannot tell from the abstract what you found and what you did <em>not</em> show, it is not done.</td></tr>
+                    <tr><td><strong>Method</strong></td><td>Enough that a classmate could reproduce it: model, data, the exact intervention, the metric, the number of seeds. Reproducibility is graded here.</td></tr>
+                    <tr><td><strong>Experiments</strong></td><td>A result with error bars, not a single run. A clear figure or table. A baseline to compare against (the Session 15.4 lesson: an interpretability result that a simple baseline matches is not yet a result).</td></tr>
+                    <tr><td><strong>Limitations</strong></td><td>The part that most separates strong from weak projects. What would falsify your claim, what your eval does not cover, where the result might not transfer. Honesty here gains marks; it does not lose them.</td></tr>
+                    <tr><td><strong>Creativity</strong></td><td>A question worth asking, or a familiar method turned on a new target. Replication-plus-a-twist counts; the twist is the creative part.</td></tr>
+                    <tr><td><strong>Positioning &amp; context</strong></td><td>Where your project sits relative to the work it builds on, and the one-paragraph context statement (below).</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="section-title">The timeline</h2>
+        <p class="lead">Four weeks, with a checkpoint built into each so a stuck project surfaces early rather than the night before.</p>
+        <ul class="styled-list">
+            <li><strong>Week 9 (now) — proposal.</strong> Pick a question, form a team, write the one-page proposal. The frontier-topic session (18) runs alongside, and several of its threads are first-class project options.</li>
+            <li><strong>Week 10 — clinic (19).</strong> Bring a first result, however rough, to the project clinic; we debug baselines, statistics and scope together. Session 20 (steelman the skeptics) runs alongside.</li>
+            <li><strong>Week 11 — mid-project check-in (21), then work (22).</strong> A structured progress review, including the option to pivot or cut, then a working session aimed at the write-up.</li>
+            <li><strong>Week 12 — presentations (23–24).</strong> Present to the class, submit the paper and code, and write anonymised reviews of two other teams' projects.</li>
+        </ul>
+
+        <h2 class="section-title">A menu of starting points</h2>
+        <p class="lead">Every track below starts from a lab you have already run, so the setup cost is near zero and you can spend the three weeks on the question rather than on plumbing. Each idea names the session it extends, and roughly how far it is from finished. You are not limited to this list; it is a floor, not a ceiling.</p>
+
+        <div class="info-box">
+            <h4>Robustness &amp; multilingual safety (extends Session 9)</h4>
+            <ul class="styled-list">
+                <li><strong>Refusal degradation in a new language.</strong> Repeat the <a href="session-09/lab-isizulu-robustness.html">9.4 lab</a> for isiXhosa, Yoruba or Hausa: measure the English-to-target refusal gap on an open harmful-prompt set, with confidence intervals. <em>Builds on:</em> the isiZulu robustness lab. <em>Twist:</em> test whether a cheap defence (a translation-back check, a refusal-classifier in the loop) closes the gap.</li>
+                <li><strong>Does paraphrase-back recover safety?</strong> Take a low-resource jailbreak, translate the model's reply back to English, and ask a judge model whether it is harmful. Measure how much of the gap a back-translation monitor catches. <em>Close to finished:</em> one week if you reuse the lab harness.</li>
+            </ul>
+        </div>
+        <div class="info-box">
+            <h4>Evaluations (extends Session 11)</h4>
+            <ul class="styled-list">
+                <li><strong>Build a small in-language safety eval.</strong> Extend the <a href="session-11/lab-isizulu-eval.html">11.5 lab</a> into a documented benchmark on open African-language data, with a construct-validity section: what does your eval measure, and what does it miss?</li>
+                <li><strong>A construct-validity audit of a public benchmark.</strong> Take a safety benchmark and ask, with the <a href="session-11/statistics-of-evals.html">11.4</a> tools, whether its headline number survives clustered error bars and a look at subgroup performance. <em>Twist:</em> reproduce a published claim and report where it is fragile.</li>
+            </ul>
+        </div>
+        <div class="info-box">
+            <h4>Mechanistic interpretability (extends Sessions 13–16)</h4>
+            <ul class="styled-list">
+                <li><strong>Replicate and extend a circuit finding.</strong> Reproduce induction-head behaviour (<a href="session-14/lab-induction-heads.html">14</a>) or a slice of the IOI circuit in GPT-2-small, then test whether it holds on a second prompt distribution. <em>Baseline matters:</em> show your patch changes the output for the reason you claim.</li>
+                <li><strong>Probe or steer an SAE feature.</strong> Using the <a href="session-16/lab-steering-and-saes.html">16.1 lab</a>, find a feature, steer on it, and check honestly whether an SAE-feature probe beats a logistic-regression baseline (the <a href="session-15/state-of-saes.html">15.4</a> test). The <a href="session-16/sovereignty-and-african-angle.html">16.4 project brief</a> sketches an auditing-game version.</li>
+            </ul>
+        </div>
+        <div class="info-box">
+            <h4>Alignment methods, control &amp; unlearning (extends Sessions 6, 7, 10)</h4>
+            <ul class="styled-list">
+                <li><strong>A reward-hacking demonstration.</strong> Extend the <a href="session-06/lab-rlhf.html">6.5 lab</a>: over-optimise a small reward model and measure where the proxy and the true objective come apart.</li>
+                <li><strong>A trusted-monitor variant.</strong> Build on the <a href="session-10/lab-trusted-monitor.html">10.5 lab</a>: change the protocol or the collusion strategy and measure the safety-usefulness frontier you get.</li>
+            </ul>
+        </div>
+        <div class="info-box">
+            <h4>Governance, compute &amp; conceptual work (extends Sessions 4, 12, 1.3)</h4>
+            <ul class="styled-list">
+                <li><strong>A sovereignty or compute analysis.</strong> A quantitative piece building on <a href="session-04/cost-of-every-prompt.html">Session 4</a> or <a href="session-12-technical-ai-governance.html">12</a>: model a compute threshold, or map an eval to a concrete policy commitment. Pure-analysis projects are welcome and graded on the same rubric.</li>
+                <li><strong>A steelman and rebuttal.</strong> Take one safety claim, build its strongest version and its strongest critique (the <a href="session-01/the-case-and-its-critics.html">1.3</a> and Session 20 method), and say where you land and why. <em>This is a theory project;</em> the "experiment" is the argument, and the limitations section is where it earns its marks.</li>
+            </ul>
+        </div>
+
+        <h2 class="section-title">Scoping it down</h2>
+        <p class="lead">Almost every first proposal is too big. Cutting it is not a retreat; it is what makes a result possible.</p>
+        <p>If your proposal needs a model you cannot run, a dataset you do not have, or a result that depends on three things working at once, cut until one thing has to work. A useful test: can you describe the single figure your paper will contain? If you can, the project is scoped. If the answer is "it depends what we find", keep cutting. A finished small result beats an unfinished large one on every line of the rubric, and the limitations section is where the ambitions you cut go to live honestly.</p>
+
+        <h2 class="section-title">Reproducibility and honest reporting</h2>
+        <p class="lead">The course has asked you all term to distrust a confident result until it is checked. Your own project is held to the same standard.</p>
+        <ul class="styled-list">
+            <li><strong>Write the question down before you run anything.</strong> A pre-registered claim keeps you from quietly fitting the conclusion to whatever the first run produced.</li>
+            <li><strong>Report error bars, not a single number.</strong> Use the Session 11.4 tools; several seeds and a confidence interval are worth more than one impressive point estimate.</li>
+            <li><strong>Show a baseline.</strong> A result only means something against an alternative. The simplest baseline that could explain your effect is the one to rule out.</li>
+            <li><strong>Make the code run.</strong> A reviewer should be able to open your notebook and reproduce the figure. Set seeds; note versions.</li>
+        </ul>
+
+        <div class="case-study">
+            <h4>The one-paragraph context statement</h4>
+            <p>Every project carries a short statement: who does this help, whose risk does it address, and how — if at all — does it apply in an African context? This is graded on thought, not on gesture. "Not applicable, because this is a general interpretability result with no language- or region-specific dimension" is a full-credit answer for a pure-theory project. What loses marks is ignoring the question, or bolting on an African angle that the work does not actually have. Several tracks above carry a real one; a theory project may carry none, and saying so plainly is the honest move the course has practised all term.</p>
+        </div>
+
+        <h2 class="section-title">Forming a team and writing the proposal</h2>
+        <p>Work in teams of two or three. By the end of the week, submit a one-page proposal with: the question, stated as a falsifiable claim; the method, including the model and data you will use and the metric; the single result you expect to produce; a sentence on feasibility (why this fits three weeks on Colab); and the context statement. Bring it to the project clinic in Session 19, where we pressure-test scope and baselines before you commit.</p>
+
+        <h2 class="section-title">Questions to bring to class</h2>
+        <ul class="styled-list">
+            <li>State your project as a single falsifiable claim. What measurement would come out against you?</li>
+            <li>What is the one figure your paper will contain? If you cannot name it, where would you cut?</li>
+            <li>What is the simplest baseline that could explain the effect you expect — and how will you rule it out?</li>
+            <li>Does your project have an African-context dimension, or is the honest answer "not applicable"? Defend whichever you choose.</li>
+        </ul>
+
+        <h2 class="section-title">Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Core</h4>
+            <p>• <strong>Neel Nanda, "200 Concrete Open Problems in Mechanistic Interpretability"</strong> (<a href="https://www.alignmentforum.org/posts/LbrPTJ4fmABEdEnLf/200-concrete-open-problems-in-mechanistic-interpretability" target="_blank" rel="noopener">Alignment Forum</a>) and his "Concrete Steps to Get Started" — a ready bank of scoped, Colab-feasible interpretability questions.</p>
+            <p>• <strong>ARENA — project ideas &amp; capstone suggestions</strong> (<a href="https://www.arena.education/" target="_blank" rel="noopener">arena.education</a>) — worked starting points across interpretability, evals and RL.</p>
+        </div>
+        <div class="resource-placeholder">
+            <h4>Supplementary</h4>
+            <p>• Your own course labs — the <a href="session-09/lab-isizulu-robustness.html">9.4</a>, <a href="session-11/lab-isizulu-eval.html">11.5</a>, <a href="session-14/lab-induction-heads.html">14</a> and <a href="session-16/lab-steering-and-saes.html">16.1</a> notebooks are the fastest routes to a first result, because the setup is already done.</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>Next</h2>
+            <p>Session <strong>18</strong> runs alongside the project launch: AI safety from the Global South — the multilingual safety gap as a frontier problem, compute and data sovereignty, and the African research ecosystem. Several of its threads are first-class project options, so read it with the menu above in mind.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="session-16/sovereignty-and-african-angle.html"><span class="nav-label">← Previous</span><span class="nav-title">16.4 · Sovereignty &amp; the African angle</span></a>
+  <a class="home" href="../index.html"><span class="nav-title">⌂</span></a>
+  <span class="nav-empty"></span>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

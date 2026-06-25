@@ -117,7 +117,7 @@
             <h4>Per-position computation and storage</h4>
             <p style="color:#555;">After attention moves information <em>between</em> positions, a position-wise MLP does computation <em>within</em> each position — the same two-layer network applied to every row independently:</p>
             <div class="formula">\[ \operatorname{MLP}(x) = W_2 \cdot \sigma(W_1 x + b_1) + b_2 \]</div>
-            <p style="color:#555;">It up-projects to a wider hidden dimension (commonly \(4 d_{\text{model}}\)), applies a nonlinearity \(\sigma\) (GELU in GPT-2), then down-projects back. The MLP holds much of a transformer's stored "knowledge" and accounts for roughly two-thirds of its parameters — and is, so far, harder to interpret than attention.</p>
+            <p style="color:#555;">It up-projects to a wider hidden dimension (commonly \(4 d_{\text{model}}\)), applies a nonlinearity \(\sigma\) (GELU in GPT-2), then down-projects back. The MLP holds much of a transformer's stored "knowledge" and accounts for roughly two-thirds of a block's (non-embedding) parameters — and is, so far, harder to interpret than attention.</p>
         </div>
 
         <h2 class="section-title">LayerNorm and the full block</h2>

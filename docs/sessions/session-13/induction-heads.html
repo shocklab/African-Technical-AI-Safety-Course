@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 13.4 — Induction heads and in-context learning</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
+</head>
+<body>
+<div class="container">
+<!-- TOP-NAV-START -->
+<div class="top-nav">
+  <a class="tn-home" href="../../index.html">⌂ Contents</a>
+  <details class="tn-menu">
+    <summary>Session 13</summary>
+    <ul>
+      <li><a href="why-interpretability.html">13.1 · Why open the black box?</a></li>
+      <li><a href="features-and-superposition.html">13.2 · Features &amp; superposition</a></li>
+      <li><a href="circuits-qk-ov.html">13.3 · The circuits paradigm: QK &amp; OV</a></li>
+      <li><span class="tn-current">13.4 · Induction heads &amp; in-context learning</span></li>
+    </ul>
+  </details>
+  <div class="tn-links">
+    <a class="tn-prev" href="circuits-qk-ov.html">← <span class="tn-title">13.3 · The circuits paradigm: QK &amp; OV</span></a>
+    <a class="tn-next" href="../session-14/lab-induction-heads.html"><span class="tn-title">Session 14 · Lab: TransformerLens + induction heads</span> →</a>
+  </div>
+</div>
+<!-- TOP-NAV-END -->
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 7 • Session 13.4</div>
+        <h1>Induction heads and in-context learning</h1>
+        <p>The clearest worked circuit in the field — a two-head algorithm for copying patterns, and the leading mechanistic account of in-context learning</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>What we'll cover</h2>
+            <p>This is the flagship. An <strong>induction head</strong> is a concrete, reverse-engineered circuit that completes patterns it has seen earlier in the context, and it may be the main mechanism behind <em>in-context learning</em>, the ability of large models to pick up a task from examples in the prompt with no weight updates. We build it from the QK/OV algebra of 13.3: a two-head, K-composition circuit whose pieces we can write down and whose behaviour the Session 14 lab will detect and verify by ablation. We also weigh the evidence honestly — strong and causal for small models, suggestive and correlational at scale — and meet the training-time <strong>phase change</strong> that connects this circuit to the emergence debate of Session 2.4.</p>
+        </div>
+
+        <h2 class="section-title">The behaviour, and why it needs two heads</h2>
+        <p class="lead">Given <code>…[A][B]…[A]</code>, an induction head predicts <code>[B]</code> — "what followed A last time follows it again."</p>
+        <p>Feed a model a sequence with a repeated pattern: some token \(A\) was once followed by \(B\), and now \(A\) appears again. An induction head completes it with \(B\). It is doing something genuinely contextual — \(A\) and \(B\) can be arbitrary, even random tokens the model never saw in training, so this is not a memorised bigram but an <em>in-context</em> rule learned on the fly. Mechanistically this takes two heads working in series, which is exactly why it cannot exist in a one-layer model (13.3).</p>
+        <div class="technical-detail">
+            <h4>The two-head circuit</h4>
+            <ul class="styled-list">
+                <li><strong>Head 1 — a previous-token head (early layer).</strong> At each position it attends one step back and copies the previous token's identity forward, writing "the token before me was \(X\)" into a subspace of the residual stream at the current position.</li>
+                <li><strong>Head 2 — the induction head (later layer), via K-composition.</strong> Its <em>key</em> circuit reads the subspace head 1 wrote. So the current token \(A\) (as query) matches the key at the position that <em>records being preceded by \(A\)</em> — which is the position right after the earlier occurrence of \(A\), namely the position holding \(B\). Having attended there, the induction head's <strong>OV</strong> circuit copies \(B\) to the output, raising its logit.</li>
+            </ul>
+            <p style="color:#555;">In one sentence: head 1 stamps each position with its predecessor; head 2 uses its query token to find the position stamped with that same token, and copies whatever sits there. Prefix-matching (a QK job) plus copying (an OV job), composed across two layers.</p>
+        </div>
+
+        <h2 class="section-title">Writing the two pieces down</h2>
+        <p class="lead">Both halves reduce to eigenvalue statements about the gauge-invariant circuits from 13.3.</p>
+        <div class="technical-detail">
+            <h4>OV = copying ⇔ positive eigenvalues</h4>
+            <p style="color:#555;">A head <em>copies</em> the token it attends to when its OV circuit, viewed as a map from input token to output logit, preserves token identity. Compose the OV circuit with the embedding and unembedding to get a token-by-token matrix \(W_U\, W_{OV}\, W_E\). The head copies when this matrix is <strong>positive along its diagonal</strong> — token \(t\) in raises the logit of token \(t\) out. Operationally, define a <strong>copying score</strong> as the fraction of positive (real) eigenvalues of \(W_U W_{OV} W_E\): a pure copying head scores near 1. This is the OV half, and it is checkable directly from the weights.</p>
+        </div>
+        <div class="technical-detail">
+            <h4>QK = prefix matching via K-composition</h4>
+            <p style="color:#555;">The induction head's key circuit reads the previous-token information head 1 wrote. The effective QK form is no longer just \(W_{QK}\) on token embeddings but \(W_{QK}\) composed with head 1's \(W_{OV}\) in the key slot: a cross-term that scores "does the key position record being preceded by my query token?" highest. Operationally, define a <strong>prefix-matching score</strong>: run a repeated random sequence and measure, for each position in the repeat, how much attention the candidate head pays back to the token that <em>followed</em> the current token's earlier occurrence. A genuine induction head puts almost all its attention there. These two scores — copying and prefix-matching — are precisely the detectors you will implement in the Session 14 lab.</p>
+        </div>
+        <div class="warning-box">
+            <h4>An honesty note worth teaching</h4>
+            <p>The prefix-matching definition in Olsson et al. was <em>corrected after publication</em> (the change log records flipping "preceded by" and "followed by" in the description). It is a small thing, but a useful reminder that even canonical, careful interpretability work ships errata — read the definitions, not the summary, and check them against the behaviour. The same scepticism the course applies to vendor claims applies to interpretability papers, including the famous ones.</p>
+        </div>
+
+        <h2 class="section-title">The big claim: induction heads and in-context learning</h2>
+        <p class="lead">These heads may be the mechanism behind much of in-context learning — and the evidence must be graded by model size.</p>
+        <p>The striking hypothesis from Olsson et al. is that induction heads are not a curiosity but the <em>main driver</em> of in-context learning in transformers. The evidence is presented as several converging lines, and a maths-honest course grades them rather than swallowing the headline:</p>
+        <div class="technical-detail">
+            <h4>The evidence, graded</h4>
+            <ul class="styled-list">
+                <li><strong>Strong / causal — small attention-only models.</strong> Here induction heads can be identified exactly and knocked out by ablation; doing so destroys in-context learning. This was established with tens of thousands of targeted head ablations. For these models the claim is genuinely causal.</li>
+                <li><strong>Suggestive / correlational — large models with MLPs.</strong> At scale the same heads are present and correlate with in-context-learning ability, and perturbing the architecture moves both together (a co-occurrence argument). But the clean causal isolation of the small-model case is not available, so the claim here is a well-supported hypothesis, not a proof.</li>
+            </ul>
+            <p style="color:#555;">Carry this grading habit through the whole block: "demonstrated on a two-layer attention-only model" and "holds in GPT-scale models" are different epistemic states, and good interpretability work tells you which one it has.</p>
+        </div>
+
+        <h2 class="section-title">The phase change, and a bridge to two earlier sessions</h2>
+        <p class="lead">Induction heads form abruptly during training — a phase change you can see in the loss curve.</p>
+        <p>One of the most evocative findings is that induction heads do not fade in gradually: they form in a sharp <strong>phase change</strong> during training, visible as a small bump in the loss curve, co-occurring with an abrupt jump in the model's in-context-learning score. This rhymes with two things the course has already met. It echoes the <strong>superposition phase change</strong> of 13.2 — capabilities and representations both seem to switch on discontinuously as a threshold is crossed. And it connects to the <strong>emergence debate</strong> of Session 2.4: here is a case where a real, mechanistically-identified capability genuinely appears abruptly in training, which is a more grounded claim than emergence read off a benchmark curve (and reminds us, per Schaeffer, to check whether the abruptness is in the model or the metric). For safety the implication is the uncomfortable one: capabilities, and the circuits behind them, can arrive suddenly rather than on a smooth, forecastable ramp.</p>
+        <div class="info-box">
+            <h4>The African-lens thread: induction heads translate</h4>
+            <p>Olsson et al. note that the same heads do <em>fuzzy</em> matching, including word-by-word translation: given <code>[A*][B*]…[A]</code> where \(A^*\) is \(A\) in another language, the head completes with \(B\), the translation of \(B^*\). That is a small but real piece of evidence that some circuits are <em>language-agnostic</em> — the copying-and-matching machinery does not care which language the tokens are in. It raises the open question we return to in Session 16: if the <em>mechanisms</em> are language-neutral but the <em>features</em> they operate on are densely represented only for high-resource languages, then capability may transfer to isiZulu while reliability does not. A genuine, testable interpretability question with direct relevance to the course's anchor — and a clean honours-project seed.</p>
+        </div>
+
+        <h2 class="section-title">Questions to bring to class</h2>
+        <ul class="styled-list">
+            <li>Walk through the two-head induction circuit and say exactly which job (prefix-matching vs copying) is done by which circuit (QK vs OV) of which head. Why is K-composition the link?</li>
+            <li>Why does a head copy iff \(W_U W_{OV} W_E\) has positive eigenvalues? What does the copying score measure, and how would you compute it from weights alone?</li>
+            <li>The induction → in-context-learning claim is "causal for small models, correlational at scale." What specific experiment makes it causal for small models, and why can't you run the equivalent on a frontier model?</li>
+            <li>Induction heads form in a training phase change. How is that a stronger or weaker emergence claim than the benchmark-curve "emergence" of Session 2.4?</li>
+        </ul>
+
+        <h2 class="section-title">Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Core</h4>
+            <p>• <strong>Olsson et al. (2022), "In-context Learning and Induction Heads"</strong> (<a href="https://arxiv.org/abs/2209.11895" target="_blank" rel="noopener">arXiv:2209.11895</a>) — the induction-head mechanism, the phase change, and the (carefully graded) in-context-learning argument.</p>
+        </div>
+        <div class="resource-placeholder">
+            <h4>Supplementary</h4>
+            <p>• <strong>Nanda et al. (2023), "Progress Measures for Grokking via Mechanistic Interpretability"</strong> (<a href="https://arxiv.org/abs/2301.05217" target="_blank" rel="noopener">arXiv:2301.05217</a>) — the only fully closed-form circuit (modular addition via Fourier multiplication); pairs beautifully with the phase-change theme if you want a second worked example.</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>Next</h2>
+            <p><strong>Session 14</strong> is the lab: load a small model in TransformerLens, see the induction stripe in the attention pattern, implement the prefix-matching and copying detectors from this sub-session, and verify the circuit causally by ablating its two heads.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="circuits-qk-ov.html"><span class="nav-label">← Previous</span><span class="nav-title">13.3 · The circuits paradigm: QK &amp; OV</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="../session-14/lab-induction-heads.html"><span class="nav-label">Next →</span><span class="nav-title">Session 14 · Lab: TransformerLens + induction heads</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

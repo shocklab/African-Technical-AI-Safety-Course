@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 14 — Lab: find &amp; verify an induction head</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
+</head>
+<body>
+<div class="container">
+<!-- TOP-NAV-START -->
+<div class="top-nav">
+  <a class="tn-home" href="../../index.html">⌂ Contents</a>
+  <div class="tn-links">
+    <a class="tn-prev" href="../session-13/induction-heads.html">← <span class="tn-title">13.4 · Induction heads &amp; in-context learning</span></a>
+  </div>
+</div>
+<!-- TOP-NAV-END -->
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 7 • Session 14</div>
+        <h1>Lab: find and verify an induction head</h1>
+        <p>Reproduce the flagship circuit by hand in TransformerLens — see the induction stripe, score the heads, and prove the mechanism by ablation</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <h2>What you'll build</h2>
+            <p>Session 13 derived the induction-head circuit on paper. This lab finds one in a real model and verifies it causally, using <strong>TransformerLens</strong> — a hooked reimplementation of GPT-style models that exposes every internal activation for caching and intervention. The whole lab is forward passes and ablations, no training, so the core runs on a free Colab <strong>CPU</strong> tier. You will turn the two detectors from 13.4 (prefix-matching and copying scores) into code, identify the heads, and show that knocking them out destroys in-context pattern completion — reproducing Olsson et al.'s ablation argument at toy scale.</p>
+        </div>
+
+        <div class="technical-detail">
+            <h4>Setup</h4>
+            <p style="color:#555;">Open the Colab notebook and <code>pip install transformer_lens</code> (the notebook <strong>pins a specific version</strong> so the API does not drift — recent releases move from <code>HookedTransformer.from_pretrained</code> toward a <code>TransformerBridge</code>; the notebook uses whichever its pinned version documents as primary). Load two models on <code>device="cpu"</code>: <strong>gpt2-small</strong> (124M; a real model with MLPs) and <strong>attn-only-2l</strong> (a 2-layer attention-only demo model where the maths of 13.3–13.4 is exact). The core idioms: <code>logits, cache = model.run_with_cache(tokens)</code> to capture activations, and <code>model.run_with_hooks(tokens, fwd_hooks=[...])</code> to intervene.</p>
+        </div>
+
+        <h2 class="section-title">Core tasks (CPU)</h2>
+        <ul class="styled-list">
+            <li><strong>1. Load and sanity-check.</strong> Tokenise a sentence, run with cache, confirm sensible next-token predictions. Inspect the cache keys so you know where attention patterns live (<code>blocks.{l}.attn.hook_pattern</code>).</li>
+            <li><strong>2. See the induction stripe.</strong> Build a <em>repeated random</em> sequence — a block of random tokens concatenated with an identical copy — and plot per-head attention patterns (e.g. with <code>circuitsvis</code>). In the second copy, look for the off-diagonal "stripe" where each token attends to the position <em>after</em> its first occurrence. That stripe is the induction head, visible to the eye.</li>
+            <li><strong>3. Find the previous-token head.</strong> On natural text, score every head by how much it attends to position \(i-1\). The top scorer in an early layer is head 1 of the circuit.</li>
+            <li><strong>4. Score induction heads.</strong> Implement the <strong>prefix-matching (induction) score</strong> from 13.4: on the repeated sequence, average each repeat-token's attention back to the token that followed its first occurrence. Rank all heads; the top scorer(s) are your induction head(s). Optionally implement the <strong>copying score</strong> from the eigenvalues of \(W_U W_{OV} W_E\).</li>
+            <li><strong>5. Verify by ablation (the causal step).</strong> Mean-ablate the identified induction head, then (separately) the previous-token head, with <code>run_with_hooks</code>, and measure the rise in loss on the repeated-sequence task. Knocking out <em>either</em> head should destroy the induction behaviour — direct evidence that the two compose, exactly as 13.3–13.4 predicted.</li>
+        </ul>
+
+        <div class="info-box">
+            <h4>Stretch (optional, still CPU-feasible)</h4>
+            <ul class="styled-list">
+                <li><strong>Direct logit attribution:</strong> decompose the correct-token logit into per-head contributions on the repeat; confirm the induction head dominates.</li>
+                <li><strong>One layer vs two:</strong> run your detector on a 1-layer attention-only model and show induction is <em>absent</em> — empirically nailing 13.4's "needs two layers."</li>
+                <li><strong>Mechanistic:</strong> inspect the induction head's \(W_{OV}\) eigenvalues (copying ⇒ positive), tying the detected head back to the 13.4 maths.</li>
+            </ul>
+        </div>
+
+        <h2 class="section-title">What to submit</h2>
+        <p>One annotated Colab notebook containing: the induction-stripe attention plot; the ranked induction-score table with the identified head(s) named; and the before/after-ablation loss numbers for both the induction head and the previous-token head — each with one or two sentences linking the observation to the 13.3/13.4 mechanism. Graded on whether the causal story is established (does ablation break it?), not on polish.</p>
+
+        <h2 class="section-title">Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Reference</h4>
+            <p>• <strong>Olsson et al. (2022)</strong> (<a href="https://arxiv.org/abs/2209.11895" target="_blank" rel="noopener">arXiv:2209.11895</a>) — the prefix-matching and copying definitions you are implementing, and the ablation argument you are reproducing.</p>
+            <p>• <strong>TransformerLens documentation</strong> (<a href="https://transformerlensorg.github.io/TransformerLens/" target="_blank" rel="noopener">transformerlensorg.github.io/TransformerLens</a>) — <code>run_with_cache</code>, hook names, and ablation hooks; ARENA's interpretability chapter is the fuller guided version.</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>Next</h2>
+            <p><strong>Session 15</strong> moves from finding circuits to the two techniques that let us go further: <strong>activation patching</strong> (causal interventions) and <strong>sparse autoencoders</strong> (dictionary learning) — and, honestly, where the latter currently falls short.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="../session-13/induction-heads.html"><span class="nav-label">← Previous</span><span class="nav-title">13.4 · Induction heads &amp; in-context learning</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <span class="nav-empty"></span>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

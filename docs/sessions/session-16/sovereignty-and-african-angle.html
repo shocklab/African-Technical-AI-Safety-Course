@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 16.4 — Interpretability, sovereignty, and the African angle</title>
+    <title>Session 16.4 — Interpretability and sovereignty</title>
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -20,12 +20,12 @@
     <ul>
       <li><a href="lab-steering-and-saes.html">16.1 · Lab: steering &amp; SAE features</a></li>
       <li><a href="safety-applications.html">16.2 · What interpretability buys for safety</a></li>
-      <li><a href="honest-limits.html">16.3 · The honest limits</a></li>
-      <li><span class="tn-current">16.4 · Sovereignty &amp; the African angle</span></li>
+      <li><a href="honest-limits.html">16.3 · The limits of interpretability</a></li>
+      <li><span class="tn-current">16.4 · Interpretability and sovereignty</span></li>
     </ul>
   </details>
   <div class="tn-links">
-    <a class="tn-prev" href="honest-limits.html">← <span class="tn-title">16.3 · The honest limits</span></a>
+    <a class="tn-prev" href="honest-limits.html">← <span class="tn-title">16.3 · The limits of interpretability</span></a>
     <a class="tn-next" href="../session-17-project-kickoff.html"><span class="tn-title">Session 17 · Project kickoff &amp; scoping</span> →</a>
   </div>
 </div>
@@ -33,8 +33,8 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 8 • Session 16.4</div>
-        <h1>Interpretability, sovereignty, and the African angle</h1>
-        <p>The African angle (auditing a model you did not train), the English-centrism of current tools, and where the angle is thin</p>
+        <h1>Interpretability and sovereignty</h1>
+        <p>Auditing a model you did not train, the English-centrism of current tools, and where the argument is thin</p>
     </header>
     <div class="content">
 
@@ -56,7 +56,7 @@
         <p>The asymmetry from earlier sessions returns. Training the wide sparse autoencoders that interpret a production model is expensive: the auditing-game SAE was around a million features wide on a production model's residual stream, and circuit analysis on a 70B model (16.3) is not laptop work. The institutions that can <em>train</em> frontier models can <em>interpret</em> them; those that receive them often cannot, which loops back to the access argument. The liberating exception: <em>interpreting</em> a given set of activations is far cheaper than pretraining. A small SAE trains in about a GPU-hour, and pretrained SAEs and tools (SAELens) are distributed freely, so interpretation of <em>open</em> models is accessible. The binding constraint is access to frontier <em>weights</em>, not to interpretation compute. That tension is the interesting version of the compute angle.</p>
 
         <div class="warning-box">
-            <h4>Where this angle is thin</h4>
+            <h4>Where this argument is thin</h4>
             <p>Say it plainly, because the course promised to. This is the thinnest African angle in the course. There is no isiZulu sparse autoencoder, no African-language interpretability dataset, no body of work interpreting models in African languages that we could point you to. The foundational mathematics of Sessions 13 and 15 (QK/OV, superposition, the SAE objective) is geography- and language-neutral, and we are not going to pretend otherwise. What is real is the sovereignty argument (strong), the English-centrism question (open), and the compute asymmetry (structural). The rest is a gap. We flag it as a gap rather than inflate it, because a manufactured angle would betray the critical-reading habit this course is trying to build.</p>
         </div>
 
@@ -91,7 +91,7 @@
     </div>
 <!-- PAGE-NAV-START -->
 <nav class="page-nav">
-  <a class="prev" href="honest-limits.html"><span class="nav-label">← Previous</span><span class="nav-title">16.3 · The honest limits</span></a>
+  <a class="prev" href="honest-limits.html"><span class="nav-label">← Previous</span><span class="nav-title">16.3 · The limits of interpretability</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
   <a class="next" href="../session-17-project-kickoff.html"><span class="nav-label">Next →</span><span class="nav-title">Session 17 · Project kickoff &amp; scoping</span></a>
 </nav>

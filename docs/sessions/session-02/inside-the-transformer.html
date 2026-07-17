@@ -35,13 +35,13 @@
     <header>
         <div class="week-badge">Week 2 • Session 2.2</div>
         <h1>Inside the transformer</h1>
-        <p>Tokens, attention, and the residual stream — worked through at the level interpretability needs</p>
+        <p>Tokens, attention, and the residual stream</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Every model in this course is a <strong>transformer</strong>. This sub-session builds one properly, as a sequence of linear-algebraic operations you could, in principle, trace by hand rather than a black box. We go slowly through <em>attention</em> (with explicit matrix shapes and a worked example), then assemble the full block, and finish with the <strong>residual-stream</strong> picture that mechanistic interpretability (Weeks 7–8) literally reads off.</p>
+            <p>Every model in this course is a <strong>transformer</strong>. This sub-session builds one properly, as a sequence of linear-algebraic operations you could, in principle, trace by hand rather than a black box. We go slowly through <em>attention</em> (with explicit matrix shapes and a worked example), then assemble the full block, and finish with the residual-stream picture that mechanistic interpretability (Weeks 7–8) literally reads off.</p>
             <p>Notation we'll keep throughout: a sequence of \(T\) tokens; a model (residual-stream) dimension \(d_{\text{model}}\); \(n_h\) attention heads each of dimension \(d_{\text{head}} = d_{\text{model}}/n_h\) (why the dimension is divided this way is explained under <em>Multi-head attention</em>, below); a vocabulary of size \(V\).</p>
         </div>
 
@@ -49,9 +49,9 @@
         <div class="technical-detail">
             <h4>Tokens, embeddings, positions</h4>
             <ul class="styled-list">
-                <li><strong>Tokenisation.</strong> Text is split into <em>tokens</em> — sub-word pieces from a fixed vocabulary of size \(V\) (typically 30k–100k). "tokenisation" might become <code>token | isation</code>; a rare word becomes several pieces. Each token is an integer id.</li>
-                <li><strong>Embedding.</strong> A learned matrix \(W_E \in \mathbb{R}^{V \times d_{\text{model}}}\) maps each id to a vector in \(\mathbb{R}^{d_{\text{model}}}\) (one row of \(W_E\)). A length-\(T\) sequence becomes an activation matrix \(X \in \mathbb{R}^{T \times d_{\text{model}}}\) — one row per position.</li>
-                <li><strong>Position.</strong> Self-attention is <em>permutation-equivariant</em>: shuffle the input rows and the output rows shuffle the same way — it has no built-in sense of order (because, as the next section shows, attention is a content-weighted sum with no term that depends on a position's index). So positional information is injected (added positional embeddings, or rotary/relative schemes) before the first block.</li>
+                <li><strong>Tokenisation.</strong> Text is split into <em>tokens</em>: sub-word pieces from a fixed vocabulary of size \(V\) (typically 30k–100k). "tokenisation" might become <code>token | isation</code>; a rare word becomes several pieces. Each token is an integer id.</li>
+                <li><strong>Embedding.</strong> A learned matrix \(W_E \in \mathbb{R}^{V \times d_{\text{model}}}\) maps each id to a vector in \(\mathbb{R}^{d_{\text{model}}}\) (one row of \(W_E\)). A length-\(T\) sequence becomes an activation matrix \(X \in \mathbb{R}^{T \times d_{\text{model}}}\), one row per position.</li>
+                <li><strong>Position.</strong> Self-attention is <em>permutation-equivariant</em>: shuffle the input rows and the output rows shuffle the same way; it has no built-in sense of order (because, as the next section shows, attention is a content-weighted sum with no term that depends on a position's index). So positional information is injected (added positional embeddings, or rotary/relative schemes) before the first block.</li>
             </ul>
             <p style="color:#555; margin-top:12px;">From here on, each transformer <em>block</em> maps a \(T \times d_{\text{model}}\) matrix to another of the same shape (internally, as we'll see, it routes through narrower matrices and back). That preserved width is the residual stream.</p>
         </div>
@@ -78,9 +78,9 @@
         </div>
         <div class="technical-detail">
             <h4>Step 4 — Causal mask + softmax → attention weights</h4>
-            <p style="color:#555;">For a language model predicting the next token, position \(i\) must not see the future. We set \(\tilde{S}_{ij} = -\infty\) for \(j > i\) (so those weights will become 0), then apply a row-wise <strong>softmax</strong> — the function that turns a row of real scores \(z\) into a probability distribution, \(\operatorname{softmax}(z)_j = e^{z_j} / \sum_k e^{z_k}\) (every entry positive, the whole row summing to 1):</p>
+            <p style="color:#555;">For a language model predicting the next token, position \(i\) must not see the future. We set \(\tilde{S}_{ij} = -\infty\) for \(j > i\) (so those weights will become 0), then apply a row-wise <strong>softmax</strong>, the function that turns a row of real scores \(z\) into a probability distribution, \(\operatorname{softmax}(z)_j = e^{z_j} / \sum_k e^{z_k}\) (every entry positive, the whole row summing to 1):</p>
             <div class="formula">\[ A = \operatorname{softmax}(\tilde{S} + \text{mask}) \in \mathbb{R}^{T \times T} \]</div>
-            <p style="color:#555;">Each row of \(A\) is now a probability distribution over the positions at or before \(i\) (the masked future positions, sent to \(-\infty\), get weight 0) — the <strong>attention pattern</strong>. These weights are explicit numbers you can plot, which is why attention is a natural entry point for interpretability.</p>
+            <p style="color:#555;">Each row of \(A\) is now a probability distribution over the positions at or before \(i\) (the masked future positions, sent to \(-\infty\), get weight 0), the <strong>attention pattern</strong>. These weights are explicit numbers you can plot, which is why attention is a natural entry point for interpretability.</p>
         </div>
         <div class="technical-detail">
             <h4>Step 5 — Read out a weighted sum of values</h4>
@@ -96,12 +96,12 @@
 
         <div class="info-box">
             <h4>A worked intuition: "…the Eiffel Tower is in the city of ___"</h4>
-            <p>To predict the next token, the final position emits a query that (in some head) is best matched by the key at "Eiffel Tower". That head's attention row puts most weight on the "Eiffel Tower" position and copies its value into the final position's output, moving the information "this sentence is about the Eiffel Tower" forward to where it's needed. Attention only <em>moves</em> information like this; it is the later layers and MLPs that turn "this is about the Eiffel Tower" into the prediction "Paris". <em>Induction heads</em> — which you'll reverse-engineer in Week 7 — are a famous, crisp version of this copy-by-matching behaviour.</p>
+            <p>To predict the next token, the final position emits a query that (in some head) is best matched by the key at "Eiffel Tower". That head's attention row puts most weight on the "Eiffel Tower" position and copies its value into the final position's output, moving the information "this sentence is about the Eiffel Tower" forward to where it's needed. Attention only <em>moves</em> information like this; it is the later layers and MLPs that turn "this is about the Eiffel Tower" into the prediction "Paris". <em>Induction heads</em>, which you'll reverse-engineer in Week 7, are a famous, crisp version of this copy-by-matching behaviour.</p>
         </div>
 
         <figure>
             <img src="../../assets/img/session-2-2b-attention-heatmap.jpg" alt="Attention-weight heatmap for the sentence 'The Eiffel Tower is in the city of'. Rows are query positions and columns are key positions, forming a lower-triangular grid because each position can attend only to itself and earlier positions, with the upper triangle blank. The first token 'The' attends entirely to itself with weight 1.0. The final position 'of' places its largest weights on the 'Eiffel' and 'Tower' columns, showing that it reads from 'Eiffel Tower' to predict the next word.">
-            <figcaption><strong>Figure 2.2b.</strong> The attention weights A for one head on "…the Eiffel Tower is in the city of ___". Rows are queries, columns are keys; the lower-triangular shape is the causal mask. The final position reads most strongly from "Eiffel Tower" — the routing described above, made concrete. (Illustrative weights.)</figcaption>
+            <figcaption><strong>Figure 2.2b.</strong> The attention weights A for one head on "…the Eiffel Tower is in the city of ___". Rows are queries, columns are keys; the lower-triangular shape is the causal mask. The final position reads most strongly from "Eiffel Tower": the routing described above, made concrete. (Illustrative weights.)</figcaption>
         </figure>
 
         <h2 class="section-title">Multi-head attention</h2>
@@ -109,15 +109,15 @@
             <h4>Several heads in parallel, then recombine</h4>
             <p style="color:#555;">A layer runs \(n_h\) heads <em>independently and in parallel</em>, each with its own \(W_Q, W_K, W_V\), so each can learn a different routing pattern (one head tracks subject–verb agreement, another copies rare tokens, and so on). Their outputs are concatenated and projected back to the model width by an output matrix \(W_O \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}}\):</p>
             <div class="formula">\[ \operatorname{MultiHead}(X) = \operatorname{concat}(\operatorname{head}_1, \ldots, \operatorname{head}_{n_h}) W_O \in \mathbb{R}^{T \times d_{\text{model}}} \]</div>
-            <p style="color:#555;">Because \(d_{\text{head}} = d_{\text{model}}/n_h\), the \(n_h\) head outputs (each \(T \times d_{\text{head}}\)) concatenate to exactly \(T \times d_{\text{model}}\), and the total compute is similar to one big head — but the model gets several independent "read channels". GPT-2 small, the model you'll open in the lab, has \(d_{\text{model}} = 768\) and \(n_h = 12\) heads of dimension 64, across 12 layers.</p>
+            <p style="color:#555;">Because \(d_{\text{head}} = d_{\text{model}}/n_h\), the \(n_h\) head outputs (each \(T \times d_{\text{head}}\)) concatenate to exactly \(T \times d_{\text{model}}\), and the total compute is similar to one big head, but the model gets several independent "read channels". GPT-2 small, the model you'll open in the lab, has \(d_{\text{model}} = 768\) and \(n_h = 12\) heads of dimension 64, across 12 layers.</p>
         </div>
 
         <h2 class="section-title">The MLP (feed-forward) sub-layer</h2>
         <div class="technical-detail">
             <h4>Per-position computation and storage</h4>
-            <p style="color:#555;">After attention moves information <em>between</em> positions, a position-wise MLP does computation <em>within</em> each position — the same two-layer network applied to every row independently:</p>
+            <p style="color:#555;">After attention moves information <em>between</em> positions, a position-wise MLP does computation <em>within</em> each position, the same two-layer network applied to every row independently:</p>
             <div class="formula">\[ \operatorname{MLP}(x) = W_2 \cdot \sigma(W_1 x + b_1) + b_2 \]</div>
-            <p style="color:#555;">It up-projects to a wider hidden dimension (commonly \(4 d_{\text{model}}\)), applies a nonlinearity \(\sigma\) (GELU in GPT-2), then down-projects back. The MLP holds much of a transformer's stored "knowledge" and accounts for roughly two-thirds of a block's (non-embedding) parameters — and is, so far, harder to interpret than attention.</p>
+            <p style="color:#555;">It up-projects to a wider hidden dimension (commonly \(4 d_{\text{model}}\)), applies a nonlinearity \(\sigma\) (GELU in GPT-2), then down-projects back. The MLP holds much of a transformer's stored "knowledge" and accounts for roughly two-thirds of a block's (non-embedding) parameters, and is, so far, harder to interpret than attention.</p>
         </div>
 
         <h2 class="section-title">LayerNorm and the full block</h2>
@@ -131,8 +131,8 @@
         <h2 class="section-title">The residual stream</h2>
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">The residual-stream picture</span></h3>
-            <p>Notice the "\(x \leftarrow x + \ldots\)". A block never <em>replaces</em> the activations; it <em>adds</em> to them. So each position carries a running vector — the <strong>residual stream</strong> — that begins as the token+position embedding and accumulates contributions as it passes up through the layers. Every attention head and every MLP <em>reads</em> from the stream (via LayerNorm) and <em>writes</em> a vector back into it by addition.</p>
-            <p>So the residual stream is a shared <strong>communication channel</strong>: earlier components write information that later components read. "Finding a circuit" (Week 7) means identifying which components write a particular piece of information and which later ones read it — a question you can answer, because the writes are additive and the reads are linear. This additive view is the literal computation.</p>
+            <p>Notice the "\(x \leftarrow x + \ldots\)". A block never <em>replaces</em> the activations; it <em>adds</em> to them. So each position carries a running vector (the <strong>residual stream</strong>) that begins as the token+position embedding and accumulates contributions as it passes up through the layers. Every attention head and every MLP <em>reads</em> from the stream (via LayerNorm) and <em>writes</em> a vector back into it by addition.</p>
+            <p>So the residual stream is a shared communication channel: earlier components write information that later components read. "Finding a circuit" (Week 7) means identifying which components write a particular piece of information and which later ones read it: a question you can answer, because the writes are additive and the reads are linear. This additive view is the literal computation.</p>
         </div>
 
         <h2 class="section-title">From the residual stream to a prediction</h2>
@@ -140,35 +140,35 @@
             <h4>Unembed, logits, loss</h4>
             <p style="color:#555;">After the final block, a last LayerNorm is applied and the residual vector at each position is mapped to vocabulary scores by the unembedding matrix \(W_U \in \mathbb{R}^{d_{\text{model}} \times V}\):</p>
             <div class="formula">\[ \text{logits} = \operatorname{LayerNorm}(x) \cdot W_U \in \mathbb{R}^{T \times V}; \quad p = \operatorname{softmax}(\text{logits}) \]</div>
-            <p style="color:#555;">Row \(i\) is the model's predicted distribution for the token <em>after</em> position \(i\). Training minimises the cross-entropy of \(p\) against the true next token at every position — the loss from Session 2.1. That single objective, next-token prediction, is the <em>only</em> thing the network is ever directly optimised for.</p>
+            <p style="color:#555;">Row \(i\) is the model's predicted distribution for the token <em>after</em> position \(i\). Training minimises the cross-entropy of \(p\) against the true next token at every position, the loss from Session 2.1. That single objective, next-token prediction, is the <em>only</em> thing the network is ever directly optimised for.</p>
         </div>
         <div class="info-box">
             <h4>Trace one prediction, end to end</h4>
             <p>Tokens → embeddings + positions give \(X\) (\(T \times d_{\text{model}}\)) → each block: attention routes information between positions, MLP computes within them, both added back into the residual stream → final LayerNorm → multiply by \(W_U\) → logits → softmax → next-token distribution. Everything in between is matrix multiplies, one softmax per head, and additions. Nothing else.</p>
         </div>
 
-        <h2 class="section-title">Why these details matter</h2>
+        <h2 class="section-title">Three consequences for safety</h2>
         <div class="card-grid">
-            <div class="card"><h3>Tokenisation has consequences</h3><p>African and other low-resource languages are often split into far more tokens than English (because the vocabulary was fit mostly to English-heavy data). That raises cost, shortens effective context, and degrades quality — one concrete root of the capability <em>and</em> safety gaps this course keeps returning to. You'll measure it yourself in the 2.5 lab.</p></div>
-            <div class="card"><h3>Attention is inspectable</h3><p>Attention weights and head outputs are explicit tensors. We can <em>watch</em> the model route information — the entry point for interpretability (Weeks 7–8) and for catching unexpected or deceptive behaviour.</p></div>
-            <div class="card"><h3>The objective is just next-token</h3><p>Reasoning, code, refusals, "personality" — all are learned only as means to predicting the next token on the training data. Keep asking what behaviour that objective does and does not incentivise; that question is the seed of the alignment problem in Session 3.</p></div>
+            <div class="card"><h3>Tokenisation has consequences</h3><p>African and other low-resource languages are often split into far more tokens than English (because the vocabulary was fit mostly to English-heavy data). That raises cost, shortens effective context, and degrades quality: one concrete root of the capability <em>and</em> safety gaps this course keeps returning to. You'll measure it yourself in the 2.5 lab.</p></div>
+            <div class="card"><h3>Attention is inspectable</h3><p>Attention weights and head outputs are explicit tensors. We can <em>watch</em> the model route information: the entry point for interpretability (Weeks 7–8) and for catching unexpected or deceptive behaviour.</p></div>
+            <div class="card"><h3>The objective is just next-token</h3><p>Reasoning, code, refusals, "personality": all are learned only as means to predicting the next token on the training data. Keep asking what behaviour that objective does and does not incentivise; that question is the seed of the alignment problem in Session 3.</p></div>
         </div>
 
         <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder reading-core">
             <h4>Core</h4>
-            <p>• Vaswani, A., et al. (2017), "Attention Is All You Need" (NeurIPS 2017; <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arXiv:1706.03762</a>) — the original transformer.</p>
+            <p>• Vaswani, A., et al. (2017), "Attention Is All You Need" (NeurIPS 2017; <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">arXiv:1706.03762</a>): the original transformer.</p>
         </div>
         <div class="resource-placeholder">
             <h4>Recommended (clearer than the paper, in different ways)</h4>
-            <p>• <a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener">Jay Alammar, "The Illustrated Transformer"</a> — the best diagram-led walk-through of the steps above.</p>
-            <p>• 3Blue1Brown, <a href="https://www.3blue1brown.com/lessons/gpt" target="_blank" rel="noopener">"But what is a GPT?"</a> / <a href="https://www.3blue1brown.com/lessons/attention" target="_blank" rel="noopener">"Attention in transformers"</a> — excellent geometric intuition.</p>
-            <p>• <a href="https://transformer-circuits.pub/2021/framework/index.html" target="_blank" rel="noopener">Elhage et al. (2021), "A Mathematical Framework for Transformer Circuits"</a> (Anthropic, transformer-circuits.pub) — the residual-stream view in full; we return to it in Week 7.</p>
+            <p>• <a href="https://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener">Jay Alammar, "The Illustrated Transformer"</a>: the best diagram-led walk-through of the steps above.</p>
+            <p>• 3Blue1Brown, <a href="https://www.3blue1brown.com/lessons/gpt" target="_blank" rel="noopener">"But what is a GPT?"</a> / <a href="https://www.3blue1brown.com/lessons/attention" target="_blank" rel="noopener">"Attention in transformers"</a>: excellent geometric intuition.</p>
+            <p>• <a href="https://transformer-circuits.pub/2021/framework/index.html" target="_blank" rel="noopener">Elhage et al. (2021), "A Mathematical Framework for Transformer Circuits"</a> (Anthropic, transformer-circuits.pub): the residual-stream view in full; we return to it in Week 7.</p>
         </div>
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>We can now build these models and read their internals. Sub-session <strong>2.3</strong> asks the question that makes safety urgent: as we make transformers <em>bigger</em>, how predictably do they get <em>better</em>?</p>
+            <p>We can now build these models and read their internals. Sub-session 2.3 asks the question that makes safety urgent: as we make transformers <em>bigger</em>, how predictably do they get <em>better</em>?</p>
         </div>
 
     </div>

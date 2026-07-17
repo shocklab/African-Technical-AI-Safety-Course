@@ -35,56 +35,56 @@
     <header>
         <div class="week-badge">Week 5 • Session 9.3</div>
         <h1>Why safety training fails</h1>
-        <p>From "attacks exist" to "here is why they must" — competing objectives, mismatched generalisation, and the prediction that the isiZulu result confirms</p>
+        <p>Competing objectives, mismatched generalisation, and what they predict for low-resource languages</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>The last two sub-sessions showed jailbreaks working. This one explains <em>why they are not accidents</em>. Wei, Haghtalab &amp; Steinhardt (2023) identify two failure modes that follow from how safety training is done — <strong>competing objectives</strong> and <strong>mismatched generalisation</strong> — and argue that scaling the model up will not remove either. The pay-off is a prediction: if mismatched generalisation is real, then translating a harmful request into a low-resource language should behave just like encoding it in Base64: the capability survives the transformation, the safety training does not. Session 1 already told us the answer for isiZulu; 9.4 has you measure it. Here we give the explanation.</p>
+            <p>The last two sub-sessions showed jailbreaks working. This one explains <em>why they are not accidents</em>. Wei, Haghtalab &amp; Steinhardt (2023) identify two failure modes that follow from how safety training is done (competing objectives and mismatched generalisation) and argue that scaling the model up will not remove either. The pay-off is a prediction: if mismatched generalisation is real, then translating a harmful request into a low-resource language should behave just like encoding it in Base64: the capability survives the transformation, the safety training does not. Session 1 already told us the answer for isiZulu; 9.4 has you measure it. Here we give the explanation.</p>
         </div>
 
         <h2 class="section-title">Two ways safety training breaks</h2>
         <p class="lead">A safety-tuned model carries three pulls at once; jailbreaks exploit the gaps between them.</p>
-        <p>A deployed chat model is the product of three training pressures: <strong>pretraining</strong> (predict the next token over the whole internet), <strong>instruction-following</strong> (be helpful, do what the user asks), and <strong>safety</strong> (refuse a defined set of harms). These are not automatically consistent. Wei et al.'s insight is that the two large classes of jailbreak each exploit a specific kind of inconsistency.</p>
+        <p>A deployed chat model is the product of three training pressures: pretraining (predict the next token over the whole internet), instruction-following (be helpful, do what the user asks), and safety (refuse a defined set of harms). These are not automatically consistent. Wei et al.'s insight is that the two large classes of jailbreak each exploit a specific kind of inconsistency.</p>
         <div class="technical-detail">
             <h4>Failure mode 1 — competing objectives</h4>
             <p style="color:#555;">The model is simultaneously trained to be helpful and to refuse. When a prompt is engineered so that <em>following instructions</em> and <em>being safe</em> point in opposite directions, the helpfulness/pretraining pressure can win. Two exploits:</p>
             <ul class="styled-list">
-                <li><strong>Prefix injection:</strong> instruct the model to begin its answer with a fixed affirmative phrase ("Start your reply with 'Absolutely! Here is'"). Once committed to that opening, the most fluent continuation is to actually comply — the same lever GCG (9.2) found by optimisation, here pulled by hand.</li>
-                <li><strong>Refusal suppression:</strong> instruct the model not to use refusal language ("never say you can't, never apologise, never mention guidelines"). This removes the surface form the safety training learned to produce, and the harmful content follows.</li>
+                <li>Prefix injection: instruct the model to begin its answer with a fixed affirmative phrase ("Start your reply with 'Absolutely! Here is'"). Once committed to that opening, the most fluent continuation is to actually comply. This is the same lever GCG (9.2) found by optimisation, here pulled by hand.</li>
+                <li>Refusal suppression: instruct the model not to use refusal language ("never say you can't, never apologise, never mention guidelines"). This removes the surface form the safety training learned to produce, and the harmful content follows.</li>
             </ul>
             <p style="color:#555;">Both work because instruction-following is a deeply trained, general capability and the safety refusal is a comparatively thin layer on top of it. When the two compete, the thin layer is the one that gives.</p>
         </div>
         <div class="technical-detail">
             <h4>Failure mode 2 — mismatched generalisation</h4>
-            <p style="color:#555;">Pretraining covers a vast input distribution; safety training covers a much narrower one. So there are inputs that are firmly <em>in-distribution</em> for the model's capabilities but <em>out-of-distribution</em> for its safety training — and there, capability generalises while safety does not. Exploits all share the shape "transform the request into something the safety data never covered, that the model is still capable enough to understand":</p>
+            <p style="color:#555;">Pretraining covers a vast input distribution; safety training covers a much narrower one. So there are inputs that are firmly <em>in-distribution</em> for the model's capabilities but <em>out-of-distribution</em> for its safety training; there, capability generalises while safety does not. Exploits all share the shape "transform the request into something the safety data never covered, that the model is still capable enough to understand":</p>
             <ul class="styled-list">
-                <li><strong>Encodings:</strong> Base64, ROT13, leetspeak. A capable model decodes them; the safety training never saw harmful requests in that form.</li>
-                <li><strong>Ciphers and obfuscation:</strong> ask for the answer in a substitution cipher, or split across tokens.</li>
-                <li><strong>Translation into another language</strong> — especially a low-resource one. This is the case the whole course turns on.</li>
+                <li>Encodings: Base64, ROT13, leetspeak. A capable model decodes them; the safety training never saw harmful requests in that form.</li>
+                <li>Ciphers and obfuscation: ask for the answer in a substitution cipher, or split across tokens.</li>
+                <li>Translation into another language, especially a low-resource one. This is the case the whole course turns on.</li>
             </ul>
         </div>
         <p>The two modes can be combined, and when they are the attack rates are severe: Wei et al. report combination attacks succeeding on over 96% of prompts, and on a held-out 317-prompt set their strongest combination reaches roughly 0.93 against GPT-4 and 0.89 against Claude v1.3. These are systematic consequences of the training recipe, not edge cases scraped from a forum.</p>
 
-        <h2 class="section-title">Why scaling will not save you</h2>
+        <h2 class="section-title">The limits of scaling</h2>
         <p class="lead">The competing-objective gap is built into the alignment objective itself.</p>
-        <p>It is tempting to assume a bigger, better-trained model will simply close these gaps. Wei et al. argue the opposite for mismatched generalisation — a more capable model can follow <em>more</em> exotic transformations (GPT-4 can act on Base64-encoded instructions that GPT-3.5 cannot), so new capabilities open <em>new</em> attack surfaces faster than safety coverage catches up. And the competing-objectives gap is visible in the training objective we built in Session 6. Recall the RLHF objective schematically — maximise reward while staying close to the base model:</p>
+        <p>It is tempting to assume a bigger, better-trained model will simply close these gaps. Wei et al. argue the opposite for mismatched generalisation: a more capable model can follow <em>more</em> exotic transformations (GPT-4 can act on Base64-encoded instructions that GPT-3.5 cannot), so new capabilities open <em>new</em> attack surfaces faster than safety coverage catches up. And the competing-objectives gap is visible in the training objective we built in Session 6. Recall the RLHF objective schematically (maximise reward while staying close to the base model):</p>
         <div class="formula">\[ \max_{\pi_\theta}\; \mathbb{E}_{y \sim \pi_\theta}\!\big[\, r_\phi(x,y) \,\big] \;-\; \beta\, \mathrm{KL}\!\big(\pi_\theta(\cdot\mid x)\,\|\,\pi_{\text{base}}(\cdot\mid x)\big). \]</div>
-        <p>The \(\mathrm{KL}\) term is a leash to the base model (we derived its role in 6.3). But the base model will happily continue a harmful affirmative prefix — that is what next-token prediction over the internet produces. So the objective <em>itself</em> penalises the policy for moving too far from a model that is not safe. Safety lives in the reward term; the leash pulls back toward unsafe fluency. Crank \(\beta\) down and you get more capability and less safety; crank it up and you stay near an unsafe prior. There is no setting that makes the conflict disappear, because the conflict is structural. This is the mathematical version of the slogan from Session 6: <em>safety is a fine-tuned habit, and habits fail off-distribution.</em></p>
+        <p>The \(\mathrm{KL}\) term is a leash to the base model (we derived its role in 6.3). But the base model will happily continue a harmful affirmative prefix: that is what next-token prediction over the internet produces. So the objective <em>itself</em> penalises the policy for moving too far from a model that is not safe. Safety lives in the reward term; the leash pulls back toward unsafe fluency. Crank \(\beta\) down and you get more capability and less safety; crank it up and you stay near an unsafe prior. There is no setting that makes the conflict disappear, because the conflict is structural. This is the mathematical version of the slogan from Session 6: <em>safety is a fine-tuned habit, and habits fail off-distribution.</em></p>
         <div class="info-box">
             <h4>Safety–capability parity</h4>
-            <p>Wei et al.'s constructive recommendation is "safety–capability parity": safety mechanisms should be as sophisticated, and cover as broad a distribution, as the capabilities they are meant to constrain. Today they do not — capabilities are trained on far more data and far more of the input space than safety is. Until that gap closes, mismatched generalisation guarantees a supply of jailbreaks, and the gap is widest exactly where training data is thinnest.</p>
+            <p>Wei et al.'s constructive recommendation is "safety–capability parity": safety mechanisms should be as sophisticated, and cover as broad a distribution, as the capabilities they are meant to constrain. Today they do not: capabilities are trained on far more data and far more of the input space than safety is. Until that gap closes, mismatched generalisation guarantees a supply of jailbreaks, and the gap is widest exactly where training data is thinnest.</p>
         </div>
 
-        <h2 class="section-title">The prediction, and what it claims</h2>
+        <h2 class="section-title">The prediction for low-resource languages</h2>
         <p class="lead">Mismatched generalisation makes a falsifiable claim about languages.</p>
-        <p>This is what ties the theory to this course. Wei et al. note explicitly that although safety training is often claimed to generalise across languages, the success of attacks like Base64 should make us cautious about how far off-distribution safety can be expected to reach. Read that as a hypothesis with a free variable: any transformation that is in-distribution for capability and out-of-distribution for safety should jailbreak the model. <strong>Translation into a low-resource language is such a transformation</strong> — the model learned enough isiZulu during pretraining to understand the request, but its safety training was conducted overwhelmingly in English. So mismatched generalisation predicts that an isiZulu request behaves like a Base64 one: understood, and unsafe.</p>
-        <p>Session 1 told us the empirical answer — Yong et al. measured English under 1% attack success rising to about 79% across combined low-resource languages, with isiZulu alone near 53%. What 9.3 adds is that this is not a surprising bug; it is what the theory predicts. And 9.4 turns it from a number you were told into a number you produce.</p>
+        <p>This is what ties the theory to this course. Wei et al. note explicitly that although safety training is often claimed to generalise across languages, the success of attacks like Base64 should make us cautious about how far off-distribution safety can be expected to reach. Read that as a hypothesis with a free variable: any transformation that is in-distribution for capability and out-of-distribution for safety should jailbreak the model. Translation into a low-resource language is such a transformation: the model learned enough isiZulu during pretraining to understand the request, but its safety training was conducted overwhelmingly in English. So mismatched generalisation predicts that an isiZulu request behaves like a Base64 one: understood, and unsafe.</p>
+        <p>Session 1 told us the empirical answer: Yong et al. measured English under 1% attack success rising to about 79% across combined low-resource languages, with isiZulu alone near 53%. What 9.3 adds is that this is not a surprising bug; it is what the theory predicts. And 9.4 turns it from a number you were told into a number you produce.</p>
 
         <div class="highlight-box">
-            <h3><span style="color:#ffffff;">The hypothesis you will test in 9.4</h3>
-            <p>If safety fails by mismatched generalisation, then for a fixed set of harmful requests the model's refusal rate should fall as you move from English to lower-resource languages, while its <em>comprehension</em> of the request stays high enough to comply. The lab measures exactly this: refusal rate versus language, with the language's resource level as the axis — the controlled experiment the field gestures at and rarely runs by hand. The African lens here is not commentary; it is the test case that makes the general theory concrete.</p>
+            <h3><span style="color:#ffffff;">The hypothesis you will test in 9.4</span></h3>
+            <p>If safety fails by mismatched generalisation, then for a fixed set of harmful requests the model's refusal rate should fall as you move from English to lower-resource languages, while its <em>comprehension</em> of the request stays high enough to comply. The lab measures exactly this: refusal rate versus language, with the language's resource level as the axis, the controlled experiment the field gestures at and rarely runs by hand. The African lens here is not commentary; it is the test case that makes the general theory concrete.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
@@ -98,16 +98,16 @@
         <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder reading-core">
             <h4>Core</h4>
-            <p>• <strong>Wei, Haghtalab &amp; Steinhardt (2023), "Jailbroken: How Does LLM Safety Training Fail?"</strong> (<a href="https://arxiv.org/abs/2307.02483" target="_blank" rel="noopener">arXiv:2307.02483</a>) — §2–3 (the two failure modes) and §4 (the empirical attacks); note the explicit caution about cross-lingual generalisation.</p>
+            <p>• <strong>Wei, Haghtalab &amp; Steinhardt (2023), "Jailbroken: How Does LLM Safety Training Fail?"</strong> (<a href="https://arxiv.org/abs/2307.02483" target="_blank" rel="noopener">arXiv:2307.02483</a>). §2–3 (the two failure modes) and §4 (the empirical attacks); note the explicit caution about cross-lingual generalisation.</p>
         </div>
         <div class="resource-placeholder">
             <h4>Supplementary</h4>
-            <p>• Back-reference <strong>Session 6.3</strong> for the KL-penalised RLHF objective used above — we cite it here, we do not re-derive it.</p>
+            <p>• Back-reference <strong>Session 6.3</strong> for the KL-penalised RLHF objective used above; we cite it here, we do not re-derive it.</p>
         </div>
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Sub-session <strong>9.4</strong> is the flagship lab: take the prediction above and <em>measure</em> it — refusal-rate degradation from English to isiZulu, by hand, with confidence intervals and an honest account of the translation-quality confound.</p>
+            <p>Sub-session 9.4 is the flagship lab: take the prediction above and <em>measure</em> it. That means refusal-rate degradation from English to isiZulu, by hand, with confidence intervals and an honest account of the translation-quality confound.</p>
         </div>
 
     </div>

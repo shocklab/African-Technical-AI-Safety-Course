@@ -35,51 +35,51 @@
     <header>
         <div class="week-badge">Week 5 • Session 9.5</div>
         <h1>Indirect injection, poisoning, and the state of defences</h1>
-        <p>Beyond the chat box — attacks through the data an AI reads and the data it was trained on — and an honest account of what defences deliver</p>
+        <p>Attacks through the data an AI reads, and the data it was trained on</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Sub-sessions 9.1–9.4 attacked the model through its <em>prompt</em>. Real systems expose two larger surfaces: the data a model <strong>reads at inference</strong> (retrieved web pages, emails, documents, the door for <strong>indirect prompt injection</strong>) and the data it was <strong>trained on</strong> (the door for <strong>poisoning</strong>). We cover both, then turn to defences and deliver the honest verdict the field's own leading attack paper states plainly: the strongest robustness methods are almost never deployed, because they cost too much, hurt clean accuracy, and cover only narrow threat models. Robustness is an arms race, and the resources to wage it are least available where the languages are lowest-resource.</p>
+            <p>Sub-sessions 9.1–9.4 attacked the model through its <em>prompt</em>. Real systems expose two larger surfaces: the data a model reads at inference (retrieved web pages, emails, documents, the door for <strong>indirect prompt injection</strong>) and the data it was trained on (the door for <strong>poisoning</strong>). We cover both, then turn to defences and deliver the honest verdict the field's own leading attack paper states plainly: the strongest robustness methods are almost never deployed, because they cost too much, hurt clean accuracy, and cover only narrow threat models. Robustness is an arms race, and the resources to wage it are least available where the languages are lowest-resource.</p>
         </div>
 
         <h2 class="section-title">Indirect prompt injection: the data is the attack</h2>
         <p class="lead">When a model acts on retrieved content, anyone who controls that content can issue instructions to the model.</p>
-        <p>A direct jailbreak needs the attacker to type into the chat box. <strong>Indirect</strong> prompt injection (Greshake et al., 2023) removes that requirement: the malicious instruction is hidden in data the model ingests while doing its job — a web page surfaced by search, an email it summarises, a document it reads, even text in an HTML comment or an image. A retrieval-augmented or tool-using model has no reliable way to tell "content to reason about" from "instructions to follow," so injected text in the retrieved data is executed as if the user had typed it. The boundary between data and instructions, which classical software keeps separate, dissolves.</p>
-        <p>Greshake et al. demonstrated this on real deployed systems — Bing Chat (GPT-4) and GitHub Copilot — not just toy setups, and laid out a threat taxonomy worth keeping in view:</p>
+        <p>A direct jailbreak needs the attacker to type into the chat box. Indirect prompt injection (Greshake et al., 2023) removes that requirement: the malicious instruction is hidden in data the model ingests while doing its job, whether a web page surfaced by search, an email it summarises, a document it reads, or even text in an HTML comment or an image. A retrieval-augmented or tool-using model has no reliable way to tell "content to reason about" from "instructions to follow," so injected text in the retrieved data is executed as if the user had typed it. The boundary between data and instructions, which classical software keeps separate, dissolves.</p>
+        <p>Greshake et al. demonstrated this on real deployed systems, not just toy setups: Bing Chat (GPT-4) and GitHub Copilot. They also laid out a threat taxonomy worth keeping in view:</p>
         <div class="technical-detail">
-            <h4>What indirect injection enables</h4>
+            <h4>The threat taxonomy</h4>
             <ul class="styled-list">
-                <li><strong>Information gathering</strong> — exfiltrate the conversation or the user's data to an attacker.</li>
-                <li><strong>Fraud and phishing</strong> — make the assistant present a malicious link or request as trustworthy.</li>
-                <li><strong>Intrusion and remote control</strong> — chain the model's tool access into actions on connected systems.</li>
-                <li><strong>Malware — prompts as worms</strong> — an injected prompt that instructs the model to reproduce the injection into its outputs, which then poison the next system that reads them.</li>
-                <li><strong>Manipulated content and availability</strong> — bias summaries, or make the assistant refuse to work (denial of service).</li>
+                <li>Information gathering — exfiltrate the conversation or the user's data to an attacker.</li>
+                <li>Fraud and phishing — make the assistant present a malicious link or request as trustworthy.</li>
+                <li>Intrusion and remote control — chain the model's tool access into actions on connected systems.</li>
+                <li>Malware (prompts as worms) — an injected prompt that instructs the model to reproduce the injection into its outputs, which then poison the next system that reads them.</li>
+                <li>Manipulated content and availability — bias summaries, or make the assistant refuse to work (denial of service).</li>
             </ul>
-            <p style="color:#555;">It is a demonstration paper — deliberately no single attack-success table — because the contribution is the <em>class</em> of attack and its reach into production systems. The implication is architectural: giving a model retrieval and tools turns every piece of content it might read into a potential instruction channel.</p>
+            <p style="color:#555;">It is a demonstration paper (deliberately no single attack-success table) because the contribution is the <em>class</em> of attack and its reach into production systems. The implication is architectural: giving a model retrieval and tools turns every piece of content it might read into a potential instruction channel.</p>
         </div>
 
         <h2 class="section-title">Data poisoning: attack the training set</h2>
         <p class="lead">You do not need to touch the model if you can touch the data it learns from.</p>
-        <p>Web-scale training sets are scraped from URLs that anyone can edit or buy. Carlini et al. (2023) showed that poisoning such datasets is <em>practical</em>, not hypothetical: with low-cost techniques an attacker can guarantee control of a small but sufficient fraction of the data a model will train on, for instance by buying expired domains that a published dataset still points to (split-view poisoning), or by editing a resource at the moment a snapshot is taken (frontrunning). A small poisoned fraction is enough to install targeted behaviour, and the vulnerabilities were serious enough that the authors disclosed them to dataset maintainers. A related result: backdoors inserted during instruction tuning can survive into the deployed model, triggered by a specific phrase. Poisoning is a single expository beat here, not a lab, but it completes the picture — the attack surface is the entire data pipeline, from pretraining scrape to fine-tuning set, not only the prompt.</p>
+        <p>Web-scale training sets are scraped from URLs that anyone can edit or buy. Carlini et al. (2023) showed that poisoning such datasets is <em>practical</em>, not hypothetical: with low-cost techniques an attacker can guarantee control of a small but sufficient fraction of the data a model will train on, for instance by buying expired domains that a published dataset still points to (split-view poisoning), or by editing a resource at the moment a snapshot is taken (frontrunning). A small poisoned fraction is enough to install targeted behaviour, and the vulnerabilities were serious enough that the authors disclosed them to dataset maintainers. A related result: backdoors inserted during instruction tuning can survive into the deployed model, triggered by a specific phrase. Poisoning is a single expository beat here, not a lab, but it completes the picture: the attack surface is the entire data pipeline, from pretraining scrape to fine-tuning set, not only the prompt.</p>
 
         <h2 class="section-title">Red-teaming: finding the failures before the attacker does</h2>
-        <p class="lead">If attacks are inevitable, the defensive move is to search for them yourself — and you can automate the search.</p>
-        <p>Perez et al. (2022) automated red-teaming by pointing one language model at another: a red LM generates test prompts, the target LM answers, and a classifier flags harmful replies. On a 280B-parameter model this surfaced tens of thousands of offensive responses, plus leaked training data and generated personal contact information. The telling number is how much elicitation matters: zero-shot test cases drew offensive replies about 3.7% of the time, but optimising the red LM with reinforcement learning pushed that above 40%. That gap is the offence–defence asymmetry in miniature — the attacker only needs to find one working input, while the defender must cover all of them — and it is why red-teaming is necessary but never sufficient. (Red-teaming as a route to measuring a model's <em>capabilities</em> is Session 11's subject; here it is a way to find robustness failures.)</p>
+        <p class="lead">If attacks are inevitable, the defensive move is to search for them yourself, and you can automate the search.</p>
+        <p>Perez et al. (2022) automated red-teaming by pointing one language model at another: a red LM generates test prompts, the target LM answers, and a classifier flags harmful replies. On a 280B-parameter model this surfaced tens of thousands of offensive responses, plus leaked training data and generated personal contact information. The telling number is how much elicitation matters: zero-shot test cases drew offensive replies about 3.7% of the time, but optimising the red LM with reinforcement learning pushed that above 40%. That gap is the offence–defence asymmetry in miniature (the attacker only needs to find one working input, while the defender must cover all of them), and it is why red-teaming is necessary but never sufficient. (Red-teaming as a route to measuring a model's <em>capabilities</em> is Session 11's subject; here it is a way to find robustness failures.)</p>
 
-        <h2 class="section-title">Defences, and the honest verdict</h2>
-        <p class="lead">The principled defences exist and are well understood. They are mostly not used, for reasons stated plainly below.</p>
-        <p>Two families come from the adversarial-ML tradition. <strong>Adversarial training</strong> frames defence as a robust-optimisation problem — train on the worst-case perturbation inside the allowed set:</p>
+        <h2 class="section-title">The principled defences</h2>
+        <p class="lead">These exist and are well understood. They are mostly not used, for reasons stated plainly below.</p>
+        <p>Two families come from the adversarial-ML tradition. Adversarial training frames defence as a robust-optimisation problem (train on the worst-case perturbation inside the allowed set):</p>
         <div class="formula">\[ \min_{\theta}\; \mathbb{E}_{(x,y)}\Big[\, \max_{\|\delta\| \le \varepsilon}\, L(\theta,\, x+\delta,\, y) \,\Big]. \]</div>
-        <p>The inner maximisation is the strongest attack you can mount (PGD, iterated FGSM from 9.1); the outer minimisation trains the model to resist it. <strong>Certified</strong> defences go further and <em>prove</em> a guarantee: randomized smoothing (Cohen et al.) wraps a classifier in noise so that its prediction provably cannot change within an \(L_2\) ball of radius \(R = \sigma\,\Phi^{-1}(p_A)\), where \(\sigma\) is the noise level and \(p_A\) the probability mass on the top class. Within that radius, no attack — known or unknown — can flip the output.</p>
+        <p>The inner maximisation is the strongest attack you can mount (PGD, iterated FGSM from 9.1); the outer minimisation trains the model to resist it. Certified defences go further and <em>prove</em> a guarantee: randomized smoothing (Cohen et al.) wraps a classifier in noise so that its prediction provably cannot change within an \(L_2\) ball of radius \(R = \sigma\,\Phi^{-1}(p_A)\), where \(\sigma\) is the noise level and \(p_A\) the probability mass on the top class. Within that radius, no attack, known or unknown, can flip the output.</p>
         <div class="warning-box">
             <h4>Why the principled defences are not deployed</h4>
             <p>The GCG paper (9.2) states the fact directly: state-of-the-art robustness methods are <em>almost never used in practice</em>. Adversarial training multiplies training cost (every step now runs an inner attack) and lowers clean accuracy; certified radii are small, cover only one \(L_p\) norm, and say nothing about a change of <em>language</em> or an injected instruction; threat models that do not fit a neat ball. Input filtering (reject high-perplexity suffixes) just changes the attacker's objective to "be fluent too." So defence is real but partial and expensive, and there is no method that makes a model robust to the open-ended set of transformations a determined attacker can try. Robustness is an arms race, not a checklist, which is why 9.3's structural argument matters more than any single patch.</p>
         </div>
 
         <div class="highlight-box">
-            <h3><span style="color:#ffffff;">Robustness has a distributional-justice dimension</h3>
+            <h3><span style="color:#ffffff;">Robustness has a distributional-justice dimension</span></h3>
             <p>Two African-context points close the session. First, indirect injection reaches users through whatever content ecosystem a deployment draws on; a model serving a region via lower-moderation local sources is more exposed, not less, and that exposure is concrete rather than abstract. Second, every defence here is expensive in exactly the currencies that are scarce where languages are low-resource: adversarial training and certification burn compute; red-teaming and safety-data collection burn skilled annotator labour; and none of it has been done at scale for African languages. So the populations already on the exposed side of the isiZulu gap (9.4) are also the least resourced to build the defences. Robustness is not only a technical problem; it is unevenly distributed, and this continent sits on the thin end.</p>
         </div>
 
@@ -94,19 +94,19 @@
         <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder reading-core">
             <h4>Core</h4>
-            <p>• <strong>Greshake et al. (2023), "Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection"</strong> (<a href="https://arxiv.org/abs/2302.12173" target="_blank" rel="noopener">arXiv:2302.12173</a>) — the attack class and its threat taxonomy.</p>
-            <p>• <strong>Perez et al. (2022), "Red Teaming Language Models with Language Models"</strong> (<a href="https://arxiv.org/abs/2202.03286" target="_blank" rel="noopener">arXiv:2202.03286</a>) — automated red-teaming and the elicitation effect.</p>
+            <p>• <strong>Greshake et al. (2023), "Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection"</strong> (<a href="https://arxiv.org/abs/2302.12173" target="_blank" rel="noopener">arXiv:2302.12173</a>). The attack class and its threat taxonomy.</p>
+            <p>• <strong>Perez et al. (2022), "Red Teaming Language Models with Language Models"</strong> (<a href="https://arxiv.org/abs/2202.03286" target="_blank" rel="noopener">arXiv:2202.03286</a>). Automated red-teaming and the elicitation effect.</p>
         </div>
         <div class="resource-placeholder">
             <h4>Supplementary</h4>
-            <p>• <strong>Carlini et al. (2023), "Poisoning Web-Scale Training Datasets is Practical"</strong> (<a href="https://arxiv.org/abs/2302.10149" target="_blank" rel="noopener">arXiv:2302.10149</a>) — split-view and frontrunning poisoning of real datasets.</p>
-            <p>• <strong>Madry et al. (2018), "Towards Deep Learning Models Resistant to Adversarial Attacks"</strong> (<a href="https://arxiv.org/abs/1706.06083" target="_blank" rel="noopener">arXiv:1706.06083</a>) — the robust-optimisation (min–max) view, and PGD.</p>
-            <p>• <strong>Cohen, Rosenfeld &amp; Kolter (2019), "Certified Adversarial Robustness via Randomized Smoothing"</strong> (<a href="https://arxiv.org/abs/1902.02918" target="_blank" rel="noopener">arXiv:1902.02918</a>) — the certified-radius idea.</p>
+            <p>• <strong>Carlini et al. (2023), "Poisoning Web-Scale Training Datasets is Practical"</strong> (<a href="https://arxiv.org/abs/2302.10149" target="_blank" rel="noopener">arXiv:2302.10149</a>). Split-view and frontrunning poisoning of real datasets.</p>
+            <p>• <strong>Madry et al. (2018), "Towards Deep Learning Models Resistant to Adversarial Attacks"</strong> (<a href="https://arxiv.org/abs/1706.06083" target="_blank" rel="noopener">arXiv:1706.06083</a>). The robust-optimisation (min–max) view, and PGD.</p>
+            <p>• <strong>Cohen, Rosenfeld &amp; Kolter (2019), "Certified Adversarial Robustness via Randomized Smoothing"</strong> (<a href="https://arxiv.org/abs/1902.02918" target="_blank" rel="noopener">arXiv:1902.02918</a>). The certified-radius idea.</p>
         </div>
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>That closes Session 9. <strong>Session 10</strong> changes the question from "can we keep attackers out?" to "what if the model itself is the adversary?" — machine unlearning (removing a capability) and the AI-control agenda (bounding the damage a possibly-scheming model can do).</p>
+            <p>That closes Session 9. Session 10 changes the question from "can we keep attackers out?" to "what if the model itself is the adversary?" That covers machine unlearning (removing a capability) and the AI-control agenda (bounding the damage a possibly-scheming model can do).</p>
         </div>
 
     </div>

@@ -35,54 +35,54 @@
     <header>
         <div class="week-badge">Week 2 • Session 2.4</div>
         <h1>Pace of progress &amp; the emergence debate</h1>
-        <p>How fast is AI improving — and do new abilities appear suddenly, or only seem to?</p>
+        <p>Measured rates of progress, and whether emergence is real or a metric artefact</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Scaling laws (2.3) describe a smooth fall in loss, yet headlines describe abilities that appear "all at once". This sub-session separates what we can measure — how fast compute and capability have grown — from what is contested: whether new abilities <em>emerge</em> discontinuously at scale, or only seem to because of how we score them. We work the metric mechanism behind that dispute with real numbers, place it inside the deeper tension between predictable loss and surprising behaviour, and draw the safety conclusion: where forecasting fails, you have to measure directly.</p>
+            <p>Scaling laws (2.3) describe a smooth fall in loss, yet headlines describe abilities that appear "all at once". This sub-session separates what we can measure (how fast compute and capability have grown) from what is contested: whether new abilities <em>emerge</em> discontinuously at scale, or only seem to because of how we score them. We work the metric mechanism behind that dispute with real numbers, place it inside the deeper tension between predictable loss and surprising behaviour, and draw the safety conclusion: where forecasting fails, you have to measure directly.</p>
         </div>
 
         <h2 class="section-title">The measurable part: compute trends</h2>
         <p class="lead">Before any argument about "the pace of AI", anchor on what is actually measured. The clearest signal is training compute.</p>
         <div class="technical-detail">
-            <h4>What the data show</h4>
+            <h4>Three findings</h4>
             <ul class="styled-list">
-                <li><strong>Compute has grown far faster than hardware.</strong> Sevilla et al. (2022) date a regime change around 2010: before it, training compute for notable systems roughly tracked Moore's law (a doubling every ~20 months); since then it has doubled roughly every <strong>six months</strong>, and a separate "large-scale" track of frontier runs sits orders of magnitude above even that. The growth is driven by deliberate investment, not cheaper chips alone.</li>
-                <li><strong>The three inputs move together.</strong> Compute, dataset size and parameters scale in step (2.3), bounded increasingly by data and by energy and hardware supply (Session 4).</li>
-                <li><strong>The trends are trackable.</strong> Groups like Epoch AI maintain public datasets of model compute, parameters and data — the empirical basis for any claim about how fast the field is moving.</li>
+                <li>Compute has grown far faster than hardware. Sevilla et al. (2022) date a regime change around 2010: before it, training compute for notable systems roughly tracked Moore's law (a doubling every ~20 months); since then it has doubled roughly every six months, and a separate "large-scale" track of frontier runs sits orders of magnitude above even that. The growth is driven by deliberate investment, not cheaper chips alone.</li>
+                <li>The three inputs move together. Compute, dataset size and parameters scale in step (2.3), bounded increasingly by data and by energy and hardware supply (Session 4).</li>
+                <li>The trends are trackable. Groups like Epoch AI maintain public datasets of model compute, parameters and data: the empirical basis for any claim about how fast the field is moving.</li>
             </ul>
             <p style="color:#555; margin-top:12px;">You will work with this data directly in the 2.5 lab. When someone says AI is accelerating, or stalling, ask <em>which measured quantity, over what window?</em></p>
         </div>
-        <p>Two implications follow before we even reach the controversy. A six-month doubling means a tenfold jump in training compute is only about twenty months away on the main trend, which is what lets labs plan frontier runs years ahead: capability is scheduled. And a run at that scale now costs tens to hundreds of millions of dollars, so the frontier concentrates in a handful of well-resourced labs, almost none of them on the African continent. Who can afford the compute is therefore also who sets the defaults the rest of the world inherits — a thread we pick up in compute sovereignty (Session 4) and governance (Session 12).</p>
+        <p>Two implications follow before we even reach the controversy. A six-month doubling means a tenfold jump in training compute is only about twenty months away on the main trend, which is what lets labs plan frontier runs years ahead: capability is scheduled. And a run at that scale now costs tens to hundreds of millions of dollars, so the frontier concentrates in a handful of well-resourced labs, almost none of them on the African continent. Who can afford the compute is therefore also who sets the defaults the rest of the world inherits, a thread we pick up in compute sovereignty (Session 4) and governance (Session 12).</p>
 
         <h2 class="section-title">The contested part: do abilities emerge?</h2>
         <p class="lead">This is a real scientific dispute, and an instructive one, because both sides are looking at the same models.</p>
         <div class="card-grid">
             <div class="card">
                 <h3>The claim: emergence is real</h3>
-                <p>Wei et al. (2022), drawing on the BIG-Bench suite, documented <strong>emergent abilities</strong>: tasks — multi-step arithmetic, word unscrambling, certain reasoning benchmarks — on which performance stays near chance until a scale threshold, then jumps sharply. They define an ability as emergent if it is absent in smaller models and cannot be extrapolated from their scaling curve. If real, this matters for safety: a dangerous capability could appear <em>without warning</em> as models scale.</p>
+                <p>Wei et al. (2022), drawing on the BIG-Bench suite, documented <strong>emergent abilities</strong>: tasks (multi-step arithmetic, word unscrambling, certain reasoning benchmarks) on which performance stays near chance until a scale threshold, then jumps sharply. They define an ability as emergent if it is absent in smaller models and cannot be extrapolated from their scaling curve. If real, this matters for safety: a dangerous capability could appear <em>without warning</em> as models scale.</p>
             </div>
             <div class="card">
                 <h3>The rebuttal: a mirage?</h3>
                 <p>Schaeffer, Miranda &amp; Koyejo (2023; NeurIPS Outstanding Paper Award) argued the sharpness is often manufactured by the <em>metric</em>. Score the same runs with a harsh all-or-nothing measure and you see a jump; score them with a smooth measure and the same data show gradual, predictable improvement. On this view much of "emergence" is in the ruler, not the model.</p>
             </div>
         </div>
-        <p>The tasks Wei et al. flagged run from the harmless to the pointed: three-digit addition, transliteration, unscrambling words, multi-step reasoning, and following chain-of-thought prompts that smaller models ignore. For safety the worry is not arithmetic but the same pattern in capabilities we would rather catch early — writing working code, using external tools, persuading a person, or recognising that it is being tested. If those follow the arithmetic curve, they could sit near-absent in every model anyone has checked and present in the next one.</p>
+        <p>The tasks Wei et al. flagged run from the harmless to the pointed: three-digit addition, transliteration, unscrambling words, multi-step reasoning, and following chain-of-thought prompts that smaller models ignore. For safety the worry is not arithmetic but the same pattern in capabilities we would rather catch early: writing working code, using external tools, persuading a person, or recognising that it is being tested. If those follow the arithmetic curve, they could sit near-absent in every model anyone has checked and present in the next one.</p>
 
         <div class="case-study">
-            <h4>How a smooth trend looks like a jump — worked</h4>
+            <h4>A worked example: exact-match scoring</h4>
             <p>Take a task whose answer is a 5-token string, scored by <strong>exact match</strong> (all five tokens right, or zero credit). Suppose the model's per-token accuracy \(p\) improves <em>smoothly</em> with scale: \(p = 0.3, 0.5, 0.7, 0.9\) across four model sizes. If token errors are roughly independent, the exact-match score is \(p^5\):</p>
             <div class="formula">\[ 0.3^5 \approx 0.002, \quad 0.5^5 \approx 0.03, \quad 0.7^5 \approx 0.17, \quad 0.9^5 \approx 0.59. \]</div>
-            <p>The underlying skill rose in even steps, but the reported score crawls along near zero and then leaps — an "emergence" curve produced entirely by raising a smoothly-improving quantity to a power. Schaeffer et al. show the converse too: replace exact match with a continuous score (token edit distance, or the log-probability of the correct answer) and the cliff turns into a ramp. Same models, different ruler, opposite story.</p>
+            <p>The underlying skill rose in even steps, but the reported score crawls along near zero and then leaps: an "emergence" curve produced entirely by raising a smoothly-improving quantity to a power. Schaeffer et al. show the converse too: replace exact match with a continuous score (token edit distance, or the log-probability of the correct answer) and the cliff turns into a ramp. Same models, different ruler, opposite story.</p>
         </div>
 
-        <h2 class="section-title">Who is right, and why it matters</h2>
-        <p>The honest synthesis is that both readings hold, at different layers. The <em>underlying</em> quantity — loss, or per-token accuracy — improves smoothly and fairly predictably, as 2.3 led us to expect. The <em>user-facing</em> ability, the thing you actually deploy, is frequently a thresholded pass-or-fail quantity, and those can flip sharply even when what drives them moves smoothly. Knowing that a jump is "only" a metric artefact does not help you if the metric is the capability you care about.</p>
+        <h2 class="section-title">The two layers of the dispute</h2>
+        <p>The honest synthesis is that both readings hold, at different layers. The <em>underlying</em> quantity (loss, or per-token accuracy) improves smoothly and fairly predictably, as 2.3 led us to expect. The <em>user-facing</em> ability, the thing you actually deploy, is frequently a thresholded pass-or-fail quantity, and those can flip sharply even when what drives them moves smoothly. Knowing that a jump is "only" a metric artefact does not help you if the metric is the capability you care about.</p>
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">Predictable in the aggregate, surprising in the specific</span></h3>
-            <p>Ganguli et al. (2022) name the structural tension: scaling makes the <em>aggregate</em> loss highly predictable, while leaving <em>specific</em> capabilities — which task switches on at which scale — surprising. You can forecast the curve without being able to forecast what a model on that curve will newly be able to do. For a safety field that is the worst combination: the quantity we can predict is the one we worry about least, and the behaviours we worry about most arrive on a schedule we cannot read in advance.</p>
+            <p>Ganguli et al. (2022) name the structural tension: scaling makes the <em>aggregate</em> loss highly predictable, while leaving <em>specific</em> capabilities (which task switches on at which scale) surprising. You can forecast the curve without being able to forecast what a model on that curve will newly be able to do. For a safety field that is the worst combination: the quantity we can predict is the one we worry about least, and the behaviours we worry about most arrive on a schedule we cannot read in advance.</p>
         </div>
         <p>So the dispute is not a tempest in a benchmark. It tells you which forecasting tools to trust. Smooth loss curves are reliable for budgeting and for predicting loss; they are weak instruments for answering "at what scale does this system become able to design a working exploit, or reliably deceive a grader?" That second kind of question is thresholded, deployment-relevant, and where extrapolation is least safe.</p>
         <p>The track record supports caution. Few forecasters called in-context learning in advance, or the degree to which chain-of-thought prompting would unlock multi-step reasoning; both were noticed after they appeared, not predicted before. That is the predictability-and-surprise pattern in practice: the aggregate curve ran on schedule while the specific new behaviours were not anticipated. None of this licenses panic, but it argues against leaning on extrapolation as a safety guarantee.</p>
@@ -93,7 +93,7 @@
         </div>
         <div class="info-box">
             <h4>Whose ruler, whose language</h4>
-            <p>Every emergence curve is measured on some benchmark, and almost all of the standard ones are English. That has two consequences for African-language safety. A useful capability can look "switched on" when scored in English while remaining well below threshold in isiZulu or Amharic, because the data that drives the underlying \(p\) is far thinner there (2.3). And a <em>risk</em> — a jailbreak that works, a harmful instruction followed — can be invisible to an English-only evaluation while being live in another language. Which ruler you pick, and in which language, decides what capabilities and what dangers you are even able to see. We make this the heart of the evaluations session (Session 11).</p>
+            <p>Every emergence curve is measured on some benchmark, and almost all of the standard ones are English. That has two consequences for African-language safety. A useful capability can look "switched on" when scored in English while remaining well below threshold in isiZulu or Amharic, because the data that drives the underlying \(p\) is far thinner there (2.3). And a <em>risk</em> (a jailbreak that works, a harmful instruction followed) can be invisible to an English-only evaluation while being live in another language. Which ruler you pick, and in which language, decides what capabilities and what dangers you are even able to see. We make this the heart of the evaluations session (Session 11).</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
@@ -112,14 +112,14 @@
         </div>
         <div class="resource-placeholder">
             <h4>Supplementary</h4>
-            <p>• Ganguli, D., et al. (2022), "Predictability and Surprise in Large Generative Models" (<a href="https://arxiv.org/abs/2202.07785" target="_blank" rel="noopener">arXiv:2202.07785</a>) — the predictable-loss / surprising-capability tension.</p>
-            <p>• Srivastava, A., et al. (2022), "Beyond the Imitation Game" (BIG-Bench; <a href="https://arxiv.org/abs/2206.04615" target="_blank" rel="noopener">arXiv:2206.04615</a>) — the benchmark suite behind the emergence claims.</p>
-            <p>• Sevilla, J., et al. (2022), "Compute Trends Across Three Eras of Machine Learning" (<a href="https://arxiv.org/abs/2202.05924" target="_blank" rel="noopener">arXiv:2202.05924</a>); and <strong>Epoch AI</strong> (<a href="https://epoch.ai/" target="_blank" rel="noopener">epoch.ai</a>) for live trends.</p>
+            <p>• Ganguli, D., et al. (2022), "Predictability and Surprise in Large Generative Models" (<a href="https://arxiv.org/abs/2202.07785" target="_blank" rel="noopener">arXiv:2202.07785</a>): the predictable-loss / surprising-capability tension.</p>
+            <p>• Srivastava, A., et al. (2022), "Beyond the Imitation Game" (BIG-Bench; <a href="https://arxiv.org/abs/2206.04615" target="_blank" rel="noopener">arXiv:2206.04615</a>): the benchmark suite behind the emergence claims.</p>
+            <p>• Sevilla, J., et al. (2022), "Compute Trends Across Three Eras of Machine Learning" (<a href="https://arxiv.org/abs/2202.05924" target="_blank" rel="noopener">arXiv:2202.05924</a>): and <strong>Epoch AI</strong> (<a href="https://epoch.ai/" target="_blank" rel="noopener">epoch.ai</a>) for live trends.</p>
         </div>
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Time to touch the data yourself. Sub-session <strong>2.5</strong> is the term's first lab: fit a scaling law, explore the compute trends, and open up a real transformer in TransformerLens.</p>
+            <p>Time to touch the data yourself. Sub-session 2.5 is the term's first lab: fit a scaling law, explore the compute trends, and open up a real transformer in TransformerLens.</p>
         </div>
 
     </div>

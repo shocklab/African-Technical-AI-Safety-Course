@@ -1,0 +1,911 @@
+{
+  "mean": 1.8641975308641976,
+  "rows": [
+    {
+      "f": "index.html",
+      "score": 4,
+      "label": "Minimal AI signals",
+      "words": 1033,
+      "nIssues": 4,
+      "byType": {
+        "tier1": 3,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-04/sustainable-and-sovereign-ai.html",
+      "score": 4,
+      "label": "Minimal AI signals",
+      "words": 3157,
+      "nIssues": 7,
+      "byType": {
+        "tier1": 2,
+        "tier2": 2,
+        "hollow-intensifier": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-08/ethical-frameworks-four-lenses.html",
+      "score": 4,
+      "label": "Minimal AI signals",
+      "words": 2203,
+      "nIssues": 7,
+      "byType": {
+        "tier1": 2,
+        "tier2": 3,
+        "transition": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-08/ubuntu-relational-ethics.html",
+      "score": 4,
+      "label": "Minimal AI signals",
+      "words": 3139,
+      "nIssues": 7,
+      "byType": {
+        "tier1": 2,
+        "tier2": 4,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-13/features-and-superposition.html",
+      "score": 4,
+      "label": "Minimal AI signals",
+      "words": 1364,
+      "nIssues": 5,
+      "byType": {
+        "tier1": 2,
+        "filler": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-01/how-this-course-works.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 2091,
+      "nIssues": 4,
+      "byType": {
+        "tier1": 2,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-03/inner-alignment.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 2013,
+      "nIssues": 4,
+      "byType": {
+        "tier1": 1,
+        "hollow-intensifier": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-03/instrumental-convergence.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 2404,
+      "nIssues": 4,
+      "byType": {
+        "tier1": 1,
+        "transition": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-04/cost-of-every-prompt.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 4020,
+      "nIssues": 7,
+      "byType": {
+        "filler": 1,
+        "lets-construction": 1,
+        "hollow-intensifier": 2,
+        "real-actual-inflation": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-09/adversarial-examples.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1376,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-13/induction-heads.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1430,
+      "nIssues": 4,
+      "byType": {
+        "tier1": 1,
+        "hollow-intensifier": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-15/ioi-circuit.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1065,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-15/sparse-autoencoders.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1213,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-15/state-of-saes.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1026,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "real-actual-inflation": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-16/honest-limits.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1272,
+      "nIssues": 4,
+      "byType": {
+        "tier1": 1,
+        "tier2": 2,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-16/lab-steering-and-saes.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 571,
+      "nIssues": 2,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-16/safety-applications.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1223,
+      "nIssues": 4,
+      "byType": {
+        "tier1": 1,
+        "hollow-intensifier": 1,
+        "real-actual-inflation": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-16/sovereignty-and-african-angle.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1213,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-17-project-kickoff.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1930,
+      "nIssues": 5,
+      "byType": {
+        "tier2": 3,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-18/the-african-ecosystem.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1434,
+      "nIssues": 5,
+      "byType": {
+        "tier2": 2,
+        "hollow-intensifier": 2,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-20/meaning-and-present-harms.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1208,
+      "nIssues": 3,
+      "byType": {
+        "formulaic-opener": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-20/political-economy-of-x-risk.html",
+      "score": 3,
+      "label": "Minimal AI signals",
+      "words": 1050,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "acknowledgment-loop": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-02/neural-scaling-laws.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1756,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-03/deception-corrigibility.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 2244,
+      "nIssues": 3,
+      "byType": {
+        "hollow-intensifier": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-03/regressional-goodhart-derivation.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1689,
+      "nIssues": 3,
+      "byType": {
+        "real-actual-inflation": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-04/critical-minerals.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 2905,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-04/infrastructure-and-rebound.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 2506,
+      "nIssues": 4,
+      "byType": {
+        "tier1": 1,
+        "hollow-intensifier": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-06/from-demonstrations-to-preferences.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1487,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "transition": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-06/limits-of-rlhf.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1462,
+      "nIssues": 3,
+      "byType": {
+        "real-actual-inflation": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-06/policy-optimisation.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1416,
+      "nIssues": 3,
+      "byType": {
+        "filler": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-07/constitutional-ai.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1706,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-08/scalable-oversight.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1809,
+      "nIssues": 2,
+      "byType": {
+        "tier1": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-09/injection-poisoning-defences.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1442,
+      "nIssues": 2,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-09/jailbreaks-as-optimisation.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1475,
+      "nIssues": 2,
+      "byType": {
+        "tier1": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-10/lab-trusted-monitor.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 729,
+      "nIssues": 2,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-10/machine-unlearning.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1660,
+      "nIssues": 2,
+      "byType": {
+        "tier1": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-10/the-control-paradigm.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1522,
+      "nIssues": 2,
+      "byType": {
+        "tier1": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-12-technical-ai-governance.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1561,
+      "nIssues": 2,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-13/circuits-qk-ov.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1238,
+      "nIssues": 2,
+      "byType": {
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-13/why-interpretability.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1211,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "hollow-intensifier": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-15/activation-patching.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1250,
+      "nIssues": 2,
+      "byType": {
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-18/two-framings.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 1245,
+      "nIssues": 3,
+      "byType": {
+        "tier1": 1,
+        "hollow-intensifier": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-21-mid-project-check-in.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 771,
+      "nIssues": 2,
+      "byType": {
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-23-presentations-and-peer-review.html",
+      "score": 2,
+      "label": "Minimal AI signals",
+      "words": 666,
+      "nIssues": 2,
+      "byType": {
+        "tier1": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "about.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 742,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "ai-disclaimer.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 645,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-01/safety-is-not-solved.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1818,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-01/the-case-and-its-critics.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1640,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-01/what-technical-ai-safety-is.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1887,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-02/from-neurons-to-networks.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1444,
+      "nIssues": 2,
+      "byType": {
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-02/inside-the-transformer.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1835,
+      "nIssues": 2,
+      "byType": {
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-02/lab-scaling-and-transformerlens.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 564,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-02/pace-and-emergence.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1554,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-03/the-specification-problem.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 2776,
+      "nIssues": 1,
+      "byType": {
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-05/lab-nanochat.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 717,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-05/post-training-stack.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1285,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-05/pretraining.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1530,
+      "nIssues": 2,
+      "byType": {
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-05/supervised-fine-tuning.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1423,
+      "nIssues": 2,
+      "byType": {
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-06/lab-rlhf.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 817,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-06/the-reward-model.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1509,
+      "nIssues": 2,
+      "byType": {
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-07/from-human-to-ai-feedback.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1528,
+      "nIssues": 1,
+      "byType": {
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-07/lab-constitutional-ai.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 748,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-07/rlaif-and-self-rewarding.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1835,
+      "nIssues": 1,
+      "byType": {
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-07/whose-constitution.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1787,
+      "nIssues": 2,
+      "byType": {
+        "hollow-intensifier": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-09/lab-isizulu-robustness.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 913,
+      "nIssues": 2,
+      "byType": {
+        "hollow-intensifier": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-09/why-safety-training-fails.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1303,
+      "nIssues": 2,
+      "byType": {
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-10/control-protocols.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1296,
+      "nIssues": 2,
+      "byType": {
+        "em-dash": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-10/limits-of-unlearning-and-control.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1463,
+      "nIssues": 1,
+      "byType": {
+        "tier1": 1
+      }
+    },
+    {
+      "f": "sessions/session-11/construct-validity.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1336,
+      "nIssues": 1,
+      "byType": {
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-11/dangerous-capability-evals.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1348,
+      "nIssues": 2,
+      "byType": {
+        "hollow-intensifier": 1,
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-11/lab-isizulu-eval.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 833,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-11/statistics-of-evals.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1300,
+      "nIssues": 1,
+      "byType": {
+        "low-ttr": 1
+      }
+    },
+    {
+      "f": "sessions/session-11/why-evaluate-and-taxonomy.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1232,
+      "nIssues": 2,
+      "byType": {
+        "tier2": 2
+      }
+    },
+    {
+      "f": "sessions/session-14/lab-induction-heads.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 613,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-18/sovereignty-and-the-decolonial-critique.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1246,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-18/the-multilingual-safety-gap.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1266,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-19-project-clinic.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 872,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-20/open-problems-and-calibration.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1058,
+      "nIssues": 2,
+      "byType": {
+        "hollow-intensifier": 1,
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-22-project-work.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 771,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-24-synthesis-and-pathways.html",
+      "score": 1,
+      "label": "Minimal AI signals",
+      "words": 1173,
+      "nIssues": 1,
+      "byType": {
+        "em-dash": 1
+      }
+    },
+    {
+      "f": "sessions/session-08/whose-values.html",
+      "score": 0,
+      "label": "Clean",
+      "words": 1568,
+      "nIssues": 0,
+      "byType": {}
+    }
+  ]
+}

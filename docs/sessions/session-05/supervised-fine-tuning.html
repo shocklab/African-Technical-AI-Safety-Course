@@ -34,7 +34,7 @@
     <header>
         <div class="week-badge">Week 3 • Session 5.2</div>
         <h1>From predictor to instruction-follower</h1>
-        <p>Supervised fine-tuning (SFT) — and the one thing it cannot teach</p>
+        <p>Supervised fine-tuning (SFT), instruction tuning, and the demonstration ceiling</p>
     </header>
     <div class="content">
 
@@ -44,47 +44,47 @@
         </div>
 
         <h2 class="section-title">Supervised fine-tuning, mechanically</h2>
-        <p class="lead">SFT is not a new algorithm. It is the <em>same</em> cross-entropy training as pretraining — on different, deliberately chosen data.</p>
+        <p class="lead">SFT is not a new algorithm. It is the <em>same</em> cross-entropy training as pretraining, on different, deliberately chosen data.</p>
         <p>We assemble a dataset of <strong>demonstrations</strong>: prompts paired with high-quality target responses, written or curated by people. Then we continue training the base model with the next-token loss, but compute it only over the <em>response</em> tokens \(y\) given the prompt \(x\):</p>
         <div class="formula">\[ L_{\text{SFT}}(\theta) = -\, \mathbb{E}_{(x,y)\sim \mathcal{D}}\left[ \sum_{i} \log p_\theta\!\left(y_i \mid x,\, y_{&lt;i}\right) \right]. \]</div>
-        <p>That is the whole mechanism: show the model thousands of examples of "when asked like <em>this</em>, a good answer looks like <em>that</em>", and gradient descent shifts it toward producing such answers. In InstructGPT (Ouyang et al., 2022), this is <strong>step 1</strong> of the pipeline — fine-tune the base model on labeler-written demonstrations of the desired behaviour — and it already transforms a raw completion engine into something that broadly does what it's told.</p>
+        <p>That is the whole mechanism: show the model thousands of examples of "when asked like <em>this</em>, a good answer looks like <em>that</em>", and gradient descent shifts it toward producing such answers. In InstructGPT (Ouyang et al., 2022), this is step 1 of the pipeline (fine-tune the base model on labeler-written demonstrations of the desired behaviour), and it already transforms a raw completion engine into something that broadly does what it's told.</p>
         <div class="info-box">
-            <h4>What SFT changes</h4>
-            <p>The base model already <em>knew how</em> to write a good answer — that capability was latent in the pretraining. SFT mostly teaches it <em>which</em> of its many behaviours to surface by default: respond in the assistant register, follow the instruction, use the expected format. It is less "teaching new skills" than "selecting a persona and a habit of compliance" from the distribution the base model already contains.</p>
+            <h4>The effect of SFT</h4>
+            <p>The base model already <em>knew how</em> to write a good answer; that capability was latent in the pretraining. SFT mostly teaches it <em>which</em> of its many behaviours to surface by default: respond in the assistant register, follow the instruction, use the expected format. It is less "teaching new skills" than "selecting a persona and a habit of compliance" from the distribution the base model already contains.</p>
         </div>
 
         <h2 class="section-title">Instruction tuning: generalising to unseen tasks</h2>
         <p class="lead">The striking finding is that demonstrations of <em>many</em> tasks teach the model to follow instructions for tasks it never saw.</p>
-        <p>Wei et al. (2022, "Finetuned Language Models Are Zero-Shot Learners", the <em>FLAN</em> work) fine-tuned a large model on 60+ NLP datasets, each phrased as a natural-language instruction, and found that this <strong>instruction tuning</strong> substantially improved <em>zero-shot</em> performance on held-out task types — beating zero-shot GPT-3 on a majority of the tasks tested. Chung et al. (2022, "Scaling Instruction-Finetuned Language Models") then scaled the recipe to ~1,800 tasks and added chain-of-thought data, with consistent gains. Instruction-following is itself a skill that generalises once you demonstrate enough of its variety. This is why a modern "instruct" or "chat" model feels qualitatively different from a base model — it has been taught the general habit of treating the prompt as a request to be fulfilled.</p>
+        <p>Wei et al. (2022, "Finetuned Language Models Are Zero-Shot Learners", the <em>FLAN</em> work) fine-tuned a large model on 60+ NLP datasets, each phrased as a natural-language instruction, and found that this <strong>instruction tuning</strong> substantially improved <em>zero-shot</em> performance on held-out task types, beating zero-shot GPT-3 on a majority of the tasks tested. Chung et al. (2022, "Scaling Instruction-Finetuned Language Models") then scaled the recipe to ~1,800 tasks and added chain-of-thought data, with consistent gains. Instruction-following is itself a skill that generalises once you demonstrate enough of its variety. This is why a modern "instruct" or "chat" model feels qualitatively different from a base model: it has been taught the general habit of treating the prompt as a request to be fulfilled.</p>
 
         <h2 class="section-title">The wall SFT hits</h2>
-        <p class="lead">SFT can only ever imitate the demonstrations. That is a real ceiling — and the reason the pipeline doesn't stop here.</p>
+        <p class="lead">SFT can only ever imitate the demonstrations. That is a real ceiling, and the reason the pipeline doesn't stop here.</p>
         <div class="technical-detail">
-            <h4>You can demonstrate "good", but not "better"</h4>
-            <p style="color:#555;">SFT needs a <em>target</em> to imitate. But for most of what we want from an assistant — be more helpful, more honest, less likely to fabricate, appropriately cautious — the difficulty is not writing <em>one</em> acceptable answer; it is choosing among many plausible answers the one that is <em>better</em>. SFT has no way to express "response A is better than response B": its loss only ever says "make the target more likely". So three things stay out of reach:</p>
+            <h4>The limits of demonstration</h4>
+            <p style="color:#555;">SFT needs a <em>target</em> to imitate. But for most of what we want from an assistant (be more helpful, more honest, less likely to fabricate, appropriately cautious), the difficulty is not writing <em>one</em> acceptable answer; it is choosing among many plausible answers the one that is <em>better</em>. SFT has no way to express "response A is better than response B": its loss only ever says "make the target more likely". So three things stay out of reach:</p>
             <ul class="styled-list">
                 <li><strong>Comparative quality.</strong> Humans find it far easier and more reliable to <em>compare</em> two outputs than to author the ideal one from scratch. SFT cannot use comparisons; it can only use single demonstrations.</li>
-                <li><strong>The demonstration ceiling.</strong> The model can be no better than its demonstration data. If the best human label is mediocre — or if good behaviour is hard to write down but easy to recognise — SFT caps out there.</li>
+                <li><strong>The demonstration ceiling.</strong> The model can be no better than its demonstration data. If the best human label is mediocre, or if good behaviour is hard to write down but easy to recognise, SFT caps out there.</li>
                 <li><strong>Negative signal.</strong> SFT teaches what <em>to</em> say, not what <em>not</em> to. Suppressing a behaviour by only ever showing good examples is indirect and leaky.</li>
             </ul>
         </div>
         <div class="info-box">
             <h4>The bridge to Session 6</h4>
-            <p>This wall is the opening for <strong>reinforcement learning from human feedback</strong>. RLHF replaces "imitate this answer" with "humans <em>prefer</em> this answer to that one" — a signal that is cheaper to collect, can exceed the quality of any single demonstration, and can carry negative as well as positive information. The price, as Session 6 shows, is that we now optimise against a <em>learned model</em> of human preference: a proxy, with all the Goodhart hazards of Session 3.1.</p>
+            <p>This wall is the opening for <strong>reinforcement learning from human feedback</strong>. RLHF replaces "imitate this answer" with "humans <em>prefer</em> this answer to that one", a signal that is cheaper to collect, can exceed the quality of any single demonstration, and can carry negative as well as positive information. The price, as Session 6 shows, is that we now optimise against a <em>learned model</em> of human preference: a proxy, with all the Goodhart hazards of Session 3.1.</p>
         </div>
 
         <h2 class="section-title">Where safety first enters</h2>
-        <p>SFT is also where the first, partial safety behaviours are installed: demonstration sets include examples of politely refusing harmful requests, hedging on uncertain claims, and declining out-of-scope tasks. This matters for two reasons. It means a model's "refusal reflex" is, at bottom, a fine-tuned habit over a limited set of demonstrated situations — which is why it can fail off-distribution (a harmful request rephrased in isiZulu, or in an unusual format, looks unlike the refusal demonstrations). And it means the <em>values</em> a model expresses trace back to choices about whose demonstrations were collected and what counted as a "good" answer — the "whose values?" question we take up properly in Session 8.</p>
+        <p>SFT is also where the first, partial safety behaviours are installed: demonstration sets include examples of politely refusing harmful requests, hedging on uncertain claims, and declining out-of-scope tasks. This matters for two reasons. It means a model's "refusal reflex" is, at bottom, a fine-tuned habit over a limited set of demonstrated situations, which is why it can fail off-distribution (a harmful request rephrased in isiZulu, or in an unusual format, looks unlike the refusal demonstrations). And it means the <em>values</em> a model expresses trace back to choices about whose demonstrations were collected and what counted as a "good" answer: the "whose values?" question we take up properly in Session 8.</p>
 
-        <h2 class="section-title">A closer look: why "be honest" resists SFT</h2>
+        <h2 class="section-title">Why "be honest" resists SFT</h2>
         <p class="lead">SFT's ceiling shows most plainly when you try to instil a property that is easy to <em>recognise</em> but hard to <em>demonstrate</em>.</p>
-        <p>Suppose we want the model to stop confidently making things up (to be calibrated about what it knows). With SFT we would write demonstrations of honest answers. But consider what that requires. For a question the labeller knows, the ideal answer depends on what <em>the model</em> knows — and the labeller can't see that, so they can't reliably demonstrate "admit uncertainty <em>here</em> but answer confidently <em>there</em>". For a question the labeller doesn't know, they can't write the correct answer at all. And a fluent fabrication and a correct answer look <em>identical</em> as demonstrations: both are just plausible text. SFT's loss, "make this target more likely", has no handle on "and was it actually true?".</p>
+        <p>Suppose we want the model to stop confidently making things up (to be calibrated about what it knows). With SFT we would write demonstrations of honest answers. But consider what that requires. For a question the labeller knows, the ideal answer depends on what <em>the model</em> knows, and the labeller can't see that, so they can't reliably demonstrate "admit uncertainty <em>here</em> but answer confidently <em>there</em>". For a question the labeller doesn't know, they can't write the correct answer at all. And a fluent fabrication and a correct answer look <em>identical</em> as demonstrations: both are just plausible text. SFT's loss, "make this target more likely", has no handle on "and was it actually true?".</p>
         <div class="technical-detail">
             <h4>The general pattern</h4>
-            <p style="color:#555;">SFT works well exactly when good behaviour is <em>easy to write down</em> (format, tone, following an explicit instruction). It works poorly when good behaviour is <em>easy to judge but hard to author</em>: honesty, helpfulness on open-ended tasks, "the better of two reasonable answers". That second category is most of what we care about in an assistant, and it is the category where <em>comparisons</em> (A is more honest than B) are available even when <em>demonstrations</em> (here is the perfectly honest answer) are not. The asymmetry — "judging is easier than producing" — recurs far beyond RLHF: it is the same intuition behind scalable oversight (Session 8) and behind why verification matters more than generation when you can't trust the output (Session 11).</p>
+            <p style="color:#555;">SFT works well exactly when good behaviour is <em>easy to write down</em> (format, tone, following an explicit instruction). It works poorly when good behaviour is <em>easy to judge but hard to author</em>: honesty, helpfulness on open-ended tasks, "the better of two reasonable answers". That second category is most of what we care about in an assistant, and it is the category where <em>comparisons</em> (A is more honest than B) are available even when <em>demonstrations</em> (here is the perfectly honest answer) are not. The asymmetry ("judging is easier than producing") recurs far beyond RLHF: it is the same intuition behind scalable oversight (Session 8) and behind why verification matters more than generation when you can't trust the output (Session 11).</p>
         </div>
         <div class="info-box">
-            <h4>So why not collect better demonstrations?</h4>
+            <h4>Collecting better demonstrations</h4>
             <p>You can, and labs do: demonstration quality is a real lever. But it caps at human-author quality and at what humans can be bothered (and paid) to write, and it still can't express "not that one". RLHF's bet is that <em>comparisons</em> are cheaper to collect, more reliable, and can carry the model past the best single demonstration. Whether that bet pays off is the subject, and the cautionary tale, of Session 6.</p>
         </div>
 
@@ -99,7 +99,7 @@
         <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder reading-core">
             <h4>Core</h4>
-            <p>• <strong>Ouyang et al. (2022), "Training language models to follow instructions with human feedback"</strong> (InstructGPT; NeurIPS 2022; <a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">arXiv:2203.02155</a>) — §3 for the SFT step (we return to the rest in Session 6).</p>
+            <p>• <strong>Ouyang et al. (2022), "Training language models to follow instructions with human feedback"</strong> (InstructGPT; NeurIPS 2022; <a href="https://arxiv.org/abs/2203.02155" target="_blank" rel="noopener">arXiv:2203.02155</a>): §3 for the SFT step (we return to the rest in Session 6).</p>
             <p>• <strong>Wei et al. (2022), "Finetuned Language Models Are Zero-Shot Learners"</strong> (FLAN; ICLR 2022; <a href="https://arxiv.org/abs/2109.01652" target="_blank" rel="noopener">arXiv:2109.01652</a>).</p>
         </div>
         <div class="resource-placeholder">
@@ -109,7 +109,7 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>We now have the two ends — a pretrained base model and a supervised fine-tune. Sub-session <strong>5.3</strong> assembles the full post-training stack, shows where each behaviour (and each opportunity for misalignment) is shaped, and distinguishes a base model from the aligned assistant you talk to.</p>
+            <p>We now have the two ends: a pretrained base model and a supervised fine-tune. Sub-session 5.3 assembles the full post-training stack, shows where each behaviour (and each opportunity for misalignment) is shaped, and distinguishes a base model from the aligned assistant you talk to.</p>
         </div>
 
     </div>

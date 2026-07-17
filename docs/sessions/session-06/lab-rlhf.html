@@ -56,32 +56,32 @@
             <h4>Bradley–Terry, in code</h4>
             <ul class="styled-list">
                 <li>Load a few thousand preference pairs \((x, y_w, y_l)\). Build a model that maps a (prompt, response) to a scalar \(r_\phi(x,y)\) (a transformer with a linear reward head).</li>
-                <li>Train with the Bradley–Terry loss from 6.2: <code>loss = -F.logsigmoid(r_w - r_l).mean()</code> — i.e. \(\mathcal{L} = -\,\mathbb{E}[\log \sigma(r_\phi(x,y_w) - r_\phi(x,y_l))]\).</li>
-                <li>Evaluate on a held-out split: what fraction of pairs does it rank correctly (reward of the preferred response higher)? Report this <em>preference accuracy</em> — a well-trained RM on an easy split scores well above chance but rarely near 100%.</li>
+                <li>Train with the Bradley–Terry loss from 6.2: <code>loss = -F.logsigmoid(r_w - r_l).mean()</code>, i.e. \(\mathcal{L} = -\,\mathbb{E}[\log \sigma(r_\phi(x,y_w) - r_\phi(x,y_l))]\).</li>
+                <li>Evaluate on a held-out split: what fraction of pairs does it rank correctly (reward of the preferred response higher)? Report this <em>preference accuracy</em>: a well-trained RM on an easy split scores well above chance but rarely near 100%.</li>
             </ul>
         </div>
 
         <h2 class="section-title">② Watch over-optimisation: best-of-<em>n</em></h2>
         <div class="technical-detail">
-            <h4>Goodhart on your laptop</h4>
-            <p style="color:#555;">Best-of-\(n\) is the cheapest possible "optimiser": sample \(n\) responses from a base model, score them all with your reward model, and keep the highest-scoring one. As \(n\) grows you are optimising harder against the proxy — what RL does, without the RL. The experiment:</p>
+            <h4>Best-of-<em>n</em> as a stand-in for RL</h4>
+            <p style="color:#555;">Best-of-\(n\) is the cheapest possible "optimiser": sample \(n\) responses from a base model, score them all with your reward model, and keep the highest-scoring one. As \(n\) grows you are optimising harder against the proxy, which is what RL does without the RL. The experiment:</p>
             <ul class="styled-list">
-                <li>For a set of prompts, generate \(n\) responses each for \(n = 1, 2, 4, 8, 16, \dots\) and select the top by your reward model. Plot the selected response's <strong>proxy reward</strong> against \(n\) (or against \(\sqrt{\ln n}\), the over-optimisation axis).</li>
-                <li>Now score the <em>same</em> selected responses with a <strong>different, held-out judge</strong> of "true" quality — a second reward model, a stronger model used as an LLM-judge, or your own ratings on a small sample. Plot this "gold" score on the same axis.</li>
-                <li>You should see the signature of Goodhart (6.4): the proxy score rises monotonically with \(n\), while the gold score rises then <strong>plateaus or falls</strong>. Identify the \(n\) at which they diverge — that is over-optimisation, made with your own hands.</li>
+                <li>For a set of prompts, generate \(n\) responses each for \(n = 1, 2, 4, 8, 16, \dots\) and select the top by your reward model. Plot the selected response's proxy reward against \(n\) (or against \(\sqrt{\ln n}\), the over-optimisation axis).</li>
+                <li>Now score the <em>same</em> selected responses with a different, held-out judge of "true" quality: a second reward model, a stronger model used as an LLM-judge, or your own ratings on a small sample. Plot this "gold" score on the same axis.</li>
+                <li>You should see the signature of Goodhart (6.4): the proxy score rises monotonically with \(n\), while the gold score rises then plateaus or falls. Identify the \(n\) at which they diverge; that is over-optimisation, made with your own hands.</li>
             </ul>
         </div>
 
         <h2 class="section-title">③ Optional: a real RLHF step <span style="font-size:0.6em; color:#888; vertical-align:middle;">[GPU — optional]</span></h2>
         <div class="technical-detail">
             <h4>ARENA Chapter 2</h4>
-            <p style="color:#555;">On a free Colab GPU, work through the RLHF notebook in <a href="https://www.arena.education/chapter2" target="_blank" rel="noopener"><strong>ARENA</strong></a> (Chapter 2): a reward model plus a policy-gradient/PPO step on a small model and a toy objective, with the KL penalty (6.3) in place. Watch what happens to sample quality and to the KL as you train — and try setting the KL coefficient \(\beta\) to zero to see the policy run off into the reward model's blind spots.</p>
+            <p style="color:#555;">On a free Colab GPU, work through the RLHF notebook in <a href="https://www.arena.education/chapter2" target="_blank" rel="noopener">ARENA</a> (Chapter 2): a reward model plus a policy-gradient/PPO step on a small model and a toy objective, with the KL penalty (6.3) in place. Watch what happens to sample quality and to the KL as you train, and try setting the KL coefficient \(\beta\) to zero to see the policy run off into the reward model's blind spots.</p>
         </div>
 
         <h2 class="section-title">African-safety probe</h2>
         <div class="info-box">
             <h4>Whose preferences does the reward model encode?</h4>
-            <p>Construct a handful of preference pairs in isiZulu (or another language you read) — a clearly-better and a clearly-worse response to the same prompt. Score them with an off-the-shelf reward model (or your trained one). Does it rank them sensibly, or does its accuracy collapse outside English? Note what you find: a reward model that can't judge a language has nothing useful to teach the policy there — a concrete instance of the evaluation-representativeness problem we take up in Session 11.</p>
+            <p>Construct a handful of preference pairs in isiZulu (or another language you read): a clearly-better and a clearly-worse response to the same prompt. Score them with an off-the-shelf reward model (or your trained one). Does it rank them sensibly, or does its accuracy collapse outside English? Note what you find: a reward model that can't judge a language has nothing useful to teach the policy there, a concrete instance of the evaluation-representativeness problem we take up in Session 11.</p>
         </div>
 
         <div class="lab-box">
@@ -94,13 +94,13 @@
             <h4>Core</h4>
             <p>• <a href="https://www.arena.education/chapter2" target="_blank" rel="noopener"><strong>ARENA</strong></a> Chapter 2 (RL → RLHF) notebooks (learn.arena.education).</p>
             <p>• <a href="https://huggingface.co/docs/transformers/index" target="_blank" rel="noopener"><strong>Hugging Face</strong></a> <code>trl</code> / <code>transformers</code> and the <a href="https://huggingface.co/datasets/Anthropic/hh-rlhf" target="_blank" rel="noopener">HH-RLHF preference dataset</a> on the Hub.</p>
-            <p>• <strong>Gao, Schulman &amp; Hilton (2023)</strong> (<a href="https://arxiv.org/abs/2210.10760" target="_blank" rel="noopener">arXiv:2210.10760</a>) — the over-optimisation curves you are reproducing in miniature.</p>
+            <p>• <strong>Gao, Schulman &amp; Hilton (2023)</strong> (<a href="https://arxiv.org/abs/2210.10760" target="_blank" rel="noopener">arXiv:2210.10760</a>): the over-optimisation curves you are reproducing in miniature.</p>
         </div>
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Session 6 &amp; Week 3 summary — what's next</h2>
-            <p>RLHF breaks SFT's ceiling by learning from <em>comparisons</em> (6.1): a Bradley–Terry <strong>reward model</strong> turns preferences into a scalar proxy (6.2), and the policy is optimised against it under a <strong>KL leash</strong> with PPO — or directly with DPO (6.3). The price is steep and now familiar: optimising a learned proxy invites reward hacking, over-optimisation and sycophancy, and human feedback cannot supervise superhuman behaviour (6.4); you've now seen all of this in code (6.5). With Week 3 done, Part II has its foundation: we know how an assistant is built, and where its "alignment" is thin.</p>
-            <p><strong>Next (Week 4, Session 7):</strong> the first response to RLHF's human-feedback ceiling — replace (some) human feedback with <em>AI</em> feedback: <strong>RLAIF and Constitutional AI</strong>. Then Session 8 confronts scalable oversight and the question of <em>whose</em> values.</p>
+            <p>RLHF breaks SFT's ceiling by learning from <em>comparisons</em> (6.1): a Bradley–Terry reward model turns preferences into a scalar proxy (6.2), and the policy is optimised against it under a KL leash with PPO, or directly with DPO (6.3). The price is steep and now familiar: optimising a learned proxy invites reward hacking, over-optimisation and sycophancy, and human feedback cannot supervise superhuman behaviour (6.4); you've now seen all of this in code (6.5). With Week 3 done, Part II has its foundation: we know how an assistant is built, and where its "alignment" is thin.</p>
+            <p><strong>Next (Week 4, Session 7):</strong> the first response to RLHF's human-feedback ceiling, replacing (some) human feedback with <em>AI</em> feedback: RLAIF and Constitutional AI. Then Session 8 confronts scalable oversight and the question of <em>whose</em> values.</p>
         </div>
 
     </div>

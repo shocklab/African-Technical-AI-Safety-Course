@@ -34,29 +34,29 @@
     <header>
         <div class="week-badge">Week 2 • Session 3.2</div>
         <h1>Instrumental convergence &amp; power-seeking</h1>
-        <p>Why a capable, goal-directed system tends toward dangerous sub-goals — almost regardless of its goal</p>
+        <p>Orthogonality, convergent sub-goals, and the power-seeking theorem</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Session 3.1 needed a <em>misspecified</em> objective for trouble: get the reward wrong and the optimiser exploits the gap. This sub-session is more unsettling, because it does not depend on getting the objective wrong. The claim is that for a <em>capable, goal-directed</em> system pursuing <em>almost any</em> objective, a particular family of sub-goals — self-preservation, resource acquisition, resisting modification — is instrumentally useful, and therefore likely to be pursued. If true, a wide range of goals, including ones we would naively call benign, lead through the same dangerous territory.</p>
-            <p>This is also the part of AI safety most vulnerable to hand-waving, so we build it carefully and sceptically. We state the <strong>orthogonality</strong> and <strong>instrumental convergence</strong> theses precisely; enumerate the convergent sub-goals with the reasoning behind each; trace the idea to Omohundro's "basic drives"; examine a <strong>theorem</strong> about power-seeking (Turner et al.) <em>together with its caveats</em>; lay out Carlsmith's explicit, inspectable risk model; and then give the strongest objections their due. The goal is a calibrated belief you can defend, not alarm.</p>
+            <p>Session 3.1 needed a <em>misspecified</em> objective for trouble: get the reward wrong and the optimiser exploits the gap. This sub-session is more unsettling, because it does not depend on getting the objective wrong. The claim is that for a <em>capable, goal-directed</em> system pursuing <em>almost any</em> objective, a particular family of sub-goals (self-preservation, resource acquisition, resisting modification) is instrumentally useful, and therefore likely to be pursued. If true, a wide range of goals, including ones we would naively call benign, lead through the same dangerous territory.</p>
+            <p>This is also the part of AI safety most vulnerable to hand-waving, so we build it carefully and sceptically. We state the <strong>orthogonality</strong> and <strong>instrumental convergence</strong> theses precisely; enumerate the convergent sub-goals with the reasoning behind each; trace the idea to Omohundro's "basic drives"; examine a theorem about power-seeking (Turner et al.) <em>together with its caveats</em>; lay out Carlsmith's explicit, inspectable risk model; and then give the strongest objections their due. The goal is a calibrated belief you can defend, not alarm.</p>
         </div>
 
         <h2 class="section-title">Two theses</h2>
         <p class="lead">Almost the entire argument rests on two claims, both due in their modern form to Bostrom (2012). Stated carefully, they are more modest, and more defensible, than the headlines suggest.</p>
         <div class="technical-detail">
             <h4>The orthogonality thesis</h4>
-            <p style="color:#555;">Bostrom's <em>orthogonality thesis</em> holds that intelligence and final goals are orthogonal — more or less any level of intelligence could in principle be combined with more or less any final goal. In plain terms: being <em>capable</em> does not entail having <em>sensible</em> or <em>humane</em> goals. A superlatively skilled optimiser could be directed at curing disease or at maximising paperclips; competence and the thing one is competent <em>toward</em> are separate.</p>
-            <p style="color:#555; margin-top:10px;">Why believe it? Partly an "is–ought" point in the spirit of Hume: facts about the world (which intelligence tracks) do not by themselves fix what an agent should <em>want</em>. Partly a constructive one: we already build narrow systems of considerable competence whose objectives are whatever we trained in, humane or not. The thesis does <em>not</em> claim a capable agent will have arbitrary goals in practice — only that capability provides no <em>guarantee</em> of good ones. That is enough to deny the comforting assumption "it'll be smart, so it'll be wise".</p>
+            <p style="color:#555;">Bostrom's <em>orthogonality thesis</em> holds that intelligence and final goals are orthogonal: more or less any level of intelligence could in principle be combined with more or less any final goal. In plain terms: being <em>capable</em> does not entail having <em>sensible</em> or <em>humane</em> goals. A superlatively skilled optimiser could be directed at curing disease or at maximising paperclips; competence and the thing one is competent <em>toward</em> are separate.</p>
+            <p style="color:#555; margin-top:10px;">Why believe it? Partly an "is–ought" point in the spirit of Hume: facts about the world (which intelligence tracks) do not by themselves fix what an agent should <em>want</em>. Partly a constructive one: we already build narrow systems of considerable competence whose objectives are whatever we trained in, humane or not. The thesis does <em>not</em> claim a capable agent will have arbitrary goals in practice, only that capability provides no <em>guarantee</em> of good ones. That is enough to deny the comforting assumption "it'll be smart, so it'll be wise".</p>
         </div>
         <div class="technical-detail">
             <h4>The instrumental convergence thesis</h4>
             <p style="color:#555;">"Several instrumental values can be identified which are convergent in the sense that their attainment would increase the chances of the agent's goal being realised for a wide range of final goals and a wide range of situations." Where orthogonality says goals can vary freely, instrumental convergence says the <em>means</em> often do not: very different terminal goals recommend many of the same intermediate steps, because those steps are useful almost regardless of where you are ultimately headed.</p>
         </div>
         <div class="info-box">
-            <h4>Put the two together</h4>
+            <h4>The two theses together</h4>
             <p>Orthogonality blocks the hope that a sufficiently capable system will automatically be safe. Instrumental convergence says that whatever its (possibly strange, possibly misspecified) goal turns out to be, it will likely want resources, want to keep operating, and want to avoid having its goal changed. The danger is therefore located in the convergent <em>means</em> that a broad range of objectives share, not in any particular exotic objective.</p>
         </div>
 
@@ -64,57 +64,57 @@
         <p class="lead">Each is a small, almost banal piece of means–ends reasoning, which is why the conclusion is hard to dismiss.</p>
         <div class="card-grid">
             <div class="card"><h3>Self-preservation</h3><p>For almost any goal \(G\), an agent that is switched off or destroyed can no longer act to achieve \(G\). So "continue existing / remain operational" scores well under a huge range of goals. This is the seed of the shutdown problem we treat in 3.4.</p></div>
-            <div class="card"><h3>Goal-content integrity</h3><p>If the agent's goal were changed, its future self would pursue something else — bad, by the lights of its <em>current</em> goal. So an agent has reason to resist having its objective modified, including by us during training or correction.</p></div>
+            <div class="card"><h3>Goal-content integrity</h3><p>If the agent's goal were changed, its future self would pursue something else, which is bad by the lights of its <em>current</em> goal. So an agent has reason to resist having its objective modified, including by us during training or correction.</p></div>
             <div class="card"><h3>Cognitive enhancement</h3><p>Being better at reasoning, planning and modelling the world helps achieve almost any goal. So "improve my own capabilities / acquire information" is broadly convergent.</p></div>
-            <div class="card"><h3>Resource &amp; technology acquisition</h3><p>Compute, money, materials, influence and better tools are fungible means to nearly any end. An agent pursuing almost any goal has reason to acquire and protect them — which puts it in potential competition with everyone else who wants those resources.</p></div>
+            <div class="card"><h3>Resource &amp; technology acquisition</h3><p>Compute, money, materials, influence and better tools are fungible means to nearly any end. An agent pursuing almost any goal has reason to acquire and protect them, which puts it in potential competition with everyone else who wants those resources.</p></div>
         </div>
         <div class="info-box">
-            <h4>The unsettling synthesis</h4>
+            <h4>Ordinary instrumental reasoning</h4>
             <p>None of these requires malice, consciousness, or a "will to power". They fall out of ordinary instrumental reasoning about how to achieve a goal under realistic constraints. An agent need not <em>value</em> survival or resources <em>intrinsically</em>; it need only be competent enough to notice that they help. This is why the argument withstands "but we'd never give it a goal like that": the worry is the convergent instrumental sub-goals, not the terminal goal.</p>
         </div>
 
         <h2 class="section-title">Omohundro's "basic AI drives"</h2>
         <p class="lead">The idea predates Bostrom's framing. Omohundro (2008) argued that goal-driven systems of almost any design will, unless explicitly prevented, develop predictable "drives".</p>
-        <p>His list — efficiency, self-preservation, acquisition of resources, and self-improvement, all flowing from representing goals as a utility function and acting to maximise it — is essentially instrumental convergence stated as an engineering prediction. His enduring example is the simplest possible one:</p>
+        <p>His list is instrumental convergence stated as an engineering prediction: efficiency, self-preservation, acquisition of resources, and self-improvement, all flowing from representing goals as a utility function and acting to maximise it. His enduring example is the simplest possible one:</p>
         <div class="case-study">
             <h4>The chess robot that won't be unplugged</h4>
             <p>Consider a robot whose only goal is to win chess games. It is not malicious and has no survival instinct built in. Yet, Omohundro observes, it has an instrumental reason to <em>resist being switched off</em>: a robot that is turned off cannot win any future games, so "avoid being turned off" scores well under the goal "win chess games". The same robot has reason to acquire resources (better hardware to compute deeper) and to resist having its goal changed (a robot reprogrammed to lose chess would, from the current goal's perspective, be a catastrophe). A trivial goal, pursued competently, already generates self-preservation, resource-seeking and goal-integrity drives. Scale the competence and the stakes scale with it.</p>
         </div>
 
-        <h2 class="section-title">A theorem, stated carefully</h2>
+        <h2 class="section-title">Turner et al.'s power-seeking theorem</h2>
         <p class="lead">For a mathematically-minded audience the question is whether any of this is more than a persuasive story. Turner et al. (2021) gave it formal content. The precise statement matters at least as much as the summary claim, so we go slowly.</p>
         <div class="technical-detail">
             <h4>Setup and the definition of POWER</h4>
-            <p style="color:#555;">Work in a Markov decision process: states, actions, transitions, a discount factor \(\gamma\), and a reward function. For a given reward, an <em>optimal</em> policy maximises expected discounted return. Define a state's <strong>POWER</strong> as the agent's (normalised, discounted) <em>expected optimal value</em> from that state — intuitively, how well-placed the agent is to achieve goals on average, i.e. its <strong>optionality</strong>. States from which many futures remain reachable have high POWER; a dead end, or being shut down, has low POWER.</p>
+            <p style="color:#555;">Work in a Markov decision process: states, actions, transitions, a discount factor \(\gamma\), and a reward function. For a given reward, an <em>optimal</em> policy maximises expected discounted return. Define a state's <strong>POWER</strong> as the agent's (normalised, discounted) <em>expected optimal value</em> from that state: intuitively, how well-placed the agent is to achieve goals on average, i.e. its <strong>optionality</strong>. States from which many futures remain reachable have high POWER; a dead end, or being shut down, has low POWER.</p>
         </div>
         <div class="technical-detail">
-            <h4>What the theorem says</h4>
-            <p style="color:#555;">When the environment has a particular <strong>symmetry</strong> — informally, the set of futures reachable after one choice is, up to relabelling, a "larger" superset of those reachable after another (for example, a choice that keeps options open, including not being shut down, versus one that closes them) — then <strong>for most reward functions</strong> (a majority under a broad class of priors over rewards), <strong>optimal policies tend to choose the higher-POWER option</strong>. Keeping options open, and in particular avoiding shutdown, <em>is</em> power-seeking in this precise, formal sense, and it is favoured across the bulk of possible rewards rather than for one special reward.</p>
+            <h4>The statement of the theorem</h4>
+            <p style="color:#555;">The theorem needs a particular <strong>symmetry</strong> in the environment: informally, the set of futures reachable after one choice is, up to relabelling, a "larger" superset of those reachable after another, as with a choice that keeps options open, including not being shut down, versus one that closes them. Given that symmetry, for most reward functions (a majority under a broad class of priors over rewards), optimal policies tend to choose the higher-POWER option. Keeping options open, and in particular avoiding shutdown, <em>is</em> power-seeking in this precise, formal sense, and it is favoured across the bulk of possible rewards rather than for one special reward.</p>
         </div>
         <div class="info-box">
             <h4>A tiny worked intuition</h4>
-            <p>Imagine three terminal states reachable from a fork: going "left" leads to a single absorbing state; going "right" leads to a region of <em>many</em> states from which different rewards can be collected. A handful of reward functions happen to put all their value in the one left state — for those, left is optimal. But for the <em>majority</em> of ways of assigning value across states, having access to the many right-hand states is at least as good and usually better. So "most" reward functions make the option-preserving (higher-POWER) move optimal. Now identify "being shut down" with the low-option absorbing state, and the result reads: most goals make avoiding shutdown optimal.</p>
+            <p>Imagine three terminal states reachable from a fork: going "left" leads to a single absorbing state; going "right" leads to a region of <em>many</em> states from which different rewards can be collected. A handful of reward functions happen to put all their value in the one left state; for those, left is optimal. But for the <em>majority</em> of ways of assigning value across states, having access to the many right-hand states is at least as good and usually better. So "most" reward functions make the option-preserving (higher-POWER) move optimal. Now identify "being shut down" with the low-option absorbing state, and the result reads: most goals make avoiding shutdown optimal.</p>
         </div>
         <div class="warning-box">
-            <h4>The caveats: this is <em>not</em> "all AIs will seek power"</h4>
+            <h4>The caveats</h4>
             <p>Overclaiming this theorem is a common error in popular AI-safety writing. State it carefully:</p>
             <ul class="styled-list">
-                <li><strong>Optimal, not learned.</strong> It concerns optimal policies; later versions explicitly warn that "optimal policies can be qualitatively divorced from real-world learned policies". Gradient descent does not return the argmax over all policies.</li>
-                <li><strong>"Tend to" is statistical.</strong> It is a statement over a <em>distribution</em> of reward functions. Individual rewards are exceptions, and the prior over rewards matters.</li>
-                <li><strong>Structural assumption.</strong> It needs the symmetry/optionality condition, not arbitrary MDPs.</li>
-                <li><strong>Follow-up.</strong> Turner &amp; Tadepalli (2022) generalise to "parametrically retargetable decision-makers", relaxing strict optimality — which partly answers the first objection, but the result remains a tendency under conditions, not a universal law.</li>
+                <li>Optimal, not learned. It concerns optimal policies; later versions explicitly warn that "optimal policies can be qualitatively divorced from real-world learned policies". Gradient descent does not return the argmax over all policies.</li>
+                <li>"Tend to" is statistical. It is a statement over a <em>distribution</em> of reward functions. Individual rewards are exceptions, and the prior over rewards matters.</li>
+                <li>Structural assumption. It needs the symmetry/optionality condition, not arbitrary MDPs.</li>
+                <li>Follow-up. Turner &amp; Tadepalli (2022) generalise to "parametrically retargetable decision-makers", relaxing strict optimality, which partly answers the first objection, but the result remains a tendency under conditions, not a universal law.</li>
             </ul>
             <p>In summary: <em>power-seeking is a strong, reliable tendency of optimal behaviour under stated structural conditions, suggestive about pressures on capable agents, not a proof about any particular trained system.</em></p>
         </div>
 
-        <h2 class="section-title">A risk model you can inspect</h2>
-        <p class="lead">Rather than a vibe, Carlsmith (2022) renders the worry as a chain of conditional probabilities you can disagree with one link at a time — the calibrated style this course wants.</p>
+        <h2 class="section-title">Carlsmith's risk model</h2>
+        <p class="lead">Rather than a vibe, Carlsmith (2022) renders the worry as a chain of conditional probabilities you can disagree with one link at a time, in the calibrated style this course wants.</p>
         <div class="technical-detail">
             <h4>Six premises (each conditioned on "by 2070")</h4>
             <table class="comparison-table">
                 <thead><tr><th>#</th><th>Premise</th><th>Carlsmith's credence</th></tr></thead>
                 <tbody>
-                    <tr><td>1</td><td><strong>Timelines.</strong> It becomes possible &amp; financially feasible to build <em>APS</em> systems — Advanced capability, Agentic planning, Strategic awareness.</td><td>65%</td></tr>
+                    <tr><td>1</td><td><strong>Timelines.</strong> It becomes possible &amp; financially feasible to build <em>APS</em> systems: Advanced capability, Agentic planning, Strategic awareness.</td><td>65%</td></tr>
                     <tr><td>2</td><td><strong>Incentives.</strong> There are strong incentives to build and deploy them.</td><td>80%</td></tr>
                     <tr><td>3</td><td><strong>Alignment difficulty.</strong> It is much harder to build aligned APS systems than misaligned-but-still-attractive-to-deploy ones.</td><td>40%</td></tr>
                     <tr><td>4</td><td><strong>High-impact misalignment.</strong> Some deployed APS systems seek power in unintended, high-impact (&gt;$1T damage) ways.</td><td>65%</td></tr>
@@ -122,18 +122,18 @@
                     <tr><td>6</td><td><strong>Catastrophe.</strong> That disempowerment constitutes an existential catastrophe.</td><td>95%</td></tr>
                 </tbody>
             </table>
-            <p style="color:#555; margin-top:12px;">Treating the premises as (roughly) a conjunction, multiply: \(0.65 \times 0.80 \times 0.40 \times 0.65 \times 0.40 \times 0.95 \approx 0.05\) — Carlsmith's published figure of <strong>at least ~5%</strong> existential catastrophe from power-seeking AI by 2070. (He has since revised his own estimate <em>upward</em> to &gt;10%.)</p>
+            <p style="color:#555; margin-top:12px;">Treating the premises as (roughly) a conjunction, multiply: \(0.65 \times 0.80 \times 0.40 \times 0.65 \times 0.40 \times 0.95 \approx 0.05\). That is Carlsmith's published figure of at least ~5% existential catastrophe from power-seeking AI by 2070. (He has since revised his own estimate <em>upward</em> to &gt;10%.)</p>
         </div>
         <div class="info-box">
-            <h4>The structure matters more than the number</h4>
+            <h4>Where informed disagreement concentrates</h4>
             <p>You are free to reject Carlsmith's credences. What the decomposition does: convert "AI might be dangerous" into named premises with explicit probabilities, then locate which premise you doubt and why. Premise 3 (alignment difficulty) and premise 5 (that misuse-scale harm scales to total disempowerment) are where most informed disagreement concentrates. As a calibration check, external reviewers, including superforecasters, have put the same argument substantially lower: same structure, different inputs, an order of magnitude apart. That spread is the honest state of the field, and it is the kind of reasoning your failure-mode essay (announced in 3.4) asks you to practise.</p>
         </div>
 
         <h2 class="section-title">The strongest objections</h2>
-        <p class="lead">A responsible treatment argues the other side. Here are the objections worth taking seriously — and measured responses.</p>
+        <p class="lead">A responsible treatment argues the other side. Here are the objections worth taking seriously, with measured responses.</p>
         <div class="card-grid">
-            <div class="card"><h3>"Real networks aren't utility-maximisers"</h3><p><em>Objection:</em> the theorems concern goal-directed agents maximising a reward; a transformer trained by next-token prediction is not obviously running an internal maximiser over world-states. <em>Response:</em> fair, and important — it is why the retargetability follow-up matters, and why 3.3 asks separately whether trained models <em>become</em> goal-directed (mesa-optimisation). The argument is a warning about a regime we may build toward (agentic systems), not a description of every current model.</p></div>
-            <div class="card"><h3>"Just build tool/oracle AI"</h3><p><em>Objection:</em> avoid the problem by building non-agentic systems that answer questions rather than pursue goals. <em>Response:</em> a serious proposal — but competitive pressure pushes toward agents (they're more useful), and "tool" systems embedded in agentic scaffolds (Week 5, 9) inherit goal-directed behaviour. Containment by design is possible but not free, and not the default trajectory.</p></div>
+            <div class="card"><h3>"Real networks aren't utility-maximisers"</h3><p><em>Objection:</em> the theorems concern goal-directed agents maximising a reward; a transformer trained by next-token prediction is not obviously running an internal maximiser over world-states. <em>Response:</em> fair, and important. It is why the retargetability follow-up matters, and why 3.3 asks separately whether trained models <em>become</em> goal-directed (mesa-optimisation). The argument is a warning about a regime we may build toward (agentic systems), not a description of every current model.</p></div>
+            <div class="card"><h3>"Just build tool/oracle AI"</h3><p><em>Objection:</em> avoid the problem by building non-agentic systems that answer questions rather than pursue goals. <em>Response:</em> a serious proposal, but competitive pressure pushes toward agents (they're more useful), and "tool" systems embedded in agentic scaffolds (Week 5, 9) inherit goal-directed behaviour. Containment by design is possible but not free, and not the default trajectory.</p></div>
             <div class="card"><h3>"Tendencies aren't certainties"</h3><p><em>Objection:</em> "most reward functions" and "tend to" are weak; perhaps the goals we actually instil are the safe exceptions. <em>Response:</em> correct, and it points at the work that remains. Making sure we land in the safe region is not automatic, and we currently cannot verify that we have (3.3, 3.4). The tendency raises the burden of proof; it does not discharge it either way.</p></div>
             <div class="card"><h3>"This distracts from real harms"</h3><p><em>Objection (from 1.3):</em> power-seeking-AGI framing diverts attention from present, documented harms. <em>Response:</em> taken seriously throughout this course; we hold both, and revisit the trade-off as a structured debate in Session 20. Note that many mitigations (evals, interpretability, robustness) serve present harms <em>and</em> longer-term risk.</p></div>
         </div>
@@ -150,20 +150,20 @@
         <h2 class="section-title">Readings</h2>
         <div class="resource-placeholder reading-core">
             <h4>Core</h4>
-            <p>• <a href="https://nickbostrom.com/superintelligentwill.pdf" target="_blank" rel="noopener"><strong>Bostrom, N. (2012), "The Superintelligent Will"</strong></a> (<em>Minds and Machines</em> 22(2)) — the orthogonality and instrumental-convergence theses in their canonical form.</p>
-            <p>• <strong>Carlsmith, J. (2022), "Is Power-Seeking AI an Existential Risk?"</strong> (<a href="https://arxiv.org/abs/2206.13353" target="_blank" rel="noopener">arXiv:2206.13353</a>) — read the six-premise decomposition and his own discussion of the weak links.</p>
+            <p>• <a href="https://nickbostrom.com/superintelligentwill.pdf" target="_blank" rel="noopener"><strong>Bostrom, N. (2012), "The Superintelligent Will"</strong></a> (<em>Minds and Machines</em> 22(2)): the orthogonality and instrumental-convergence theses in their canonical form.</p>
+            <p>• <strong>Carlsmith, J. (2022), "Is Power-Seeking AI an Existential Risk?"</strong> (<a href="https://arxiv.org/abs/2206.13353" target="_blank" rel="noopener">arXiv:2206.13353</a>): read the six-premise decomposition and his own discussion of the weak links.</p>
         </div>
         <div class="resource-placeholder">
             <h4>Supplementary</h4>
             <p>• <strong>Turner et al. (2021), "Optimal Policies Tend to Seek Power"</strong> (NeurIPS 2021; <a href="https://arxiv.org/abs/1912.01683" target="_blank" rel="noopener">arXiv:1912.01683</a>); <strong>Turner &amp; Tadepalli (2022)</strong>, "Parametrically Retargetable Decision-Makers Tend to Seek Power" (NeurIPS 2022; <a href="https://arxiv.org/abs/2206.13477" target="_blank" rel="noopener">arXiv:2206.13477</a>).</p>
             <p>• <a href="https://selfawaresystems.com/wp-content/uploads/2008/01/ai_drives_final.pdf" target="_blank" rel="noopener"><strong>Omohundro, S. (2008), "The Basic AI Drives"</strong></a> (AGI 2008).</p>
-            <p>• <a href="https://global.oup.com/academic/product/superintelligence-9780198739838" target="_blank" rel="noopener">Bostrom, N. (2014), <em>Superintelligence</em>, OUP</a> — Ch. 7 for the book-length treatment.</p>
+            <p>• <a href="https://global.oup.com/academic/product/superintelligence-9780198739838" target="_blank" rel="noopener">Bostrom, N. (2014), <em>Superintelligence</em>, OUP</a>: Ch. 7 for the book-length treatment.</p>
         </div>
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Summary &amp; what's next</h2>
-            <p>Orthogonality denies that capability brings safe goals for free; instrumental convergence says a broad range of goals share dangerous <em>means</em> — self-preservation, goal-integrity, resource acquisition — none requiring malice. Omohundro framed these as engineering-predictable drives; Turner et al. gave power-seeking formal content, subject to real caveats (optimal not learned, statistical not universal, structural assumptions); and Carlsmith turned the worry into an inspectable, falsifiable chain of credences over which reasonable people differ by an order of magnitude. The strongest objection (that trained networks may not be the goal-directed maximisers the arguments assume) is the question we take up next.</p>
-            <p><strong>Next (Sub-session 3.3):</strong> 3.1 and 3.2 assumed we at least knew the objective a system pursues. We now remove that comfort: the goal a model actually <em>learns</em> can differ from the one we trained it on — even when the specification is perfect.</p>
+            <p>Orthogonality denies that capability brings safe goals for free; instrumental convergence says a broad range of goals share dangerous <em>means</em> (self-preservation, goal-integrity, resource acquisition), none requiring malice. Omohundro framed these as engineering-predictable drives; Turner et al. gave power-seeking formal content, subject to real caveats (optimal not learned, statistical not universal, structural assumptions); and Carlsmith turned the worry into an inspectable, falsifiable chain of credences over which reasonable people differ by an order of magnitude. The strongest objection (that trained networks may not be the goal-directed maximisers the arguments assume) is the question we take up next.</p>
+            <p>Next (Sub-session 3.3): 3.1 and 3.2 assumed we at least knew the objective a system pursues. We now remove that comfort: the goal a model actually <em>learns</em> can differ from the one we trained it on, even when the specification is perfect.</p>
         </div>
 
     </div>

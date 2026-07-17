@@ -34,7 +34,7 @@
     <header>
         <div class="week-badge">Week 8 • Session 15.2</div>
         <h1>The IOI circuit: a worked reverse-engineering</h1>
-        <p>A real 26-head circuit traced end to end in GPT-2 — and an honest lesson in how messy a "solved" circuit is</p>
+        <p>A real 26-head circuit traced end to end in GPT-2</p>
     </header>
     <div class="content">
 
@@ -44,14 +44,14 @@
         </div>
 
         <h2 class="section-title">The task and the human algorithm</h2>
-        <p class="lead">"When Mary and John went to the store, John gave a drink to ___" — the answer is "Mary."</p>
+        <p class="lead">"When Mary and John went to the store, John gave a drink to ___": the answer is "Mary."</p>
         <p>Indirect object identification is a small, sharp behaviour: a sentence names two people (the indirect object IO = "Mary" and the subject S = "John"), then repeats one of them, and the model must complete with the <em>other</em>. GPT-2 small does this reliably. There is an obvious human algorithm: (i) find the two names; (ii) detect that one is duplicated; (iii) output the name that is <em>not</em> the duplicate. The achievement of the IOI work is to show that GPT-2 implements a recognisable version of this algorithm, and to identify the heads that do each step.</p>
 
         <div class="technical-detail">
             <h4>The metric: logit difference</h4>
-            <p style="color:#555;">The whole analysis is driven by one scalar — the <strong>logit difference</strong> between the two candidate names:</p>
+            <p style="color:#555;">The whole analysis is driven by one scalar, the <strong>logit difference</strong> between the two candidate names:</p>
             <div class="formula">\[ \text{logit diff} \;=\; \text{logit}(\text{IO}) - \text{logit}(\text{S}). \]</div>
-            <p style="color:#555;">A large positive logit diff means the model confidently prefers the correct (indirect-object) name. GPT-2 small averages a logit diff of about 3.56 and predicts IO over S roughly 99% of the time. Patching is then run against this metric: corrupt the prompt (e.g. an "ABC" version that breaks the name structure), and measure how each component's restoration moves the logit diff. Because the metric is a <em>difference</em> of two specific logits, it isolates the IOI computation cleanly from the model's general fluency — a good lesson in metric design that the Session 11 statistics carry forward.</p>
+            <p style="color:#555;">A large positive logit diff means the model confidently prefers the correct (indirect-object) name. GPT-2 small averages a logit diff of about 3.56 and predicts IO over S roughly 99% of the time. Patching is then run against this metric: corrupt the prompt (e.g. an "ABC" version that breaks the name structure), and measure how each component's restoration moves the logit diff. Because the metric is a <em>difference</em> of two specific logits, it isolates the IOI computation cleanly from the model's general fluency, a good lesson in metric design that the Session 11 statistics carry forward.</p>
         </div>
 
         <h2 class="section-title">The circuit: seven classes of head</h2>
@@ -60,29 +60,29 @@
         <div class="technical-detail">
             <h4>The seven head classes</h4>
             <ul class="styled-list">
-                <li><strong>Duplicate Token Heads</strong> and <strong>Induction Heads</strong> — detect that a name is repeated (the induction machinery from 13.4 reappearing in the wild).</li>
-                <li><strong>Previous Token Heads</strong> — feed the induction heads, as in 13.4.</li>
-                <li><strong>S-Inhibition Heads</strong> — having found the duplicate (the subject), write a signal that <em>suppresses</em> attention to it downstream.</li>
-                <li><strong>Name Mover Heads</strong> — attend to the remaining (non-suppressed) name and copy it to the output, raising its logit. These do the final "output the other name" step.</li>
-                <li><strong>Negative Name Mover Heads</strong> — surprisingly, <em>reduce</em> the correct name's logit (a small countervailing force).</li>
-                <li><strong>Backup Name Mover Heads</strong> — they do not normally perform the name-moving, but take it over if the primary Name Movers are disabled (discussed below).</li>
+                <li><strong>Duplicate Token Heads</strong> and <strong>Induction Heads</strong>: detect that a name is repeated (the induction machinery from 13.4 reappearing in the wild).</li>
+                <li><strong>Previous Token Heads</strong>: feed the induction heads, as in 13.4.</li>
+                <li><strong>S-Inhibition Heads</strong>: having found the duplicate (the subject), write a signal that <em>suppresses</em> attention to it downstream.</li>
+                <li><strong>Name Mover Heads</strong>: attend to the remaining (non-suppressed) name and copy it to the output, raising its logit. These do the final "output the other name" step.</li>
+                <li><strong>Negative Name Mover Heads</strong>: surprisingly, <em>reduce</em> the correct name's logit (a small countervailing force).</li>
+                <li><strong>Backup Name Mover Heads</strong>: they do not normally perform the name-moving, but take it over if the primary Name Movers are disabled (discussed below).</li>
             </ul>
-            <p style="color:#555;">The story is satisfying: duplicate-detection → inhibit the subject → move the surviving name. It is a real algorithm, in a real model, found by patching — the existence proof that mechanistic reverse-engineering scales past toy induction heads.</p>
+            <p style="color:#555;">The story is satisfying: duplicate-detection → inhibit the subject → move the surviving name. It is a real algorithm, in a real model, found by patching: the existence proof that mechanistic reverse-engineering scales past toy induction heads.</p>
         </div>
 
-        <h2 class="section-title">Faithful is not complete</h2>
+        <h2 class="section-title">Faithfulness, completeness, and minimality</h2>
         <p class="lead">The celebrated circuit passes the easy test and fails the hard ones.</p>
-        <p>Wang et al. evaluate their circuit against three criteria, and a maths-honest course teaches the failures as loudly as the success. <strong>Faithfulness</strong> (does the circuit alone reproduce the behaviour?): the 26 heads recover about 87% of the full model's logit difference, which is strong. <strong>Completeness</strong> and <strong>minimality</strong> (is this <em>all</em> the relevant computation, with nothing missing and nothing redundant?): here the circuit fails the hardest versions of the tests. And the reason is one of the paper's most instructive findings: <strong>Backup Name Mover Heads</strong>. When you ablate the primary Name Mover heads — the ones the analysis says do the job — the model's performance barely drops, because backup heads that were not previously doing the name-moving step in and do the copying instead. The circuit was not the whole story; the model has redundancy the clean diagram hides.</p>
+        <p>Wang et al. evaluate their circuit against three criteria, and a maths-honest course teaches the failures as loudly as the success. <strong>Faithfulness</strong> (does the circuit alone reproduce the behaviour?): the 26 heads recover about 87% of the full model's logit difference, which is strong. <strong>Completeness</strong> and <strong>minimality</strong> (is this <em>all</em> the relevant computation, with nothing missing and nothing redundant?): here the circuit fails the hardest versions of the tests. And the reason is one of the paper's most instructive findings: Backup Name Mover Heads. When you ablate the primary Name Mover heads (the ones the analysis says do the job), the model's performance barely drops, because backup heads that were not previously doing the name-moving step in and do the copying instead. The circuit was not the whole story; the model has redundancy the clean diagram hides.</p>
         <div class="warning-box">
-            <h4>Why this matters for safety</h4>
-            <p>Backup heads are a direct warning about the ablation evidence from 13.4 and 15.1. "We ablated the component and the behaviour survived" can mean the component was irrelevant — or that a backup quietly compensated. Self-repair and redundancy mean a single clean circuit diagram can be faithful and still <em>incomplete</em>, and an interpretability-based safety claim ("we found and removed the deception circuit") could be defeated by machinery the analysis never surfaced. The IOI circuit is rightly celebrated, and it is also a cautionary tale: real circuits are messy, redundant, and only partially understood, even when the headline says "reverse-engineered." Wang et al. also never explain the MLPs or layer-norms in the circuit — another reminder of how much a tidy diagram leaves out.</p>
+            <h4>Redundancy and safety claims</h4>
+            <p>Backup heads are a direct warning about the ablation evidence from 13.4 and 15.1. "We ablated the component and the behaviour survived" can mean the component was irrelevant, or that a backup quietly compensated. Self-repair and redundancy mean a single clean circuit diagram can be faithful and still <em>incomplete</em>, and an interpretability-based safety claim ("we found and removed the deception circuit") could be defeated by machinery the analysis never surfaced. The IOI circuit is rightly celebrated, and it is also a cautionary tale: real circuits are messy, redundant, and only partially understood, even when the headline says "reverse-engineered." Wang et al. also never explain the MLPs or layer-norms in the circuit, another reminder of how much a tidy diagram leaves out.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
         <ul class="styled-list">
             <li>Why is logit difference a better metric for this task than raw correct-token probability? What does taking a <em>difference</em> of two logits cancel out?</li>
             <li>Map each of the seven head classes onto a step of the human algorithm. Which classes are the induction machinery from 13.4, reappearing?</li>
-            <li>Define faithfulness, completeness, and minimality. The IOI circuit is ~87% faithful but fails completeness — what specifically goes wrong, and what does the Backup Name Mover finding reveal?</li>
+            <li>Define faithfulness, completeness, and minimality. The IOI circuit is ~87% faithful but fails completeness. What specifically goes wrong, and what does the Backup Name Mover finding reveal?</li>
             <li>Backup heads compensate for ablated Name Movers. What does that imply for a safety claim of the form "we ablated the harmful circuit, so the behaviour is gone"?</li>
         </ul>
 
@@ -94,7 +94,7 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Sub-session <strong>15.3</strong> turns to the other great technique: if superposition (13.2) is why we cannot read neurons, <strong>sparse autoencoders</strong> are the proposed way to recover a basis of interpretable features — with the dictionary-learning objective written out, and Golden Gate Claude as the payoff.</p>
+            <p>Sub-session 15.3 turns to the other great technique: if superposition (13.2) is why we cannot read neurons, sparse autoencoders are the proposed way to recover a basis of interpretable features, with the dictionary-learning objective written out and Golden Gate Claude as the payoff.</p>
         </div>
 
     </div>

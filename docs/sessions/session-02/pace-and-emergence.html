@@ -49,7 +49,7 @@
         <div class="technical-detail">
             <h4>Three findings</h4>
             <ul class="styled-list">
-                <li>Compute has grown far faster than hardware. Sevilla et al. (2022) date a regime change around 2010: before it, training compute for notable systems roughly tracked Moore's law (a doubling every ~20 months); since then it has doubled roughly every six months, and a separate "large-scale" track of frontier runs sits orders of magnitude above even that. The growth is driven by deliberate investment, not cheaper chips alone.</li>
+                <li>Compute has grown far faster than hardware. Sevilla et al. (2022) date a regime change around 2010: before it, training compute for notable systems roughly tracked Moore's law (a doubling every ~20 months); since then it has doubled roughly every six months, and a separate "large-scale" track of frontier runs sits orders of magnitude above even that. The growth is driven by investment, not cheaper chips alone.</li>
                 <li>The three inputs move together. Compute, dataset size and parameters scale in step (2.3), bounded increasingly by data and by energy and hardware supply (Session 4).</li>
                 <li>The trends are trackable. Groups like Epoch AI maintain public datasets of model compute, parameters and data: the empirical basis for any claim about how fast the field is moving.</li>
             </ul>
@@ -79,7 +79,7 @@
         </div>
 
         <h2 class="section-title">The two layers of the dispute</h2>
-        <p>The honest synthesis is that both readings hold, at different layers. The <em>underlying</em> quantity (loss, or per-token accuracy) improves smoothly and fairly predictably, as 2.3 led us to expect. The <em>user-facing</em> ability, the thing you actually deploy, is frequently a thresholded pass-or-fail quantity, and those can flip sharply even when what drives them moves smoothly. Knowing that a jump is "only" a metric artefact does not help you if the metric is the capability you care about.</p>
+        <p>The synthesis is that both readings hold, at different layers. The <em>underlying</em> quantity (loss, or per-token accuracy) improves smoothly and fairly predictably, as 2.3 led us to expect. The <em>user-facing</em> ability, the thing you actually deploy, is frequently a thresholded pass-or-fail quantity, and those can flip sharply even when what drives them moves smoothly. Knowing that a jump is "only" a metric artefact does not help you if the metric is the capability you care about.</p>
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">Predictable in the aggregate, surprising in the specific</span></h3>
             <p>Ganguli et al. (2022) name the structural tension: scaling makes the <em>aggregate</em> loss highly predictable, while leaving <em>specific</em> capabilities (which task switches on at which scale) surprising. You can forecast the curve without being able to forecast what a model on that curve will newly be able to do. For a safety field that is the worst combination: the quantity we can predict is the one we worry about least, and the behaviours we worry about most arrive on a schedule we cannot read in advance.</p>

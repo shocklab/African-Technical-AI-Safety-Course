@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 9.1 — Adversarial examples: from pandas to prompts</title>
+    <title>Session 9.1 — Adversarial examples</title>
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -21,12 +21,12 @@
       <li><span class="tn-current">9.1 · Adversarial examples</span></li>
       <li><a href="jailbreaks-as-optimisation.html">9.2 · Jailbreaks as optimisation (GCG)</a></li>
       <li><a href="why-safety-training-fails.html">9.3 · Why safety training fails</a></li>
-      <li><a href="lab-isizulu-robustness.html">9.4 · Lab: safety degradation in isiZulu</a></li>
-      <li><a href="injection-poisoning-defences.html">9.5 · Injection, poisoning &amp; defences</a></li>
+      <li><a href="lab-isizulu-robustness.html">9.4 · Lab: measuring safety degradation in isiZulu</a></li>
+      <li><a href="injection-poisoning-defences.html">9.5 · Indirect injection, poisoning, and the state of defences</a></li>
     </ul>
   </details>
   <div class="tn-links">
-    <a class="tn-prev" href="../session-08/whose-values.html">← <span class="tn-title">8.4 · Whose values? Preference aggregation</span></a>
+    <a class="tn-prev" href="../session-08/whose-values.html">← <span class="tn-title">8.4 · Whose values? Preference aggregation and the alignment target</span></a>
     <a class="tn-next" href="jailbreaks-as-optimisation.html"><span class="tn-title">9.2 · Jailbreaks as optimisation (GCG)</span> →</a>
   </div>
 </div>
@@ -34,14 +34,14 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 5 • Session 9.1</div>
-        <h1>Adversarial examples: from pandas to prompts</h1>
+        <h1>Adversarial examples</h1>
         <p>What an adversarial example is, why the vulnerability is generic rather than a deep-learning quirk, and the threat-model vocabulary the rest of the session needs</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>An adversarial example is an input that a human reads one way and a model reads another, produced on purpose by a small, targeted change. This sub-session builds the idea from its origin in image classifiers, derives the fast gradient sign method in two lines, and explains the result that should unsettle you: vulnerability is a generic consequence of high-dimensional, near-linear models, not a bug to be patched. We fix the threat-model vocabulary (white-box versus black-box, targeted versus untargeted, the perturbation budget, transfer) so that when we turn to LLM jailbreaks in 9.2 we are precise. One thread runs from the first slide: for African deployment, the perturbation that matters is not pixel noise, it is a change of language.</p>
+            <p>An adversarial example is an input that a human reads one way and a model reads another, produced on purpose by a small, targeted change. This sub-session builds the idea from its origin in image classifiers, derives the fast gradient sign method in two lines, and explains the result that should unsettle you: vulnerability is a generic consequence of high-dimensional, near-linear models. We fix the threat-model vocabulary (white-box versus black-box, targeted versus untargeted, the perturbation budget, transfer) so that when we turn to LLM jailbreaks in 9.2 we are precise. One thread runs from the first slide: for African deployment, the perturbation that matters is a change of language.</p>
         </div>
 
         <h2 class="section-title">The panda example</h2>
@@ -61,7 +61,7 @@
         </div>
         <div class="info-box">
             <h4>Why the vulnerability is structural</h4>
-            <p>Adversarial examples are not evidence that a particular network was trained badly. They follow from two facts that hold for essentially every useful model: it is high-dimensional, and it is locally near-linear (that local linearity is what makes gradient training work at all). So the existence of adversarial inputs is structural. The research question is never "can we eliminate them?" but "how large a perturbation, under which threat model, can we make the model robust to, and at what cost?" That framing is the honest one, and 9.5 returns to how badly the costs bite.</p>
+            <p>Adversarial examples are not evidence that a particular network was trained badly. They follow from two facts that hold for essentially every useful model: it is high-dimensional, and it is locally near-linear (that local linearity is what makes gradient training work at all). So the existence of adversarial inputs is structural. The research question is never "can we eliminate them?" but "how large a perturbation, under which threat model, can we make the model robust to, and at what cost?" 9.5 returns to how badly the costs bite.</p>
         </div>
 
         <h2 class="section-title">The vocabulary of an attack</h2>
@@ -114,7 +114,7 @@
     </div>
 <!-- PAGE-NAV-START -->
 <nav class="page-nav">
-  <a class="prev" href="../session-08/whose-values.html"><span class="nav-label">← Previous</span><span class="nav-title">8.4 · Whose values? Preference aggregation</span></a>
+  <a class="prev" href="../session-08/whose-values.html"><span class="nav-label">← Previous</span><span class="nav-title">8.4 · Whose values? Preference aggregation and the alignment target</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
   <a class="next" href="jailbreaks-as-optimisation.html"><span class="nav-label">Next →</span><span class="nav-title">9.2 · Jailbreaks as optimisation (GCG)</span></a>
 </nav>

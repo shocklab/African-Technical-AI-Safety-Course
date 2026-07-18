@@ -51,7 +51,7 @@
         <p>Each is a straight line on a log–log plot, with slope equal to minus the exponent. The exponents are small and positive: Kaplan estimated \(\alpha_N \approx 0.076\), \(\alpha_D \approx 0.095\), and \(\alpha_C^{\min} \approx 0.05\) along the compute-efficient frontier (the plain compute exponent is \(\alpha_C \approx 0.057\)). A small exponent means diminishing returns: a \(10\times\) increase in parameters cuts the (reducible) loss by only a factor of about \(10^{0.076} \approx 1.19\). But the line does not bend down to a plateau anywhere in the studied range.</p>
         <div class="technical-detail">
             <h4>An irreducible floor</h4>
-            <p style="color:#555;">Loss cannot fall to zero: natural language has irreducible unpredictability, so there is an entropy floor \(L_\infty\) no model can beat. The honest form of the law separates that floor from the part scale can buy:</p>
+            <p style="color:#555;">Loss cannot fall to zero: natural language has irreducible unpredictability, so there is an entropy floor \(L_\infty\) no model can beat. The complete form of the law separates that floor from the part scale can buy:</p>
             <div class="formula">\[ L(N) = L_\infty + \left( \frac{N_c}{N} \right)^{\alpha_N}. \]</div>
             <p style="color:#555;">The power law describes the <em>reducible</em> loss, the gap above the floor. Two facts make the finding remarkable: its regularity (clean power laws over many orders of magnitude) and its smoothness (no plateau in sight). Within wide limits, architectural details (exact depth, width, number of attention heads) move the loss far less than scale does. That is what licenses talking about "scale" as a single dial.</p>
         </div>

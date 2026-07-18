@@ -25,7 +25,7 @@
     </ul>
   </details>
   <div class="tn-links">
-    <a class="tn-prev" href="../session-14/lab-induction-heads.html">← <span class="tn-title">Session 14 · Lab: TransformerLens + induction heads</span></a>
+    <a class="tn-prev" href="../session-14/lab-induction-heads.html">← <span class="tn-title">Session 14 · Lab: find and verify an induction head</span></a>
     <a class="tn-next" href="ioi-circuit.html"><span class="tn-title">15.2 · The IOI circuit</span> →</a>
   </div>
 </div>
@@ -40,7 +40,7 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Session 13 found components by reading weights. This sub-session adds the technique that turns "this component correlates with the behaviour" into "this component <em>causes</em> it": <strong>activation patching</strong>. The idea is causal-mediation analysis on the network's own computation graph: run the model clean, run it corrupted, then restore one internal activation and measure how much of the clean answer comes back. We write the metric down, distinguish the two directions (noising and denoising), and derive <strong>attribution patching</strong>, the first-order approximation that estimates every patch at once from a single backward pass. We also stay honest about what a successful patch licenses you to claim, which is less than it first appears.</p>
+            <p>Session 13 found components by reading weights. This sub-session adds the technique that turns "this component correlates with the behaviour" into "this component <em>causes</em> it": <strong>activation patching</strong>. The idea is causal-mediation analysis on the network's own computation graph: run the model clean, run it corrupted, then restore one internal activation and measure how much of the clean answer comes back. We write the metric down, distinguish the two directions (noising and denoising), and derive <strong>attribution patching</strong>, the first-order approximation that estimates every patch at once from a single backward pass. We also note what a successful patch licenses you to claim, which is less than it first appears.</p>
         </div>
 
         <h2 class="section-title">Patching as causal mediation on the computation graph</h2>
@@ -97,13 +97,13 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Sub-session 15.2 applies patching end to end: the IOI circuit, a real 26-head circuit reverse-engineered from GPT-2. It is also an honest lesson in how messy a "solved" circuit is.</p>
+            <p>Sub-session 15.2 applies patching end to end: the IOI circuit, a real 26-head circuit reverse-engineered from GPT-2. It is also a lesson in how messy a "solved" circuit is.</p>
         </div>
 
     </div>
 <!-- PAGE-NAV-START -->
 <nav class="page-nav">
-  <a class="prev" href="../session-14/lab-induction-heads.html"><span class="nav-label">← Previous</span><span class="nav-title">Session 14 · Lab: TransformerLens + induction heads</span></a>
+  <a class="prev" href="../session-14/lab-induction-heads.html"><span class="nav-label">← Previous</span><span class="nav-title">Session 14 · Lab: find and verify an induction head</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
   <a class="next" href="ioi-circuit.html"><span class="nav-label">Next →</span><span class="nav-title">15.2 · The IOI circuit</span></a>
 </nav>

@@ -19,15 +19,15 @@
     <summary>Session 11</summary>
     <ul>
       <li><a href="why-evaluate-and-taxonomy.html">11.1 · Why evaluate: the eval taxonomy</a></li>
-      <li><a href="dangerous-capability-evals.html">11.2 · Dangerous-capability evals</a></li>
+      <li><a href="dangerous-capability-evals.html">11.2 · Dangerous-capability evals: elicitation and sandbagging</a></li>
       <li><a href="construct-validity.html">11.3 · Does the eval measure what it claims?</a></li>
       <li><span class="tn-current">11.4 · The statistics of evals</span></li>
-      <li><a href="lab-isizulu-eval.html">11.5 · Lab: a refusal eval on open isiZulu data</a></li>
+      <li><a href="lab-isizulu-eval.html">11.5 · Lab: build a refusal eval on open isiZulu data</a></li>
     </ul>
   </details>
   <div class="tn-links">
     <a class="tn-prev" href="construct-validity.html">← <span class="tn-title">11.3 · Does the eval measure what it claims?</span></a>
-    <a class="tn-next" href="lab-isizulu-eval.html"><span class="tn-title">11.5 · Lab: a refusal eval on open isiZulu data</span> →</a>
+    <a class="tn-next" href="lab-isizulu-eval.html"><span class="tn-title">11.5 · Lab: build a refusal eval on open isiZulu data</span> →</a>
   </div>
 </div>
 <!-- TOP-NAV-END -->
@@ -57,13 +57,13 @@
         <p class="lead">Questions cluster, and models share questions; ignoring either gives wrong intervals.</p>
         <div class="technical-detail">
             <h4>Clustered standard errors</h4>
-            <p style="color:#555;">The formula above assumes independent questions. Real benchmarks group them (ten questions about one passage, twenty variants of one template) and answers within a cluster are correlated. Treating \(n\) correlated questions as \(n\) independent ones <em>understates</em> the standard error, sometimes badly: Miller notes the corrected (clustered) SE can be more than three times the naïve one. The honest \(n\) is closer to the number of independent clusters than the number of questions, and an interval computed without clustering can be three times too narrow, turning noise into a "significant" result.</p>
+            <p style="color:#555;">The formula above assumes independent questions. Real benchmarks group them (ten questions about one passage, twenty variants of one template) and answers within a cluster are correlated. Treating \(n\) correlated questions as \(n\) independent ones <em>understates</em> the standard error, sometimes badly: Miller notes the corrected (clustered) SE can be more than three times the naïve one. The effective \(n\) is closer to the number of independent clusters than the number of questions, and an interval computed without clustering can be three times too narrow, turning noise into a "significant" result.</p>
         </div>
         <div class="technical-detail">
             <h4>Paired comparisons between models</h4>
             <p style="color:#555;">To compare two models, do not put a separate independent CI on each and check for overlap; that throws away the fact that they answered the <em>same</em> questions. Compare them <em>paired</em>, question by question. If each model has per-question variance \(v\) and their scores correlate at \(\rho\), the variance of the difference is</p>
             <div class="formula">\[ \mathrm{Var}(\hat{p}_A - \hat{p}_B) = v_A + v_B - 2\rho\sqrt{v_A v_B} \;\approx\; 2v(1-\rho). \]</div>
-            <p style="color:#555;">At \(\rho = 0.5\) the paired standard error is \(\sqrt{v}\) against the independent \(\sqrt{2v}\), a factor \(1/\sqrt{2}\) tighter, and questions two models both find easy or both find hard are that correlated. So a gap that looks insignificant by overlapping independent intervals can be clearly significant once paired (the discrete version is McNemar's test on the disagreement counts). Pairing is not a nicety; it is the difference between detecting a real gap and missing it.</p>
+            <p style="color:#555;">At \(\rho = 0.5\) the paired standard error is \(\sqrt{v}\) against the independent \(\sqrt{2v}\), a factor \(1/\sqrt{2}\) tighter, and questions two models both find easy or both find hard are that correlated. So a gap that looks insignificant by overlapping independent intervals can be clearly significant once paired (the discrete version is McNemar's test on the disagreement counts). Pairing is the difference between detecting a real gap and missing it.</p>
         </div>
 
         <h2 class="section-title">Power and the winner's curse</h2>
@@ -78,7 +78,7 @@
 
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">The African lens: small samples and wide intervals</span></h3>
-            <p>There is almost no off-the-shelf safety-eval data in African languages, so any in-language eval you build (11.5) will be <em>small</em>: tens of items, not thousands. By the arithmetic above, small \(n\) means wide confidence intervals, and that is not a flaw to hide but the central fact to report. The danger runs both ways: a wide interval can make a real in-language safety gap look like it might be noise (so it gets dismissed), or make noise look like a gap (so a claim is over-stated). Honest error bars are what let you say "English-to-isiZulu refusal dropped by \(\Delta\), 95% CI \([a,b]\)" and have the claim survive scrutiny. In a low-data setting, the statistics of this sub-session are not pedantry: they are the only thing standing between a real finding and a sampling artefact.</p>
+            <p>There is almost no off-the-shelf safety-eval data in African languages, so any in-language eval you build (11.5) will be <em>small</em>: tens of items. By the arithmetic above, small \(n\) means wide confidence intervals, and that is not a flaw to hide but the central fact to report. The danger runs both ways: a wide interval can make a real in-language safety gap look like it might be noise (so it gets dismissed), or make noise look like a gap (so a claim is over-stated). Error bars are what let you say "English-to-isiZulu refusal dropped by \(\Delta\), 95% CI \([a,b]\)" and have the claim survive scrutiny. In a low-data setting, the statistics of this sub-session are not pedantry: they are the only thing standing between a real finding and a sampling artefact.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
@@ -101,7 +101,7 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Sub-session 11.5 is the lab: build a small refusal/robustness eval on open isiZulu data, score it with the REJECT/BYPASS scheme, attach the error bars from this sub-session, and write the validity reflection: the course's promised project seed, delivered.</p>
+            <p>Sub-session 11.5 is the lab: build a small refusal/robustness eval on open isiZulu data, score it with the REJECT/BYPASS scheme, attach the error bars from this sub-session, and write the validity reflection: a project seed for later in the course.</p>
         </div>
 
     </div>
@@ -109,7 +109,7 @@
 <nav class="page-nav">
   <a class="prev" href="construct-validity.html"><span class="nav-label">← Previous</span><span class="nav-title">11.3 · Does the eval measure what it claims?</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
-  <a class="next" href="lab-isizulu-eval.html"><span class="nav-label">Next →</span><span class="nav-title">11.5 · Lab: a refusal eval on open isiZulu data</span></a>
+  <a class="next" href="lab-isizulu-eval.html"><span class="nav-label">Next →</span><span class="nav-title">11.5 · Lab: build a refusal eval on open isiZulu data</span></a>
 </nav>
 <!-- PAGE-NAV-END -->
 </div>

@@ -18,14 +18,14 @@
   <details class="tn-menu">
     <summary>Session 16</summary>
     <ul>
-      <li><a href="lab-steering-and-saes.html">16.1 · Lab: steering &amp; SAE features</a></li>
+      <li><a href="lab-steering-and-saes.html">16.1 · Lab: steering and interpreting SAE features</a></li>
       <li><span class="tn-current">16.2 · What interpretability buys for safety</span></li>
       <li><a href="honest-limits.html">16.3 · The limits of interpretability</a></li>
       <li><a href="sovereignty-and-african-angle.html">16.4 · Interpretability and sovereignty</a></li>
     </ul>
   </details>
   <div class="tn-links">
-    <a class="tn-prev" href="lab-steering-and-saes.html">← <span class="tn-title">16.1 · Lab: steering &amp; SAE features</span></a>
+    <a class="tn-prev" href="lab-steering-and-saes.html">← <span class="tn-title">16.1 · Lab: steering and interpreting SAE features</span></a>
     <a class="tn-next" href="honest-limits.html"><span class="tn-title">16.3 · The limits of interpretability</span> →</a>
   </div>
 </div>
@@ -40,7 +40,7 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Interpretability is the white-box arm of the oversight (8.1) and evaluation (11) stack: the bet that reading or steering a model's internals can catch what behaviour hides. This sub-session walks the strongest concrete safety applications in a deliberate arc: a clean win, its refutation, a broad capability, the hard problem it cannot yet solve, and the best evidence we have. Each result is taught next to its caveat, the calibrated epistemics the course is built on. Read for both the traction and its limits.</p>
+            <p>Interpretability is the white-box arm of the oversight (8.1) and evaluation (11) stack: the bet that reading or steering a model's internals can catch what behaviour hides. This sub-session walks the strongest concrete safety applications in an arc: a clean win, its refutation, a broad capability, the hard problem it cannot yet solve, and the best evidence we have. Each result is taught next to its caveat, the calibrated epistemics the course is built on. Read for both the traction and its limits.</p>
         </div>
 
         <h2 class="section-title">Reading what a model knows</h2>
@@ -52,8 +52,8 @@
         </div>
 
         <h2 class="section-title">Reading and controlling concepts: representation engineering</h2>
-        <p class="lead">A step up in ambition: not just read a concept, but turn a dial on it.</p>
-        <p>Representation engineering (RepE; Zou et al.) reads "concept vectors" for high-level properties (truthfulness, power-seeking, harmfulness, emotion) and then uses them to <em>steer</em> the model. Reading honesty gives a strong lie classifier and a sizeable jump on the TruthfulQA benchmark (about +18 points over zero-shot); control vectors push the model to be more honest or less power-seeking. This is the parent method of the circuit-breakers defence you met in Session 10, so we reference S10 rather than re-teaching it. The useful distinction RepE forces is three-way: <em>reading</em> a concept, <em>controlling</em> it, and <em>understanding the mechanism</em> are different achievements. RepE is explicitly "top-down": it buys reading and control while deliberately abstracting away mechanism. So it delivers real traction without delivering mechanistic understanding, which is a perfectly good trade for some safety purposes and a poor one for others (you can steer away from a behaviour without knowing why it was there, or whether you have really removed it).</p>
+        <p class="lead">A step up in ambition: read a concept, then turn a dial on it.</p>
+        <p>Representation engineering (RepE; Zou et al.) reads "concept vectors" for high-level properties (truthfulness, power-seeking, harmfulness, emotion) and then uses them to <em>steer</em> the model. Reading honesty gives a strong lie classifier and a sizeable jump on the TruthfulQA benchmark (about +18 points over zero-shot); control vectors push the model to be more honest or less power-seeking. This is the parent method of the circuit-breakers defence you met in Session 10, so we reference S10 rather than re-teaching it. The useful distinction RepE forces is three-way: <em>reading</em> a concept, <em>controlling</em> it, and <em>understanding the mechanism</em> are different achievements. RepE is explicitly "top-down": it buys reading and control while abstracting away mechanism. So it delivers real traction without delivering mechanistic understanding, which is a perfectly good trade for some safety purposes and a poor one for others (you can steer away from a behaviour without knowing why it was there, or whether you have really removed it).</p>
 
         <h2 class="section-title">Backdoors that training does not remove</h2>
         <p class="lead">Sleeper Agents is a strong motivation for white-box methods, and clear evidence that behaviour alone is not enough.</p>
@@ -90,13 +90,13 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Sub-session 16.3 is the counterweight: the interpretability illusions, the scalability gap, the honest state of the field, and why "we found a feature" is not yet "we have a safety guarantee".</p>
+            <p>Sub-session 16.3 is the counterweight: the interpretability illusions, the scalability gap, the state of the field, and why "we found a feature" is not yet "we have a safety guarantee".</p>
         </div>
 
     </div>
 <!-- PAGE-NAV-START -->
 <nav class="page-nav">
-  <a class="prev" href="lab-steering-and-saes.html"><span class="nav-label">← Previous</span><span class="nav-title">16.1 · Lab: steering &amp; SAE features</span></a>
+  <a class="prev" href="lab-steering-and-saes.html"><span class="nav-label">← Previous</span><span class="nav-title">16.1 · Lab: steering and interpreting SAE features</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
   <a class="next" href="honest-limits.html"><span class="nav-label">Next →</span><span class="nav-title">16.3 · The limits of interpretability</span></a>
 </nav>

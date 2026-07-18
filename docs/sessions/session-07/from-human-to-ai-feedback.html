@@ -19,15 +19,15 @@
     <summary>Session 7</summary>
     <ul>
       <li><span class="tn-current">7.1 · From human to AI feedback</span></li>
-      <li><a href="constitutional-ai.html">7.2 · Constitutional AI: critique &amp; revise</a></li>
+      <li><a href="constitutional-ai.html">7.2 · Constitutional AI: critique, revise, and RL from AI feedback</a></li>
       <li><a href="rlaif-and-self-rewarding.html">7.3 · RLAIF and self-rewarding</a></li>
-      <li><a href="whose-constitution.html">7.4 · Whose constitution?</a></li>
-      <li><a href="lab-constitutional-ai.html">7.5 · Lab: a tiny Constitutional-AI loop</a></li>
+      <li><a href="whose-constitution.html">7.4 · Whose constitution? Democratic and African perspectives</a></li>
+      <li><a href="lab-constitutional-ai.html">7.5 · Lab: build a tiny Constitutional-AI loop</a></li>
     </ul>
   </details>
   <div class="tn-links">
     <a class="tn-prev" href="../session-06/lab-rlhf.html">← <span class="tn-title">6.5 · Lab: reward models &amp; over-optimisation</span></a>
-    <a class="tn-next" href="constitutional-ai.html"><span class="tn-title">7.2 · Constitutional AI: critique &amp; revise</span> →</a>
+    <a class="tn-next" href="constitutional-ai.html"><span class="tn-title">7.2 · Constitutional AI: critique, revise, and RL from AI feedback</span> →</a>
   </div>
 </div>
 <!-- TOP-NAV-END -->
@@ -55,12 +55,12 @@
 
         <h2 class="section-title">Let a model give the feedback</h2>
         <p class="lead">Replace the human labeller with a model that judges responses against a written list of principles.</p>
-        <p>The idea, introduced by Bai et al. (2022) under the name <strong>Constitutional AI</strong>, is disarmingly simple. Instead of paying people to rank responses for harmlessness, you write down a handful of principles ("choose the response that is least harmful", "that is least likely to be discriminatory", and so on) and you ask a capable model to do the ranking by those principles. The model's judgements become the preference data; everything downstream (reward model, policy optimisation) is the Session 6 machinery, unchanged. The label source is what changed, not the algorithm.</p>
+        <p>The idea, introduced by Bai et al. (2022) under the name <strong>Constitutional AI</strong>, is disarmingly simple. Instead of paying people to rank responses for harmlessness, you write down a handful of principles ("choose the response that is least harmful", "that is least likely to be discriminatory", and so on) and you ask a capable model to do the ranking by those principles. The model's judgements become the preference data; everything downstream (reward model, policy optimisation) is the Session 6 machinery, unchanged. Only the label source changed.</p>
         <p>It helps to be exact about what is and is not automated, because the marketing and the mechanism diverge here.</p>
         <div class="technical-detail">
             <h4>Automated and human inputs</h4>
             <ul class="styled-list">
-                <li><strong>Automated:</strong> the per-comparison judgement. A model, not a person, decides which of two responses better satisfies a principle, and does so at machine speed and cost.</li>
+                <li><strong>Automated:</strong> the per-comparison judgement. A model decides which of two responses better satisfies a principle, and does so at machine speed and cost.</li>
                 <li><strong>Still human:</strong> the <em>principles themselves</em>. Someone writes the constitution and chooses what goes in it. Also still human: the base model's pretraining data, the helpfulness preference data (which in Constitutional AI stays human-labelled), the red-team prompts the method trains on, and the decision to ship. The human role moves <em>up a level</em>, from labelling instances to writing the rule the labeller applies.</li>
             </ul>
         </div>
@@ -111,7 +111,7 @@
 <nav class="page-nav">
   <a class="prev" href="../session-06/lab-rlhf.html"><span class="nav-label">← Previous</span><span class="nav-title">6.5 · Lab: reward models &amp; over-optimisation</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
-  <a class="next" href="constitutional-ai.html"><span class="nav-label">Next →</span><span class="nav-title">7.2 · Constitutional AI: critique &amp; revise</span></a>
+  <a class="next" href="constitutional-ai.html"><span class="nav-label">Next →</span><span class="nav-title">7.2 · Constitutional AI: critique, revise, and RL from AI feedback</span></a>
 </nav>
 <!-- PAGE-NAV-END -->
 </div>

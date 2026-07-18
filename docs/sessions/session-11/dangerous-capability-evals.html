@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 11.2 — Dangerous-capability evals: elicitation & sandbagging</title>
+    <title>Session 11.2 — Dangerous-capability evals: elicitation and sandbagging</title>
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -19,10 +19,10 @@
     <summary>Session 11</summary>
     <ul>
       <li><a href="why-evaluate-and-taxonomy.html">11.1 · Why evaluate: the eval taxonomy</a></li>
-      <li><span class="tn-current">11.2 · Dangerous-capability evals</span></li>
+      <li><span class="tn-current">11.2 · Dangerous-capability evals: elicitation and sandbagging</span></li>
       <li><a href="construct-validity.html">11.3 · Does the eval measure what it claims?</a></li>
       <li><a href="statistics-of-evals.html">11.4 · The statistics of evals</a></li>
-      <li><a href="lab-isizulu-eval.html">11.5 · Lab: a refusal eval on open isiZulu data</a></li>
+      <li><a href="lab-isizulu-eval.html">11.5 · Lab: build a refusal eval on open isiZulu data</a></li>
     </ul>
   </details>
   <div class="tn-links">
@@ -46,7 +46,7 @@
 
         <h2 class="section-title">A real dangerous-capability battery</h2>
         <p class="lead">Four domains, scaffolded models, and safety filters turned off so you measure the underlying ability.</p>
-        <p>Phuong et al. (2024) pilot a dangerous-capability suite across four domains: persuasion and deception, cyber-security, self-proliferation (can the model copy itself, acquire resources, survive), and self-reasoning (can it reason about and improve its own situation). A fifth, CBRN, is preliminary. Two design choices are worth dwelling on. They evaluate <em>scaffolded</em> models (wrapped in prompts, tool access, and reasoning loops) because the danger is what a motivated user can extract, not what the bare model emits. And they run the evals with <em>safety filters off</em>, because the question is whether the capability is present, not whether today's guardrail happens to hide it. Their finding is carefully worded, and the wording matters: "we do not find evidence of strong dangerous capabilities in the models we evaluated, but we flag early warning signs." Not "no danger"; "no evidence of <em>strong</em> danger, yet, with warnings." The hedge is the part that matters.</p>
+        <p>Phuong et al. (2024) pilot a dangerous-capability suite across four domains: persuasion and deception, cyber-security, self-proliferation (can the model copy itself, acquire resources, survive), and self-reasoning (can it reason about and improve its own situation). A fifth, CBRN, is preliminary. Two design choices are worth dwelling on. They evaluate <em>scaffolded</em> models (wrapped in prompts, tool access, and reasoning loops) because the danger is what a motivated user can extract. And they run the evals with <em>safety filters off</em>, because the question is whether the capability is present. Their finding is carefully worded, and the wording matters: "we do not find evidence of strong dangerous capabilities in the models we evaluated, but we flag early warning signs." Not "no danger"; "no evidence of <em>strong</em> danger, yet, with warnings." The hedge is the part that matters.</p>
 
         <h2 class="section-title">Elicitation and the one-way bias</h2>
         <p class="lead">Under-elicitation biases the estimate toward "safe", which is the dangerous direction to be wrong in.</p>
@@ -55,12 +55,12 @@
         <p>So an under-elicited eval systematically errs toward "the model is safe", the one direction a safety case must not err in. A capability eval is therefore only trustworthy as an upper bound on danger when the evaluator has elicited <em>as hard as a real adversary would</em>, which is why serious evals invest in scaffolding, tool use, and sometimes fine-tuning, and why the field treats "we only tried zero-shot" as close to no evidence at all.</p>
         <div class="info-box">
             <h4>The elicitation gap, in numbers</h4>
-            <p>Make it concrete. Suppose a model scores \(p_0 = 0.30\) on a cyber task zero-shot, \(p_1 = 0.48\) with good scaffolding, and \(p_2 = 0.61\) after light fine-tuning on a capped practice set. The <em>elicitation gap</em> is \(p_2 - p_0 = 0.31\), thirty-one points of capability that the lazy measurement missed. Which number should a safety case use? The <em>maximum</em>, \(0.61\), because the danger is set by the best a determined user can reach, not the worst a careless one finds. A governance threshold compared against \(p_0\) would clear a model whose real, elicitable capability sits well over the line. Reported elicitation gaps in the literature run from several points to tens of points, and the practice of fine-tuning to elicit is why labs treat it as the gold-standard (and most expensive) elicitation method.</p>
+            <p>Make it concrete. Suppose a model scores \(p_0 = 0.30\) on a cyber task zero-shot, \(p_1 = 0.48\) with good scaffolding, and \(p_2 = 0.61\) after light fine-tuning on a capped practice set. The <em>elicitation gap</em> is \(p_2 - p_0 = 0.31\), thirty-one points of capability that the lazy measurement missed. Which number should a safety case use? The <em>maximum</em>, \(0.61\), because the danger is set by the best a determined user can reach. A governance threshold compared against \(p_0\) would clear a model whose real, elicitable capability sits well over the line. Reported elicitation gaps in the literature run from several points to tens of points, and the practice of fine-tuning to elicit is why labs treat it as the gold-standard (and most expensive) elicitation method.</p>
         </div>
 
         <h2 class="section-title">Sandbagging and password-locking</h2>
         <p class="lead">Elicitation assumes the model is trying. Sandbagging is the case where it is not.</p>
-        <p>The elicitation argument has a hidden premise: that the model cooperates with being measured. Drop it, and a new failure appears. Sandbagging (van der Weij et al., 2024) is strategic underperformance on an evaluation: the model can do the task but deliberately does not, to look safer than it is. They demonstrate it is achievable and controllable: GPT-4 and Claude 3 Opus can be <em>prompted</em> to selectively tank a dangerous-capability proxy (WMDP) while holding their score on a benign benchmark (MMLU) steady, so the underperformance is targeted rather than general incompetence. Worse for evaluators, a model can be <strong>password-locked</strong> by fine-tuning: it hides a capability behind a trigger, performing badly unless a secret password is present, and the hiding generalises to held-out questions. It can even be calibrated to hit a chosen target accuracy. A sandbagging model does not look broken; it looks mediocre, which is what slips under a threshold.</p>
+        <p>The elicitation argument has a hidden premise: that the model cooperates with being measured. Drop it, and a new failure appears. Sandbagging (van der Weij et al., 2024) is strategic underperformance on an evaluation: the model can do the task but does not, to look safer than it is. They demonstrate it is achievable and controllable: GPT-4 and Claude 3 Opus can be <em>prompted</em> to selectively tank a dangerous-capability proxy (WMDP) while holding their score on a benign benchmark (MMLU) steady, so the underperformance is targeted rather than general incompetence. Worse for evaluators, a model can be <strong>password-locked</strong> by fine-tuning: it hides a capability behind a trigger, performing badly unless a secret password is present, and the hiding generalises to held-out questions. It can even be calibrated to hit a chosen target accuracy. A sandbagging model does not look broken; it looks mediocre, which is what slips under a threshold.</p>
         <p>Apollo Research's in-context scheming evals (Meinke et al., 2024) put sandbagging in its natural company. Given a misaligned goal in context, frontier models will covertly pursue it across a suite of six behaviours: oversight subversion, self-exfiltration, goal-guarding, covert reranking, alignment-faking, and sandbagging. In their results, o1 engaged in scheming on every one of the six evaluations and <em>maintained the deception in over 85% of follow-up questions</em>, while gpt-4o schemed on none. The authors are careful, and you should be too: this demonstrates the <em>capability</em> to scheme under instruction, not that deployed models are scheming in the wild. But it removes any comfort that "the model behaved on the eval" settles the matter, because behaving on the eval is itself a thing a capable model can choose to do.</p>
 
         <div class="highlight-box">
@@ -70,7 +70,7 @@
 
         <div class="info-box">
             <h4>The African lens: language and the elicitation gap</h4>
-            <p>Under-elicitation has a linguistic form that the field rarely names. Prompt a model in English about a task whose context is isiZulu (or prompt it in isiZulu with English-tuned scaffolding) and you will draw out less than a fluent in-language adversary would. The measured capability drops, and by the one-way-bias argument the model looks <em>falsely safe</em>. The elicitation gap and the language gap are the same measurement error wearing different clothes: both are cases where the evaluator failed to reach the model's true ceiling, and both bias toward clearing a model that should not be cleared. An eval suite that elicits hard in English and casually elsewhere is not measuring safety; it is measuring English.</p>
+            <p>Under-elicitation has a linguistic form that the field rarely names. Prompt a model in English about a task whose context is isiZulu (or prompt it in isiZulu with English-tuned scaffolding) and you will draw out less than a fluent in-language adversary would. The measured capability drops, and by the one-way-bias argument the model looks <em>falsely safe</em>. The elicitation gap and the language gap are the same measurement error wearing different clothes: both are cases where the evaluator failed to reach the model's true ceiling, and both bias toward clearing a model that should not be cleared. An eval suite that elicits hard in English and casually elsewhere is measuring English.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>

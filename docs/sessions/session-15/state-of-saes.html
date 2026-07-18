@@ -26,7 +26,7 @@
   </details>
   <div class="tn-links">
     <a class="tn-prev" href="sparse-autoencoders.html">← <span class="tn-title">15.3 · Sparse autoencoders &amp; monosemanticity</span></a>
-    <a class="tn-next" href="../session-16/lab-steering-and-saes.html"><span class="tn-title">16.1 · Lab: steering &amp; SAE features</span> →</a>
+    <a class="tn-next" href="../session-16/lab-steering-and-saes.html"><span class="tn-title">16.1 · Lab: steering and interpreting SAE features</span> →</a>
   </div>
 </div>
 <!-- TOP-NAV-END -->
@@ -40,12 +40,12 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Session 15.3 ended on a deliberate tension: sparse autoencoders scale beautifully on <em>reconstruction</em>, but reconstruction was never the goal: the goal is useful features. This sub-session is the account the course's ethos demands. In 2024 SAEs looked like a breakthrough; in 2025 careful studies found that SAE-based probes do not reliably beat logistic regression on raw activations once you use a fair baseline, and a major lab publicly deprioritised fundamental SAE research. We work through <em>why</em> the earlier results looked better than they were (a weak-baseline illusion), and land on the non-nihilistic conclusion that SAEs remain a useful exploratory tool, and that the real lesson is methodological: measure against strong baselines.</p>
+            <p>Session 15.3 ended on a tension: sparse autoencoders scale beautifully on <em>reconstruction</em>, but reconstruction was never the goal: the goal is useful features. This sub-session gives that account. In 2024 SAEs looked like a breakthrough; in 2025 careful studies found that SAE-based probes do not reliably beat logistic regression on raw activations once you use a fair baseline, and a major lab publicly deprioritised fundamental SAE research. We work through <em>why</em> the earlier results looked better than they were (a weak-baseline illusion), and land on the non-nihilistic conclusion that SAEs remain a useful exploratory tool, and that the real lesson is methodological: measure against strong baselines.</p>
         </div>
 
         <h2 class="section-title">The downstream test</h2>
         <p class="lead">An SAE is worth the trouble only if its features do something a cheaper method cannot.</p>
-        <p>OpenAI's own framing (15.3) was that improving the reconstruction-versus-sparsity frontier "is not the ultimate objective." So the honest test is downstream: take a concrete task (probe an activation for a concept, steer a behaviour, find a capability) and ask whether SAE features beat the obvious baseline of working directly on the raw activations. The natural baseline is a <strong>linear probe</strong>: a logistic regression trained on the residual stream. If SAE features cannot beat that, the elaborate dictionary has bought interpretability stories but not measurable capability. The 2025 work ran this test, at scale, and the answer was sobering.</p>
+        <p>OpenAI's own framing (15.3) was that improving the reconstruction-versus-sparsity frontier "is not the ultimate objective." So the test is downstream: take a concrete task (probe an activation for a concept, steer a behaviour, find a capability) and ask whether SAE features beat the obvious baseline of working directly on the raw activations. The natural baseline is a <strong>linear probe</strong>: a logistic regression trained on the residual stream. If SAE features cannot beat that, the elaborate dictionary has bought interpretability stories but not measurable capability. The 2025 work ran this test, at scale, and the answer was sobering.</p>
 
         <h2 class="section-title">The 2025 reassessment</h2>
         <p class="lead">Across 113 probing tasks and four hard regimes, SAE probes did not beat logistic regression on raw activations.</p>
@@ -58,10 +58,10 @@
 
         <h2 class="section-title">Google DeepMind's negative results and deprioritisation</h2>
         <p class="lead">When a leading interpretability team publicly steps back from a method, that is data.</p>
-        <p>Google DeepMind's mechanistic-interpretability team reported negative results for SAEs on downstream tasks: on out-of-distribution harmful-intent probing, dense linear probes were near-perfect while SAE probes were "distinctly worse," and a probe trained on the SAE <em>reconstruction</em> was worse than one on the residual stream, implying SAEs discard task-relevant information. They announced they were deprioritising fundamental SAE research, calling SAEs "unlikely to be a magic bullet" while keeping them as a tool for exploratory work and dataset debugging. This pairing is what an honest session has to hold together: Anthropic's triumphant 2024 scaling narrative on one side, the 2025 negative downstream results on the other, both from serious teams.</p>
+        <p>Google DeepMind's mechanistic-interpretability team reported negative results for SAEs on downstream tasks: on out-of-distribution harmful-intent probing, dense linear probes were near-perfect while SAE probes were "distinctly worse," and a probe trained on the SAE <em>reconstruction</em> was worse than one on the residual stream, implying SAEs discard task-relevant information. They announced they were deprioritising fundamental SAE research, calling SAEs "unlikely to be a magic bullet" while keeping them as a tool for exploratory work and dataset debugging. This pairing is what this session holds together: Anthropic's triumphant 2024 scaling narrative on one side, the 2025 negative downstream results on the other, both from serious teams.</p>
         <div class="info-box">
             <h4>Three conclusions</h4>
-            <p>None of this says interpretability has failed, or even that SAEs are worthless. It says three things. SAEs are an <em>exploratory</em> tool: they surface candidate features and help debug datasets, which is real value. The reconstruction-sparsity scaling laws are sound but were measuring the wrong target. And the binding norm going forward is strong baselines: any "interpretability method X helps with safety task Y" claim must be tested against the best non-interpretability method, or it is not evidence. Session 16.3 broadens this from "do SAEs work?" to the harder question "does interpretability deliver safety <em>guarantees</em>?" The honest answer is, not yet.</p>
+            <p>None of this says interpretability has failed, or even that SAEs are worthless. It says three things. SAEs are an <em>exploratory</em> tool: they surface candidate features and help debug datasets, which is real value. The reconstruction-sparsity scaling laws are sound but were measuring the wrong target. And the binding norm going forward is strong baselines: any "interpretability method X helps with safety task Y" claim must be tested against the best non-interpretability method, or it is not evidence. Session 16.3 broadens this from "do SAEs work?" to the harder question "does interpretability deliver safety <em>guarantees</em>?" The answer is not yet.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
@@ -84,7 +84,7 @@
 
         <div class="intro-text" style="margin-top:50px;">
             <h2>Next</h2>
-            <p>Session 16 puts the techniques to work: a lab building a steering vector and interpreting SAE features, then the honest accounting of what interpretability buys for safety, where it fails, and the (thin but real) sovereignty angle.</p>
+            <p>Session 16 puts the techniques to work: a lab building a steering vector and interpreting SAE features, then the accounting of what interpretability buys for safety, where it fails, and the (thin but real) sovereignty angle.</p>
         </div>
 
     </div>
@@ -92,7 +92,7 @@
 <nav class="page-nav">
   <a class="prev" href="sparse-autoencoders.html"><span class="nav-label">← Previous</span><span class="nav-title">15.3 · Sparse autoencoders &amp; monosemanticity</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
-  <a class="next" href="../session-16/lab-steering-and-saes.html"><span class="nav-label">Next →</span><span class="nav-title">16.1 · Lab: steering &amp; SAE features</span></a>
+  <a class="next" href="../session-16/lab-steering-and-saes.html"><span class="nav-label">Next →</span><span class="nav-title">16.1 · Lab: steering and interpreting SAE features</span></a>
 </nav>
 <!-- PAGE-NAV-END -->
 </div>

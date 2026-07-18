@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 5.4 — Lab: From Base Model to Assistant (nanochat)</title>
+    <title>Session 5.4 — Lab: from base model to assistant (nanochat)</title>
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -18,7 +18,7 @@
   <details class="tn-menu">
     <summary>Session 5</summary>
     <ul>
-      <li><a href="pretraining.html">5.1 · Pretraining: predicting the next token</a></li>
+      <li><a href="pretraining.html">5.1 · Pretraining: learning to predict the next token</a></li>
       <li><a href="supervised-fine-tuning.html">5.2 · From predictor to instruction-follower (SFT)</a></li>
       <li><a href="post-training-stack.html">5.3 · The post-training stack</a></li>
       <li><span class="tn-current">5.4 · Lab: from base model to assistant (nanochat)</span></li>
@@ -33,7 +33,7 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 3 • Session 5.4</div>
-        <h1>Lab — from base model to assistant</h1>
+        <h1>Lab: from base model to assistant (nanochat)</h1>
         <p>Read the real training pipeline in nanochat, then see (and make) the base → instruct difference yourself</p>
     </header>
     <div class="content">
@@ -53,7 +53,7 @@
         <h2 class="section-title">① Read the pipeline: nanochat</h2>
         <div class="technical-detail">
             <h4>The whole stack in one readable repo</h4>
-            <p style="color:#555;">Andrej Karpathy's nanochat (<a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">github.com/karpathy/nanochat</a>, MIT-licensed) is a deliberately minimal, end-to-end ChatGPT-style pipeline (tokenisation → pretraining → supervised fine-tuning → evaluation → inference → a web chat UI) designed to be read in full. You will not run the whole thing (it targets a multi-GPU node), but you should <em>read</em> it:</p>
+            <p style="color:#555;">Andrej Karpathy's nanochat (<a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">github.com/karpathy/nanochat</a>, MIT-licensed) is a minimal, end-to-end ChatGPT-style pipeline (tokenisation → pretraining → supervised fine-tuning → evaluation → inference → a web chat UI) designed to be read in full. You will not run the whole thing (it targets a multi-GPU node), but you should <em>read</em> it:</p>
             <ul class="styled-list">
                 <li>Find the pretraining stage: locate the next-token cross-entropy loss (5.1) in the training loop.</li>
                 <li>Find the SFT stage: see how it switches to (prompt, response) data and masks the loss to the response tokens (5.2).</li>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 10.1 — Machine unlearning: what "forget" means</title>
+    <title>Session 10.1 — Machine unlearning</title>
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -26,7 +26,7 @@
     </ul>
   </details>
   <div class="tn-links">
-    <a class="tn-prev" href="../session-09/injection-poisoning-defences.html">← <span class="tn-title">9.5 · Injection, poisoning &amp; defences</span></a>
+    <a class="tn-prev" href="../session-09/injection-poisoning-defences.html">← <span class="tn-title">9.5 · Indirect injection, poisoning, and the state of defences</span></a>
     <a class="tn-next" href="the-control-paradigm.html"><span class="tn-title">10.2 · The control paradigm</span> →</a>
   </div>
 </div>
@@ -34,7 +34,7 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 5 • Session 10.1</div>
-        <h1>Machine unlearning: what "forget" means</h1>
+        <h1>Machine unlearning</h1>
         <p>Removing a capability after training: the exact-versus-approximate distinction, why naïve forgetting fails, and how to measure success</p>
     </header>
     <div class="content">
@@ -69,7 +69,7 @@
             <h4>Eldan &amp; Russinovich's generic-label construction</h4>
             <p style="color:#555;">"Who's Harry Potter?" (2023) unlearns the Harry Potter books from Llama-2-7B in about a GPU-hour, and the trick is to construct a sensible <em>target</em> to train toward rather than pushing the old answer down. They first fine-tune a <em>reinforced</em> model that knows the books even better, then compare its token logits to the baseline's. Where the reinforced model is much more confident than the baseline, that confidence is HP-specific knowledge to be removed. They build generic targets by subtracting it off:</p>
             <div class="formula">\[ v_{\text{generic}} = v_{\text{base}} - \alpha \,\operatorname{ReLU}\!\big(v_{\text{reinforced}} - v_{\text{base}}\big), \]</div>
-            <p style="color:#555;">with \(\alpha \approx 5\). The \(\operatorname{ReLU}\) keeps only the directions where book-knowledge <em>raised</em> a token's logit, and subtracts those, leaving what a model ignorant of the books would have predicted. Fine-tune toward \(v_{\text{generic}}\) (plus replacing anchored terms like character names) and the model answers "Harry Potter went to" with a generic continuation while keeping ARC, HellaSwag, and the rest of its abilities essentially unchanged. The authors are honest about the limits: "Hogwarts" still leaks occasionally, and the method leans on the books being <em>fiction</em>; non-fiction and textbook knowledge, which is woven through far more of the model, is much harder to excise.</p>
+            <p style="color:#555;">with \(\alpha \approx 5\). The \(\operatorname{ReLU}\) keeps only the directions where book-knowledge <em>raised</em> a token's logit, and subtracts those, leaving what a model ignorant of the books would have predicted. Fine-tune toward \(v_{\text{generic}}\) (plus replacing anchored terms like character names) and the model answers "Harry Potter went to" with a generic continuation while keeping ARC, HellaSwag, and the rest of its abilities essentially unchanged. The authors state the limits: "Hogwarts" still leaks occasionally, and the method leans on the books being <em>fiction</em>; non-fiction and textbook knowledge, which is woven through far more of the model, is much harder to excise.</p>
         </div>
 
         <h2 class="section-title">Evaluating unlearning: the TOFU benchmark</h2>
@@ -117,7 +117,7 @@
     </div>
 <!-- PAGE-NAV-START -->
 <nav class="page-nav">
-  <a class="prev" href="../session-09/injection-poisoning-defences.html"><span class="nav-label">← Previous</span><span class="nav-title">9.5 · Injection, poisoning &amp; defences</span></a>
+  <a class="prev" href="../session-09/injection-poisoning-defences.html"><span class="nav-label">← Previous</span><span class="nav-title">9.5 · Indirect injection, poisoning, and the state of defences</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
   <a class="next" href="the-control-paradigm.html"><span class="nav-label">Next →</span><span class="nav-title">10.2 · The control paradigm</span></a>
 </nav>

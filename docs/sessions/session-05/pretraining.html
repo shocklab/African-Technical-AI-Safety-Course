@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 5.1 — Pretraining: Learning to Predict the Next Token</title>
+    <title>Session 5.1 — Pretraining: learning to predict the next token</title>
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -18,7 +18,7 @@
   <details class="tn-menu">
     <summary>Session 5</summary>
     <ul>
-      <li><span class="tn-current">5.1 · Pretraining: predicting the next token</span></li>
+      <li><span class="tn-current">5.1 · Pretraining: learning to predict the next token</span></li>
       <li><a href="supervised-fine-tuning.html">5.2 · From predictor to instruction-follower (SFT)</a></li>
       <li><a href="post-training-stack.html">5.3 · The post-training stack</a></li>
       <li><a href="lab-nanochat.html">5.4 · Lab: from base model to assistant (nanochat)</a></li>
@@ -63,7 +63,7 @@
         <p class="lead">The output of a pretraining run is a base model (or "foundation model"): a powerful next-token predictor, and nothing more specific than that.</p>
         <p>A base model is, by construction, a model of the <em>training distribution</em>. Prompt it and it continues the text in the most plausible way given what it has read. That makes it astonishingly capable and, simultaneously, not what most users want:</p>
         <div class="card-grid">
-            <div class="card"><h3>It completes text</h3><p>Ask a base model "What is the capital of France?" and it might continue with a list of more quiz questions, because on the web, that string is often followed by more questions, not an answer. It imitates plausible text; it has no notion of "doing what the user asked".</p></div>
+            <div class="card"><h3>It completes text</h3><p>Ask a base model "What is the capital of France?" and it might continue with a list of more quiz questions, because on the web, that string is often followed by more questions. It imitates plausible text; it has no notion of "doing what the user asked".</p></div>
             <div class="card"><h3>It learns in context</h3><p>Brown et al. (2020) showed GPT-3 (175B) can perform tasks <em>few-shot</em>, given a handful of examples in the prompt, with <em>no</em> gradient updates. The ability to pick up a pattern from the prompt is itself a learned product of pretraining ("in-context learning").</p></div>
             <div class="card"><h3>It contains multitudes</h3><p>Having modelled the whole web, a base model can imitate the helpful expert <em>and</em> the scammer, the careful reasoner <em>and</em> the conspiracy theorist. It has no fixed persona, only a distribution over all the voices in its data.</p></div>
         </div>
@@ -74,7 +74,7 @@
 
         <h2 class="section-title">Scale and the "bitter lesson"</h2>
         <p class="lead">Why are base models so big? Because, empirically, scale works, and it works predictably (Session 2.3).</p>
-        <p>The trajectory is stark: GPT-2 (Radford et al., 2019) was a 1.5-billion-parameter model trained on ~40 GB of web text; a year later GPT-3 (Brown et al., 2020) was 175 billion parameters, and the qualitative leap in capability came largely from scale, not a new idea. GPT-2's own paper already noted that zero-shot performance improved "in a log-linear fashion" with model capacity, the scaling-law story you met in 2.3. Richard Sutton's "Bitter Lesson" (2019) names the pattern bluntly: across seventy years of AI, <em>general methods that use more computation tend to win</em> over cleverly hand-engineered ones. Pretraining is that lesson incarnate: a simple objective, applied at enormous scale.</p>
+        <p>The trajectory is stark: GPT-2 (Radford et al., 2019) was a 1.5-billion-parameter model trained on ~40 GB of web text; a year later GPT-3 (Brown et al., 2020) was 175 billion parameters, and the qualitative leap in capability came largely from scale. GPT-2's own paper already noted that zero-shot performance improved "in a log-linear fashion" with model capacity, the scaling-law story you met in 2.3. Richard Sutton's "Bitter Lesson" (2019) names the pattern bluntly: across seventy years of AI, <em>general methods that use more computation tend to win</em> over cleverly hand-engineered ones. Pretraining is that lesson incarnate: a simple objective, applied at enormous scale.</p>
         <div class="warning-box">
             <h4>The safety consequences of scale</h4>
             <p>Two consequences follow directly. First, capabilities (including <em>dangerous</em> ones) arrive as a by-product of scaling an objective that knows nothing of safety; they are present in the base model before anyone decides whether to expose them. Second, because the base model has modelled the whole internet, the safety-relevant question shifts from "can it do X?" (often yes, latently) to "can the thin alignment layer reliably <em>suppress</em> X across all the conditions of deployment?", which, as the isiZulu jailbreak (Session 1.4) showed, it frequently cannot.</p>

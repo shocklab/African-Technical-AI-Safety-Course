@@ -91,7 +91,7 @@ Budget against the whole corpus, and measure it:
 |---|---|---|
 | em-dashes | 13.0 / 1k words | **zero** — a comma, colon, semicolon, full stop or parentheses always serves |
 | `<strong>` | 12.9 / 1k words | **≤ 3 / 1k** — bold only to introduce a technical term on first use, **never for emphasis** |
-| "X, not Y" contrasts | 2.0 / 1k | **≤ 0.5 / 1k** |
+| "X, not Y" contrasts | 2.2 / 1k | **delete-test floor** — measured 1.5/1k after the 2026-07-18 triage; see below |
 | inline-header list items (`<li><strong>Label.</strong> …`) | 462 | convert to prose where the label adds nothing |
 
 **Why zero, and not "a few".** Jonathan's voice profile has always said no em-dashes, in any register
@@ -141,12 +141,45 @@ Real examples, all to be cut:
 **Rule:** state the claim; delete the label. Also in this family: **pedagogical meta-commentary** ("we
 teach this as…", "hold that thought", "in one sentence", "notice that"). Cut the frame, keep the content.
 
-## 3. Contrastive reframes
+## 3. Contrastive reframes, including the "X, not Y" apposition
 
 "not just X but Y", "not merely X", "it's not X, it's Y", "X isn't Y; it's Z". Rewrite as a direct
 statement, or just say what it is.
 
-## 4. Intensifier filler — cut unless literal
+The commonest form is the bare apposition: "a stage, not a destination", "engagement, not tokenism".
+Census 2026-07-18: **244 instances (2.2/1k words)** — a reader meets one every ~450 words, which is
+the rhythmic signature Ben felt without naming. Apply the **delete-test** (ruling, 2026-07-18):
+delete ", not Y" and see whether the claim survives. "In a week, not a month" dies with the deletion
+(the contrast is the content) — keep it. "A stage, not a destination" survives (the contrast was
+decoration) — rewrite to state the claim directly. Triage, never purge; the budget is the §1 row.
+
+**Why the floor is ~1.5/1k here, not the ≤0.5 first guessed.** The 2026-07-18 sweep triaged all 244
+instances; 74 died as decoration and 170 survived the delete-test, because this course's content IS
+distinctions: "suppressed, not removed" (the unlearning finding), "a probability against a specified
+attack, not a property of the model" (the control paradigm), "learn from preferences, not
+demonstrations" (RLHF's premise). A safety course argues by contrast, so its legitimate density sits
+above generic prose. The number to watch is decorative survivors, not the total: if a new page pushes
+the corpus above ~1.5/1k, delete-test the additions.
+
+## 4. The course narrating itself
+
+The pattern behind Ben's 2026-07-17 feedback: the course keeps talking about itself — narrating its
+own design, labelling its own virtues — instead of teaching. It reads as AI because it is the
+drafting model explaining its outline, and it leaves the reader unsure which choices were the
+author's ("undermines my trust"). Three surfaces, censused 2026-07-18:
+
+- **Course-as-agent with intent or virtue** (88 hits): "the course moved deliberately from…", "the
+  course spent weeks on…", "the kind of manufactured angle this course refuses". Delete the
+  meta-commentary or state the content directly ("Weeks 2–8 covered…"). Plain navigation ("this
+  session covers X") is fine in moderation; the tell is intent and self-praise, not signposting.
+  A synthesis page (S24) legitimately takes the course as its subject — there the cut is the virtue
+  language, not the reference.
+- **Intentionality and virtue adverbs**: "deliberately" almost always goes; "honest/honestly" per §6.
+- **Framing arrows** (~10 of 51 arrows): "Idealised → empirical" as conceptual scaffolding. Write
+  the words ("from idealised models to empirical practice"). **Keep pipeline arrows** — "Tokens →
+  embeddings", "thresholds → evals → mitigations" are notation, not rhetoric.
+
+## 5. Intensifier filler — cut unless literal
 
 | word | keep only when… |
 |---|---|
@@ -157,22 +190,28 @@ statement, or just say what it is.
 | worth (…ing) | rarely; "worth teaching" is meta — cut |
 | truly, really, simply, just, actually | delete |
 
-## 5. "honest" / "honestly" — the ethos word, overused
+## 6. "honest" / "honestly" — the ethos word, overused
 
-Keep where it names the course's epistemic stance as a concept ("the honest limits of
-interpretability", the honesty box). Cut the reflexive adverb ("it is honestly a modest one") and the
-filler adjective. Do not use it in headings (§0).
+Ruling (2026-07-18): protect **"intellectual honesty"** — a named through-line and a grading
+criterion — and honesty as subject matter (model honesty, "why 'be honest' resists SFT"). Kill the
+**adjective-badge**: "an honest safety project" → "a safety project"; "the honest position is X" →
+state X and let it stand. Cut the reflexive adverb ("it is honestly a modest one"). Not in headings
+(§0). The 2026-06 sweep de-honested headings only; the prose carried 180+ residual lexicon hits.
 
-## 6. Essayist tics — replace with plain words
+## 7. Essayist tics — replace with plain words
 
 `lands` (figurative), `rhymes with`, `cash out`, `earn(s) its keep`, `the spine / spine of`, `the
 wedge`, `the through-line`, `tee up`, `reckoning` → "account", `the uncomfortable X`, `a clean X` /
 "clean demonstration", `vivid`, `hold that / hold onto`, `in one sentence / in one line`.
 
+Boundary (per the §0 angle lesson): **"through-line" is also course architecture** — 1.1 names four
+through-lines and Session 24 revisits them under that name. Keep those structural references; cut the
+word as casual filler elsewhere. "Spine" has no such status (Ben quoted it as a tell); always cut.
+
 Also (from the borrowed lists, and real here): **copula avoidance** — "serves as", "features",
 "boasts", "presents" where "is" or "has" would do.
 
-## 7. The global canon still applies
+## 8. The global canon still applies
 
 Everything in `~/.claude/writing-tells.md`: delve, leverage, harness, underscore, bolster, foster,
 robust (figurative), comprehensive, seamless, intricate, nuanced, multifaceted, holistic, pivotal,
@@ -181,10 +220,11 @@ groundbreaking, transformative, testament, realm / landscape (figurative); conne
 participle fake-depth ("highlighting its importance"); significance adverbs (crucially, notably,
 importantly); rule-of-three padding; sentence-case headings; no decorative emoji.
 
-## 8. Keep — legitimate terms that look like tells
+## 9. Keep — legitimate terms that look like tells
 
 - **robustness / robust** — the field's name for the Session 9 subject. Keep as the technical term.
-- **honest / honesty** — as the course's named stance, sparingly, and not in headings.
+- **honest / honesty** — as **intellectual honesty**, the named through-line, and as subject matter
+  (model honesty); never as an adjective-badge (§6).
 - **by construction** — legitimate maths phrasing where literally true.
 - **necessary but not sufficient** — standard logic phrase.
 - **superposition, circuit, feature, induction head, residual stream, …** — technical vocabulary;
@@ -192,7 +232,7 @@ importantly); rule-of-three padding; sentence-case headings; no decorative emoji
 - **"drops sharply"** and other literal uses of `sharp`.
 - Dash-*labels* in headings (§0), and paper titles quoted verbatim.
 
-## 9. How to apply it
+## 10. How to apply it
 
 Surgical edits: change the flagged word or phrase, not the surrounding sentence. Never touch text
 inside HTML tags, inside MathJax (`\(…\)`, `\[…\]`), or inside code. Preserve every citation, number,

@@ -31,7 +31,7 @@
 
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">Part V — the research project</span></h3>
-            <p>The taught core is behind you. The final third of the course is a single piece of work: a small, honest safety project, written up as a short paper with code and presented to the class. It is worth 40% of the mark, and it is where the reading, the labs and the seminars turn into something of your own. This session is about choosing well, because a project that is scoped right is most of the battle.</p>
+            <p>The taught core is behind you. The final third of the course is a single piece of work: a small safety project, written up as a short paper with code and presented to the class. It is worth 40% of the mark, and it is where the reading, the labs and the seminars turn into something of your own. This session is about choosing well, because a project that is scoped right is most of the battle.</p>
         </div>
 
         <div class="intro-text">
@@ -41,7 +41,7 @@
 
         <h2 class="section-title">A good project at this scale</h2>
         <p class="lead">Three weeks, free Colab, a team of two or three. That budget rules out most ambitious ideas, and ruling them out early is the skill.</p>
-        <p>A good project here has four properties. It is tractable: you can get a first result in a week, not a month, on hardware you actually have. It is falsifiable: there is a specific claim, and a specific measurement that could come out against you. It is honestly scoped: the question you write in the abstract is the question your experiment answers, with no quiet widening in between. And it is yours: a replication you understand and extend beats an ambitious idea you cannot execute.</p>
+        <p>A good project here has four properties. It is tractable: you can get a first result in a week, not a month, on hardware you actually have. It is falsifiable: there is a specific claim, and a specific measurement that could come out against you. It is tightly scoped: the question you write in the abstract is the question your experiment answers, with no quiet widening in between. And it is yours: a replication you understand and extend beats an ambitious idea you cannot execute.</p>
         <p>The reading checklist from Session 1.4 was built for judging other people's work. Turn it on your own proposal before you start. What exactly are you claiming? What is the evaluation, and is it narrower than the claim? Whose data, whose language, whose model? What result would tell you that you were wrong? A proposal that cannot answer the last question is not yet a project; it is a topic.</p>
         <div class="warning-box">
             <h4>The project that cannot fail</h4>
@@ -57,7 +57,7 @@
                 <tbody>
                     <tr><td><strong>Abstract</strong></td><td>One specific claim, the evidence for it in a sentence, and the limitation in a sentence. If a reader cannot tell from the abstract what you found and what you did <em>not</em> show, it is not done.</td></tr>
                     <tr><td><strong>Method</strong></td><td>Enough that a classmate could reproduce it: model, data, the exact intervention, the metric, the number of seeds. Reproducibility is graded here.</td></tr>
-                    <tr><td><strong>Experiments</strong></td><td>A result with error bars, not a single run. A clear figure or table. A baseline to compare against (the Session 15.4 lesson: an interpretability result that a simple baseline matches is not yet a result).</td></tr>
+                    <tr><td><strong>Experiments</strong></td><td>A result with error bars. A clear figure or table. A baseline to compare against (the Session 15.4 lesson: an interpretability result that a simple baseline matches is not yet a result).</td></tr>
                     <tr><td><strong>Limitations</strong></td><td>The part that most separates strong from weak projects. What would falsify your claim, what your eval does not cover, where the result might not transfer. Honesty here gains marks; it does not lose them.</td></tr>
                     <tr><td><strong>Creativity</strong></td><td>A question worth asking, or a familiar method turned on a new target. Replication-plus-a-twist counts; the twist is the creative part.</td></tr>
                     <tr><td><strong>Positioning &amp; context</strong></td><td>Where your project sits relative to the work it builds on, and the one-paragraph context statement (below).</td></tr>
@@ -95,7 +95,7 @@
             <h4>Mechanistic interpretability (extends Sessions 13–16)</h4>
             <ul class="styled-list">
                 <li>Replicate and extend a circuit finding. Reproduce induction-head behaviour (<a href="session-14/lab-induction-heads.html">14</a>) or a slice of the IOI circuit in GPT-2-small, then test whether it holds on a second prompt distribution. <em>Baseline matters:</em> show your patch changes the output for the reason you claim.</li>
-                <li>Probe or steer an SAE feature. Using the <a href="session-16/lab-steering-and-saes.html">16.1 lab</a>, find a feature, steer on it, and check honestly whether an SAE-feature probe beats a logistic-regression baseline (the <a href="session-15/state-of-saes.html">15.4</a> test). The <a href="session-16/sovereignty-and-african-angle.html">16.4 project brief</a> sketches an auditing-game version.</li>
+                <li>Probe or steer an SAE feature. Using the <a href="session-16/lab-steering-and-saes.html">16.1 lab</a>, find a feature, steer on it, and check whether an SAE-feature probe beats a logistic-regression baseline (the <a href="session-15/state-of-saes.html">15.4</a> test). The <a href="session-16/sovereignty-and-african-angle.html">16.4 project brief</a> sketches an auditing-game version.</li>
             </ul>
         </div>
         <div class="info-box">
@@ -114,8 +114,8 @@
         </div>
 
         <h2 class="section-title">Scoping it down</h2>
-        <p class="lead">Almost every first proposal is too big. Cutting it is not a retreat; it is what makes a result possible.</p>
-        <p>If your proposal needs a model you cannot run, a dataset you do not have, or a result that depends on three things working at once, cut until one thing has to work. A useful test: can you describe the single figure your paper will contain? If you can, the project is scoped. If the answer is "it depends what we find", keep cutting. A finished small result beats an unfinished large one on every line of the rubric, and the limitations section is where the ambitions you cut go to live honestly.</p>
+        <p class="lead">Almost every first proposal is too big. Cutting it is what makes a result possible.</p>
+        <p>If your proposal needs a model you cannot run, a dataset you do not have, or a result that depends on three things working at once, cut until one thing has to work. A useful test: can you describe the single figure your paper will contain? If you can, the project is scoped. If the answer is "it depends what we find", keep cutting. A finished small result beats an unfinished large one on every line of the rubric, and the limitations section is where the ambitions you cut go to live.</p>
 
         <h2 class="section-title">Reproducibility and reporting</h2>
         <p class="lead">The course has asked you all term to distrust a confident result until it is checked. Your own project is held to the same standard.</p>
@@ -128,7 +128,7 @@
 
         <div class="case-study">
             <h4>The one-paragraph context statement</h4>
-            <p>Every project carries a short statement: who does this help, whose risk does it address, and how (if at all) does it apply in an African context? This is graded on thought, not on gesture. "Not applicable, because this is a general interpretability result with no language- or region-specific dimension" is a full-credit answer for a pure-theory project. What loses marks is ignoring the question, or bolting on an African angle that the work does not actually have. Several tracks above carry a real one; a theory project may carry none, and saying so plainly is the honest move the course has practised all term.</p>
+            <p>Every project carries a short statement: who does this help, whose risk does it address, and how (if at all) does it apply in an African context? This is graded on thought. "Not applicable, because this is a general interpretability result with no language- or region-specific dimension" is a full-credit answer for a pure-theory project. What loses marks is ignoring the question, or bolting on an African angle that the work does not actually have. Several tracks above carry a real one; a theory project may carry none, and saying so plainly is the move the course has practised all term.</p>
         </div>
 
         <h2 class="section-title">Forming a team and writing the proposal</h2>
@@ -139,7 +139,7 @@
             <li>State your project as a single falsifiable claim. What measurement would come out against you?</li>
             <li>What is the one figure your paper will contain? If you cannot name it, where would you cut?</li>
             <li>What is the simplest baseline that could explain the effect you expect, and how will you rule it out?</li>
-            <li>Does your project have an African-context dimension, or is the honest answer "not applicable"? Defend whichever you choose.</li>
+            <li>Does your project have an African-context dimension, or is the answer "not applicable"? Defend whichever you choose.</li>
         </ul>
 
         <h2 class="section-title">Readings</h2>

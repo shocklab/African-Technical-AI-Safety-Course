@@ -19,15 +19,15 @@
     <summary>Session 11</summary>
     <ul>
       <li><span class="tn-current">11.1 · Why evaluate: the eval taxonomy</span></li>
-      <li><a href="dangerous-capability-evals.html">11.2 · Dangerous-capability evals</a></li>
+      <li><a href="dangerous-capability-evals.html">11.2 · Dangerous-capability evals: elicitation and sandbagging</a></li>
       <li><a href="construct-validity.html">11.3 · Does the eval measure what it claims?</a></li>
       <li><a href="statistics-of-evals.html">11.4 · The statistics of evals</a></li>
-      <li><a href="lab-isizulu-eval.html">11.5 · Lab: a refusal eval on open isiZulu data</a></li>
+      <li><a href="lab-isizulu-eval.html">11.5 · Lab: build a refusal eval on open isiZulu data</a></li>
     </ul>
   </details>
   <div class="tn-links">
     <a class="tn-prev" href="../session-10/lab-trusted-monitor.html">← <span class="tn-title">10.5 · Lab: build a trusted monitor</span></a>
-    <a class="tn-next" href="dangerous-capability-evals.html"><span class="tn-title">11.2 · Dangerous-capability evals</span> →</a>
+    <a class="tn-next" href="dangerous-capability-evals.html"><span class="tn-title">11.2 · Dangerous-capability evals: elicitation and sandbagging</span> →</a>
   </div>
 </div>
 <!-- TOP-NAV-END -->
@@ -46,7 +46,7 @@
 
         <h2 class="section-title">Evaluation as the basis of safety claims</h2>
         <p class="lead">Every governance proposal and every safety case rests on a measurement someone trusts.</p>
-        <p>Recall where the course is heading. Session 12 will describe frontier-safety frameworks whose whole structure is "if a model crosses a capability threshold on a specified evaluation, then a set of mitigations becomes mandatory." That if–then is only as good as the eval in the "if." A responsible scaling policy that triggers on a bad measurement either cries wolf or, worse, certifies a dangerous model as safe. So evaluation is not a side activity; it is the instrument the entire governance edifice reads off. Shevlane et al. (2023), in the paper that organised the field, put the status plainly: model evaluation is <em>necessary but not sufficient</em> for safety. Necessary, because you cannot govern what you cannot measure; insufficient, because a measurement can be incomplete, gamed, or simply invalid, in ways the next three sub-sessions dissect.</p>
+        <p>Session 12 will describe frontier-safety frameworks whose whole structure is "if a model crosses a capability threshold on a specified evaluation, then a set of mitigations becomes mandatory." That if–then is only as good as the eval in the "if." A responsible scaling policy that triggers on a bad measurement either cries wolf or, worse, certifies a dangerous model as safe. So evaluation is the instrument the entire governance edifice reads off. Shevlane et al. (2023), in the paper that organised the field, put the status plainly: model evaluation is <em>necessary but not sufficient</em> for safety. Necessary, because you cannot govern what you cannot measure; insufficient, because a measurement can be incomplete, gamed, or simply invalid, in ways the next three sub-sessions dissect.</p>
 
         <h2 class="section-title">Capability versus propensity</h2>
         <p class="lead">Two different questions, needing two different kinds of eval.</p>
@@ -57,7 +57,7 @@
                 <li><strong>Dangerous-capability evaluation:</strong> does the model <em>have</em> a capability that could cause extreme harm? Can it find a software exploit, design a toxin, autonomously acquire resources? This asks about the ceiling of what the model can do if it tries.</li>
                 <li><strong>Alignment (propensity) evaluation:</strong> setting aside what it <em>can</em> do, does it have the <em>propensity</em> to apply a capability for harm? Would it, in deployment, actually pursue a misaligned goal or resist correction?</li>
             </ul>
-            <p style="color:#555;">The two come apart in both dangerous directions. A model can be capable but well-behaved (high capability, low harmful propensity), which is the hoped-for case. Or it can be capable and willing, which is the feared case. And (the subtle one this session keeps returning to) a model can <em>appear</em> incapable or harmless on the eval while being neither, because it was poorly elicited or because it strategically underperformed. Capability evals try to establish an upper bound on danger; propensity evals try to establish what the model is inclined to do with that capability.</p>
+            <p style="color:#555;">The two come apart in both dangerous directions. A model can be capable but well-behaved (high capability, low harmful propensity), which is the hoped-for case. Or it can be capable and willing, which is the feared case. There is also a subtler case: a model can <em>appear</em> incapable or harmless on the eval while being neither, because it was poorly elicited or because it strategically underperformed. Capability evals try to establish an upper bound on danger; propensity evals try to establish what the model is inclined to do with that capability.</p>
         </div>
 
         <h2 class="section-title">The taxonomy</h2>
@@ -78,7 +78,7 @@
 
         <h2 class="section-title">Evaluators and the theory of change</h2>
         <p class="lead">Know the ecosystem by name, and where the eval result is supposed to go.</p>
-        <p>A handful of organisations define the practice, and they map onto the taxonomy. METR and the UK AI Safety/Security Institute focus on capability and agentic evals (METR's autonomy task suites; the Institute's open-source <em>Inspect</em> framework, now a de-facto standard). Apollo Research specialises in propensity and white-box deception evals. The labs run their own: Anthropic's Responsible Scaling Policy and Google DeepMind's Frontier Safety Framework both gate decisions on capability thresholds. The intended path is a chain: an eval produces a measurement, the measurement feeds a risk assessment, the risk assessment triggers a governance action. That chain, eval to threshold to mitigation, is the subject of Session 12, so here we state it and hand it over. S11's job is the first link only: making the measurement trustworthy.</p>
+        <p>A handful of organisations define the practice, and they map onto the taxonomy. METR and the UK AI Safety/Security Institute focus on capability and agentic evals (METR's autonomy task suites; the Institute's open-source <em>Inspect</em> framework, now a de-facto standard). Apollo Research specialises in propensity and white-box deception evals. The labs run their own: Anthropic's Responsible Scaling Policy and Google DeepMind's Frontier Safety Framework both gate decisions on capability thresholds. The intended path is a chain: an eval produces a measurement, the measurement feeds a risk assessment, the risk assessment triggers a governance action. That chain, eval to threshold to mitigation, is the subject of Session 12, so here we state it and hand it over. This session covers the first link only: making the measurement trustworthy.</p>
 
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">The distribution an eval samples</span></h3>
@@ -113,7 +113,7 @@
 <nav class="page-nav">
   <a class="prev" href="../session-10/lab-trusted-monitor.html"><span class="nav-label">← Previous</span><span class="nav-title">10.5 · Lab: build a trusted monitor</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
-  <a class="next" href="dangerous-capability-evals.html"><span class="nav-label">Next →</span><span class="nav-title">11.2 · Dangerous-capability evals</span></a>
+  <a class="next" href="dangerous-capability-evals.html"><span class="nav-label">Next →</span><span class="nav-title">11.2 · Dangerous-capability evals: elicitation and sandbagging</span></a>
 </nav>
 <!-- PAGE-NAV-END -->
 </div>

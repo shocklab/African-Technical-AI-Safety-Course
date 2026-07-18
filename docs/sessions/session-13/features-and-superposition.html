@@ -19,14 +19,14 @@
     <summary>Session 13</summary>
     <ul>
       <li><a href="why-interpretability.html">13.1 · Why open the black box?</a></li>
-      <li><span class="tn-current">13.2 · Features &amp; superposition</span></li>
-      <li><a href="circuits-qk-ov.html">13.3 · The circuits paradigm: QK &amp; OV</a></li>
-      <li><a href="induction-heads.html">13.4 · Induction heads &amp; in-context learning</a></li>
+      <li><span class="tn-current">13.2 · Features, directions, and superposition</span></li>
+      <li><a href="circuits-qk-ov.html">13.3 · The circuits paradigm: QK and OV</a></li>
+      <li><a href="induction-heads.html">13.4 · Induction heads and in-context learning</a></li>
     </ul>
   </details>
   <div class="tn-links">
     <a class="tn-prev" href="why-interpretability.html">← <span class="tn-title">13.1 · Why open the black box?</span></a>
-    <a class="tn-next" href="circuits-qk-ov.html"><span class="tn-title">13.3 · The circuits paradigm: QK &amp; OV</span> →</a>
+    <a class="tn-next" href="circuits-qk-ov.html"><span class="tn-title">13.3 · The circuits paradigm: QK and OV</span> →</a>
   </div>
 </div>
 <!-- TOP-NAV-END -->
@@ -66,7 +66,7 @@
 
         <h2 class="section-title">Sparsity is the driver</h2>
         <p class="lead">Superposition pays off when features are rare, because then the interference rarely bites.</p>
-        <p>Two features placed on overlapping directions interfere only when they are <em>both active at once</em>. If features are <strong>sparse</strong> (each fires only occasionally, and so two given features rarely co-occur), then the interference term is usually absent, and on the rare collision the nonlinearity can clean up small spurious activations. So a sparse world rewards packing many features in superposition; a dense world (features usually on) punishes it, and the model is better off representing only its \(n\) most important features orthogonally. Real features are extremely sparse (most concepts are absent from most inputs), which is why superposition is the rule, not the exception, in real models. The way to see the trade-off flip is to solve the smallest case exactly.</p>
+        <p>Two features placed on overlapping directions interfere only when they are <em>both active at once</em>. If features are <strong>sparse</strong> (each fires only occasionally, and so two given features rarely co-occur), then the interference term is usually absent, and on the rare collision the nonlinearity can clean up small spurious activations. So a sparse world rewards packing many features in superposition; a dense world (features usually on) punishes it, and the model is better off representing only its \(n\) most important features orthogonally. Real features are extremely sparse (most concepts are absent from most inputs), which is why superposition is the rule in real models. The way to see the trade-off flip is to solve the smallest case exactly.</p>
 
         <div class="technical-detail">
             <h4>A closed-form phase change: two features, one dimension</h4>
@@ -75,7 +75,7 @@
                 <li><strong>Keep one feature, drop the other:</strong> \(W = [1,\,0]\) (or \([0,1]\)). Perfect on the kept feature, blind to the other.</li>
                 <li><strong>Antipodal superposition:</strong> \(W = [1,\,-1]\) (up to scale). Both features share the one dimension on opposite signs, each recoverable when alone, but they collide if both fire.</li>
             </ul>
-            <p style="color:#555;">Which wins depends on the feature sparsity \(p\) (probability a feature is active). When features are <em>dense</em> (\(p\) near 1) collisions are constant, the interference dominates, and dropping a feature is optimal. When features are <em>sparse</em> (\(p\) small) collisions are rare, the expected interference cost falls below the cost of being blind to a whole feature, and antipodal superposition wins. The switch between the two regimes is not gradual. Elhage et al. confirm analytically that it is a <strong>first-order phase change</strong>: as you lower \(p\) past a threshold, the optimal \(W\) jumps discontinuously from the orthogonal solution to the superposed one. This is one of the rare interpretability results with an exact closed form, and it makes the abstract claim concrete: superposition is an <em>optimal response to sparsity</em>, not a defect.</p>
+            <p style="color:#555;">Which wins depends on the feature sparsity \(p\) (probability a feature is active). When features are <em>dense</em> (\(p\) near 1) collisions are constant, the interference dominates, and dropping a feature is optimal. When features are <em>sparse</em> (\(p\) small) collisions are rare, the expected interference cost falls below the cost of being blind to a whole feature, and antipodal superposition wins. The switch between the two regimes is not gradual. Elhage et al. confirm analytically that it is a <strong>first-order phase change</strong>: as you lower \(p\) past a threshold, the optimal \(W\) jumps discontinuously from the orthogonal solution to the superposed one. This is one of the rare interpretability results with an exact closed form, and it makes the abstract claim concrete: superposition is an <em>optimal response to sparsity</em>.</p>
         </div>
         <p>Scaled up, superposition organises into striking geometry: features arrange themselves into regular structures (antipodal pairs, triangles, pentagons, tetrahedra) that are solutions to a packing problem, the same Thomson-problem shapes that minimise interference among many directions. The details are beautiful but matter less for safety than the fact that comes next.</p>
 
@@ -107,7 +107,7 @@
 <nav class="page-nav">
   <a class="prev" href="why-interpretability.html"><span class="nav-label">← Previous</span><span class="nav-title">13.1 · Why open the black box?</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
-  <a class="next" href="circuits-qk-ov.html"><span class="nav-label">Next →</span><span class="nav-title">13.3 · The circuits paradigm: QK &amp; OV</span></a>
+  <a class="next" href="circuits-qk-ov.html"><span class="nav-label">Next →</span><span class="nav-title">13.3 · The circuits paradigm: QK and OV</span></a>
 </nav>
 <!-- PAGE-NAV-END -->
 </div>

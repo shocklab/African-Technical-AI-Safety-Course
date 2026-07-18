@@ -54,11 +54,11 @@
             <p style="color:#555;">The mechanism is the safety–capabilities gap (1.2), one level down. A frontier model's <em>capabilities</em> generalise across languages reasonably well: it can understand and answer an isiZulu request because multilingual text was in its pretraining data. But its <em>safety training</em>, the RLHF and red-teaming that teach refusal, is overwhelmingly conducted in English and a few other high-resource languages. So capability transfers across the language boundary and safety does not: the model is competent enough to fulfil the harmful request, but its refusal reflex was never trained where the request is now phrased. Capability generalised; safety did not. (You will see the same capability-vs-safety asymmetry, in a different guise, when we reach goal misgeneralisation and the control agenda.)</p>
         </div>
 
-        <h2 class="section-title">Not one weird trick: a systematic gap</h2>
+        <h2 class="section-title">A systematic gap</h2>
         <p class="lead">It would be comforting to dismiss this as a single paper's quirk. The follow-up literature says otherwise.</p>
         <div class="info-box">
             <h4>The multilingual safety gap is broad and graded</h4>
-            <p>Deng, Zhang, Pan &amp; Bing (2023/2024) systematise the phenomenon as "multilingual jailbreak challenges", distinguishing <em>unintentional</em> cases (a non-English user simply gets less-safe behaviour) from <em>intentional</em> ones (an attacker deliberately switches language), and find that unsafe-response rates rise as language resource-level falls: the lower-resourced the language, the wider the safety gap. The finding is not "isiZulu has a bug"; it is that safety degrades systematically along the same axis as data scarcity, and that axis maps almost exactly onto the world's linguistic and economic inequalities. Mitigations exist and are improving, but the gap is a moving target, not a closed issue.</p>
+            <p>Deng, Zhang, Pan &amp; Bing (2023/2024) systematise the phenomenon as "multilingual jailbreak challenges", distinguishing <em>unintentional</em> cases (a non-English user simply gets less-safe behaviour) from <em>intentional</em> ones (an attacker switches language), and find that unsafe-response rates rise as language resource-level falls: the lower-resourced the language, the wider the safety gap. The finding is not "isiZulu has a bug"; it is that safety degrades systematically along the same axis as data scarcity, and that axis maps almost exactly onto the world's linguistic and economic inequalities. Mitigations exist and are improving, but the gap is a moving target, not a closed issue.</p>
         </div>
 
         <h2 class="section-title">What it teaches about safety in general</h2>
@@ -99,7 +99,7 @@
         </div>
         <div class="info-box">
             <h4>The checklist, applied to its own anchor</h4>
-            <p>Run it on Yong et al., as a careful student would. <em>Claim vs evidence:</em> the claim is "GPT-4's guardrails fail under low-resource translation"; the evidence is attack-success rates on AdvBench, which is concrete and checkable. <em>What's the eval?</em> AdvBench, GPT-4, via a specific public translator, so the exact numbers may shift with model version and translator quality (a limitation the authors note). <em>Who's the population?</em> A handful of low-resource languages, not all of them; generalise with care. <em>What would falsify it?</em> If safety-trained-in-isiZulu models closed the gap, the "English-centric safety training" explanation would gain support, which is the kind of follow-up the field is now doing. A strong result <em>and</em> a bounded one: that is how to read most findings here.</p>
+            <p>Run it on Yong et al., as a careful student would. <em>Claim vs evidence:</em> the claim is "GPT-4's guardrails fail under low-resource translation"; the evidence is attack-success rates on AdvBench, which is concrete and checkable. <em>What's the eval?</em> AdvBench, GPT-4, via a specific public translator, so the exact numbers may shift with model version and translator quality (a limitation the authors note). <em>Who's the population?</em> A handful of low-resource languages; generalise with care. <em>What would falsify it?</em> If safety-trained-in-isiZulu models closed the gap, the "English-centric safety training" explanation would gain support, which is the kind of follow-up the field is now doing. A strong result <em>and</em> a bounded one: that is how to read most findings here.</p>
         </div>
 
         <h2 class="section-title">The main resources</h2>
@@ -107,7 +107,7 @@
         <ul class="styled-list">
             <li><strong>Hendrycks, <em>Intro to ML Safety</em></strong>: the technical backbone (robustness, monitoring, control, systemic safety), with problem sets.</li>
             <li><strong>BlueDot AI Safety Fundamentals</strong>: the conceptual reading-group curriculum, good for breadth and current framing.</li>
-            <li><strong>Grosse's Toronto alignment course</strong>: the idealised→empirical sequencing this course follows, with tiered reading lists including "skeptical takes".</li>
+            <li><strong>Grosse's Toronto alignment course</strong>: the idealised-to-empirical sequencing this course follows, with tiered reading lists including "skeptical takes".</li>
             <li><strong>ARENA + Neel Nanda's materials + TransformerLens</strong>: the hands-on interpretability labs (Weeks 7–8) and a turnkey bank of project ideas.</li>
             <li><strong>The African ecosystem</strong>: Masakhane (open African-NLP datasets and models), Lelapa AI (the InkubaLM model), the ILINA programme (African-led AI-safety field-building), and Research ICT Africa (the rights-based "Just AI" governance work). These anchor the Global-South thread and several project options.</li>
         </ul>

@@ -50,7 +50,7 @@
         </div>
 
         <h2 class="section-title">Task 1 — a trusted monitor</h2>
-        <p>Build a cheap suspicion scorer standing in for the weak trusted model \(T\): extract simple features from each snippet (presence of magic-number constants, special-case branches, unusual control flow, code length) and fit a logistic regression to predict "backdoored." Output a suspicion score in \([0,1]\) per snippet. This is deliberately weak: like \(T\), it cannot write correct code, it can only smell that something is off.</p>
+        <p>Build a cheap suspicion scorer standing in for the weak trusted model \(T\): extract simple features from each snippet (presence of magic-number constants, special-case branches, unusual control flow, code length) and fit a logistic regression to predict "backdoored." Output a suspicion score in \([0,1]\) per snippet. This is weak: like \(T\), it cannot write correct code, it can only smell that something is off.</p>
 
         <h2 class="section-title">Task 2 — set the audit budget and measure safety</h2>
         <p>You can afford to audit (with trusted labour \(H\)) only the most suspicious 2%. Set the threshold at the 98th percentile of suspicion scores and compute:</p>

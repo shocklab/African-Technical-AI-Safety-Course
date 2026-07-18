@@ -19,14 +19,14 @@
     <summary>Session 13</summary>
     <ul>
       <li><a href="why-interpretability.html">13.1 · Why open the black box?</a></li>
-      <li><a href="features-and-superposition.html">13.2 · Features &amp; superposition</a></li>
-      <li><span class="tn-current">13.3 · The circuits paradigm: QK &amp; OV</span></li>
-      <li><a href="induction-heads.html">13.4 · Induction heads &amp; in-context learning</a></li>
+      <li><a href="features-and-superposition.html">13.2 · Features, directions, and superposition</a></li>
+      <li><span class="tn-current">13.3 · The circuits paradigm: QK and OV</span></li>
+      <li><a href="induction-heads.html">13.4 · Induction heads and in-context learning</a></li>
     </ul>
   </details>
   <div class="tn-links">
-    <a class="tn-prev" href="features-and-superposition.html">← <span class="tn-title">13.2 · Features &amp; superposition</span></a>
-    <a class="tn-next" href="induction-heads.html"><span class="tn-title">13.4 · Induction heads &amp; in-context learning</span> →</a>
+    <a class="tn-prev" href="features-and-superposition.html">← <span class="tn-title">13.2 · Features, directions, and superposition</span></a>
+    <a class="tn-next" href="induction-heads.html"><span class="tn-title">13.4 · Induction heads and in-context learning</span> →</a>
   </div>
 </div>
 <!-- TOP-NAV-END -->
@@ -40,7 +40,7 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>This is the algebra that makes mechanistic interpretability of transformers possible. We reframe the Session 2.2 forward pass in the interpretability idiom: the <strong>residual stream</strong> as a shared channel that every component reads from and writes to by addition, so that the output decomposes into a sum over independent <em>paths</em>. Then the central result: an attention head splits into a <strong>QK circuit</strong> that decides <em>where</em> it attends and an <strong>OV circuit</strong> that decides <em>what</em> it copies there, each a low-rank bilinear form. We derive both, show that only the matrix <em>products</em> matter (a gauge freedom), and see why one layer can only build lookup tables while two layers unlock composition. This is all reframing, not new architecture; Session 2.2 is assumed.</p>
+            <p>This is the algebra that makes mechanistic interpretability of transformers possible. We reframe the Session 2.2 forward pass in the interpretability idiom: the <strong>residual stream</strong> as a shared channel that every component reads from and writes to by addition, so that the output decomposes into a sum over independent <em>paths</em>. Then the central result: an attention head splits into a <strong>QK circuit</strong> that decides <em>where</em> it attends and an <strong>OV circuit</strong> that decides <em>what</em> it copies there, each a low-rank bilinear form. We derive both, show that only the matrix <em>products</em> matter (a gauge freedom), and see why one layer can only build lookup tables while two layers unlock composition. This is all reframing; Session 2.2 is assumed.</p>
         </div>
 
         <h2 class="section-title">The residual stream as a communication channel</h2>
@@ -87,7 +87,7 @@
                 <li><strong>K-composition:</strong> it feeds the later head's <em>key</em> (changing what counts as a match). <em>This is the one induction heads use.</em></li>
                 <li><strong>V-composition:</strong> it feeds the later head's <em>value</em> (changing what gets written).</li>
             </ul>
-            <p style="color:#555;">In path terms, a two-layer model's logit decomposition now contains cross-terms in which one head's \(W_{OV}\) sits <em>inside</em> another head's \(W_{QK}\) or \(W_{OV}\). One such cross-term (a previous-token head's output entering a later head's key circuit) is exactly an <strong>induction head</strong>, the subject of 13.4. The algebra here makes that circuit visible <em>before</em> we name it: composition is the cross-paths that appear automatically once you expand the sum over two layers, not an extra mechanism added on top.</p>
+            <p style="color:#555;">In path terms, a two-layer model's logit decomposition now contains cross-terms in which one head's \(W_{OV}\) sits <em>inside</em> another head's \(W_{QK}\) or \(W_{OV}\). One such cross-term (a previous-token head's output entering a later head's key circuit) is exactly an <strong>induction head</strong>, the subject of 13.4. The algebra here makes that circuit visible <em>before</em> we name it: composition is the cross-paths that appear automatically once you expand the sum over two layers.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
@@ -112,9 +112,9 @@
     </div>
 <!-- PAGE-NAV-START -->
 <nav class="page-nav">
-  <a class="prev" href="features-and-superposition.html"><span class="nav-label">← Previous</span><span class="nav-title">13.2 · Features &amp; superposition</span></a>
+  <a class="prev" href="features-and-superposition.html"><span class="nav-label">← Previous</span><span class="nav-title">13.2 · Features, directions, and superposition</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
-  <a class="next" href="induction-heads.html"><span class="nav-label">Next →</span><span class="nav-title">13.4 · Induction heads &amp; in-context learning</span></a>
+  <a class="next" href="induction-heads.html"><span class="nav-label">Next →</span><span class="nav-title">13.4 · Induction heads and in-context learning</span></a>
 </nav>
 <!-- PAGE-NAV-END -->
 </div>

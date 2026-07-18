@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 5.2 — From Predictor to Instruction-Follower (SFT)</title>
+    <title>Session 5.2 — From predictor to instruction-follower (SFT)</title>
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -18,14 +18,14 @@
   <details class="tn-menu">
     <summary>Session 5</summary>
     <ul>
-      <li><a href="pretraining.html">5.1 · Pretraining: predicting the next token</a></li>
+      <li><a href="pretraining.html">5.1 · Pretraining: learning to predict the next token</a></li>
       <li><span class="tn-current">5.2 · From predictor to instruction-follower (SFT)</span></li>
       <li><a href="post-training-stack.html">5.3 · The post-training stack</a></li>
       <li><a href="lab-nanochat.html">5.4 · Lab: from base model to assistant (nanochat)</a></li>
     </ul>
   </details>
   <div class="tn-links">
-    <a class="tn-prev" href="pretraining.html">← <span class="tn-title">5.1 · Pretraining: predicting the next token</span></a>
+    <a class="tn-prev" href="pretraining.html">← <span class="tn-title">5.1 · Pretraining: learning to predict the next token</span></a>
     <a class="tn-next" href="post-training-stack.html"><span class="tn-title">5.3 · The post-training stack</span> →</a>
   </div>
 </div>
@@ -33,7 +33,7 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 3 • Session 5.2</div>
-        <h1>From predictor to instruction-follower</h1>
+        <h1>From predictor to instruction-follower (SFT)</h1>
         <p>Supervised fine-tuning (SFT), instruction tuning, and the demonstration ceiling</p>
     </header>
     <div class="content">
@@ -44,7 +44,7 @@
         </div>
 
         <h2 class="section-title">Supervised fine-tuning, mechanically</h2>
-        <p class="lead">SFT is not a new algorithm. It is the <em>same</em> cross-entropy training as pretraining, on different, deliberately chosen data.</p>
+        <p class="lead">SFT is not a new algorithm. It is the <em>same</em> cross-entropy training as pretraining, on different, chosen data.</p>
         <p>We assemble a dataset of <strong>demonstrations</strong>: prompts paired with high-quality target responses, written or curated by people. Then we continue training the base model with the next-token loss, but compute it only over the <em>response</em> tokens \(y\) given the prompt \(x\):</p>
         <div class="formula">\[ L_{\text{SFT}}(\theta) = -\, \mathbb{E}_{(x,y)\sim \mathcal{D}}\left[ \sum_{i} \log p_\theta\!\left(y_i \mid x,\, y_{&lt;i}\right) \right]. \]</div>
         <p>That is the whole mechanism: show the model thousands of examples of "when asked like <em>this</em>, a good answer looks like <em>that</em>", and gradient descent shifts it toward producing such answers. In InstructGPT (Ouyang et al., 2022), this is step 1 of the pipeline (fine-tune the base model on labeler-written demonstrations of the desired behaviour), and it already transforms a raw completion engine into something that broadly does what it's told.</p>
@@ -115,7 +115,7 @@
     </div>
 <!-- PAGE-NAV-START -->
 <nav class="page-nav">
-  <a class="prev" href="pretraining.html"><span class="nav-label">← Previous</span><span class="nav-title">5.1 · Pretraining: predicting the next token</span></a>
+  <a class="prev" href="pretraining.html"><span class="nav-label">← Previous</span><span class="nav-title">5.1 · Pretraining: learning to predict the next token</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
   <a class="next" href="post-training-stack.html"><span class="nav-label">Next →</span><span class="nav-title">5.3 · The post-training stack</span></a>
 </nav>

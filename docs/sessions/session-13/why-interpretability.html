@@ -19,14 +19,14 @@
     <summary>Session 13</summary>
     <ul>
       <li><span class="tn-current">13.1 · Why open the black box?</span></li>
-      <li><a href="features-and-superposition.html">13.2 · Features &amp; superposition</a></li>
-      <li><a href="circuits-qk-ov.html">13.3 · The circuits paradigm: QK &amp; OV</a></li>
-      <li><a href="induction-heads.html">13.4 · Induction heads &amp; in-context learning</a></li>
+      <li><a href="features-and-superposition.html">13.2 · Features, directions, and superposition</a></li>
+      <li><a href="circuits-qk-ov.html">13.3 · The circuits paradigm: QK and OV</a></li>
+      <li><a href="induction-heads.html">13.4 · Induction heads and in-context learning</a></li>
     </ul>
   </details>
   <div class="tn-links">
     <a class="tn-prev" href="../session-12-technical-ai-governance.html">← <span class="tn-title">Session 12 · Technical AI governance</span></a>
-    <a class="tn-next" href="features-and-superposition.html"><span class="tn-title">13.2 · Features &amp; superposition</span> →</a>
+    <a class="tn-next" href="features-and-superposition.html"><span class="tn-title">13.2 · Features, directions, and superposition</span> →</a>
   </div>
 </div>
 <!-- TOP-NAV-END -->
@@ -40,7 +40,7 @@
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Every safety number in this course so far has been read off the <em>outside</em> of a model: a refusal rate, a benchmark score, an attack-success rate. Mechanistic interpretability asks a different question: what is the model actually computing <em>inside</em>, and can we read it the way we read source code? This sub-session defines the field, places it inside the evaluation taxonomy from Session 11, and is clear from the start about how far the ambition currently reaches: convincingly for one- and two-layer toy models, far more tentatively for frontier systems. The rest of Session 13 earns the tools; here we set the question and the standard of evidence.</p>
+            <p>Every safety number in this course so far has been read off the <em>outside</em> of a model: a refusal rate, a benchmark score, an attack-success rate. Mechanistic interpretability asks a different question: what is the model actually computing <em>inside</em>, and can we read it the way we read source code? This sub-session defines the field, places it inside the evaluation taxonomy from Session 11, and sets out from the start how far the ambition currently reaches: convincingly for one- and two-layer toy models, far more tentatively for frontier systems. The rest of Session 13 earns the tools; here we set the question and the standard of evidence.</p>
         </div>
 
         <h2 class="section-title">Three ways to explain a model's behaviour</h2>
@@ -54,7 +54,7 @@
                 <li><strong>Mechanistic.</strong> Reverse-engineer the actual algorithm: which attention head, via which weight matrices, moves which information, such that you could in principle re-implement the behaviour by hand. This is the level that says <em>why</em>, and it is what "mechanistic interpretability" means.</li>
             </ul>
         </div>
-        <p>The course's claim is that only the third level eventually answers the safety questions the others cannot: not "did the model behave on our test set" but "what is it computing, and would that computation generalise or betray us off-distribution". Sessions 13–16 pursue the third level and stay honest about how often we reach it.</p>
+        <p>The course's claim is that only the third level eventually answers the safety questions the others cannot: not "did the model behave on our test set" but "what is it computing, and would that computation generalise or betray us off-distribution". Sessions 13–16 pursue the third level and note how often we reach it.</p>
 
         <h2 class="section-title">Interpretability is the white-box arm of evaluation</h2>
         <p class="lead">Session 11.1 already drew the line we need; interpretability lives on one side of it.</p>
@@ -69,11 +69,11 @@
         </div>
 
         <h2 class="section-title">The safety payoffs</h2>
-        <p class="lead">Interpretability is a means, not an end; its safety value is what it might let us do that nothing else can.</p>
+        <p class="lead">Interpretability is a means to an end; its safety value is what it might let us do that nothing else can.</p>
         <p>Three payoffs motivate the block, each of which Session 16 examines critically rather than takes on faith. It could let us detect deception: read whether a model internally "believes" something other than what it says, the open problem left hanging in Session 3.4. It could underwrite scalable oversight (Session 8.1) by giving a supervisor a window the model cannot fake. And it could make auditing meaningful: a regulator or a deploying institution with a "right to inspect" (Session 12) needs tools that work on the model artefact itself. Whether interpretability actually delivers any of these at the scale that matters is contested, and we defer that account to Session 16. For now these payoffs are large enough to justify the technical work that follows.</p>
         <div class="info-box">
             <h4>The African-lens angle</h4>
-            <p>This is the part of the course where the African lens is thinnest, and we will say so plainly rather than manufacture one. The angle, developed in Session 16, is sovereignty: interpretability is the one safety tool that operates on a model's <em>weights</em> without needing the developer's training data or cooperation, which makes it the natural instrument for an institution that <em>receives</em> a frontier model rather than building it. Whether the features and circuits a model learns are shared across languages, or specific to the high-resource ones, is a real and open question with direct consequences for isiZulu and other low-resource languages. Both matter; the foundations in 13.2–13.4 are language- and geography-neutral mathematics.</p>
+            <p>This is the part of the course where the African lens is thinnest. The angle, developed in Session 16, is sovereignty: interpretability is the one safety tool that operates on a model's <em>weights</em> without needing the developer's training data or cooperation, which makes it the natural instrument for an institution that <em>receives</em> a frontier model rather than building it. Whether the features and circuits a model learns are shared across languages, or specific to the high-resource ones, is a real and open question with direct consequences for isiZulu and other low-resource languages. Both matter; the foundations in 13.2–13.4 are language- and geography-neutral mathematics.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
@@ -101,7 +101,7 @@
 <nav class="page-nav">
   <a class="prev" href="../session-12-technical-ai-governance.html"><span class="nav-label">← Previous</span><span class="nav-title">Session 12 · Technical AI governance</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
-  <a class="next" href="features-and-superposition.html"><span class="nav-label">Next →</span><span class="nav-title">13.2 · Features &amp; superposition</span></a>
+  <a class="next" href="features-and-superposition.html"><span class="nav-label">Next →</span><span class="nav-title">13.2 · Features, directions, and superposition</span></a>
 </nav>
 <!-- PAGE-NAV-END -->
 </div>

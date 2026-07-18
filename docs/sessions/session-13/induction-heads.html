@@ -19,14 +19,14 @@
     <summary>Session 13</summary>
     <ul>
       <li><a href="why-interpretability.html">13.1 · Why open the black box?</a></li>
-      <li><a href="features-and-superposition.html">13.2 · Features &amp; superposition</a></li>
-      <li><a href="circuits-qk-ov.html">13.3 · The circuits paradigm: QK &amp; OV</a></li>
-      <li><span class="tn-current">13.4 · Induction heads &amp; in-context learning</span></li>
+      <li><a href="features-and-superposition.html">13.2 · Features, directions, and superposition</a></li>
+      <li><a href="circuits-qk-ov.html">13.3 · The circuits paradigm: QK and OV</a></li>
+      <li><span class="tn-current">13.4 · Induction heads and in-context learning</span></li>
     </ul>
   </details>
   <div class="tn-links">
-    <a class="tn-prev" href="circuits-qk-ov.html">← <span class="tn-title">13.3 · The circuits paradigm: QK &amp; OV</span></a>
-    <a class="tn-next" href="../session-14/lab-induction-heads.html"><span class="tn-title">Session 14 · Lab: TransformerLens + induction heads</span> →</a>
+    <a class="tn-prev" href="circuits-qk-ov.html">← <span class="tn-title">13.3 · The circuits paradigm: QK and OV</span></a>
+    <a class="tn-next" href="../session-14/lab-induction-heads.html"><span class="tn-title">Session 14 · Lab: find and verify an induction head</span> →</a>
   </div>
 </div>
 <!-- TOP-NAV-END -->
@@ -72,7 +72,7 @@
 
         <h2 class="section-title">The in-context-learning claim</h2>
         <p class="lead">These heads may be the mechanism behind much of in-context learning, and the evidence must be graded by model size.</p>
-        <p>The striking hypothesis from Olsson et al. is that induction heads are the <em>main driver</em> of in-context learning in transformers, not a curiosity. The evidence is presented as several converging lines, and a maths-honest course grades them rather than accepting the claim wholesale:</p>
+        <p>The striking hypothesis from Olsson et al. is that induction heads are the <em>main driver</em> of in-context learning in transformers. The evidence is presented as several converging lines, and this course grades them rather than accepting the claim wholesale:</p>
         <div class="technical-detail">
             <h4>The evidence, graded</h4>
             <ul class="styled-list">
@@ -94,7 +94,7 @@
         <ul class="styled-list">
             <li>Walk through the two-head induction circuit and say exactly which job (prefix-matching vs copying) is done by which circuit (QK vs OV) of which head. Why is K-composition the link?</li>
             <li>Why does a head copy iff \(W_U W_{OV} W_E\) has positive eigenvalues? What does the copying score measure, and how would you compute it from weights alone?</li>
-            <li>The induction → in-context-learning claim is "causal for small models, correlational at scale." What specific experiment makes it causal for small models, and why can't you run the equivalent on a frontier model?</li>
+            <li>The claim that induction heads drive in-context learning is "causal for small models, correlational at scale." What specific experiment makes it causal for small models, and why can't you run the equivalent on a frontier model?</li>
             <li>Induction heads form in a training phase change. How is that a stronger or weaker emergence claim than the benchmark-curve "emergence" of Session 2.4?</li>
         </ul>
 
@@ -116,9 +116,9 @@
     </div>
 <!-- PAGE-NAV-START -->
 <nav class="page-nav">
-  <a class="prev" href="circuits-qk-ov.html"><span class="nav-label">← Previous</span><span class="nav-title">13.3 · The circuits paradigm: QK &amp; OV</span></a>
+  <a class="prev" href="circuits-qk-ov.html"><span class="nav-label">← Previous</span><span class="nav-title">13.3 · The circuits paradigm: QK and OV</span></a>
   <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
-  <a class="next" href="../session-14/lab-induction-heads.html"><span class="nav-label">Next →</span><span class="nav-title">Session 14 · Lab: TransformerLens + induction heads</span></a>
+  <a class="next" href="../session-14/lab-induction-heads.html"><span class="nav-label">Next →</span><span class="nav-title">Session 14 · Lab: find and verify an induction head</span></a>
 </nav>
 <!-- PAGE-NAV-END -->
 </div>

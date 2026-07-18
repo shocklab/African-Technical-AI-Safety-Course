@@ -33,14 +33,14 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 8 • Session 15.2</div>
-        <h1>The IOI circuit: a worked reverse-engineering</h1>
+        <h1>The IOI circuit</h1>
         <p>A real 26-head circuit traced end to end in GPT-2</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>Induction heads (13.4) were a circuit in a tiny model. This sub-session follows the most thoroughly reverse-engineered circuit in a <em>real</em> model: the <strong>indirect-object-identification</strong> (IOI) circuit in GPT-2 small, mapped by Wang et al. We see how the patching tools of 15.1 trace a human-readable algorithm onto 26 attention heads in seven functional classes, and we read the metric (logit difference) that makes it quantitative. The deeper lesson is the honest one: even this celebrated circuit is <em>faithful but not complete</em>, and it contains a surprise (backup heads that silently take over when you ablate the main ones) which is why "we found the circuit" is a weaker claim than it sounds.</p>
+            <p>Induction heads (13.4) were a circuit in a tiny model. This sub-session follows the most thoroughly reverse-engineered circuit in a <em>real</em> model: the <strong>indirect-object-identification</strong> (IOI) circuit in GPT-2 small, mapped by Wang et al. We see how the patching tools of 15.1 trace a human-readable algorithm onto 26 attention heads in seven functional classes, and we read the metric (logit difference) that makes it quantitative. The deeper lesson: even this celebrated circuit is <em>faithful but not complete</em>, and it contains a surprise (backup heads that silently take over when you ablate the main ones) which is why "we found the circuit" is a weaker claim than it sounds.</p>
         </div>
 
         <h2 class="section-title">The task and the human algorithm</h2>
@@ -72,7 +72,7 @@
 
         <h2 class="section-title">Faithfulness, completeness, and minimality</h2>
         <p class="lead">The celebrated circuit passes the easy test and fails the hard ones.</p>
-        <p>Wang et al. evaluate their circuit against three criteria, and a maths-honest course teaches the failures as loudly as the success. <strong>Faithfulness</strong> (does the circuit alone reproduce the behaviour?): the 26 heads recover about 87% of the full model's logit difference, which is strong. <strong>Completeness</strong> and <strong>minimality</strong> (is this <em>all</em> the relevant computation, with nothing missing and nothing redundant?): here the circuit fails the hardest versions of the tests. And the reason is one of the paper's most instructive findings: Backup Name Mover Heads. When you ablate the primary Name Mover heads (the ones the analysis says do the job), the model's performance barely drops, because backup heads that were not previously doing the name-moving step in and do the copying instead. The circuit was not the whole story; the model has redundancy the clean diagram hides.</p>
+        <p>Wang et al. evaluate their circuit against three criteria, and this course teaches the failures as loudly as the success. <strong>Faithfulness</strong> (does the circuit alone reproduce the behaviour?): the 26 heads recover about 87% of the full model's logit difference, which is strong. <strong>Completeness</strong> and <strong>minimality</strong> (is this <em>all</em> the relevant computation, with nothing missing and nothing redundant?): here the circuit fails the hardest versions of the tests. And the reason is one of the paper's most instructive findings: Backup Name Mover Heads. When you ablate the primary Name Mover heads (the ones the analysis says do the job), the model's performance barely drops, because backup heads that were not previously doing the name-moving step in and do the copying instead. The circuit was not the whole story; the model has redundancy the clean diagram hides.</p>
         <div class="warning-box">
             <h4>Redundancy and safety claims</h4>
             <p>Backup heads are a direct warning about the ablation evidence from 13.4 and 15.1. "We ablated the component and the behaviour survived" can mean the component was irrelevant, or that a backup quietly compensated. Self-repair and redundancy mean a single clean circuit diagram can be faithful and still <em>incomplete</em>, and an interpretability-based safety claim ("we found and removed the deception circuit") could be defeated by machinery the analysis never surfaced. The IOI circuit is rightly celebrated, and it is also a cautionary tale: real circuits are messy, redundant, and only partially understood, even when the headline says "reverse-engineered." Wang et al. also never explain the MLPs or layer-norms in the circuit, another reminder of how much a tidy diagram leaves out.</p>

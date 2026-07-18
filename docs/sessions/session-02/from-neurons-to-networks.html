@@ -50,6 +50,13 @@
             <p>You have met neural networks before, but cohorts vary, so we set a common, precise baseline. This sub-session frames a network as a parametrised function fit by gradient descent (nothing mystical) and pins down the few ideas (the loss, the gradient, the objective) that the safety arguments later hang on.</p>
         </div>
 
+        <div class="info-box">
+            <h4>Core material</h4>
+            <p>The primary resource for this sub-session is Andrej Karpathy's spelled-out introduction to neural networks and backpropagation (Zero to Hero, episode 1), which builds the same ideas one neuron at a time, in code. Watch from the embedded timestamp (assembling neurons into a network), then the <a href="https://youtu.be/VMj-3S1tku0?t=6664" target="_blank" rel="noopener">loss-function section</a>. The page below is the written reference for the same material.</p>
+            <div class="video-embed"><iframe src="https://www.youtube.com/embed/VMj-3S1tku0?start=3172" title="Karpathy — the spelled-out intro to neural networks and backpropagation" allowfullscreen loading="lazy"></iframe></div>
+            <p style="margin-bottom:0;">A complementary written treatment at the same neuron-by-neuron level: <a href="https://sidn.baulab.info/neurons/" target="_blank" rel="noopener">"Neurons", <em>Structure of Deep Networks</em></a> (Bau Lab).</p>
+        </div>
+
         <h2 class="section-title">A network is a parametrised function</h2>
         <p class="lead">Strip away the biology metaphor and a neural network is just a function \( f_\theta : \mathbb{R}^n \to \mathbb{R}^m \) with a great many parameters \( \theta \).</p>
         <div class="technical-detail">

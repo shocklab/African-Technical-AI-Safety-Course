@@ -45,6 +45,12 @@
             <p>Notation we'll keep throughout: a sequence of \(T\) tokens; a model (residual-stream) dimension \(d_{\text{model}}\); \(n_h\) attention heads each of dimension \(d_{\text{head}} = d_{\text{model}}/n_h\) (why the dimension is divided this way is explained under <em>Multi-head attention</em>, below); a vocabulary of size \(V\).</p>
         </div>
 
+        <div class="info-box">
+            <h4>Core material</h4>
+            <p>David Quarel's ARENA talk covers this sub-session's material end to end in half an hour; the diagrams and worked example on this page are built to be read alongside it. For the hands-on version, the <a href="https://colab.research.google.com/github/callummcdougall/ARENA_3.0/blob/main/chapter1_transformer_interp/exercises/part1_transformer_from_scratch/1.1_Transformer_from_Scratch_exercises.ipynb" target="_blank" rel="noopener">ARENA "Transformer from Scratch" notebook</a> builds the whole architecture in code; it is the long route, and the one the lab (2.5) borrows from.</p>
+            <div class="video-embed"><iframe src="https://www.youtube.com/embed/11Z50mi8dSg" title="David Quarel — transformer architecture (ARENA)" allowfullscreen loading="lazy"></iframe></div>
+        </div>
+
         <h2 class="section-title">From text to vectors</h2>
         <div class="technical-detail">
             <h4>Tokens, embeddings, positions</h4>

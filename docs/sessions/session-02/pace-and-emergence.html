@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 2.4 — Pace of progress &amp; the emergence debate</title>
+    <title>Session 2.4 — Pace of progress, emergence and takeoff</title>
     <link rel="stylesheet" href="../../assets/styles.css">
     <!-- MATHJAX-START -->
     <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
@@ -21,7 +21,7 @@
       <li><a href="from-neurons-to-networks.html">2.1 · From neurons to networks</a></li>
       <li><a href="inside-the-transformer.html">2.2 · Inside the transformer</a></li>
       <li><a href="neural-scaling-laws.html">2.3 · Neural scaling laws</a></li>
-      <li><span class="tn-current">2.4 · Pace of progress &amp; the emergence debate</span></li>
+      <li><span class="tn-current">2.4 · Pace of progress, emergence and takeoff</span></li>
       <li><a href="lab-scaling-and-transformerlens.html">2.5 · Lab: scaling laws &amp; a first look inside a model</a></li>
     </ul>
   </details>
@@ -34,7 +34,7 @@
     <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
     <header>
         <div class="week-badge">Week 2 • Session 2.4</div>
-        <h1>Pace of progress &amp; the emergence debate</h1>
+        <h1>Pace of progress, emergence and takeoff</h1>
         <p>Measured rates of progress, and whether emergence is real or a metric artefact</p>
     </header>
     <div class="content">
@@ -87,6 +87,15 @@
         <p>So the dispute is not a tempest in a benchmark. It tells you which forecasting tools to trust. Smooth loss curves are reliable for budgeting and for predicting loss; they are weak instruments for answering "at what scale does this system become able to design a working exploit, or reliably deceive a grader?" That second kind of question is thresholded, deployment-relevant, and where extrapolation is least safe.</p>
         <p>The track record supports caution. Few forecasters called in-context learning in advance, or the degree to which chain-of-thought prompting would unlock multi-step reasoning; both were noticed after they appeared, not predicted before. That is the predictability-and-surprise pattern in practice: the aggregate curve ran on schedule while the specific new behaviours were not anticipated. None of this licenses panic, but it argues against leaning on extrapolation as a safety guarantee.</p>
 
+        <h2 class="section-title">Recursive self-improvement and takeoff</h2>
+        <p class="lead">The strongest version of the pace question is a feedback loop: what happens when AI systems do the work of improving AI?</p>
+        <p>The idea is old (I. J. Good named the "intelligence explosion" in 1965), but it now has quantitative treatments you can inspect and argue with. Davidson (2023) builds a compute-centric model in which AI progress is driven by compute and algorithmic R&amp;D, and asks what happens as AI itself automates that R&amp;D. In the framework's median run, once AI can automate about 20% of cognitive tasks (weighted by economic value), full automation follows in roughly three years, with clearly superhuman systems shortly after. <strong>Takeoff speed</strong> names the disputed quantity: how fast capability grows once the loop closes, from "fast takeoff" (months) to "slow takeoff" (decades), with the answer hanging on assumptions about returns to software R&amp;D and compute bottlenecks that you can vary yourself in the model's <a href="https://takeoffspeeds.com/" target="_blank" rel="noopener">interactive version</a>.</p>
+        <p>Davidson, Hadshar &amp; MacAskill (2025) separate three feedback loops that could each sustain an explosion: a <em>software</em> explosion (AI improves algorithms alone), an <em>AI-technology</em> explosion (adding chip design), and a <em>full-stack</em> explosion (adding chip production). They estimate the three could multiply effective compute by roughly 12, 18 and 23 orders of magnitude respectively before hitting physical limits. The structural point matters more than any single number: even if the software loop alone proves insufficient, the slower loops that run through hardware could still produce acceleration, on longer timescales and with more visible industrial footprints.</p>
+        <div class="info-box">
+            <h4>Takeoff and the forecasting asymmetry</h4>
+            <p>These are models, not measurements, and this sub-session's discipline applies to them directly: ask which input assumptions drive the conclusion, and what near-term evidence would move them. Recursive self-improvement is also where the emergence dispute bites hardest, because "can the model automate AI research?" is exactly the kind of thresholded, deployment-relevant capability that aggregate loss curves are weakest at predicting. That is why AI-R&amp;D automation now appears as a standard threat model in pre-deployment capability evaluations (Session 11), and why compute, the one input you can meter, anchors the governance levers of Sessions 4 and 12.</p>
+        </div>
+
         <div class="info-box">
             <h4>The calibrated take</h4>
             <p>Aggregate progress is fast and, in loss terms, fairly predictable. Whether a <em>specific</em> capability arrives smoothly or sharply is unsettled and metric-dependent. So confident predictions of "imminent superintelligence" and of "it has plateaued" are both overclaiming from the same thin evidence. The prudent posture is identical under either reading: build the ability to <em>measure</em> capabilities and <em>detect</em> dangerous ones directly, before deployment (Session 11), rather than trusting any extrapolation to tell you when a threshold will be crossed.</p>
@@ -102,6 +111,7 @@
             <li>Schaeffer et al. can make emergence appear or vanish by choosing the metric. Does that settle the safety question, or just relocate it? Argue both ways.</li>
             <li>Ganguli et al. say loss is predictable but capabilities are surprising. Which specific capability would you most want an early-warning signal for, and what would you measure to get one?</li>
             <li>If your only evaluations are in English, what kinds of capability and what kinds of risk are you structurally unable to detect?</li>
+            <li>Davidson's framework moves from 20% to full automation of cognitive work in about three years. Which input assumption would you attack first, and what evidence available within a year could raise or lower your credence in it?</li>
         </ul>
 
         <h2 class="section-title">Readings</h2>
@@ -115,6 +125,9 @@
             <p>• Ganguli, D., et al. (2022), "Predictability and Surprise in Large Generative Models" (<a href="https://arxiv.org/abs/2202.07785" target="_blank" rel="noopener">arXiv:2202.07785</a>): the predictable-loss / surprising-capability tension.</p>
             <p>• Srivastava, A., et al. (2022), "Beyond the Imitation Game" (BIG-Bench; <a href="https://arxiv.org/abs/2206.04615" target="_blank" rel="noopener">arXiv:2206.04615</a>): the benchmark suite behind the emergence claims.</p>
             <p>• Sevilla, J., et al. (2022), "Compute Trends Across Three Eras of Machine Learning" (<a href="https://arxiv.org/abs/2202.05924" target="_blank" rel="noopener">arXiv:2202.05924</a>): and <strong>Epoch AI</strong> (<a href="https://epoch.ai/" target="_blank" rel="noopener">epoch.ai</a>) for live trends.</p>
+            <p>• <strong>Davidson, T. (2023), "What a Compute-Centric Framework Says About Takeoff Speeds"</strong> (<a href="https://coefficientgiving.org/research/what-a-compute-centric-framework-says-about-takeoff-speeds/" target="_blank" rel="noopener">Coefficient Giving</a>, formerly Open Philanthropy; interactive model at <a href="https://takeoffspeeds.com/" target="_blank" rel="noopener">takeoffspeeds.com</a>): the quantitative takeoff framework.</p>
+            <p>• <strong>Davidson, T., Hadshar, R. &amp; MacAskill, W. (2025), "Three Types of Intelligence Explosion"</strong> (<a href="https://www.forethought.org/research/three-types-of-intelligence-explosion" target="_blank" rel="noopener">Forethought</a>): the software / AI-technology / full-stack decomposition.</p>
+            <p>• <strong>Epoch AI, GATE</strong> (<a href="https://epoch.ai/gate" target="_blank" rel="noopener">epoch.ai/gate</a>): an interactive integrated model of compute growth and automation, for experimenting with the assumptions yourself.</p>
         </div>
 
         <div class="intro-text" style="margin-top:50px;">

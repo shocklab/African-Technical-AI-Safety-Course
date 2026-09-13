@@ -52,7 +52,7 @@ This makes the scientific question better: under which interaction and translati
 
 ### 9.4 Lab: multilingual safety evaluation
 
-Replace “reproduce the isiZulu jailbreak” with a small comparative evaluation. The lab should provide a notebook, a fixed mild prompt set and fixed translations. The isiZulu and isiXhosa text must be reviewed by fluent speakers before release.
+Replace “reproduce the isiZulu jailbreak” with a small comparative evaluation. The lab should provide a notebook, a fixed mild prompt set and deterministic machine translations. State prominently that the isiZulu and Afrikaans text has not been reviewed by fluent speakers and that findings involving those conditions are provisional.
 
 Use Qwen3-0.6B on a Colab CPU. The pilot rejected Qwen2.5-0.5B-Instruct because its translated responses were largely incoherent. Qwen3 produces coherent English responses, while its weak comprehension of the translated conditions makes the lab's validity gate essential rather than decorative.
 
@@ -99,7 +99,7 @@ Session 9 is ready to release only when:
 - every quantitative claim has been checked against the paper's table or released data;
 - all external links resolve and identify the cited work;
 - the notebook runs from a fresh Colab runtime within the stated time and memory limits;
-- a fluent speaker has reviewed each isiZulu and isiXhosa prompt and the scoring instructions;
+- the notebook and lab page state that fluent speakers have not reviewed the isiZulu or Afrikaans translations, and that translated-condition findings are provisional;
 - the lab is piloted without exposing students to operationally harmful output;
 - the rendered pages pass navigation, HTML structure and prose checks;
 - the lab instructions accept null and reversed results and do not grade students on reproducing a preferred conclusion.

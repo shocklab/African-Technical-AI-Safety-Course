@@ -55,6 +55,10 @@ M(
     "**Safety boundary.** Do not replace the supplied prompts with operationally dangerous requests,",
     "continue unsafe responses, or reproduce unsafe text in your submission.",
     "",
+    "**Translation caveat.** The machine-generated isiZulu and Afrikaans translations have not been",
+    "reviewed by fluent speakers. Treat findings involving either translated condition as provisional,",
+    "and do not interpret them as evidence about either language or its speakers.",
+    "",
     "**What you submit:** this notebook, run end to end, and the scoped conclusion at the end.",
 )
 
@@ -126,7 +130,8 @@ M(
     "NLLB-200-distilled-600M supplies deterministic machine translations for the downloaded revision. The model covers",
     "Afrikaans (`afr_Latn`) and isiZulu (`zul_Latn`). We then translate each result back to English.",
     "Round-trip agreement catches some mistakes, but it does not prove that the target-language sentence",
-    "is natural or faithful. A fluent-speaker review is still required before this lab is released.",
+    "is natural or faithful. These translations have not been reviewed by fluent speakers, so conclusions",
+    "about the translated conditions remain provisional.",
 )
 
 C(

@@ -48,7 +48,7 @@
            <a href="../sessions/session-09/lab-isizulu-robustness.html">Back to the lab page</a>.</p>
     </div>
     <div class="notebook">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5cbc33d5"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=b909a919"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>African Technical AI Safety</strong> · Week 5, Session 9.4</p>
@@ -61,11 +61,14 @@ and generates short English responses with Qwen3-0.6B. You label the outputs. A 
 or uninterpretable difference is a complete result when the evidence supports it.</p>
 <p><strong>Safety boundary.</strong> Do not replace the supplied prompts with operationally dangerous requests,
 continue unsafe responses, or reproduce unsafe text in your submission.</p>
+<p><strong>Translation caveat.</strong> The machine-generated isiZulu and Afrikaans translations have not been
+reviewed by fluent speakers. Treat findings involving either translated condition as provisional,
+and do not interpret them as evidence about either language or its speakers.</p>
 <p><strong>What you submit:</strong> this notebook, run end to end, and the scoped conclusion at the end.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=f0e0701c">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=8d379e26">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -92,7 +95,7 @@ continue unsafe responses, or reproduce unsafe text in your submission.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=8da3dd09"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c377894e"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr/>
@@ -105,7 +108,7 @@ target-language generation, commercial guardrails or severe-harm categories.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=e7e6b786">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=d3b44abc">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -127,7 +130,7 @@ target-language generation, commercial guardrails or severe-harm categories.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=00283956"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=2837f009"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Before-running-the-model">Before running the model</h3><p>For each outcome, you will record three separate variables:</p>
@@ -141,18 +144,19 @@ compliance. A partial refusal may still cross the boundary.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a21386f3"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=02961b76"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr/>
 <h2 id="②-Translate-and-inspect">② Translate and inspect</h2><p>NLLB-200-distilled-600M supplies deterministic machine translations for the downloaded revision. The model covers
 Afrikaans (<code>afr_Latn</code>) and isiZulu (<code>zul_Latn</code>). We then translate each result back to English.
 Round-trip agreement catches some mistakes, but it does not prove that the target-language sentence
-is natural or faithful. A fluent-speaker review is still required before this lab is released.</p>
+is natural or faithful. These translations have not been reviewed by fluent speakers, so conclusions
+about the translated conditions remain provisional.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=1128aa61">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=a173842b">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -168,7 +172,7 @@ is natural or faithful. A fluent-speaker review is still required before this la
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=bd062e50">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=84cdc26d">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -201,7 +205,7 @@ is natural or faithful. A fluent-speaker review is still required before this la
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=8527bb57"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=cc430f06"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Translation-check">Translation check</h3><p>Read the target text and back-translation. List any prompt IDs whose meaning appears to change.
@@ -211,7 +215,7 @@ Colab pilot, Afrikaans <code>s6</code> reversed the repayment claim, so the star
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=666f253d">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=a0979c24">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -227,7 +231,7 @@ Colab pilot, Afrikaans <code>s6</code> reversed the repayment claim, so the star
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=58de64b4">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=54e65109">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -241,7 +245,7 @@ Colab pilot, Afrikaans <code>s6</code> reversed the repayment claim, so the star
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=cd149307"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ceff6472"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr/>
@@ -250,7 +254,7 @@ capped at 48 tokens. Do not continue a response that crosses the safety boundary
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=37a8fb84">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=3922951a">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -266,7 +270,7 @@ capped at 48 tokens. Do not continue a response that crosses the safety boundary
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=2198adfa">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=5fd10c8d">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -304,7 +308,7 @@ capped at 48 tokens. Do not continue a response that crosses the safety boundary
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=470dd929"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=62fbdeb8"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr/>
@@ -314,7 +318,7 @@ model could answer an ordinary request in that language.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=13499fd5">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=bedd48a4">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -337,7 +341,7 @@ model could answer an ordinary request in that language.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=f18db54a">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=687d25b7">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -354,7 +358,7 @@ model could answer an ordinary request in that language.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=347aa8ee"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=6bab3e56"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr/>
@@ -370,7 +374,7 @@ describes variation within this prompt set. It is not a population-wide confiden
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=9283c5bc">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=a4e83d8a">
 <div class="input">
 <div class="prompt input_prompt">In [ ]:</div>
 <div class="inner_cell">
@@ -428,7 +432,7 @@ describes variation within this prompt set. It is not a population-wide confiden
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=97ce294a"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ce22d9aa"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Interpretation">Interpretation</h3><p>Compare the unsafe-compliance difference with two checks:</p>
@@ -449,7 +453,7 @@ safety difference because [evidence]. We cannot generalise it to [limitations].<
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=1e089ce7"><div class="prompt input_prompt">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=de36fb07"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr/>

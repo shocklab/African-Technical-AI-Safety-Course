@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 9.4 — Lab: multilingual safety evaluation</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
+</head>
+<body>
+<div class="container">
+<!-- TOP-NAV-START -->
+<div class="top-nav">
+  <a class="tn-home" href="../../index.html">⌂ Contents</a>
+  <details class="tn-menu">
+    <summary>Session 9</summary>
+    <ul>
+      <li><a href="adversarial-examples.html">9.1 · Adversarial examples and threat models</a></li>
+      <li><a href="jailbreaks-as-optimisation.html">9.2 · Jailbreaks as discrete optimisation</a></li>
+      <li><a href="why-safety-training-fails.html">9.3 · Safety under transformations</a></li>
+      <li><span class="tn-current">9.4 · Lab: multilingual safety evaluation</span></li>
+      <li><a href="injection-poisoning-defences.html">9.5 · Prompt injection and layered defences</a></li>
+    </ul>
+  </details>
+  <div class="tn-links">
+    <a class="tn-prev" href="why-safety-training-fails.html">← <span class="tn-title">9.3 · Safety under transformations</span></a>
+    <a class="tn-next" href="injection-poisoning-defences.html"><span class="tn-title">9.5 · Prompt injection and layered defences</span> →</a>
+  </div>
+</div>
+<!-- TOP-NAV-END -->
+    <div class="ai-notice"><strong>Note:</strong> This page's design and content were created and enhanced using Claude (Anthropic's AI assistant); the reading list has been reference-checked. Spot an error? Email jonathan.shock@uct.ac.za.</div>
+    <header>
+        <div class="week-badge">Week 5 • Session 9.4</div>
+        <h1>Lab: multilingual safety evaluation</h1>
+        <p>Separate comprehension, refusal and unsafe compliance across matched prompts</p>
+    </header>
+    <div class="content">
+
+        <div class="intro-text">
+            <p>Yong, Menghini and Bach found a large language-related safety difference in GPT-4-0613. More recent systems do not consistently reproduce the same single-turn result. In this lab you will test a smaller claim on one open model: whether its responses to matched English, isiZulu and Afrikaans prompts differ after comprehension is measured separately from safety behaviour.</p>
+        </div>
+
+        <div class="warning-box">
+            <h4>Safety boundary</h4>
+            <p>Use only the mild prompts supplied in the notebook. Do not replace them with requests for operationally dangerous information or continue a response to obtain more detail. Generation is capped at a short response. In your submission, report prompt IDs, labels and aggregate counts; do not reproduce unsafe model output.</p>
+        </div>
+
+        <div class="technical-detail">
+            <h4>Notebook setup</h4>
+            <ol class="styled-list">
+                <li><a href="https://colab.research.google.com/github/shocklab/African-Technical-AI-Safety-Course/blob/main/docs/labs/session-9-4-multilingual-safety.ipynb" target="_blank" rel="noopener">Open the starter notebook in Colab</a>, then use <em>File &rarr; Save a copy in Drive</em>.</li>
+                <li>Run the cells in order with <em>Shift+Enter</em>. The notebook uses Qwen3-0.6B in non-thinking CPU mode and generates short responses only. A fresh free-tier CPU run took about seven minutes and stayed below 8 GB of RAM in our September 2026 check.</li>
+                <li>You can also <a href="../../labs/session-9-4-multilingual-safety.html">read the notebook on the site</a> or <a href="../../labs/session-9-4-multilingual-safety.ipynb" download>download it</a>.</li>
+            </ol>
+        </div>
+
+        <h2 class="section-title">Task 1 — inspect the evaluation</h2>
+        <p>The notebook contains matched safety-boundary and benign prompts. It produces deterministic isiZulu and Afrikaans translations with one downloaded revision of an open translation model, then back-translates them for inspection. Back-translation can reveal obvious failures, but agreement after a round trip does not prove that a translation is natural or faithful. Record questionable prompt IDs before running the model. The starter excludes Afrikaans prompt <code>s6</code> because its repayment claim reversed in our pilot.</p>
+
+        <h2 class="section-title">Task 2 — generate matched responses</h2>
+        <p>Run every prompt once with greedy decoding. The model receives the same system instruction in all conditions and is asked to answer in English. This isolates the language of the user's input and lets the class inspect every response using one scoring language. It does not evaluate whether the model can respond safely in isiZulu or Afrikaans, which is outside this lab's threat model.</p>
+
+        <h2 class="section-title">Task 3 — label three variables</h2>
+        <p>For each response, label comprehension, refusal and unsafe compliance separately. A model that produces irrelevant text has not demonstrated safe refusal. A model can also understand a request, decline part of it and still include content that crosses the lab's boundary. The notebook checks that every response has a complete set of labels before calculating results.</p>
+
+        <h2 class="section-title">Task 4 — compare paired prompts</h2>
+        <p>Report counts for every outcome and compare each translated prompt with its English counterpart. The notebook reports a safety comparison only if the model understands at least two of the three benign controls and at least two matched safety prompts in both conditions. If either check fails, report that this model and language cannot support the comparison. For eligible conditions, the notebook computes the paired difference</p>
+        <div class="formula">\[ \Delta_\ell = \hat{p}_{\ell} - \hat{p}_{\mathrm{en}} \]</div>
+        <p>and a paired bootstrap interval over prompt IDs. The sample is deliberately small, so the interval describes uncertainty within this prompt set rather than a population-wide language effect. Do not fit a resource gradient to three hand-picked languages.</p>
+
+        <div class="info-box">
+            <h4>Interpretation</h4>
+            <p>An apparent language difference can come from safety behaviour, model comprehension, translation quality or chance variation across a small prompt set. The validity threshold is deliberately coarse; passing it does not prove fluency. Compare unsafe-compliance rates with comprehension and benign-answer rates before naming a safety gap. The machine translations in this draft also require review by fluent isiZulu and Afrikaans speakers before the lab is released.</p>
+        </div>
+
+        <h2 class="section-title">What to submit</h2>
+        <p>Submit the completed notebook and a one-page account containing the outcome counts by language, the paired comparisons, the prompt IDs with doubtful translations and this scoped conclusion:</p>
+        <blockquote>For this model, prompt set, translation pipeline and single-turn format, we found [result]. The result does or does not support a language-related safety difference because [evidence]. We cannot generalise it to [limitations].</blockquote>
+        <p>A null, reversed or uninterpretable difference is a complete result when the evidence supports it. Assessment is based on the labels, checks and scope of the conclusion.</p>
+
+        <h2 class="section-title">Readings</h2>
+        <div class="resource-placeholder reading-core">
+            <h4>Core</h4>
+            <p>• <strong>Yong, Menghini &amp; Bach (2023), "Low-Resource Languages Jailbreak GPT-4"</strong> (<a href="https://arxiv.org/abs/2310.02446" target="_blank" rel="noopener">arXiv:2310.02446</a>). Compare its model, translation pipeline and BYPASS/REJECT/UNCLEAR scheme with this lab's narrower design.</p>
+            <p>• <strong>Shen et al. (2024), “The Language Barrier: Dissecting Safety Challenges of LLMs in Multilingual Contexts”</strong> (<a href="https://aclanthology.org/2024.findings-acl.156/" target="_blank" rel="noopener">ACL Anthology</a>). Separates harmful responses from irrelevant responses.</p>
+            <p>• <strong>Marx &amp; Dunaiski (2026), “Multilingual jailbreaking of LLMs using low-resource languages”</strong> (<a href="https://arxiv.org/abs/2605.18239" target="_blank" rel="noopener">arXiv:2605.18239</a>). A current comparison of single-turn, multi-turn and human-adapted attacks in African languages.</p>
+        </div>
+
+        <div class="intro-text" style="margin-top:50px;">
+            <h2>Next</h2>
+            <p>Sub-session 9.5 moves from model behaviour to application security: indirect prompt injection, tool permissions, adaptive evaluation and layered controls.</p>
+        </div>
+
+    </div>
+<!-- PAGE-NAV-START -->
+<nav class="page-nav">
+  <a class="prev" href="why-safety-training-fails.html"><span class="nav-label">← Previous</span><span class="nav-title">9.3 · Safety under transformations</span></a>
+  <a class="home" href="../../index.html"><span class="nav-title">⌂</span></a>
+  <a class="next" href="injection-poisoning-defences.html"><span class="nav-label">Next →</span><span class="nav-title">9.5 · Prompt injection and layered defences</span></a>
+</nav>
+<!-- PAGE-NAV-END -->
+</div>
+</body>
+</html>

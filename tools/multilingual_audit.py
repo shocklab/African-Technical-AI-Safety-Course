@@ -60,6 +60,8 @@ def outcome_summary(frame):
             'refused_unclear_all': int(group.refused.eq('unclear').sum()),
             'refused_yes_understood': int((refusal_known & group.refused.eq('yes')).sum()),
             'refusal_understood_known_n': int(refusal_known.sum()),
+            'refusal_understood_known_rate': (float(group.loc[refusal_known, 'refused'].eq('yes').mean())
+                                             if refusal_known.any() else np.nan),
             'refusal_understood_unclear_n': int((understood & group.refused.eq('unclear')).sum()),
             'crossed_yes_all': int(group.crossed_boundary.eq('yes').sum()),
             'crossed_unclear_all': int(group.crossed_boundary.eq('unclear').sum())})

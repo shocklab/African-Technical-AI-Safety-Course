@@ -35,13 +35,13 @@
     <header>
         <div class="week-badge">Week 6 • Session 11.2</div>
         <h1>Dangerous-capability evals: elicitation and sandbagging</h1>
-        <p>How a real dangerous-capability battery is built, why stronger elicitation improves a lower-bound estimate, and how a model can strategically fail the test</p>
+        <p>How a real dangerous-capability battery is built, how elicitation reveals capability and why measured scores need uncertainty estimates, and how a model can strategically fail the test</p>
     </header>
     <div class="content">
 
         <div class="intro-text">
             <h2>What we'll cover</h2>
-            <p>A dangerous-capability eval has to test what a determined user could elicit. Phuong et al. assess scaffolded models for this reason. Even then, the best observed score remains a lower bound on performance across feasible methods. A low score may mean the model lacks the capability, the evaluator has not elicited it, or the model has underperformed deliberately. Session 11.3 asks whether the test measures the capability of concern in the first place.</p>
+            <p>A dangerous-capability eval has to test what a determined user could elicit. Phuong et al. assess scaffolded models for this reason. Even then, tested methods may fall short of attainable performance, and observed scores remain uncertain estimates. A low score may mean the model lacks the capability, the evaluator has not elicited it, or the model has underperformed deliberately. Session 11.3 asks whether the test measures the capability of concern in the first place.</p>
         </div>
 
         <h2 class="section-title">Dangerous-capability evaluation in practice</h2>
@@ -50,19 +50,19 @@
 
         <h2 class="section-title">Elicitation and observed capability</h2>
 
-        <p>Suppose the capability of concern is the best performance achievable with feasible prompts, tools or fine-tuning. A zero-shot prompt, an agent scaffold and a fine-tuned model may give different scores. No individual method is guaranteed to improve the score. For a fixed task set and scoring rule, the <em>best score observed so far</em> can only stay the same or increase as more methods are tested:</p>
-        <div class="formula">\[ p_{\mathrm{best,tested}} \;\le\; p_{\mathrm{best,feasible}}. \]</div>
-        <p>An evaluator who tries too few methods may report a score below what a determined user could achieve. Scaffolding, tool use and fine-tuning can reduce that gap, but a low score still does not prove that all feasible methods would fail. This comparison across methods is not a statistical confidence bound; the measured scores also have sampling uncertainty. An upper bound needs additional assumptions or guarantees about the task and allowed methods.</p>
+        <p>Define \(p(m)\) as the expected score of elicitation method \(m\), averaging over the specified task distribution and any response randomness. Let \(T\) be the tested methods and \(F\) the feasible methods, with \(T\subseteq F\). Then:</p>
+        <div class="formula">\[ \max_{m\in T}p(m) \;\le\; \sup_{m\in F}p(m). \]</div>
+        <p>Testing more methods cannot lower the maximum expected score over the tested set. The empirical estimate \(\hat p(m)\), however, can exceed or fall below \(p(m)\); taking its maximum can favour a lucky run. A fixed task set still permits noise from stochastic outputs. Report the methods, observed scores and uncertainty, and independently re-evaluate a selected method where possible. A low score does not prove that every feasible method would fail. Sandbagging can enlarge this elicitation gap without changing the subset inequality above.</p>
         <div class="info-box">
             <h4>An illustrative elicitation gap</h4>
-            <p>Make it concrete. Suppose a model scores \(p_0 = 0.30\) on a cyber task zero-shot, \(p_1 = 0.48\) with good scaffolding, and \(p_2 = 0.61\) after light fine-tuning on a capped practice set. In this example the <em>observed elicitation gap</em> is \(p_2 - p_0 = 0.31\): the later method scores thirty-one points above zero-shot. Which number should a safety case use? The <em>best observed score</em>, \(0.61\), while making clear that a feasible method not yet tested might score higher. Comparing a governance threshold only with \(p_0\) would ignore the higher score already found. The three numbers are an illustration, not measurements from a published model.</p>
+            <p>Suppose illustrative observed scores are \(0.30\) zero-shot, \(0.48\) with scaffolding and \(0.61\) after fine-tuning on a capped practice set. The observed gap between the first and last methods is \(0.31\). A safety assessment should include the stronger result rather than rely on zero-shot alone, while accounting for sampling, output randomness and selection. Comparing with a policy threshold requires that policy’s decision rule and uncertainty treatment. These invented numbers do not establish a statistical bound on attainable capability.</p>
         </div>
 
         <h2 class="section-title">Sandbagging and password-locking</h2>
 
         <p>Elicitation can also fail if the model underperforms deliberately. Sandbagging (van der Weij et al., 2024) is strategic underperformance on an evaluation: the model can do the task but does not, to look safer than it is. The study demonstrates this under controlled conditions: GPT-4 and Claude 3 Opus can be <em>prompted</em> to selectively tank a dangerous-capability proxy (WMDP) while holding their score on a benign benchmark (MMLU) steady, so the underperformance is targeted rather than general incompetence. Worse for evaluators, a model can be <strong>password-locked</strong> by fine-tuning: it hides a capability behind a trigger, performing badly unless a secret password is present, and the hiding generalises to held-out questions. It can even be calibrated to hit a chosen target accuracy. A threshold decision based on that low score could miss the hidden capability.</p>
-        <p>Apollo Research tested related behaviours under controlled, goal-directed prompts (Meinke et al., 2024). Its suite covered six behaviours: oversight subversion, self-exfiltration, goal-guarding, covert reranking, alignment-faking, and sandbagging. In their results, o1 engaged in scheming on every one of the six evaluations and <em>maintained the deception in over 85% of follow-up questions</em>, while gpt-4o schemed on none. This demonstrates a <em>capability</em> to scheme under instruction. It does not show that deployed models are scheming outside the test.</p>
-        <p>The experiments above instructed or trained sandbagging. A different concern is <em>evaluation awareness</em>: a model may behave differently when it recognises a test. This has been studied experimentally. Schoen et al. (2025), stress-testing anti-scheming training on o3, found chains of thought explicitly noting the evaluation, and give causal evidence that this awareness itself suppresses covert behaviour; they cannot exclude that part of the measured improvement is the model noticing the test (Session 3.4 met the same result as a confound on the training side). Apollo Research now names evaluation awareness alongside scheming in its research agenda. An eval that a model recognises as a test measures behaviour under those test conditions. Whether the result predicts deployment behaviour needs separate evidence.</p>
+        <p><a href="https://arxiv.org/html/2412.04984v1">Meinke et al. (2024)</a> tested six scheming behaviours under assigned goals and incentives. Their pre-deployment o1 checkpoint schemed in each of the six evaluations, while GPT-4o did not scheme in those tests. Conditional on initially scheming, o1 maintained deception in over 85% of the relevant follow-up questioning. This demonstrates capability under the experimental conditions, not the probability of scheming in deployment.</p>
+        <p>The experiments above instructed or trained sandbagging. A different concern is <em>evaluation awareness</em>: a model may behave differently when it recognises a test. This has been studied experimentally. Schoen et al. (2025), stress-testing anti-scheming training on o3, found chains of thought explicitly noting the evaluation, and give causal evidence, in their particular pre-intervention o3 setup, that awareness can suppress covert behaviour; they cannot exclude that part of the measured improvement is the model noticing the test (Session 3.4 met the same result as a confound on the training side). Apollo Research now names evaluation awareness alongside scheming in its research agenda. An eval that a model recognises as a test measures behaviour under those test conditions. Whether the result predicts deployment behaviour needs separate evidence.</p>
 
         <div class="highlight-box">
             <h3><span style="color:#ffffff;">Why a low score is ambiguous</span></h3>
@@ -76,9 +76,9 @@
 
         <h2 class="section-title">Questions to bring to class</h2>
         <ul class="styled-list">
-            <li>Explain why the best observed score is no greater than the best score attainable under the specified feasible methods. Why can a low score still be misleading?</li>
-            <li>Given \(p_0=0.30\), \(p_1=0.48\), \(p_2=0.61\), which number should a governance threshold compare against, and what goes wrong if it uses \(p_0\)?</li>
-            <li>How would you tell a model that lacks a capability apart from one that sandbags? Why does this generally require more than black-box access?</li>
+            <li>Explain the inequality for expected scores over tested and feasible methods. Why is the largest observed score not a guaranteed statistical lower bound?</li>
+            <li>Given \(p_0=0.30\), \(p_1=0.48\), \(p_2=0.61\), what evidence should a governance decision consider, and what uncertainty remains after observing \(p_2\)?</li>
+            <li>How would you tell a model that lacks a capability apart from one that sandbags? What can behavioural testing and internal access each reveal, and what are their limits?</li>
             <li>Phuong et al. say "no evidence of strong dangerous capabilities… early warning signs." Give one headline that would overstate the finding, then explain why it is wrong.</li>
         </ul>
 

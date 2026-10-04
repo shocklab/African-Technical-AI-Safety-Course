@@ -61,29 +61,29 @@
         </div>
         <div class="technical-detail">
             <h4>Paired comparisons between models</h4>
-            <p style="color:#555;">To compare two models, do not put a separate independent CI on each and check for overlap; that throws away the fact that they answered the <em>same</em> questions. Compare them <em>paired</em>, question by question. If each model has per-question variance \(v\) and their scores correlate at \(\rho\), the variance of the difference is</p>
-            <div class="formula">\[ \mathrm{Var}(\hat{p}_A - \hat{p}_B) = v_A + v_B - 2\rho\sqrt{v_A v_B} \;\approx\; 2v(1-\rho). \]</div>
-            <p style="color:#555;">At \(\rho = 0.5\) the paired standard error is \(\sqrt{v}\) against the independent \(\sqrt{2v}\), a factor \(1/\sqrt{2}\) tighter, and questions two models both find easy or both find hard are that correlated. So a gap that looks insignificant by overlapping independent intervals can be clearly significant once paired (the discrete version is McNemar's test on the disagreement counts). The pairing can materially change the uncertainty in the estimated gap.</p>
+            <p>Compare models on the same questions using paired differences. Let \(X_{Ai}, X_{Bi}\) be their scores on question \(i\), with per-question variances \(v_A,v_B\) and within-pair correlation \(\rho\). For \(n\) independent question pairs, \(\hat p_A-\hat p_B=n^{-1}\sum_i(X_{Ai}-X_{Bi})\). Independence across pairs gives the following variance. Clusters of related questions require a further adjustment:</p>
+            <div class="formula">\[ \mathrm{Var}(\hat{p}_A - \hat{p}_B) = \frac{v_A + v_B - 2\rho\sqrt{v_A v_B}}{n} \;\approx\; \frac{2v(1-\rho)}{n}. \]</div>
+            <p>If the per-question variances are equal and \(\rho=0.5\), the paired standard error is \(\sqrt{v/n}\), compared with \(\sqrt{2v/n}\) for independent samples: a factor \(1/\sqrt{2}\) smaller. This correlation is illustrative, not an estimate for a particular benchmark. Pairing can change the uncertainty substantially. For binary scores, McNemar’s test uses the two discordant paired counts. See <a href="https://arxiv.org/html/2411.00640v1#S4.SS2">Miller, Section 4.2</a>.</p>
         </div>
 
         <h2 class="section-title">Power and the winner's curse</h2>
 
-        <p>To detect a true difference \(\delta\) in pass rates at significance \(\alpha\) and power \(1-\beta\), the rough sample size <em>per model</em> for independent samples is</p>
-        <div class="formula">\[ n \;\approx\; \frac{(z_{\alpha/2} + z_{\beta})^2 \,\cdot\, 2\,p(1-p)}{\delta^2}. \]</div>
-        <p>Put numbers in: to detect a 3-point gap (\(\delta = 0.03\)) near \(p = 0.8\), at \(\alpha = 0.05\) and 80% power, \(n \approx (1.96 + 0.84)^2 \times 2(0.16) / 0.0009 \approx 2{,}800\) questions. A 500-question independent-sample comparison has less power to resolve such a gap. Pairing can reduce the sample requirement, depending on the correlation. Selection also creates a <strong>winner's curse</strong>: rank dozens of models on a noisy benchmark and the apparent "best" is partly lucky, so its lead shrinks on re-evaluation. Selecting the top of a noisy leaderboard is a multiple-comparison problem, and the standard corrections (Bonferroni, or controlling the false-discovery rate) apply.</p>
+        <p>To detect a true difference \(\delta\) in pass rates at significance \(\alpha\) and power \(1-\beta\), the rough sample size <em>per model</em> for independent samples is (where \(z_q\) is the standard normal \(q\)-quantile)</p>
+        <div class="formula">\[ n \;\approx\; \frac{(z_{1-\alpha/2} + z_{1-\beta})^2 \,\cdot\, 2\,p(1-p)}{\delta^2}. \]</div>
+        <p>Put numbers in: to detect a 3-point gap (\(\delta = 0.03\)) near \(p = 0.8\), at \(\alpha = 0.05\) and 80% power, \(n \approx (1.96 + 0.84)^2 \times 2(0.16) / 0.0009 \approx 2{,}800\) questions. A 500-question independent-sample comparison has less power to resolve such a gap. Pairing can reduce the sample requirement, depending on the correlation. Selection also creates a <strong>winner's curse</strong>: rank dozens of models on a noisy benchmark and the apparent "best" is partly lucky, so its lead shrinks on re-evaluation. Testing many comparisons also raises a multiplicity problem. Bonferroni controls the family-wise error rate; false-discovery-rate procedures control a different error rate. Neither removes the upward bias in the selected winner’s score. Re-evaluate the selected model on independent data, or use an estimate that accounts for selection.</p>
 
         <h2 class="section-title">A worked case: the time horizon</h2>
 
         <p>METR (2025) summarises an agent's capability as a <strong>time horizon</strong>: the length of task (measured by how long it takes a human) that the model can complete with 50% success. Fit a logistic curve of success probability against (log) human task-time; the time horizon is the task-duration at which the fitted curve crosses 0.5. So the headline number is not measured directly: it is <em>read off a fit</em>, which means it inherits the fit's uncertainty. METR propagate that with a <strong>hierarchical bootstrap</strong>: resample task families, then tasks within families, then attempts within tasks, refit each time, and take the spread of the crossing point as the confidence interval. We do not re-derive the bootstrap here. A "50% time horizon of 30 minutes" is an estimate with error bars, and its largest caveat is <em>external</em> validity, because the fixed task suite may differ from the tasks encountered in deployment.</p>
 
         <div class="highlight-box">
-            <h3><span style="color:#ffffff;">The African lens: small samples and wide intervals</span></h3>
-            <p>The Session 9 comparison you audit in 11.5 contains only a few safety-boundary prompts. Its paired interval is therefore coarse. By the arithmetic above, small \(n\) means wide confidence intervals, and that is not a flaw to hide but the central fact to report. A wide interval may include both a meaningful gap and a negligible one. Report the eligible paired counts so readers can judge the evidence. A paired interval helps show how unstable the measured difference is across the eligible prompts. It does not justify a claim about all isiZulu prompts or models.</p>
+            <h3><span style="color:#ffffff;">The African lens: small samples and uncertain estimates</span></h3>
+            <p>The Session 9 comparison contains only a few purposively chosen prompts. Small samples usually leave substantial uncertainty, but a percentile bootstrap can collapse to a zero-width interval when all observed paired differences are identical. That collapse reflects a resampling method with no observed variation, not certainty or equivalence. In this lab, report the raw paired counts and describe the bootstrap as exploratory resampling spread. It does not provide reliable population inference from a tiny, selected prompt set or account for translation and labelling errors.</p>
         </div>
 
         <h2 class="section-title">Questions to bring to class</h2>
         <ul class="styled-list">
-            <li>Compute the 95% CI for 43/50 and for a second model at 39/50. Do the independent intervals overlap? Now reason about what a paired test at \(\rho = 0.5\) would conclude.</li>
+            <li>Compute the 95% CI for 43/50 and for a second model at 39/50. Do the independent intervals overlap? Compute an approximate paired standard error assuming \(\rho=0.5\). Which conclusion follows under that assumption? What paired counts would you need for an exact McNemar test?</li>
             <li>Why does ignoring question clustering make an interval too <em>narrow</em>? Give a benchmark structure where the effective \(n\) is far below the question count.</li>
             <li>Use the power formula to find how many questions you need to detect a 5-point gap at \(p = 0.7\), 80% power. Compare to a typical 500-question benchmark.</li>
             <li>The time horizon is "read off a fitted curve." Name two sources of uncertainty the hierarchical bootstrap is capturing, and one (external validity) that it is not.</li>
@@ -96,7 +96,7 @@
         </div>
         <div class="resource-placeholder">
             <h4>Optional</h4>
-            <p>• <strong>METR (2025), “Measuring AI Ability to Complete Long Software Tasks”</strong> (<a href="https://arxiv.org/abs/2503.14499" target="_blank" rel="noopener">paper</a>): an extended application of uncertainty analysis.</p>
+            <p>• <strong>METR (2025), “Measuring AI Ability to Complete Long Tasks”</strong> (<a href="https://arxiv.org/abs/2503.14499" target="_blank" rel="noopener">paper</a>): an extended application of uncertainty analysis.</p>
         </div>
 
         <div class="intro-text" style="margin-top:50px;">

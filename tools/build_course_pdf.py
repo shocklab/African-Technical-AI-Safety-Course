@@ -38,29 +38,46 @@ def body_of(p):
 
 idx = (DOCS / "index.html").read_text(encoding="utf-8")
 pages = [(m.group(1), H.unescape(m.group(2)).strip())
-         for m in re.finditer(r'href="(sessions/session-\d\d/[^"]+)"[^>]*>([^<]*)</a>', idx)]
+         for m in re.finditer(r'href="(sessions/session-\d\d(?:/[^"?#]+|-[^"/?#]+\.html))"[^>]*>(.*?)</a>', idx, re.S)]
 seen, ordered = set(), []
 for href, label in pages:
     if href not in seen:
         seen.add(href); ordered.append((href, label))
 
-parts, toc, cur = [], [], None
+parts, toc, included_sessions, cur = [], [], set(), None
 for n, (href, label) in enumerate(ordered, 1):
     got = body_of(DOCS / href)
     if not got:
         print(f"  skipped (no content div): {href}", file=sys.stderr); continue
     hdr, b = got
+    included_sessions.add(int(re.search(r'session-(\d\d)', href).group(1)))
+    label = re.sub(r'<[^>]+>', '', label).strip()
     sess = re.search(r'session-(\d\d)', href).group(1)
     if sess != cur:
-        if cur is not None: parts.append('</div>')
+        if cur is not None:
+            parts.append('</div>')
         parts.append(f'<div class="session" id="s{sess}">')
         cur = sess
     anchor = f"pg{n}"
     toc.append(f'<li><a href="#{anchor}">{H.escape(label)}</a></li>')
     parts.append(f'<section class="lesson" id="{anchor}"><header>{hdr}</header>{b}</section>')
-if cur is not None: parts.append('</div>')
+
+if cur is not None:
+    parts.append('</div>')
 
 css = (DOCS / "assets" / "styles.css").read_text(encoding="utf-8")
+if not parts:
+    sys.exit("no lesson pages found in docs/index.html")
+session_numbers = sorted(included_sessions)
+consecutive = session_numbers == list(range(session_numbers[0], session_numbers[-1] + 1))
+if len(session_numbers) == 1:
+    session_label = f"Session {session_numbers[0]}"
+elif consecutive:
+    session_label = f"Sessions {session_numbers[0]} to {session_numbers[-1]}"
+else:
+    session_label = "Sessions " + ", ".join(map(str, session_numbers[:-1])) + f" and {session_numbers[-1]}"
+pdf_suffix = (f"{session_numbers[0]}-{session_numbers[-1]}" if consecutive
+              else "-".join(map(str, session_numbers)))
 out = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <title>African Technical AI Safety</title>
 <script>window.MathJax={{tex:{{inlineMath:[['\\\\(','\\\\)']],displayMath:[['\\\\[','\\\\]']],processEscapes:true}},svg:{{fontCache:'global'}}}};</script>
@@ -108,6 +125,7 @@ out = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
   table {{ font-size:9pt !important; }}
   td, th {{ padding:2.5pt 5pt !important; }}
   figure {{ margin:7pt 0 !important; }}
+  figure.wide {{ width:100% !important; margin-left:0 !important; transform:none !important; }}
   figcaption {{ font-size:8.5pt !important; margin-top:3pt !important; }}
   img, svg {{ max-width:100%; max-height:105mm; height:auto; }}
   a {{ color:inherit !important; text-decoration:none !important; }}
@@ -123,19 +141,22 @@ out = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 </style></head><body>
 <div class="titlepage">
   <h1>African Technical AI Safety</h1>
-  <p style="font-size:1.15rem">Lesson notes, Sessions 1 to 7</p>
-  <p style="color:#5a6672">{len(ordered)} sub-sessions{'' if KEEP_READINGS else ' · reading lists omitted'}</p>
+  <p style="font-size:1.15rem">Lesson notes, {session_label}</p>
+  <p style="color:#5a6672">{len(toc)} sub-sessions{'' if KEEP_READINGS else ' · reading lists omitted'}</p>
 </div>
 <div class="contents"><h1>Contents</h1><ol>{''.join(toc)}</ol></div>
 {''.join(parts)}
 </body></html>"""
 
 tmp = ROOT / "docs" / "_course-book.html"
-tmp.write_text(out, encoding="utf-8")
-pdf = ROOT / "African-Technical-AI-Safety-Sessions-1-7.pdf"
-print(f"  {len(ordered)} pages bound -> {tmp.name}")
-subprocess.run([CHROME, "--headless", "--disable-gpu", "--no-sandbox", "--run-all-compositor-stages-before-draw",
+pdf = ROOT / f"African-Technical-AI-Safety-Sessions-{pdf_suffix}.pdf"
+try:
+    tmp.write_text(out, encoding="utf-8")
+    print(f"  {len(toc)} pages bound -> {tmp.name}")
+    subprocess.run([CHROME, "--headless", "--disable-gpu", "--no-sandbox", "--run-all-compositor-stages-before-draw",
                 "--virtual-time-budget=60000", "--no-pdf-header-footer",
                 f"--print-to-pdf={pdf}", tmp.as_uri()], check=True,
-               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=180)
+finally:
+    tmp.unlink(missing_ok=True)
 print(f"  -> {pdf.name}  ({pdf.stat().st_size/1e6:.1f} MB)")

@@ -1,48 +1,227 @@
 #!/usr/bin/env python3
-"""Rebuild the course's read-only notebook pages without executing cells.
+"""Render every lab notebook in docs/labs/ to a course-styled HTML page.
 
-Requires nbconvert and nbformat. Run from any directory; the existing page wrapper
-and navigation are retained, while the notebook body is generated from the ipynb.
+Usage:  python3 tools/render_notebooks.py            # render all
+        python3 tools/render_notebooks.py 2-5        # render matching ones
+
+The .ipynb stays the thing students download and run; the HTML is so the
+notebook can be read on the site without downloading anything. Re-run after
+editing a notebook. Existing page shells are retained, with their titles
+updated from BACKLINKS. Missing HTML pages use the course shell below.
 """
-from pathlib import Path
+import html
 import copy
+import pathlib
 import re
+import sys
+from html.parser import HTMLParser
 from urllib.parse import unquote
-from html import escape
 import nbformat
 from nbconvert import HTMLExporter
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+LABS = ROOT / "docs" / "labs"
+REPO = "shocklab/African-Technical-AI-Safety-Course"
 
-def render(path):
-    notebook = nbformat.read(path, as_version=4)
+PAGE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}</title>
+<link rel="stylesheet" href="../assets/styles.css">
+    <!-- MATHJAX-START -->
+    <script>window.MathJax={{tex:{{inlineMath:[['\\\\(','\\\\)']],displayMath:[['\\\\[','\\\\]']],processEscapes:true}},svg:{{fontCache:'global'}},options:{{skipHtmlTags:['script','noscript','style','textarea','pre','code']}}}};</script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <!-- MATHJAX-END -->
+<style>
+  .notebook {{ padding:0 48px 40px; }}
+  .notebook .jp-Cell, .notebook .cell {{ margin:0 0 18px; }}
+  .notebook pre, .notebook .highlight pre {{ background:#f5f7f9; border:1px solid #e4e8ec; border-left:3px solid #2a5298;
+      border-radius:4px; padding:14px 16px; overflow-x:auto; font-family:var(--mono); font-size:0.82rem;
+      line-height:1.5; color:#1f2d3a; }}
+  .notebook .jp-InputArea-prompt, .notebook .jp-OutputArea-prompt, .notebook .prompt {{ display:none; }}
+  .notebook h1 {{ font-family:var(--display); color:var(--navy); font-size:1.9rem; margin:28px 0 10px; }}
+  .notebook h2 {{ font-family:var(--display); color:var(--navy); font-size:1.4rem; margin:34px 0 10px;
+      padding-top:14px; border-top:1px solid var(--rule); }}
+  .notebook h3 {{ font-family:var(--display); color:var(--blue); font-size:1.1rem; margin:24px 0 8px; }}
+  .notebook blockquote {{ border-left:3px solid var(--blue); background:var(--tint); margin:18px 0;
+      padding:12px 18px; color:var(--ink); }}
+  .notebook table {{ border-collapse:collapse; margin:16px 0; }}
+  .notebook td, .notebook th {{ border:1px solid var(--rule); padding:6px 10px; font-size:0.9rem; }}
+  .notebook img {{ max-width:100%; height:auto; }}
+  .nb-actions {{ margin:22px 48px 0; padding:16px 20px; background:var(--tint);
+      border-left:3px solid var(--navy); }}
+  .nb-actions a {{ color:var(--blue); }}
+  .nb-actions p {{ margin:0 0 6px; font-size:0.94rem; }}
+  .nb-actions p:last-child {{ margin-bottom:0; }}
+  @media (max-width:760px) {{ .notebook {{ padding:0 24px 30px; }} .nb-actions {{ margin:22px 24px 0; }} }}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>{heading}</h1>
+        <p class="subtitle">{subtitle}</p>
+    </div>
+    <div class="nb-actions">
+        <p><strong>This is a read-only rendering.</strong> To run it:
+           <a href="https://colab.research.google.com/github/{repo}/blob/main/docs/labs/{ipynb}"
+              target="_blank" rel="noopener">open in Google Colab</a>, or
+           <a href="{ipynb}" download>download the .ipynb</a> and upload it yourself.</p>
+        <p>The cells have no saved outputs: you run them and keep your own.
+           <a href="{back}">Back to the lab page</a>.</p>
+    </div>
+    <div class="notebook">
+{body}
+    </div>
+    <nav class="page-nav">
+        <a class="prev" href="{back}"><span class="nav-label">Return to</span><span class="nav-title">{back_title}</span></a>
+        <a class="home" href="../index.html"><span class="nav-title">⌂</span></a>
+        <span class="nav-empty"></span>
+    </nav>
+</div>
+</body>
+</html>
+"""
+
+# which lesson page each notebook belongs to
+BACKLINKS = {
+    "session-11-5-audit":
+        ("../sessions/session-11/lab-isizulu-eval.html",
+         "11.5 · Lab: audit a multilingual safety eval",
+         "Session 11.5: Lab: audit a multilingual safety eval",
+         "Audit a multilingual safety eval"),
+    "session-9-4-multilingual-safety":
+        ("../sessions/session-09/lab-isizulu-robustness.html",
+         "9.4 · Lab: multilingual safety evaluation",
+         "Session 9.4: Lab: multilingual safety evaluation",
+         "Multilingual safety evaluation"),
+    "session-7-6-constitutional-ai":
+        ("../sessions/session-07/lab-constitutional-ai.html",
+         "7.6 · Lab: measuring an AI judge",
+         "Session 7.6: Lab: measuring an AI judge",
+         "Measuring an AI judge"),
+    "session-6-5-reward-models":
+        ("../sessions/session-06/lab-rlhf.html",
+         "6.5 · Lab: reward models and over-optimisation",
+         "Session 6.5: Lab: reward models and over-optimisation",
+         "Reward models and over-optimisation"),
+    "session-5-4-base-vs-instruct":
+        ("../sessions/session-05/lab-nanochat.html",
+         "5.4 · Lab: from base model to assistant",
+         "Session 5.4: Lab: from base model to assistant (nanochat)",
+         "From base model to assistant"),
+    "session-2-5-scaling-and-transformerlens":
+        ("../sessions/session-02/lab-scaling-and-transformerlens.html",
+         "2.5 · Lab: scaling laws and a first look inside a model",
+         "Session 2.5: Lab: scaling laws and a first look inside a model",
+         "Scaling laws and a first look inside a model"),
+}
+
+
+def dollars_to_backslash(markup):
+    """Rewrite $…$ / $$…$$ into \\(…\\) / \\[…\\] outside code.
+
+    Notebooks use dollar delimiters, which is what Jupyter and Colab render.
+    The site's MathJax deliberately does not treat a single $ as a delimiter,
+    so currency survives (add_mathjax.py). Converting here means the notebook
+    keeps the delimiters its own tools want and the page gets the ones the
+    course config wants, with no per-page MathJax exception to maintain.
+    """
+    parts = re.split(r"(<pre\b.*?</pre>|<code\b.*?</code>)", markup, flags=re.S)
+    for i, part in enumerate(parts):
+        if part.startswith(("<pre", "<code")):
+            continue
+        part = re.sub(r"\$\$(.+?)\$\$", r"\\[\1\\]", part, flags=re.S)
+        part = re.sub(r"(?<![\\$])\$([^$\n]+?)\$", r"\\(\1\\)", part)
+        parts[i] = part
+    return "".join(parts)
+
+
+def notebook_bounds(markup):
+    """Locate the notebook div's contents without depending on nav formatting."""
+    class Bounds(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=False)
+            self.lines = [0]
+            self.lines += [m.end() for m in re.finditer("\n", markup)]
+            self.depth = 0
+            self.start = self.end = None
+
+        def absolute_offset(self):
+            line, column = self.getpos()
+            return self.lines[line - 1] + column
+
+        def handle_starttag(self, tag, attrs):
+            if tag != "div" or self.end is not None:
+                return
+            if self.depth:
+                self.depth += 1
+            elif "notebook" in (dict(attrs).get("class") or "").split():
+                self.start = self.absolute_offset() + len(self.get_starttag_text())
+                self.depth = 1
+
+        def handle_endtag(self, tag):
+            if tag == "div" and self.depth:
+                self.depth -= 1
+                if not self.depth:
+                    self.end = self.absolute_offset()
+
+    parser = Bounds()
+    parser.feed(markup)
+    if parser.start is None or parser.end is None:
+        raise ValueError("existing wrapper has no complete notebook div")
+    return parser.start, parser.end
+
+
+def render(nb_path):
+    stem = nb_path.stem
+    notebook = nbformat.read(nb_path, as_version=4)
     nbformat.validate(notebook)
     notebook = copy.deepcopy(notebook)
-    if notebook.cells and notebook.cells[0].cell_type == 'markdown':
-        # The course page wrapper already supplies the title.
-        notebook.cells[0].source = re.sub(r'^# [^\n]+\n+', '', notebook.cells[0].source, count=1)
-    exporter = HTMLExporter(template_name='basic')
+    if notebook.cells and notebook.cells[0].cell_type == "markdown":
+        notebook.cells[0].source = re.sub(r"^# [^\n]+\n+", "", notebook.cells[0].source, count=1)
+    exporter = HTMLExporter(template_name="basic")
     exporter.exclude_input_prompt = True
     exporter.exclude_output_prompt = True
-    body, _ = exporter.from_notebook_node(notebook)
-    # nbconvert percent-encodes some Unicode heading IDs as well as their hrefs.
-    # Keep IDs as text so decoded URL fragments resolve to the actual heading.
-    body = re.sub(r'id="([^"]+)"',
-                  lambda m: 'id="' + escape(unquote(m.group(1)), quote=True) + '"', body)
-    page = path.with_suffix('.html')
-    old = page.read_text()
-    # Notebook Markdown uses dollar delimiters as well as the course's TeX delimiters.
-    old = old.replace(r"inlineMath:[['\\(','\\)']]",
-                      r"inlineMath:[['$','$'],['\\(','\\)']]")
-    old = old.replace(r"displayMath:[['\\[','\\]']]",
-                      r"displayMath:[['$$','$$'],['\\[','\\]']]")
-    marker = '    <div class="notebook">'
-    start = old.index(marker) + len(marker)
-    end = old.index('    <nav class="page-nav">', start)
-    # Replace the notebook container's contents and closing tag, preserving navigation.
-    page.write_text(old[:start] + '\n' + body + '\n    </div>\n' + old[end:])
-    return page
+    out, _ = exporter.from_notebook_node(notebook)
+    # nbconvert emits empty output wrappers for unexecuted cells; drop them
+    out = re.sub(r'<div class="jp-Cell-outputWrapper">\s*</div>', "", out)
+    # and pilcrow anchor links on every heading
+    out = re.sub(r'<a class="anchor-link"[^>]*>.*?</a>', "", out, flags=re.S)
+    out = dollars_to_backslash(out)
+    # Match decoded fragment targets when nbconvert percent-encodes heading IDs.
+    out = re.sub(r'id="([^"\n]+)"', lambda m: 'id="' + html.escape(unquote(m.group(1)), quote=True) + '"', out)
+    back, back_title, heading, subtitle = BACKLINKS.get(
+        stem, ("../index.html", "Contents", stem, "Lab notebook"))
+    dest = nb_path.with_suffix(".html")
+    if dest.exists():
+        old = dest.read_text(encoding="utf-8")
+        start, end = notebook_bounds(old)
+        prefix = old[:start]
+        # Refresh the generic lab title while preserving the rest of the shell.
+        prefix = re.sub(r"<title>.*?</title>", lambda m: "<title>" + html.escape(heading) + "</title>", prefix, count=1, flags=re.S)
+        prefix = re.sub(r"<h1\b[^>]*>.*?</h1>", lambda m: "<h1>" + html.escape(heading) + "</h1>", prefix, count=1, flags=re.S)
+        page = prefix + "\n" + out + "\n    " + old[end:]
+    else:
+        page = PAGE.format(title=html.escape(heading), heading=html.escape(heading), subtitle=subtitle,
+                           repo=REPO, ipynb=nb_path.name, back=back, back_title=back_title,
+                           body=out)
+    dest.write_text(page, encoding="utf-8")
+    return dest, len(page)
 
-if __name__ == '__main__':
-    for path in sorted((ROOT / 'docs/labs').glob('*.ipynb')):
-        print(render(path).relative_to(ROOT))
+
+def main():
+    pats = sys.argv[1:]
+    nbs = sorted(p for p in LABS.glob("*.ipynb")
+                 if not pats or any(pat in p.name for pat in pats))
+    if not nbs:
+        sys.exit(f"no notebooks matched in {LABS}")
+    for nb in nbs:
+        dest, size = render(nb)
+        print(f"  ✓ {nb.name} → {dest.name} ({size:,} bytes)")
+
+
+if __name__ == "__main__":
+    main()
